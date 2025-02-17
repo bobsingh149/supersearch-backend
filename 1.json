@@ -1,0 +1,111 @@
+{
+  "results": [
+    {
+      "data": {
+        "size": [
+          "30",
+          "32",
+          "34",
+          "36"
+        ],
+        "tags": [
+          "casual",
+          "men",
+          "pants",
+          "cargo",
+          "comfortable"
+        ],
+        "brand": "UrbanGear",
+        "color": "Khaki",
+        "price": 59.99,
+        "title": "Cargo Pants",
+        "gender": "Men",
+        "category": "Pants",
+        "in_stock": true,
+        "material": "100% Cotton Twill",
+        "description": "Relaxed fit cargo pants with multiple pockets. Made from durable cotton twill."
+      },
+      "score": 0.3333333432674408
+    },
+    {
+      "data": {
+        "size": [
+          "XS",
+          "S",
+          "M",
+          "L"
+        ],
+        "tags": [
+          "elegant",
+          "women",
+          "silk",
+          "blouse",
+          "formal"
+        ],
+        "brand": "LuxeWear",
+        "color": "Ivory",
+        "price": 89.99,
+        "title": "Silk Blouse",
+        "gender": "Women",
+        "category": "Tops",
+        "in_stock": true,
+        "material": "100% Silk",
+        "description": "Elegant silk blouse with button-up front and long sleeves. Perfect for both office and evening wear."
+      },
+      "score": 0.20370370149612427
+    },
+    {
+      "data": {
+        "size": [
+          "36",
+          "38",
+          "40",
+          "42"
+        ],
+        "tags": [
+          "formal",
+          "business",
+          "blazer",
+          "professional",
+          "wool"
+        ],
+        "brand": "TailorMade",
+        "color": "Navy",
+        "price": 149.99,
+        "title": "Tailored Wool Blazer",
+        "gender": "Men",
+        "category": "Blazers",
+        "in_stock": true,
+        "material": "95% Wool, 5% Elastane",
+        "description": "Professional wool blazer with classic lapels and two-button closure. Perfect for office wear."
+      },
+      "score": 0.10000000149011612
+    },
+    {
+      "data": {
+        "size": [
+          "S",
+          "M",
+          "L"
+        ],
+        "tags": [
+          "winter",
+          "wool",
+          "warm",
+          "luxury",
+          "knitwear"
+        ],
+        "brand": "WoolCraft",
+        "color": "Charcoal Grey",
+        "price": 89.99,
+        "title": "Merino Wool Sweater",
+        "gender": "Unisex",
+        "category": "Sweaters",
+        "in_stock": true,
+        "material": "100% Merino Wool",
+        "description": "Luxurious merino wool sweater with ribbed cuffs and hem. Perfect for cold weather and layering."
+      },
+      "score": 0.007692307699471712
+    }
+  ]
+}

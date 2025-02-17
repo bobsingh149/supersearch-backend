@@ -1,0 +1,16 @@
+services:
+  db:
+    build: .
+    container_name: paradedb
+    environment:
+      POSTGRES_USER: supersearch
+      POSTGRES_PASSWORD: supersearch
+      POSTGRES_DB: supersearch
+    ports:
+      - "5433:5432"
+    volumes:
+      - paradedb_data:/var/lib/postgresql/data
+    restart: unless-stopped
+
+volumes:
+  paradedb_data: 
