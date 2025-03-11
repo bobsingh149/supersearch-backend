@@ -1,13 +1,14 @@
 import logging
-from fastapi import APIRouter, HTTPException, Depends, Body, Query
-from typing import List, Optional
+from fastapi import APIRouter, HTTPException, Depends, Query
 from sqlalchemy.ext.asyncio import AsyncSession
 from app.database.session import get_async_session
-from app.models.product import Product, ProductDB, ProductSearchResult, ProductInput
-from app.utils.product import process_product_data
+from app.models.product import Product, ProductDB, ProductInput, PaginatedProductsResponse
+from app.services.product import process_product_data
 from uuid import uuid4
-from asyncio import TaskGroup, sleep
-from sqlalchemy import select, delete
+from asyncio import TaskGroup
+from sqlalchemy import delete, text
+from sqlalchemy.dialects.postgresql import insert
+from starlette import status
 
 logger = logging.getLogger(__name__)
 
@@ -16,52 +17,61 @@ router = APIRouter(
     tags=["products"]
 )
 
-@router.post("/", response_model=List[Product])
+@router.post("", response_model=None, status_code=status.HTTP_201_CREATED)
 async def create_products(
-    products: List[ProductInput],
+    bulk_input: ProductInput,
     session: AsyncSession = Depends(get_async_session)
 ):
     """
     Bulk insert products with embeddings using TaskGroup for concurrent processing.
-    Only requires product ID and custom_data for input.
+    Accepts product data with specified fields for ID, title, and searchable attributes.
     """
     try:
-        logger.info(f"Processing {len(products)} products for insertion")
+        logger.info(f"Processing {len(bulk_input.data)} products for insertion")
         
-        # Generate IDs for products that don't have one
-        for product in products:
-            if not product.id:
-                product.id = str(uuid4())
-        
-        # Convert ProductInput to Product for processing
-        full_products = [
-            Product(
-                id=p.id,
-                custom_data=p.custom_data,
-                title=p.custom_data.get('title') if p.custom_data else None,
-                searchable_content=p.custom_data.get('description') if p.custom_data else None
-            ) 
-            for p in products
-        ]
+        # Convert input data to Product format
+        products = []
+        for item in bulk_input.data:
+            product_id = str(item.get(bulk_input.id_field)) if item.get(bulk_input.id_field) else str(uuid4())
+            
+            # Combine searchable attributes into a single string
+            searchable_content = " ".join(
+                str(item.get(field, "")) 
+                for field in bulk_input.searchable_attribute_fields 
+                if item.get(field)
+            )
+            
+            products.append(
+                Product(
+                    id=product_id,
+                    custom_data=item,
+                    title=item.get(bulk_input.title_field),
+                    searchable_content=searchable_content
+                )
+            )
         
         # Process products concurrently using TaskGroup
-        processed_products = []
         async with TaskGroup() as tg:
             tasks = []
-            for product in full_products:
+            for product in products:
                 tasks.append(tg.create_task(process_product_data(product)))
-                await sleep(0.1)  # Add small delay between task creation
-        
+
         # Collect results from all tasks
         processed_products = [task.result() for task in tasks]
         
-        # Bulk insert
-        for product in processed_products:
-            session.add(ProductDB(**product.model_dump()))
+        # Convert processed products to dictionaries for bulk insert, excluding timestamp fields
+        products_to_insert = [
+            product.model_dump(exclude={'created_at', 'updated_at'}) 
+            for product in processed_products
+        ]
+        
+        # Bulk insert using insert()
+        stmt = insert(ProductDB).values(products_to_insert)
+        await session.execute(stmt)
         await session.commit()
         
         logger.info(f"Successfully inserted {len(products)} products")
-        return processed_products
+        return None
     except Exception as e:
         logger.error(f"Error inserting products: {str(e)}")
         await session.rollback()
@@ -93,32 +103,50 @@ async def update_product(
         await session.rollback()
         raise HTTPException(status_code=500, detail=str(e))
 
-@router.get("/{product_id}", response_model=Product)
+@router.get("/{product_id}")
 async def get_product(
     product_id: str,
     session: AsyncSession = Depends(get_async_session)
 ):
     """
-    Get a single product by ID
+    Get a single product's custom_data by ID
     """
     result = await session.get(ProductDB, product_id)
     if not result:
         raise HTTPException(status_code=404, detail="Product not found")
-    return Product.model_validate(result)
+    return result.custom_data
 
-@router.get("/", response_model=List[Product])
+@router.get("", response_model=PaginatedProductsResponse)
 async def list_products(
     session: AsyncSession = Depends(get_async_session),
-    skip: int = Query(0, ge=0),
-    limit: int = Query(100, ge=1, le=1000)
+    page: int = Query(1, ge=1, description="Page number"),
+    size: int = Query(10, ge=1, le=1000, description="Items per page")
 ):
     """
-    List all products with pagination
+    List all products' custom_data with pagination.
+    Uses page and size parameters for pagination.
+    Returns a paginated response with products, page info, and has_more flag.
     """
-    query = select(ProductDB).offset(skip).limit(limit)
-    result = await session.execute(query)
-    products = result.scalars().all()
-    return [Product.model_validate(p) for p in products]
+    # Calculate offset from page and size
+    offset = (page - 1) * size
+    
+    # Get products for current page
+    query = text("SELECT custom_data FROM products OFFSET :offset LIMIT :size")
+    result = await session.execute(query, {"offset": offset, "size": size})
+    products = [p.custom_data for p in result.all()]
+    
+    # Check if there are more products
+    has_more_query = text("SELECT EXISTS(SELECT 1 FROM products OFFSET :next_offset LIMIT 1)")
+    has_more_result = await session.execute(has_more_query, {"next_offset": offset + size})
+    has_more = has_more_result.scalar()
+    
+    # Return paginated response
+    return PaginatedProductsResponse.model_validate({
+        "products": products,
+        "page": page,
+        "size": size,
+        "has_more": has_more
+    })
 
 @router.delete("/{product_id}")
 async def delete_product(
@@ -136,7 +164,7 @@ async def delete_product(
     await session.commit()
     return {"message": "Product deleted successfully"}
 
-@router.delete("/")
+@router.delete("")
 async def delete_all_products(
     session: AsyncSession = Depends(get_async_session)
 ):

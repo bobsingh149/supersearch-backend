@@ -1,7 +1,6 @@
-from pydantic import BaseModel, ConfigDict
-from typing import Optional, Dict
-from sqlalchemy import Column, String, JSON, DateTime, func, Text, Computed
-from sqlalchemy.dialects.postgresql import TSVECTOR
+from pydantic import BaseModel, model_validator, ConfigDict
+from typing import Optional, Dict, List, Any
+from sqlalchemy import Column, String, JSON, DateTime, func, Text
 from pgvector.sqlalchemy import Vector
 from app.database.session import Base
 from datetime import datetime
@@ -18,6 +17,32 @@ class ProductDB(Base):
     updated_at = Column(DateTime(timezone=True), server_default=func.now(), onupdate=func.now(), nullable=False)
     custom_data = Column(JSON, nullable=True)
 
+class ProductInput(BaseModel):
+    id_field: str
+    title_field: str
+    searchable_attribute_fields: List[str]
+    data: List[Dict[str, Any]] | None = None
+
+    @model_validator(mode='after')
+    def validate_fields(self) -> 'ProductInput':
+        if not self.data:
+            raise ValueError("Data list cannot be empty")
+
+        # Check if all required fields exist in the first data item
+        first_item = self.data[0]
+        
+        if self.id_field not in first_item:
+            raise ValueError(f"id_field '{self.id_field}' not found in data")
+            
+        if self.title_field not in first_item:
+            raise ValueError(f"title_field '{self.title_field}' not found in data")
+            
+        for field in self.searchable_attribute_fields:
+            if field not in first_item:
+                raise ValueError(f"searchable field '{field}' not found in data")
+
+        return self
+
 class Product(BaseModel):
     id: str
     title: Optional[str] = None
@@ -28,15 +53,8 @@ class Product(BaseModel):
     updated_at: Optional[datetime] = None
     custom_data: Optional[Dict] = None
 
-    class Config:
-        from_attributes = True
+    model_config = ConfigDict(from_attributes=True)
 
-class ProductInput(BaseModel):
-    """
-    Simplified product model for input with only id and custom_data
-    """
-    id: str
-    custom_data: Optional[Dict] = None
 
 
 class ProductSearchResult(BaseModel):
@@ -48,6 +66,19 @@ class ProductSearchResult(BaseModel):
     custom_data: Optional[Dict] = None
     searchable_content: Optional[str] = None
     score: Optional[float] = None
+    search_type: Optional[str] = None
 
-    class Config:
-        from_attributes = True
+    model_config = ConfigDict(from_attributes=True)
+
+class PaginatedProductsResponse(BaseModel):
+    """
+    Paginated response model for product listings
+    """
+    products: List[Dict[str, Any]]
+    page: int
+    size: int
+    has_more: bool
+    
+    @classmethod
+    def model_validate(cls, data: Dict[str, Any]) -> 'PaginatedProductsResponse':
+        return cls(**data)

@@ -1,17 +1,15 @@
-from fastapi import APIRouter, HTTPException, Depends, Query
+from fastapi import APIRouter, HTTPException, Depends
 from sqlalchemy.ext.asyncio import AsyncSession
-from typing import List, Optional
 from google import genai
-from google.ai.generativelanguage import Content, Part
-from app.database.session import AsyncSessionLocal, get_db
+from google.genai.types import Content, Part
+from app.database.session import get_async_session, get_async_session_with_contextmanager
 from app.models.product import ProductDB
 from app.models.conversation import ConversationDB, ChatRequest, ChatResponse, ConversationResponse, Message
 from sqlalchemy import text, select
-import json
 import logging
 from functools import lru_cache
-from app.utils.sql import render_query
-from app.utils.shopping_assistant import ShoppingAssistantUtils
+from app.services.sql import render_sql
+from app.services.shopping_assistant import ShoppingAssistantUtils
 
 logger = logging.getLogger(__name__)
 
@@ -34,8 +32,10 @@ async def get_chat_from_history(conversation_id: str, client: genai.Client):
     """
     try:
         # Get conversation history from database
-        async with AsyncSessionLocal() as session:
-            conversation = await session.get(ConversationDB, conversation_id)
+        async with get_async_session_with_contextmanager() as session:
+            query = text("SELECT * FROM conversations WHERE conversation_id = :conversation_id")
+            result = await session.execute(query, {"conversation_id": conversation_id})
+            conversation = result.first()
         
         if not conversation:
             # Create new chat without history
@@ -68,7 +68,7 @@ async def save_conversation(session: AsyncSession, conversation_id: str, user_me
 @router.post("/chat", response_model=ChatResponse)
 async def chat_with_assistant(
     chat_request: ChatRequest,
-    session: AsyncSession = Depends(get_db)
+    session: AsyncSession = Depends(get_async_session)
 ):
     """Chat with the shopping assistant"""
     try:
@@ -87,11 +87,11 @@ async def chat_with_assistant(
         context = ""
         if intent == "fetch_products":
             # Fetch products from database for recommendations
-            sql_query = render_query('product/hybrid_search',
-                query_text=query,
-                match_count=5,
-                fuzzy_distance=2
-            )
+            sql_query = render_sql('product/hybrid_search',
+                                   query_text=query,
+                                   match_count=5,
+                                   fuzzy_distance=2
+                                   )
             result = await session.execute(text(sql_query))
             products = [row._mapping for row in result]
             
@@ -134,7 +134,7 @@ async def chat_with_assistant(
 @router.get("/conversation/{conversation_id}", response_model=ConversationResponse)
 async def get_conversation_history(
     conversation_id: str,
-    session: AsyncSession = Depends(get_db)
+    session: AsyncSession = Depends(get_async_session)
 ):
     """Get the conversation history"""
     try:
@@ -145,7 +145,7 @@ async def get_conversation_history(
             
         return ConversationResponse(
             conversation_id=conversation_id,
-            messages=[Message(**msg) for msg in conversation.messages],
+            messages=[Message.model_validate(msg) for msg in conversation.messages],
             created_at=conversation.created_at,
             updated_at=conversation.updated_at
         )

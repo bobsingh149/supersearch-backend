@@ -11,7 +11,7 @@ router = APIRouter(
     tags=["organizations"]
 )
 
-@router.post("/", response_model=Organization)
+@router.post("", response_model=Organization)
 async def create_organization(
     org: Organization, 
     session: AsyncSession = Depends(get_async_session)
@@ -24,7 +24,7 @@ async def create_organization(
     
     # Generate UUID if not provided
     if not org.id:
-        org.id = str(uuid4())
+        org.id = uuid4()
     
     # Create new OrganizationDB instance
     db_org = OrganizationDB(**org.model_dump())
@@ -45,7 +45,7 @@ async def get_organization(
         raise HTTPException(status_code=404, detail="Organization not found")
     return org
 
-@router.get("/", response_model=List[Organization])
+@router.get("", response_model=List[Organization])
 async def list_organizations(
     session: AsyncSession = Depends(get_async_session)
 ):

@@ -3,14 +3,14 @@ import os
 from pathlib import Path
 
 # Set up Jinja2 environment
-TEMPLATE_DIR = os.path.join(os.path.dirname(os.path.dirname(__file__)), 'sql')
+TEMPLATE_DIR = os.path.dirname(__file__)
 jinja_env = Environment(
     loader=FileSystemLoader(TEMPLATE_DIR),
     trim_blocks=True,
     lstrip_blocks=True
 )
 
-def render_query(filename: str, **kwargs) -> str:
+def render_sql(filename: str, **kwargs) -> str:
     """
     Loads and renders an SQL template with the given parameters.
     

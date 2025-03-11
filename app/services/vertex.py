@@ -2,19 +2,28 @@ import logging
 import time
 from typing import List
 from enum import Enum
+
+from google import genai
 from google.auth import load_credentials_from_file
 import vertexai
 from vertexai.language_models import TextEmbeddingInput, TextEmbeddingModel
+from app.core.settings import settings
+logger = logging.getLogger(__name__)
 
 # Load credentials and initialize Vertex AI
-credentials, project = load_credentials_from_file("C:/startup/supersearch/vertex_credentials.json")
-vertexai.init(project=project, credentials=credentials)
+credentials, project = load_credentials_from_file(settings.google.credentials_path)
+vertexai.init(project=project, credentials=credentials, location="asia-south1")
 
 # Initialize the model
 MODEL_NAME = "text-embedding-005"
 model = TextEmbeddingModel.from_pretrained(MODEL_NAME)
 
-logger = logging.getLogger(__name__)
+genai_client  = genai.Client(vertexai=True, project="spheric-hawk-449810-a2",
+             location="asia-south1")
+
+def get_genai_client():
+    return genai_client
+
 
 class TaskType(Enum):
     DOCUMENT = "RETRIEVAL_DOCUMENT"

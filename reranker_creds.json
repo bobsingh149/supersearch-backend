@@ -1,0 +1,13 @@
+{
+  "type": "service_account",
+  "project_id": "spheric-hawk-449810-a2",
+  "private_key_id": "e23820312e2e2ebceeace0504b6dd3ad24475715",
+  "private_key": "-----BEGIN PRIVATE KEY-----\nMIIEvQIBADANBgkqhkiG9w0BAQEFAASCBKcwggSjAgEAAoIBAQCjphe0RsV3pEBI\nnzX1P3ikmpGMSvlXG3+cEar1al1tOu4yLzfzYEtOAI52ef9ujuGH9sb1GNsE9MSE\nM7wo/m6WzWPvyOg9iOSbBVu07uQ4yvJC4JuRJIDZKymIRPz3TgJ8X24HidDO/txe\n+U621CxpKEXRQx64abipnTxwoCOllm9K5ouJ/0a6bhfK6Txd6V48kcxA1BjXxk/l\n8n8JedtkvoiyTM7LJZ5FDUg/Uya045raJA4k3p7S8ipNSryOmkoug8FU0DeAbk5s\nJvRba05fhZogwzIApsUvpqpb7nvOxcwxx5DYzEhsVv8/5UXYJNuzAAe88ICqgo45\nTEiPgi1XAgMBAAECggEABYBRKxP3K5xZNhFc4LExCFhTDNdj+WWPWe5Bt0oYX1JY\n7O8nnz+9JR9uRC8gT8jWB3P1LT3k9ifKR81unyXEDvK5nNDXdpYYmHN+KTkGPmu0\n6CjUlSgxr3TWSq8f0XdAX/D1ttaPSLewx2QnHSZ8L07Ixg4B3t4pWuse7uq00apA\nMNiWlBgVJoYIutwXEvIm8L58xg2xsqA8QRB0qtwuUNv/xWEMuMy2sImNy91F/Tce\n3JW3kU67yOIR5HHlG8Qn3mIwkpGEixm6I2ebmlOuVeWRuoGkO5HOvt0a1VdmByYZ\nxCF+qkAjgmF1q9QT/hmpvcn2ER4WfYvy0ChQdLwbeQKBgQDnTWeoUdHquC+kEQq1\nFSqTiacUnGhU0IL+FpUBmXM56kqsmvom/dHSYCLzQFXDSSMTm+Xcg/s1hiOFBYUp\nB7QdQSTCrArWjRPch+FKpSL+ji0OGuJxAR5RuZmalb0AfQXwlpNxpS/mqrxKxweB\nVJVezvcguUn5+PAVdEgwxvGY7wKBgQC1H2TDUxrvwZeVMT00R0Q5yVQexsvwPXdk\nHI4+aLAlX0WM8DIqdo6Gb4N3y7nVzDtRxG7dKO9eg8Zo75+/O/dJpbQspPjva9I4\nIAFQMwBvVXD+E3QdM5X8jp8XIsoORZd0EYjVA6qWDjrqVQk/SBg0La6V2eHDkRb6\nqzRuNQ2iGQKBgQDP5jkXh4Ngr/DSTScMoFvGhOGSmwsDwO8cpvuDloOFONupzRqv\nVVD1AMgpUFhF0UUf6O5wiIiREWJ3vAB2YqA380exWqXbNq71d4S+bTPJDc3dcbi6\nzcCMwIAZ/CEHgViHaTBZ45nsgOYBaGeMjZQ8xVZHKYQelOxmvD/u58JcLQKBgFfy\nDG1DVxr/t2i75eoSiLA+b9gZ00Ctt+EmdHMdRhp/bjgHEXTI6F+imgV7KJsFdfA4\nH1TH4aLU/WxKnhivN13NVfUvjahDhGm4MKsOeLGWnSzhqUncmIFvhxQm0lGnvOig\n8v3rr9L4yeaqr7jIeugrHlCo4RSiyLOimezBWgNRAoGAbeLMYGl0dc59iZCCrqjR\n4bfFwlMlI3cCLeAynlwavJQ8TPd5nbowafc+TKJKTKMGMlge0a/TEfKgf2o8UnKI\nT1Fb2HvFO/kw8JnQPq86OZretdOSeOL1hoZnX3fc/nF6O7kirll2yWAsa/BwFD5x\ntB3hB3xAFnt4Sn93c8H1Vdo=\n-----END PRIVATE KEY-----\n",
+  "client_email": "reranker@spheric-hawk-449810-a2.iam.gserviceaccount.com",
+  "client_id": "105035128341337150732",
+  "auth_uri": "https://accounts.google.com/o/oauth2/auth",
+  "token_uri": "https://oauth2.googleapis.com/token",
+  "auth_provider_x509_cert_url": "https://www.googleapis.com/oauth2/v1/certs",
+  "client_x509_cert_url": "https://www.googleapis.com/robot/v1/metadata/x509/reranker%40spheric-hawk-449810-a2.iam.gserviceaccount.com",
+  "universe_domain": "googleapis.com"
+}

@@ -2,13 +2,12 @@ from fastapi import APIRouter, HTTPException, Depends
 from typing import Optional, List
 from sqlalchemy.orm import Session
 from app.database.session import get_async_session
-from app.utils.embedding import get_embeddings_client
-from app.utils.product import load_sql_template
 from app.models.product import ProductSearchResult
+from app.database.sql.sql import render_sql
 
-router = APIRouter()
+router = APIRouter(prefix="/recommend",tags=["recommend"])
 
-@router.get("/recommend/similar/{product_id}", response_model=List[ProductSearchResult])
+@router.get("similar/{product_id}", response_model=List[ProductSearchResult])
 async def get_similar_products(
     product_id: str,
     match_count: Optional[int] = 10,
@@ -38,7 +37,7 @@ async def get_similar_products(
             raise HTTPException(status_code=404, detail="Product not found")
 
         # Load and execute the similar products SQL template
-        sql_template = load_sql_template("product/similar_products_hybrid.sql")
+        sql_template = render_sql("product/similar_products_hybrid.sql")
         sql_query = sql_template.render(
             product_id=product_id,
             searchable_content=product.searchable_content,

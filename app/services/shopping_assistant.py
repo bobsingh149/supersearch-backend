@@ -1,9 +1,11 @@
 from google import genai
-from google.ai.generativelanguage import Content, Part
+from google.genai.types import Content, Part
 from typing import List, Optional, Dict, Any
-from sqlalchemy.orm import Session
-from app.models.conversation import ConversationDB
+
+from sqlalchemy.ext.asyncio import AsyncSession
 import logging
+from sqlalchemy import text
+import json
 
 logger = logging.getLogger(__name__)
 
@@ -96,8 +98,8 @@ class ShoppingAssistantUtils:
         return history
 
     @staticmethod
-    def save_conversation(
-        db: Session,
+    async def save_conversation(
+        db: AsyncSession,
         conversation_id: str,
         user_message: str,
         assistant_response: str,
@@ -114,9 +116,10 @@ class ShoppingAssistantUtils:
             context: Optional context provided to the assistant
         """
         try:
-            conversation = db.query(ConversationDB).filter(
-                ConversationDB.conversation_id == conversation_id
-            ).first()
+            # Check if conversation exists
+            query = text("SELECT * FROM conversations WHERE conversation_id = :conversation_id")
+            result = await db.execute(query, {"conversation_id": conversation_id})
+            conversation = result.first()
             
             new_messages = [
                 {"role": "user", "content": user_message}
@@ -134,20 +137,33 @@ class ShoppingAssistantUtils:
             })
             
             if conversation:
-                conversation.messages = conversation.messages + new_messages
+                # Update existing conversation
+                update_query = text("""
+                    UPDATE conversations 
+                    SET messages = messages || :new_messages::jsonb 
+                    WHERE conversation_id = :conversation_id
+                """)
+                await db.execute(update_query, {
+                    "conversation_id": conversation_id,
+                    "new_messages": json.dumps(new_messages)
+                })
             else:
-                conversation = ConversationDB(
-                    conversation_id=conversation_id,
-                    messages=new_messages
-                )
-                db.add(conversation)
+                # Insert new conversation
+                insert_query = text("""
+                    INSERT INTO conversations (conversation_id, messages) 
+                    VALUES (:conversation_id, :messages)
+                """)
+                await db.execute(insert_query, {
+                    "conversation_id": conversation_id,
+                    "messages": json.dumps(new_messages)
+                })
             
-            db.commit()
+            await db.commit()
             logger.info(f"Saved conversation for ID: {conversation_id}")
             
         except Exception as e:
             logger.error(f"Error saving conversation: {str(e)}")
-            db.rollback()
+            await db.rollback()
             raise
 
     @staticmethod

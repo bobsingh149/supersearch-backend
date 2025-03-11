@@ -1,6 +1,9 @@
 from typing import List, Optional
 from app.models.product import ProductSearchResult
-from app.utils.jina_api import JinaAPI
+from app.services.cohere_api import CohereAPI
+import logging
+
+logger = logging.getLogger(__name__)
 
 async def rerank_search_results(
     query: str,
@@ -8,7 +11,7 @@ async def rerank_search_results(
     top_n: Optional[int] = None
 ) -> List[ProductSearchResult]:
     """
-    Reranks search results using the Jina AI reranking API.
+    Reranks search results using the Cohere reranking API.
     
     Args:
         query: The search query
@@ -19,9 +22,9 @@ async def rerank_search_results(
         Reranked list of ProductSearchResult objects
     """
     try:
-        jina_api = JinaAPI()
-        return await jina_api.rerank(query, search_results, top_n)
+        cohere_api = CohereAPI()
+        return await cohere_api.rerank(query, search_results, top_n)
     except Exception as e:
         # Log error in production
-        print(f"Error in reranking: {str(e)}")
+        logger.error(f"Error in reranking: {str(e)}")
         return search_results  # Return original results if reranking fails

@@ -3,7 +3,7 @@ WITH bm25_matches AS (
         id,
         row_number() over(order by paradedb.score(id) desc) as rank_ix
     FROM 
-        documents
+        products
     WHERE 
         id @@@ paradedb.match(
             field => 'searchable_content',
@@ -11,31 +11,31 @@ WITH bm25_matches AS (
             distance => {{ fuzzy_distance }}
         )
     ORDER BY rank_ix
-    LIMIT least({{ match_count }}, 30) * 2
+    LIMIT {{ match_count }} * 2
 ),
 semantic AS (
     SELECT
         id,
-        row_number() over (order by text_embedding <=> '{{ query_embedding }}') as rank_ix
+        row_number() over (order by (text_embedding <=> '{{ query_embedding }}')*1) as rank_ix
     FROM
-        documents
+        products
     ORDER BY rank_ix
-    LIMIT least({{ match_count }}, 30) * 2
+    LIMIT {{ match_count }} * 2
 )
 SELECT
-    d.id,
-    d.title,
-    d.custom_data,
-    d.searchable_content,
+    p.id,
+    p.title,
+    p.custom_data,
+    p.searchable_content,
     (COALESCE(1.0 / ({{ rrf_k }} + bm25_matches.rank_ix), 0.0) * {{ full_text_weight }} +
      COALESCE(1.0 / ({{ rrf_k }} + semantic.rank_ix), 0.0) * {{ semantic_weight }}) as score
 FROM
     bm25_matches
     FULL OUTER JOIN semantic
         ON bm25_matches.id = semantic.id
-    JOIN documents d
-        ON coalesce(bm25_matches.id, semantic.id) = d.id
+    JOIN products p
+        ON coalesce(bm25_matches.id, semantic.id) = p.id
 ORDER BY
     score DESC
-LIMIT
-    least({{ match_count }}, 30) 
+LIMIT {{ match_count }}
+OFFSET {{ offset }} 
