@@ -1,0 +1,407 @@
+***ONLY DO SEMANTIC SEARCH EVERYWHERE EXCEPT THE SEARCH
+***AND RERANKER OPTIONAL FOR SEARCH
+
+TODOS
+
+1. Make hybrid method 2 versions with and without ranking
+2. Apply conditional rerankers
+3. Add the similar item route 
+4. Add recommend to user route
+5. Add the shopping assistant route (integrate with gemeni flash 2.0)
+6. Autocomplete
+7. Add the website also as source (jina reader + segmentor as input rest same)
+8. AI review summarizer pros and cons
+9. AI power your ecommerce site
+
+
+Make me routes for shopping assistants
+In the api accept list of products that will be given to LLM for context
+
+Intents
+
+Intent 1. Fetch products from the db and give as context to LLM for quries like I want some recommendation for tshirt
+Intent 2  No need to fetch product from db and directly give query to LLM like What can I pair it with this and queries like compare these products and in context there is list of product coming in api
+
+To get the intent use the LLM 
+<
+To get the intent use client = genai.Client(vertexai=True, project="spheric-hawk-449810-a2", location="asia-south1",
+                      http_options=HttpOptions(api_version="v1"))
+
+     response = client.models.generate_content(
+            model="gemini-2.0-flash-001",
+            contents="How does AI work?",
+        )
+        print(response.text)
+>
+
+if product ids then send product.searchable_content in context
+
+
+In api conversationId will be passed that will be unique for new conversation and same for same conversation
+helpful in retrieving past chat history
+
+For storing conversation history have a table with coulumns
+conversation id and array of conversations in jsonb [{"role" : "user or model" , "content"}] 
+
+for chat use 
+
+client = genai.Client(vertexai=True, project="spheric-hawk-449810-a2", location="asia-south1",
+                      http_options=HttpOptions(api_version="v1"))
+
+To create new conversation use
+chat = client.chats.create(
+    model="gemini-2.0-flash-001",
+    history=[
+        Content(parts=[Part(text="Hello")], role="user"),
+        Content(
+            parts=[Part(text="Great to meet you. What would you like to know?")],
+            role="model",
+        ),
+    ],
+)
+response = chat.send_message("tell me a story")
+
+each time we do client.chats.create it creates a new conversation
+
+
+make a metod to get chat = client.chats.create(
+    model="gemini-2.0-flash-001",
+    history=[
+        Content(parts=[Part(text="Hello")], role="user"),
+        Content(
+            parts=[Part(text="Great to meet you. What would you like to know?")],
+            role="model",
+        ),
+    ],
+) get the content from db and cache this method it should take conversationId and return the chat object
+
+Save all chats to conversations table
+
+
+"""
+Configuration Management: Properly configure your FastAPI application for different environments using environment variables and configuration management tools.
+ASGI Servers: Choose the right ASGI server (Uvicorn, Hypercorn, or Gunicorn with Uvicorn workers) based on your specific needs.
+Security: Implement robust security measures, including HTTPS, authentication, authorization, and proper error handling.
+Performance Optimization: Utilize FastAPI’s async capabilities, implement caching, and optimize database queries for better performance.
+Logging and Monitoring: Set up comprehensive logging and monitoring to gain insights into your application’s behavior and quickly identify issues.
+Containerization: Use Docker to containerize your FastAPI application for consistency across environments and easier deployment.
+Deployment Strategies: Implement CI/CD pipelines and use deployment strategies like blue-green deployments or rolling updates to minimize downtime.
+Scaling: Prepare your application for scaling by implementing load balancing, database scaling strategies, and considering serverless options.
+Best Practices Checklist
+To ensure your FastAPI application is production-ready, follow this checklist:
+
+1. Security
+
+Enable HTTPS using SSL/TLS certificates
+Implement proper authentication and authorization
+Set up CORS correctly
+Use secure headers (HSTS, CSP, X-Frame-Options)
+Implement rate limiting to prevent abuse
+Regularly update dependencies to patch security vulnerabilities
+2. Performance
+
+Use asynchronous programming where appropriate
+Implement caching for frequently accessed data
+Optimize database queries and use connection pooling
+Utilize background tasks for time-consuming operations
+Configure your ASGI server for optimal performance
+3. Reliability
+
+Implement proper error handling and logging
+Set up health check endpoints
+Use database migrations for schema changes
+Implement retry mechanisms for external service calls
+Set up automated backups for your database
+4. Scalability
+
+Design your application to be stateless
+Implement horizontal scaling with load balancing
+Use caching services like Redis to reduce database load
+Consider using a CDN for static assets
+Implement database scaling strategies (read replicas, sharding)
+5. Monitoring and Logging
+
+Set up centralized logging
+Implement application performance monitoring (APM)
+Set up alerts for critical errors and performance issues
+Use structured logging for easier parsing and analysis
+Monitor key metrics like response times, error rates, and resource usage
+6. Deployment and Operations
+
+Use containerization (Docker) for consistent environments
+Implement a CI/CD pipeline for automated testing and deployment
+Use infrastructure as code (IaC) for managing your infrastructure
+Implement blue-green or rolling update deployment strategies
+Set up automated scaling based on load
+7. Documentation and Maintenance
+
+Keep API documentation up-to-date (use FastAPI’s automatic docs)
+Document deployment procedures and runbooks
+Maintain a changelog for tracking changes
+Regularly review and update your application’s dependencies
+Conduct periodic security audits and penetration testing
+
+
+
+
+1. superbase postgres with the pg vector extension
+2. have both docker and cloud soutions
+3. cosine closest neighbor and use just regualar vector
+4. HNSW Indexes with Postgres and pgvector exact log and with index logn
+5. embedding
+
+
+
+
+
+
+DO hybrid search both keyword matching and semantic matching
+
+embeddig
+
+Do by topic
+
+Make a ui where u can add topics and update them this would be the only option it should
+have abilty to be prefilled from pdf
+Text blob for the spell check
+
+for cloud make sure to give read only permission for single table
+
+Include some basic analytics like top searches
+
+Use cases
+Search , help and recommendations
+
+Give complete features give autocomplete also
+
+also make the frontend component that direcy call my api
+
+send data by the api no db access
+
+https://github.com/johannesocean/pgvector-demo/tree/main/app
+
+https://huggingface.co/BAAI/bge-m3
+
+https://www.youtube.com/watch?v=JEBDfGqrAUA&t=1975s
+Already had chatbot for documentation
+
+
+search anything image or text , upload image and find similar images useful for ecommerce and
+search image or text by semantics only need id, images and title, description, color optional fields
+
+Search by the images or text and upload image to get similar images similar products or product recommendations and doc chatbot
+
+pgvectorscale
+
+hyrbid search (keyword(BM25), semantic and image
+
+for data import see this https://console.cloud.timescale.com/dashboard/services/rujozngdux/import
+
+tsvector
+
+https://colab.research.google.com/drive/1ZXzRX5nGp6FlYZmA6sJNOTo2CweMvOsw?usp=sharing
+
+https://jkatz05.com/post/postgres/hybrid-search-postgres-pgvector/
+
+https://www.youtube.com/watch?v=MlRkBvOCfTY
+
+allow user to load their data and test the hybrid search
+
+Also give autocomplete
+
+only thumbnail url / blob / base64 will be used ask them to simply specify the fields of search and thumbnail column
+
+https://www.youtube.com/watch?v=bQWfJxVYktY
+
+Remove html tags from the text for all fields
+
+use marque ecommerce embedding model and say in your webiste its better than openai, gemeni and amzaon embedding models
+trained on large ecommerce dataset fine tuned for the ecommerce
+
+why use ours
+Most models are trained on generic data and they little bit of everything
+Our model is trained on large ecommerce dataset fine tuned for the ecommerce so it out performs all the other models
+
+Give example of use cases yellow , lemon and amber will show similar colors even when
+we don't find the exact keywords insted of returning no results
+
+https://hub.docker.com/r/oaklight/vectorsearch/tags
+
+Uses state of the art BM25 algorithm , semantic search and image search
+
+Also add the custom filters tags, metafield and fields
+
+https://github.com/jankovicsandras/plpgsql_bm25
+
+https://www.youtube.com/watch?v=TbtBhbLh0cc
+
+https://github.com/vgrabovets/multi_rake
+
+https://github.com/daveebbelaar/pgvectorscale-rag-solution/tree/hybrid-search
+
+have all filters
+
+Have 3 types of autocomplete past history, trending and search when starts typing
+
+Also have support for blog searching
+
+Use yogi sister as paid promotion
+
+Have a similar structure for all tables with metadata containing all columns
+
+
+
+#TODO
+'''
+
+Basic routes needed
+
+(Just do text based first in MVP image will come later)
+
+1. Search
+2. Recommend
+    1. suggest similar items (based on item return most similar)
+    2. Recommendation based on past purchase activity (precomputed and updated)
+3. AI shopping
+
+
+Use recraft to get model for your product using image to image
+
+Write blogs specifically to promote your products
+
+It all works because we will sync their data regularly
+
+https://supabase.com/docs/guides/ai/hybrid-search
+
+Personalized AI shopper in 1 big window modal resumable with AI shopping interface for everything
+
+On startup feed it user detials
+
+We need to have products data, reviews data, past orders  in our vector db
+
+knows query intent then call backend for search, otherwise give chat completion
+
+just keep giving context of whatever product user selects , and like fetch reviews and tell what to style with
+
+It will also generate some template questions based on state
+
+Traditional search bar with AI will also be there
+
+
+Also add the option of api I could poll to resync the data
+
+Value is in taking data or syncing and then applying AI to it
+
+Take data from db url or extrernal api like shopify for now
+
+Use the data in AI
+
+Chat Support
+Customer care support
+Product search
+
+Use the APScheduler for all bg tasks connect with DB
+
+Also release the ai blogger as seperate tool targeted for companies trying to maximize
+seo reach suggest them topics based on company product
+IDEAS
+
+1. Personalized Shopping Experience
+Dynamic Styling Suggestions: Offer styling or pairing suggestions for clothing, accessories, or home decor based on the customer's preferences or purchase history.
+Product Recommendations: Recommend products based on browsing history, past purchases, or customer demographics.
+Dynamic Search Results: Use natural language processing (NLP) to improve search accuracy and offer filters based on intent.
+Custom Homepages: Curate homepage content dynamically based on user interests and browsing habits.
+2. Visual AI Applications
+Virtual Try-On: Allow customers to visualize products like clothes, glasses, or makeup on themselves using AR/AI.
+Style Matching: Suggest similar styles or complementary items for a chosen product.
+Image-Based Search: Enable customers to upload a photo and find similar products in the store.
+3. Product Management
+AI-Powered Styling for Products: Automatically generate photos of products in different styles or settings (e.g., furniture in a living room setup).
+Automated Product Tagging: Use AI to classify and tag products with keywords, categories, and attributes for better discoverability.
+4. Review Summarization and Analysis
+Sentiment Analysis: Summarize customer reviews into pros and cons and identify trending sentiments.
+Review Insights: Provide summarized insights from customer reviews to help others make informed decisions.
+Fake Review Detection: Use AI to detect fraudulent reviews and ensure authenticity.
+5. Marketing and Engagement
+Dynamic Pricing: Use AI to adjust prices based on demand, competitor pricing, and inventory levels.
+AI-Powered Ad Targeting: Optimize ad campaigns with personalized recommendations and dynamic creatives.
+Customer Segmentation: Use AI to segment customers based on behavior and demographics for targeted campaigns.
+Automated Content Creation: Generate product descriptions, marketing emails, and blog posts using AI.
+6. Customer Support
+AI Chatbots: Provide 24/7 customer support for FAQs, order tracking, and issue resolution.
+Sentiment-Driven Support Escalation: Detect customer frustration and escalate to a human agent.
+Multilingual Support: Translate and respond to customer queries in multiple languages.
+7. Logistics and Supply Chain
+Demand Forecasting: Predict inventory needs based on sales trends and seasonal factors.
+Smart Inventory Management: Optimize stock levels using AI to prevent overstocking or stockouts.
+Shipping Optimization: Use AI to choose the fastest or most cost-effective shipping routes.
+8. Fraud Detection and Payment Processing
+Fraud Prevention: Detect unusual purchase patterns and prevent fraudulent transactions.
+Dynamic Payment Gateways: Optimize payment gateway usage based on customer location or past success rates.
+9. User Behavior and Analytics
+Churn Prediction: Identify customers likely to stop shopping and provide retention offers.
+Heatmap Analysis: Analyze customer interaction on the website to optimize the design.
+Real-Time Personalization: Modify product listings, banners, and deals as users interact with the site.
+10. Customer Retention and Loyalty
+AI Loyalty Programs: Reward customers based on AI-driven predictions of their lifetime value.
+Personalized Retention Offers: Offer custom discounts or loyalty benefits to retain at-risk customers.
+Predictive Recommendations: Suggest subscription or replenishment products based on past purchases.
+11. Content Moderation
+Automated Moderation: Monitor and filter user-generated content such as reviews, Q&A, or forums to remove spam or inappropriate material.
+AI-Curated Reviews: Highlight the most helpful or relevant reviews for new customers.
+12. Advanced Analytics
+Predictive Trends Analysis: Identify future trends and suggest products to add to the catalog.
+Competitor Analysis: Use AI to monitor competitor pricing, stock levels, and trends.
+Performance Insights: Provide detailed analytics on marketing, product performance, and customer behavior.
+13. Voice and Conversational Commerce
+Voice Search Optimization: Allow users to search products using voice commands.
+Conversational Agents: Offer shopping assistance through voice-enabled devices like Alexa or Google Assistant.
+14. Returns and Post-Sale Support
+AI Return Predictions: Predict the likelihood of product returns and adjust policies accordingly.
+Smart Returns Process: Suggest alternative solutions like exchanges or troubleshooting steps before processing a return.
+Post-Purchase Insights: Provide AI-powered recommendations for accessories or related items post-purchase.
+15. Sustainability and CSR
+Sustainable Options: Highlight eco-friendly or sustainable product choices using AI.
+Carbon Footprint Estimation: Inform customers of the environmental impact of their purchases.
+
+
+'''
+"""
+
+MARKETING
+
+Product Hunt
+Startup directories
+AI GTM SEO
+
+
+TECH STACK
+
+RESEND for mails
+Clerk for authentication
+stripe for payment
+
+posthog for analytics
+Admin csm dashboard
+
+producthunt
+indie hackers
+Focus on the seo google
+
+
+MAKE UI COMPNENET SEARCH BAR WITH SHOPPING Assistant
+ICON NEXT TO SEARCH ICON THAT WILL TAKE THE QUERY TO
+SHOPPING ASSISTANT AND OPEN A SIDE MODAL 
+it also has context to anything u see on screen
+so u can normally chat with it or ask anything about on page or drag & drop
+
+Also make a separte project one time purchase
+simple code zip u can download next ts with everything integrateed
+simply in cloud bring your keys or add them later in config
+It will be ai wrapper with other features too
+endless ai teplates and easily create new template
+every time u make changes u can download new code
+u can even give it context with custom data
+end result fully functioning app with AI
+With the tools just add sample api user can edit it
+and gemeni rag
