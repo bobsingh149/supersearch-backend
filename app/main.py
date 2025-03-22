@@ -1,9 +1,12 @@
+import asyncio
 from contextlib import asynccontextmanager
 from fastapi import FastAPI
 import logging
 from starlette.middleware.cors import CORSMiddleware
 import logging.handlers
 import os
+
+from starlette.responses import StreamingResponse
 
 from app.core.settings import settings
 from app.services.vertex import get_embedding
@@ -88,3 +91,5 @@ app.include_router(sync_history.router, prefix=API_V1_PREFIX)
 def read_root()->dict:
     """health check route"""
     return {"message": "server is healthy!"}
+
+

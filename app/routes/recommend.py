@@ -3,7 +3,7 @@ from typing import Optional, List
 from sqlalchemy.orm import Session
 from app.database.session import get_async_session
 from app.models.product import ProductSearchResult
-from app.database.sql.sql import render_sql
+from app.database.sql.sql import render_sql, SQLFilePath
 
 router = APIRouter(prefix="/recommend",tags=["recommend"])
 
@@ -37,7 +37,7 @@ async def get_similar_products(
             raise HTTPException(status_code=404, detail="Product not found")
 
         # Load and execute the similar products SQL template
-        sql_template = render_sql("product/similar_products_hybrid.sql")
+        sql_template = render_sql(SQLFilePath.PRODUCT_SIMILAR_PRODUCTS_HYBRID)
         sql_query = sql_template.render(
             product_id=product_id,
             searchable_content=product.searchable_content,

@@ -8,4 +8,4 @@ FROM
     products p
 ORDER BY
     score asc
-LIMIT 6
+LIMIT {{match_count}}

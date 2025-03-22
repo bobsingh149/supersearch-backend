@@ -1815,3 +1815,1312 @@ google.api_core.exceptions.InvalidArgument: 400 The text content is empty.
 2025-03-11 01:22:14,377 - app.middlewares.route_logging - INFO - Path: /api/v1/products | Method: GET | Processing Time: 0.00ms
 2025-03-11 01:23:19,112 - app.middlewares.route_logging - INFO - Path: /api/v1/sync-history | Method: GET | Processing Time: 1.51ms
 2025-03-11 02:09:28,534 - app.main - INFO - Shutting down...
+2025-03-12 01:54:27,811 - app.main - INFO - Initializing model and processor...
+2025-03-12 01:54:28,068 - app.main - INFO - Database connection successful
+2025-03-12 01:54:29,007 - app.services.vertex - INFO - Total embedding process completed in 0.939s
+2025-03-12 01:54:29,007 - app.main - INFO - Initialization complete.
+2025-03-12 01:54:44,024 - app.routes.search_product - INFO - Empty query provided, returning all products in paginated form
+2025-03-12 01:54:44,353 - app.routes.search_product - INFO - Found 12 results for empty query (all products)
+2025-03-12 01:54:44,371 - app.middlewares.route_logging - INFO - Path: /api/v1/search | Method: GET | Processing Time: 397.34ms
+2025-03-12 01:58:46,734 - app.routes.search_product - INFO - Empty query provided, returning all products in paginated form
+2025-03-12 01:58:46,734 - app.routes.search_product - INFO - Found 12 results for empty query (all products)
+2025-03-12 01:58:46,746 - app.middlewares.route_logging - INFO - Path: /api/v1/search | Method: GET | Processing Time: 13.15ms
+2025-03-12 01:58:46,747 - app.routes.search_product - INFO - Empty query provided, returning all products in paginated form
+2025-03-12 01:58:46,759 - app.routes.search_product - INFO - Found 12 results for empty query (all products)
+2025-03-12 01:58:46,762 - app.middlewares.route_logging - INFO - Path: /api/v1/search | Method: GET | Processing Time: 14.39ms
+2025-03-12 02:05:36,564 - app.routes.search_product - INFO - Empty query provided, returning all products in paginated form
+2025-03-12 02:05:36,564 - app.routes.search_product - INFO - Found 12 results for empty query (all products)
+2025-03-12 02:05:36,578 - app.middlewares.route_logging - INFO - Path: /api/v1/search | Method: GET | Processing Time: 14.17ms
+2025-03-12 02:05:36,579 - app.routes.search_product - INFO - Empty query provided, returning all products in paginated form
+2025-03-12 02:05:36,579 - app.routes.search_product - INFO - Found 12 results for empty query (all products)
+2025-03-12 02:05:36,579 - app.middlewares.route_logging - INFO - Path: /api/v1/search | Method: GET | Processing Time: 0.00ms
+2025-03-12 02:06:25,974 - app.routes.search_product - INFO - Empty query provided, returning all products in paginated form
+2025-03-12 02:06:25,980 - app.routes.search_product - INFO - Found 12 results for empty query (all products)
+2025-03-12 02:06:25,984 - app.middlewares.route_logging - INFO - Path: /api/v1/search | Method: GET | Processing Time: 15.68ms
+2025-03-12 02:06:25,992 - app.routes.search_product - INFO - Empty query provided, returning all products in paginated form
+2025-03-12 02:06:25,996 - app.routes.search_product - INFO - Found 12 results for empty query (all products)
+2025-03-12 02:06:26,000 - app.middlewares.route_logging - INFO - Path: /api/v1/search | Method: GET | Processing Time: 12.53ms
+2025-03-12 02:07:17,168 - app.routes.search_product - INFO - Empty query provided, returning all products in paginated form
+2025-03-12 02:07:17,169 - app.routes.search_product - INFO - Found 12 results for empty query (all products)
+2025-03-12 02:07:17,169 - app.middlewares.route_logging - INFO - Path: /api/v1/search | Method: GET | Processing Time: 5.73ms
+2025-03-12 02:07:17,178 - app.routes.search_product - INFO - Empty query provided, returning all products in paginated form
+2025-03-12 02:07:17,178 - app.routes.search_product - INFO - Found 12 results for empty query (all products)
+2025-03-12 02:07:17,178 - app.middlewares.route_logging - INFO - Path: /api/v1/search | Method: GET | Processing Time: 0.00ms
+2025-03-12 02:08:30,010 - app.services.vertex - INFO - Total embedding process completed in 0.795s
+2025-03-12 02:08:30,442 - app.routes.search_product - INFO - Found 10 results for query: laptop stand
+2025-03-12 02:08:30,445 - app.middlewares.route_logging - INFO - Path: /api/v1/search | Method: GET | Processing Time: 1231.80ms
+2025-03-12 02:08:47,078 - app.services.vertex - INFO - Total embedding process completed in 0.574s
+2025-03-12 02:08:47,185 - app.routes.search_product - INFO - Found 10 results for query: touchscreen laptop
+2025-03-12 02:08:47,189 - app.middlewares.route_logging - INFO - Path: /api/v1/search | Method: GET | Processing Time: 694.54ms
+2025-03-12 02:09:03,199 - app.services.vertex - INFO - Total embedding process completed in 0.546s
+2025-03-12 02:09:03,317 - app.routes.search_product - INFO - Found 10 results for query: something to place my laptop on
+2025-03-12 02:09:03,320 - app.middlewares.route_logging - INFO - Path: /api/v1/search | Method: GET | Processing Time: 673.52ms
+2025-03-12 02:09:18,582 - app.middlewares.route_logging - INFO - Path: /docs | Method: GET | Processing Time: 2.01ms
+2025-03-12 02:09:18,826 - app.middlewares.route_logging - INFO - Path: /openapi.json | Method: GET | Processing Time: 90.68ms
+2025-03-12 02:09:37,628 - app.services.vertex - INFO - Total embedding process completed in 0.559s
+2025-03-12 02:09:37,678 - app.routes.search_product - INFO - Found 10 results for query: something to place my laptop on
+2025-03-12 02:09:37,681 - app.middlewares.route_logging - INFO - Path: /api/v1/search | Method: GET | Processing Time: 619.09ms
+2025-03-12 02:13:25,840 - app.services.vertex - INFO - Total embedding process completed in 0.426s
+2025-03-12 02:13:25,885 - app.routes.search_product - INFO - Found 10 results for query: something to place my laptop on
+2025-03-12 02:13:25,889 - app.middlewares.route_logging - INFO - Path: /api/v1/search | Method: GET | Processing Time: 480.07ms
+2025-03-12 02:13:25,979 - app.main - INFO - Shutting down...
+2025-03-12 02:13:35,381 - app.main - INFO - Initializing model and processor...
+2025-03-12 02:13:35,451 - app.main - INFO - Database connection successful
+2025-03-12 02:13:36,158 - app.services.vertex - INFO - Total embedding process completed in 0.707s
+2025-03-12 02:13:36,158 - app.main - INFO - Initialization complete.
+2025-03-12 02:13:42,695 - app.main - INFO - Initializing model and processor...
+2025-03-12 02:13:42,766 - app.main - INFO - Database connection successful
+2025-03-12 02:13:43,425 - app.services.vertex - INFO - Total embedding process completed in 0.658s
+2025-03-12 02:13:43,426 - app.main - INFO - Initialization complete.
+2025-03-12 02:14:39,828 - app.services.vertex - INFO - Total embedding process completed in 0.408s
+2025-03-12 02:14:39,920 - app.routes.search_product - INFO - Found 10 results for query: something to place my laptop on
+2025-03-12 02:14:39,923 - app.middlewares.route_logging - INFO - Path: /api/v1/search | Method: GET | Processing Time: 508.06ms
+2025-03-12 02:14:40,040 - app.main - INFO - Shutting down...
+2025-03-12 02:14:46,439 - app.main - INFO - Initializing model and processor...
+2025-03-12 02:14:46,502 - app.main - INFO - Database connection successful
+2025-03-12 02:14:47,391 - app.services.vertex - INFO - Total embedding process completed in 0.889s
+2025-03-12 02:14:47,391 - app.main - INFO - Initialization complete.
+2025-03-12 02:15:09,254 - app.main - INFO - Shutting down...
+2025-03-12 02:15:15,892 - app.main - INFO - Initializing model and processor...
+2025-03-12 02:15:15,953 - app.main - INFO - Database connection successful
+2025-03-12 02:15:16,826 - app.services.vertex - INFO - Total embedding process completed in 0.873s
+2025-03-12 02:15:16,826 - app.main - INFO - Initialization complete.
+2025-03-12 02:15:22,589 - app.services.vertex - INFO - Total embedding process completed in 0.419s
+2025-03-12 02:15:22,683 - app.routes.search_product - INFO - Found 10 results for query: something to place my laptop on
+2025-03-12 02:15:22,685 - app.middlewares.route_logging - INFO - Path: /api/v1/search | Method: GET | Processing Time: 519.11ms
+2025-03-12 02:17:18,621 - app.main - INFO - Shutting down...
+2025-03-12 02:17:24,171 - app.main - INFO - Initializing model and processor...
+2025-03-12 02:17:24,236 - app.main - INFO - Database connection successful
+2025-03-12 02:17:24,980 - app.services.vertex - INFO - Total embedding process completed in 0.745s
+2025-03-12 02:17:24,980 - app.main - INFO - Initialization complete.
+2025-03-12 02:17:47,918 - app.services.vertex - INFO - Total embedding process completed in 0.613s
+2025-03-12 02:17:48,034 - app.routes.search_product - INFO - Found 10 results for query: something to place my laptop on
+2025-03-12 02:17:48,038 - app.middlewares.route_logging - INFO - Path: /api/v1/search | Method: GET | Processing Time: 736.00ms
+2025-03-12 02:18:01,491 - app.main - INFO - Shutting down...
+2025-03-12 02:18:07,059 - app.main - INFO - Initializing model and processor...
+2025-03-12 02:18:07,116 - app.main - INFO - Database connection successful
+2025-03-12 02:18:07,819 - app.services.vertex - INFO - Total embedding process completed in 0.703s
+2025-03-12 02:18:07,820 - app.main - INFO - Initialization complete.
+2025-03-12 02:18:16,454 - app.services.vertex - INFO - Total embedding process completed in 0.816s
+2025-03-12 02:18:16,543 - app.routes.search_product - INFO - Found 10 results for query: something to place my laptop on
+2025-03-12 02:18:16,545 - app.middlewares.route_logging - INFO - Path: /api/v1/search | Method: GET | Processing Time: 911.63ms
+2025-03-12 02:18:26,050 - app.main - INFO - Shutting down...
+2025-03-12 02:18:31,531 - app.main - INFO - Initializing model and processor...
+2025-03-12 02:18:31,578 - app.main - INFO - Database connection successful
+2025-03-12 02:18:32,419 - app.services.vertex - INFO - Total embedding process completed in 0.840s
+2025-03-12 02:18:32,419 - app.main - INFO - Initialization complete.
+2025-03-12 02:18:39,706 - app.services.vertex - INFO - Total embedding process completed in 0.602s
+2025-03-12 02:18:39,791 - app.routes.search_product - INFO - Found 10 results for query: something to place my laptop on
+2025-03-12 02:18:39,792 - app.middlewares.route_logging - INFO - Path: /api/v1/search | Method: GET | Processing Time: 692.71ms
+2025-03-12 02:18:58,289 - app.main - INFO - Shutting down...
+2025-03-12 02:19:03,757 - app.main - INFO - Initializing model and processor...
+2025-03-12 02:19:03,803 - app.main - INFO - Database connection successful
+2025-03-12 02:19:04,508 - app.services.vertex - INFO - Total embedding process completed in 0.705s
+2025-03-12 02:19:04,508 - app.main - INFO - Initialization complete.
+2025-03-12 02:19:10,421 - app.services.vertex - INFO - Total embedding process completed in 0.641s
+2025-03-12 02:19:10,512 - app.routes.search_product - INFO - Found 10 results for query: something to place my laptop on
+2025-03-12 02:19:10,514 - app.middlewares.route_logging - INFO - Path: /api/v1/search | Method: GET | Processing Time: 738.66ms
+2025-03-12 02:21:23,499 - root - INFO - AFC is enabled with max remote calls: 10.
+2025-03-12 02:21:24,781 - app.services.shopping_assistant - ERROR - Error determining intent: 404 NOT_FOUND. {'error': {'code': 404, 'message': 'Publisher Model `projects/spheric-hawk-449810-a2/locations/asia-south1/publishers/google/models/gemini-2.0-flash-001` not found.', 'status': 'NOT_FOUND'}}
+2025-03-12 02:21:24,781 - app.routes.shopping_assistant - ERROR - Error in chat endpoint: 404 NOT_FOUND. {'error': {'code': 404, 'message': 'Publisher Model `projects/spheric-hawk-449810-a2/locations/asia-south1/publishers/google/models/gemini-2.0-flash-001` not found.', 'status': 'NOT_FOUND'}}
+2025-03-12 02:21:24,797 - app.middlewares.route_logging - INFO - Path: /api/v1/shopping-assistant/chat | Method: POST | Processing Time: 1306.56ms
+2025-03-12 02:23:58,590 - app.main - INFO - Shutting down...
+2025-03-12 02:24:04,891 - app.main - INFO - Initializing model and processor...
+2025-03-12 02:24:04,946 - app.main - INFO - Database connection successful
+2025-03-12 02:24:05,768 - app.services.vertex - INFO - Total embedding process completed in 0.822s
+2025-03-12 02:24:05,769 - app.main - INFO - Initialization complete.
+2025-03-12 02:26:45,126 - app.main - INFO - Shutting down...
+2025-03-12 02:26:50,983 - app.main - INFO - Initializing model and processor...
+2025-03-12 02:26:51,031 - app.main - INFO - Database connection successful
+2025-03-12 02:26:51,988 - app.services.vertex - INFO - Total embedding process completed in 0.956s
+2025-03-12 02:26:51,988 - app.main - INFO - Initialization complete.
+2025-03-12 02:27:22,346 - root - INFO - AFC is enabled with max remote calls: 10.
+2025-03-12 02:27:24,958 - root - INFO - AFC remote call 1 is done.
+2025-03-12 02:27:24,958 - app.services.shopping_assistant - INFO - Determined intent: direct_response for query: How is the specs for this product
+2025-03-12 02:27:25,158 - root - INFO - AFC is enabled with max remote calls: 10.
+2025-03-12 02:27:27,425 - root - INFO - AFC remote call 1 is done.
+2025-03-12 02:27:27,442 - app.services.shopping_assistant - ERROR - Error saving conversation: Object of type Select is not JSON serializable
+2025-03-12 02:27:27,443 - app.routes.shopping_assistant - ERROR - Error in chat endpoint: Object of type Select is not JSON serializable
+2025-03-12 02:27:27,443 - app.middlewares.route_logging - INFO - Path: /api/v1/shopping-assistant/chat | Method: POST | Processing Time: 5097.56ms
+2025-03-12 02:28:18,494 - app.main - INFO - Shutting down...
+2025-03-16 23:20:26,911 - app.main - INFO - Initializing model and processor...
+2025-03-16 23:20:31,023 - app.database.session - ERROR - Failed to create database session: Multiple exceptions: [Errno 10061] Connect call failed ('::1', 5433, 0, 0), [Errno 10061] Connect call failed ('127.0.0.1', 5433)
+2025-03-16 23:20:31,023 - app.main - ERROR - Database connection failed
+2025-03-17 01:28:51,048 - app.main - INFO - Initializing model and processor...
+2025-03-17 01:28:51,125 - app.main - INFO - Database connection successful
+2025-03-17 01:28:51,828 - app.services.vertex - INFO - Total embedding process completed in 0.702s
+2025-03-17 01:28:51,828 - app.main - INFO - Initialization complete.
+2025-03-17 01:28:55,989 - app.middlewares.route_logging - INFO - Path: /docs | Method: GET | Processing Time: 0.00ms
+2025-03-17 01:28:56,509 - app.middlewares.route_logging - INFO - Path: /openapi.json | Method: GET | Processing Time: 33.28ms
+2025-03-17 01:29:02,131 - app.routes.search_product - INFO - Empty query provided, returning all products in paginated form
+2025-03-17 01:29:02,155 - app.routes.search_product - INFO - Found 12 results for empty query (all products)
+2025-03-17 01:29:02,159 - app.middlewares.route_logging - INFO - Path: /api/v1/search | Method: GET | Processing Time: 41.31ms
+2025-03-17 01:29:02,163 - app.routes.search_product - INFO - Empty query provided, returning all products in paginated form
+2025-03-17 01:29:02,166 - app.routes.search_product - INFO - Found 12 results for empty query (all products)
+2025-03-17 01:29:02,168 - app.middlewares.route_logging - INFO - Path: /api/v1/search | Method: GET | Processing Time: 8.83ms
+2025-03-17 01:30:26,161 - app.services.vertex - INFO - Total embedding process completed in 0.497s
+2025-03-17 01:30:26,342 - app.routes.search_product - INFO - Found 10 results for query: laptop
+2025-03-17 01:30:26,344 - app.middlewares.route_logging - INFO - Path: /api/v1/search | Method: GET | Processing Time: 686.11ms
+2025-03-17 01:30:34,109 - app.services.vertex - INFO - Total embedding process completed in 0.637s
+2025-03-17 01:30:34,195 - app.routes.search_product - INFO - Found 10 results for query: gaming pc 
+2025-03-17 01:30:34,200 - app.middlewares.route_logging - INFO - Path: /api/v1/search | Method: GET | Processing Time: 734.47ms
+2025-03-17 01:31:18,126 - app.routes.search_product - INFO - Empty query provided, returning all products in paginated form
+2025-03-17 01:31:18,129 - app.routes.search_product - INFO - Found 12 results for empty query (all products)
+2025-03-17 01:31:18,130 - app.middlewares.route_logging - INFO - Path: /api/v1/search | Method: GET | Processing Time: 6.54ms
+2025-03-17 01:31:18,135 - app.routes.search_product - INFO - Empty query provided, returning all products in paginated form
+2025-03-17 01:31:18,138 - app.routes.search_product - INFO - Found 12 results for empty query (all products)
+2025-03-17 01:31:18,140 - app.middlewares.route_logging - INFO - Path: /api/v1/search | Method: GET | Processing Time: 7.43ms
+2025-03-17 01:31:28,509 - app.services.vertex - INFO - Total embedding process completed in 0.550s
+2025-03-17 01:31:28,586 - app.routes.search_product - INFO - Found 10 results for query: music
+2025-03-17 01:31:28,589 - app.middlewares.route_logging - INFO - Path: /api/v1/search | Method: GET | Processing Time: 634.79ms
+2025-03-17 01:31:45,460 - app.routes.search_product - INFO - Empty query provided, returning all products in paginated form
+2025-03-17 01:31:45,464 - app.routes.search_product - INFO - Found 12 results for empty query (all products)
+2025-03-17 01:31:45,467 - app.middlewares.route_logging - INFO - Path: /api/v1/search | Method: GET | Processing Time: 11.00ms
+2025-03-17 01:31:45,472 - app.routes.search_product - INFO - Empty query provided, returning all products in paginated form
+2025-03-17 01:31:45,475 - app.routes.search_product - INFO - Found 12 results for empty query (all products)
+2025-03-17 01:31:45,477 - app.middlewares.route_logging - INFO - Path: /api/v1/search | Method: GET | Processing Time: 9.01ms
+2025-03-17 01:35:38,543 - app.services.vertex - INFO - Total embedding process completed in 0.873s
+2025-03-17 01:35:38,646 - app.routes.search_product - INFO - Found 10 results for query: Looking for lighting for my desk 
+2025-03-17 01:35:38,648 - app.middlewares.route_logging - INFO - Path: /api/v1/search | Method: GET | Processing Time: 982.36ms
+2025-03-17 02:10:26,278 - app.main - INFO - Shutting down...
+2025-03-17 02:11:49,667 - app.main - INFO - Initializing model and processor...
+2025-03-17 02:11:49,782 - app.main - INFO - Database connection successful
+2025-03-17 02:11:51,451 - app.services.vertex - INFO - Total embedding process completed in 1.668s
+2025-03-17 02:11:51,452 - app.main - INFO - Initialization complete.
+2025-03-17 02:13:45,835 - app.main - INFO - Initializing model and processor...
+2025-03-17 02:13:45,938 - app.main - INFO - Database connection successful
+2025-03-17 02:13:46,776 - app.services.vertex - INFO - Total embedding process completed in 0.837s
+2025-03-17 02:13:46,776 - app.main - INFO - Initialization complete.
+2025-03-17 02:16:31,220 - root - INFO - AFC is enabled with max remote calls: 10.
+2025-03-17 02:16:33,867 - root - INFO - AFC remote call 1 is done.
+2025-03-17 02:16:45,677 - app.services.shopping_assistant - INFO - Determined intent: direct_response for query: hey
+2025-03-17 02:18:12,779 - root - INFO - AFC is enabled with max remote calls: 10.
+2025-03-17 02:18:14,980 - root - INFO - AFC remote call 1 is done.
+2025-03-17 02:18:15,004 - app.services.shopping_assistant - INFO - Saved conversation for ID: c1
+2025-03-17 02:18:19,194 - app.middlewares.route_logging - INFO - Path: /api/v1/shopping-assistant/chat | Method: POST | Processing Time: 187804.32ms
+2025-03-17 02:18:19,312 - app.main - INFO - Shutting down...
+2025-03-17 02:19:11,871 - app.main - INFO - Initializing model and processor...
+2025-03-17 02:19:11,960 - app.main - INFO - Database connection successful
+2025-03-17 02:19:14,908 - app.services.vertex - INFO - Total embedding process completed in 2.948s
+2025-03-17 02:19:14,908 - app.main - INFO - Initialization complete.
+2025-03-17 02:19:31,065 - root - INFO - AFC is enabled with max remote calls: 10.
+2025-03-17 02:19:33,545 - root - INFO - AFC remote call 1 is done.
+2025-03-17 02:19:33,546 - app.services.shopping_assistant - INFO - Determined intent: direct_response for query: hey
+2025-03-17 02:24:14,903 - root - INFO - AFC is enabled with max remote calls: 10.
+2025-03-17 02:24:18,296 - root - INFO - AFC remote call 1 is done.
+2025-03-17 02:32:27,422 - app.services.shopping_assistant - ERROR - Error saving conversation: (sqlalchemy.dialects.postgresql.asyncpg.ProgrammingError) <class 'asyncpg.exceptions.PostgresSyntaxError'>: syntax error at or near ":"
+[SQL: 
+                    UPDATE conversations 
+                    SET messages = messages || :new_messages::jsonb 
+                    WHERE conversation_id = $1
+                ]
+[parameters: ('c1',)]
+(Background on this error at: https://sqlalche.me/e/20/f405)
+2025-03-17 02:34:37,745 - app.main - INFO - Initializing model and processor...
+2025-03-17 02:34:37,843 - app.main - INFO - Database connection successful
+2025-03-17 02:34:38,795 - app.services.vertex - INFO - Total embedding process completed in 0.951s
+2025-03-17 02:34:38,796 - app.main - INFO - Initialization complete.
+2025-03-17 02:38:29,555 - app.main - INFO - Shutting down...
+2025-03-17 02:40:03,097 - app.main - INFO - Initializing model and processor...
+2025-03-17 02:40:03,361 - app.main - INFO - Database connection successful
+2025-03-17 02:40:04,364 - app.services.vertex - INFO - Total embedding process completed in 1.003s
+2025-03-17 02:40:04,365 - app.main - INFO - Initialization complete.
+2025-03-17 02:44:59,671 - root - INFO - AFC is enabled with max remote calls: 10.
+2025-03-17 02:45:02,132 - root - INFO - AFC remote call 1 is done.
+2025-03-17 02:45:02,133 - app.services.shopping_assistant - INFO - Determined intent: direct_response for query: Who r u
+2025-03-17 02:45:33,749 - root - INFO - AFC is enabled with max remote calls: 10.
+2025-03-17 02:45:36,081 - root - INFO - AFC remote call 1 is done.
+2025-03-17 02:52:15,233 - app.main - INFO - Initializing model and processor...
+2025-03-17 02:52:15,347 - app.main - INFO - Database connection successful
+2025-03-17 02:52:16,078 - app.services.vertex - INFO - Total embedding process completed in 0.731s
+2025-03-17 02:52:16,079 - app.main - INFO - Initialization complete.
+2025-03-17 02:52:42,103 - root - INFO - AFC is enabled with max remote calls: 10.
+2025-03-17 02:52:44,867 - root - INFO - AFC remote call 1 is done.
+2025-03-17 02:52:44,868 - app.services.shopping_assistant - INFO - Determined intent: direct_response for query: Who r u
+2025-03-17 02:52:48,145 - root - INFO - AFC is enabled with max remote calls: 10.
+2025-03-17 02:52:50,355 - root - INFO - AFC remote call 1 is done.
+2025-03-17 02:52:52,394 - app.services.shopping_assistant - INFO - Saved conversation for ID: c1
+2025-03-17 02:53:31,795 - app.middlewares.route_logging - INFO - Path: /api/v1/shopping-assistant/chat | Method: POST | Processing Time: 53319.43ms
+2025-03-17 02:56:23,410 - app.main - INFO - Initializing model and processor...
+2025-03-17 02:56:23,462 - app.main - INFO - Database connection successful
+2025-03-17 02:56:24,171 - app.services.vertex - INFO - Total embedding process completed in 0.709s
+2025-03-17 02:56:24,171 - app.main - INFO - Initialization complete.
+2025-03-17 02:56:28,886 - root - INFO - AFC is enabled with max remote calls: 10.
+2025-03-17 02:56:31,376 - root - INFO - AFC remote call 1 is done.
+2025-03-17 02:56:31,376 - app.services.shopping_assistant - INFO - Determined intent: fetch_products for query: I am looking to buy laptop for office can u compare all options with pros and cons
+2025-03-17 02:56:31,391 - app.routes.shopping_assistant - ERROR - Error in chat endpoint: (sqlalchemy.dialects.postgresql.asyncpg.Error) <class 'asyncpg.exceptions.InvalidTextRepresentationError'>: invalid input syntax for type vector: ""
+DETAIL:  Vector contents must start with "[".
+[SQL: SELECT
+    p.id,
+    p.title,
+    p.custom_data,
+    p.searchable_content,
+    (text_embedding <=> '')*1 as score
+FROM
+    products p
+ORDER BY
+    score asc
+LIMIT 3]
+(Background on this error at: https://sqlalche.me/e/20/dbapi)
+2025-03-17 02:56:31,392 - app.middlewares.route_logging - INFO - Path: /api/v1/shopping-assistant/chat | Method: POST | Processing Time: 2511.36ms
+2025-03-17 02:59:36,253 - app.main - INFO - Shutting down...
+2025-03-17 02:59:42,940 - app.main - INFO - Initializing model and processor...
+2025-03-17 02:59:42,993 - app.main - INFO - Database connection successful
+2025-03-17 02:59:43,732 - app.services.vertex - INFO - Total embedding process completed in 0.739s
+2025-03-17 02:59:43,732 - app.main - INFO - Initialization complete.
+2025-03-17 02:59:47,632 - root - INFO - AFC is enabled with max remote calls: 10.
+2025-03-17 02:59:50,116 - root - INFO - AFC remote call 1 is done.
+2025-03-17 02:59:50,117 - app.services.shopping_assistant - INFO - Determined intent: fetch_products for query: I am looking to buy laptop for office can u compare all options with pros and cons
+2025-03-17 02:59:50,568 - app.services.vertex - INFO - Total embedding process completed in 0.450s
+2025-03-17 02:59:50,970 - root - INFO - AFC is enabled with max remote calls: 10.
+2025-03-17 02:59:56,966 - root - INFO - AFC remote call 1 is done.
+2025-03-17 02:59:56,979 - app.services.shopping_assistant - INFO - Saved conversation for ID: c1
+2025-03-17 02:59:56,980 - app.middlewares.route_logging - INFO - Path: /api/v1/shopping-assistant/chat | Method: POST | Processing Time: 9353.92ms
+2025-03-17 03:03:03,808 - root - INFO - AFC is enabled with max remote calls: 10.
+2025-03-17 03:03:05,688 - root - INFO - AFC remote call 1 is done.
+2025-03-17 03:03:05,688 - app.services.shopping_assistant - INFO - Determined intent: direct_response for query: Remind me what was the price of Budget Student Laptop again?
+2025-03-17 03:03:05,689 - app.routes.shopping_assistant - ERROR - Error in chat endpoint: cannot reuse already awaited coroutine
+2025-03-17 03:03:05,691 - app.middlewares.route_logging - INFO - Path: /api/v1/shopping-assistant/chat | Method: POST | Processing Time: 1890.25ms
+2025-03-17 03:09:00,341 - app.main - INFO - Shutting down...
+2025-03-17 03:09:12,798 - app.main - INFO - Initializing model and processor...
+2025-03-17 03:09:12,851 - app.main - INFO - Database connection successful
+2025-03-17 03:09:13,648 - app.services.vertex - INFO - Total embedding process completed in 0.797s
+2025-03-17 03:09:13,648 - app.main - INFO - Initialization complete.
+2025-03-17 03:09:25,440 - root - INFO - AFC is enabled with max remote calls: 10.
+2025-03-17 03:09:27,886 - root - INFO - AFC remote call 1 is done.
+2025-03-17 03:09:27,887 - app.services.shopping_assistant - INFO - Determined intent: direct_response for query: Remind me what was the price of Budget Student Laptop again?
+2025-03-17 03:09:27,975 - root - INFO - AFC is enabled with max remote calls: 10.
+2025-03-17 03:09:30,108 - root - INFO - AFC remote call 1 is done.
+2025-03-17 03:09:30,121 - app.services.shopping_assistant - INFO - Saved conversation for ID: c1
+2025-03-17 03:09:30,123 - app.middlewares.route_logging - INFO - Path: /api/v1/shopping-assistant/chat | Method: POST | Processing Time: 4690.90ms
+2025-03-17 03:10:35,519 - root - INFO - AFC is enabled with max remote calls: 10.
+2025-03-17 03:10:37,468 - root - INFO - AFC remote call 1 is done.
+2025-03-17 03:10:37,468 - app.services.shopping_assistant - INFO - Determined intent: direct_response for query: Remind me what was the price of Business Laptop Elite again?
+2025-03-17 03:10:37,468 - root - INFO - AFC is enabled with max remote calls: 10.
+2025-03-17 03:10:39,548 - root - INFO - AFC remote call 1 is done.
+2025-03-17 03:10:39,569 - app.services.shopping_assistant - INFO - Saved conversation for ID: c1
+2025-03-17 03:10:39,570 - app.middlewares.route_logging - INFO - Path: /api/v1/shopping-assistant/chat | Method: POST | Processing Time: 4060.39ms
+2025-03-17 03:14:29,907 - app.main - INFO - Shutting down...
+2025-03-17 03:14:37,352 - app.main - INFO - Initializing model and processor...
+2025-03-17 03:14:37,402 - app.main - INFO - Database connection successful
+2025-03-17 03:14:38,097 - app.services.vertex - INFO - Total embedding process completed in 0.695s
+2025-03-17 03:14:38,098 - app.main - INFO - Initialization complete.
+2025-03-17 03:14:38,327 - app.middlewares.route_logging - INFO - Path: /docs | Method: GET | Processing Time: 1.00ms
+2025-03-17 03:14:38,590 - app.middlewares.route_logging - INFO - Path: /openapi.json | Method: GET | Processing Time: 74.14ms
+2025-03-17 03:15:05,851 - app.middlewares.route_logging - INFO - Path: /stream | Method: GET | Processing Time: 2.01ms
+2025-03-17 03:15:12,108 - app.middlewares.route_logging - INFO - Path: /stream | Method: GET | Processing Time: 1.03ms
+2025-03-17 03:17:27,506 - app.middlewares.route_logging - INFO - Path: /stream | Method: GET | Processing Time: 0.98ms
+2025-03-17 03:18:45,383 - app.routes.search_product - INFO - Empty query provided, returning all products in paginated form
+2025-03-17 03:18:45,394 - app.routes.search_product - INFO - Found 12 results for empty query (all products)
+2025-03-17 03:18:45,397 - app.middlewares.route_logging - INFO - Path: /api/v1/search | Method: GET | Processing Time: 23.58ms
+2025-03-17 03:18:45,404 - app.routes.search_product - INFO - Empty query provided, returning all products in paginated form
+2025-03-17 03:18:45,406 - app.routes.search_product - INFO - Found 12 results for empty query (all products)
+2025-03-17 03:18:45,409 - app.middlewares.route_logging - INFO - Path: /api/v1/search | Method: GET | Processing Time: 8.65ms
+2025-03-17 03:18:53,211 - app.middlewares.route_logging - INFO - Path: /stream | Method: GET | Processing Time: 1.52ms
+2025-03-17 03:18:59,604 - app.middlewares.route_logging - INFO - Path: /stream | Method: GET | Processing Time: 1.00ms
+2025-03-17 03:19:06,049 - app.middlewares.route_logging - INFO - Path: /stream | Method: GET | Processing Time: 1.12ms
+2025-03-17 03:19:11,250 - app.middlewares.route_logging - INFO - Path: /stream | Method: GET | Processing Time: 1.01ms
+2025-03-17 03:19:16,196 - app.middlewares.route_logging - INFO - Path: /stream | Method: GET | Processing Time: 1.00ms
+2025-03-17 03:19:20,932 - app.middlewares.route_logging - INFO - Path: /stream | Method: GET | Processing Time: 0.00ms
+2025-03-17 03:19:47,507 - app.routes.search_product - INFO - Empty query provided, returning all products in paginated form
+2025-03-17 03:19:47,512 - app.routes.search_product - INFO - Found 12 results for empty query (all products)
+2025-03-17 03:19:47,518 - app.middlewares.route_logging - INFO - Path: /api/v1/search | Method: GET | Processing Time: 20.24ms
+2025-03-17 11:25:45,211 - app.main - INFO - Shutting down...
+2025-03-17 11:26:19,939 - app.main - INFO - Initializing model and processor...
+2025-03-17 11:26:20,303 - app.main - INFO - Database connection successful
+2025-03-17 11:26:21,093 - app.services.vertex - INFO - Total embedding process completed in 0.789s
+2025-03-17 11:26:21,093 - app.main - INFO - Initialization complete.
+2025-03-17 15:38:07,148 - app.main - INFO - Shutting down...
+2025-03-20 13:54:22,429 - app.main - INFO - Initializing model and processor...
+2025-03-20 13:54:26,517 - app.database.session - ERROR - Failed to create database session: Multiple exceptions: [Errno 10061] Connect call failed ('::1', 5433, 0, 0), [Errno 10061] Connect call failed ('127.0.0.1', 5433)
+2025-03-20 13:54:26,517 - app.main - ERROR - Database connection failed
+2025-03-20 13:55:14,762 - app.main - INFO - Initializing model and processor...
+2025-03-20 13:55:14,916 - app.main - INFO - Database connection successful
+2025-03-20 13:55:19,715 - app.services.vertex - INFO - Total embedding process completed in 4.799s
+2025-03-20 13:55:19,715 - app.main - INFO - Initialization complete.
+2025-03-20 13:56:13,502 - app.routes.search_product - INFO - Empty query provided, returning all products in paginated form
+2025-03-20 13:56:13,534 - app.routes.search_product - INFO - Found 10 results for empty query (all products)
+2025-03-20 13:56:13,550 - app.middlewares.route_logging - INFO - Path: /api/v1/search | Method: GET | Processing Time: 63.76ms
+2025-03-20 13:56:13,565 - app.routes.search_product - INFO - Empty query provided, returning all products in paginated form
+2025-03-20 13:56:13,565 - app.routes.search_product - INFO - Found 10 results for empty query (all products)
+2025-03-20 13:56:13,565 - app.middlewares.route_logging - INFO - Path: /api/v1/search | Method: GET | Processing Time: 15.28ms
+2025-03-20 13:56:23,881 - app.middlewares.route_logging - INFO - Path: /api/v1/products | Method: GET | Processing Time: 16.76ms
+2025-03-20 13:56:43,228 - app.middlewares.route_logging - INFO - Path: /api/v1/sync-history | Method: GET | Processing Time: 93.96ms
+2025-03-20 13:56:57,846 - app.routes.search_product - INFO - Empty query provided, returning all products in paginated form
+2025-03-20 13:56:57,848 - app.routes.search_product - INFO - Found 10 results for empty query (all products)
+2025-03-20 13:56:57,853 - app.middlewares.route_logging - INFO - Path: /api/v1/search | Method: GET | Processing Time: 12.22ms
+2025-03-20 13:56:57,857 - app.routes.search_product - INFO - Empty query provided, returning all products in paginated form
+2025-03-20 13:56:57,865 - app.routes.search_product - INFO - Found 10 results for empty query (all products)
+2025-03-20 13:56:57,868 - app.middlewares.route_logging - INFO - Path: /api/v1/search | Method: GET | Processing Time: 12.81ms
+2025-03-20 13:56:58,502 - app.middlewares.route_logging - INFO - Path: /api/v1/settings/SEARCH_CONFIG | Method: GET | Processing Time: 24.01ms
+2025-03-20 13:57:01,867 - app.routes.search_product - INFO - Empty query provided, returning all products in paginated form
+2025-03-20 13:57:01,874 - app.routes.search_product - INFO - Found 10 results for empty query (all products)
+2025-03-20 13:57:01,874 - app.middlewares.route_logging - INFO - Path: /api/v1/search | Method: GET | Processing Time: 12.65ms
+2025-03-20 13:57:01,883 - app.routes.search_product - INFO - Empty query provided, returning all products in paginated form
+2025-03-20 13:57:01,894 - app.routes.search_product - INFO - Found 10 results for empty query (all products)
+2025-03-20 13:57:01,898 - app.middlewares.route_logging - INFO - Path: /api/v1/search | Method: GET | Processing Time: 15.62ms
+2025-03-20 13:57:56,124 - app.routes.search_product - INFO - Empty query provided, returning all products in paginated form
+2025-03-20 13:57:56,132 - app.routes.search_product - INFO - Found 12 results for empty query (all products)
+2025-03-20 13:57:56,132 - app.middlewares.route_logging - INFO - Path: /api/v1/search | Method: GET | Processing Time: 16.40ms
+2025-03-20 13:57:56,132 - app.routes.search_product - INFO - Empty query provided, returning all products in paginated form
+2025-03-20 13:57:56,132 - app.routes.search_product - INFO - Found 12 results for empty query (all products)
+2025-03-20 13:57:56,148 - app.middlewares.route_logging - INFO - Path: /api/v1/search | Method: GET | Processing Time: 15.38ms
+2025-03-20 15:05:53,976 - app.routes.search_product - INFO - Empty query provided, returning all products in paginated form
+2025-03-20 15:05:54,027 - app.routes.search_product - INFO - Found 10 results for empty query (all products)
+2025-03-20 15:05:54,049 - app.middlewares.route_logging - INFO - Path: /api/v1/search | Method: GET | Processing Time: 216.28ms
+2025-03-20 15:05:54,057 - app.routes.search_product - INFO - Empty query provided, returning all products in paginated form
+2025-03-20 15:05:54,057 - app.routes.search_product - INFO - Found 10 results for empty query (all products)
+2025-03-20 15:05:54,071 - app.middlewares.route_logging - INFO - Path: /api/v1/search | Method: GET | Processing Time: 15.79ms
+2025-03-20 15:05:54,947 - app.routes.search_product - INFO - Empty query provided, returning all products in paginated form
+2025-03-20 15:05:54,947 - app.routes.search_product - INFO - Found 10 results for empty query (all products)
+2025-03-20 15:05:54,957 - app.middlewares.route_logging - INFO - Path: /api/v1/search | Method: GET | Processing Time: 16.71ms
+2025-03-20 15:05:54,962 - app.routes.search_product - INFO - Empty query provided, returning all products in paginated form
+2025-03-20 15:05:54,962 - app.routes.search_product - INFO - Found 10 results for empty query (all products)
+2025-03-20 15:05:54,971 - app.middlewares.route_logging - INFO - Path: /api/v1/search | Method: GET | Processing Time: 11.86ms
+2025-03-20 15:06:19,692 - app.routes.search_product - INFO - Empty query provided, returning all products in paginated form
+2025-03-20 15:06:19,702 - app.routes.search_product - INFO - Found 12 results for empty query (all products)
+2025-03-20 15:06:19,708 - app.middlewares.route_logging - INFO - Path: /api/v1/search | Method: GET | Processing Time: 19.48ms
+2025-03-20 15:06:19,717 - app.routes.search_product - INFO - Empty query provided, returning all products in paginated form
+2025-03-20 15:06:19,721 - app.routes.search_product - INFO - Found 12 results for empty query (all products)
+2025-03-20 15:06:19,725 - app.middlewares.route_logging - INFO - Path: /api/v1/search | Method: GET | Processing Time: 16.27ms
+2025-03-20 15:18:17,286 - app.routes.search_product - INFO - Empty query provided, returning all products in paginated form
+2025-03-20 15:18:17,296 - app.routes.search_product - INFO - Found 12 results for empty query (all products)
+2025-03-20 15:18:17,303 - app.middlewares.route_logging - INFO - Path: /api/v1/search | Method: GET | Processing Time: 21.39ms
+2025-03-20 15:18:17,319 - app.routes.search_product - INFO - Empty query provided, returning all products in paginated form
+2025-03-20 15:18:17,329 - app.routes.search_product - INFO - Found 12 results for empty query (all products)
+2025-03-20 15:18:17,330 - app.middlewares.route_logging - INFO - Path: /api/v1/search | Method: GET | Processing Time: 17.33ms
+2025-03-20 16:21:31,327 - app.routes.search_product - INFO - Empty query provided, returning all products in paginated form
+2025-03-20 16:21:31,433 - app.routes.search_product - INFO - Found 12 results for empty query (all products)
+2025-03-20 16:21:31,549 - app.middlewares.route_logging - INFO - Path: /api/v1/search | Method: GET | Processing Time: 654.54ms
+2025-03-20 16:21:31,566 - app.routes.search_product - INFO - Empty query provided, returning all products in paginated form
+2025-03-20 16:21:31,574 - app.routes.search_product - INFO - Found 12 results for empty query (all products)
+2025-03-20 16:21:31,574 - app.middlewares.route_logging - INFO - Path: /api/v1/search | Method: GET | Processing Time: 16.25ms
+2025-03-20 16:21:31,630 - app.routes.search_product - INFO - Empty query provided, returning all products in paginated form
+2025-03-20 16:21:31,640 - app.routes.search_product - INFO - Found 10 results for empty query (all products)
+2025-03-20 16:21:31,640 - app.middlewares.route_logging - INFO - Path: /api/v1/search | Method: GET | Processing Time: 20.62ms
+2025-03-20 16:21:31,665 - app.routes.search_product - INFO - Empty query provided, returning all products in paginated form
+2025-03-20 16:21:31,676 - app.routes.search_product - INFO - Found 10 results for empty query (all products)
+2025-03-20 16:21:31,685 - app.middlewares.route_logging - INFO - Path: /api/v1/search | Method: GET | Processing Time: 34.34ms
+2025-03-20 16:21:31,844 - app.routes.search_product - INFO - Empty query provided, returning all products in paginated form
+2025-03-20 16:21:32,204 - app.routes.search_product - INFO - Found 12 results for empty query (all products)
+2025-03-20 16:21:32,217 - app.middlewares.route_logging - INFO - Path: /api/v1/search | Method: GET | Processing Time: 1322.61ms
+2025-03-20 16:21:32,235 - app.routes.search_product - INFO - Empty query provided, returning all products in paginated form
+2025-03-20 16:21:32,242 - app.routes.search_product - INFO - Found 12 results for empty query (all products)
+2025-03-20 16:21:32,250 - app.middlewares.route_logging - INFO - Path: /api/v1/search | Method: GET | Processing Time: 24.48ms
+2025-03-20 16:39:56,681 - app.routes.search_product - INFO - Empty query provided, returning all products in paginated form
+2025-03-20 16:39:56,712 - app.routes.search_product - INFO - Found 12 results for empty query (all products)
+2025-03-20 16:39:56,725 - app.middlewares.route_logging - INFO - Path: /api/v1/search | Method: GET | Processing Time: 84.04ms
+2025-03-20 16:39:56,757 - app.routes.search_product - INFO - Empty query provided, returning all products in paginated form
+2025-03-20 16:39:56,772 - app.routes.search_product - INFO - Found 12 results for empty query (all products)
+2025-03-20 16:39:56,780 - app.middlewares.route_logging - INFO - Path: /api/v1/search | Method: GET | Processing Time: 45.34ms
+2025-03-20 16:39:57,782 - app.routes.search_product - INFO - Empty query provided, returning all products in paginated form
+2025-03-20 16:39:57,792 - app.routes.search_product - INFO - Found 12 results for empty query (all products)
+2025-03-20 16:39:57,792 - app.middlewares.route_logging - INFO - Path: /api/v1/search | Method: GET | Processing Time: 20.06ms
+2025-03-20 16:39:57,812 - app.routes.search_product - INFO - Empty query provided, returning all products in paginated form
+2025-03-20 16:39:57,826 - app.routes.search_product - INFO - Found 12 results for empty query (all products)
+2025-03-20 16:39:57,834 - app.middlewares.route_logging - INFO - Path: /api/v1/search | Method: GET | Processing Time: 26.83ms
+2025-03-20 16:40:05,002 - app.routes.search_product - INFO - Empty query provided, returning all products in paginated form
+2025-03-20 16:40:05,005 - app.routes.search_product - INFO - Found 10 results for empty query (all products)
+2025-03-20 16:40:05,005 - app.middlewares.route_logging - INFO - Path: /api/v1/search | Method: GET | Processing Time: 15.35ms
+2025-03-20 16:40:05,021 - app.routes.search_product - INFO - Empty query provided, returning all products in paginated form
+2025-03-20 16:40:05,037 - app.routes.search_product - INFO - Found 10 results for empty query (all products)
+2025-03-20 16:40:05,037 - app.middlewares.route_logging - INFO - Path: /api/v1/search | Method: GET | Processing Time: 15.96ms
+2025-03-20 17:07:58,123 - app.routes.search_product - INFO - Empty query provided, returning all products in paginated form
+2025-03-20 17:07:58,144 - app.routes.search_product - INFO - Found 10 results for empty query (all products)
+2025-03-20 17:07:58,152 - app.routes.search_product - INFO - Empty query provided, returning all products in paginated form
+2025-03-20 17:07:58,154 - app.middlewares.route_logging - INFO - Path: /api/v1/search | Method: GET | Processing Time: 96.05ms
+2025-03-20 17:07:58,158 - app.routes.search_product - INFO - Found 12 results for empty query (all products)
+2025-03-20 17:07:58,160 - app.routes.search_product - INFO - Empty query provided, returning all products in paginated form
+2025-03-20 17:07:58,161 - app.middlewares.route_logging - INFO - Path: /api/v1/search | Method: GET | Processing Time: 29.58ms
+2025-03-20 17:07:58,165 - app.routes.search_product - INFO - Found 10 results for empty query (all products)
+2025-03-20 17:07:58,168 - app.routes.search_product - INFO - Empty query provided, returning all products in paginated form
+2025-03-20 17:07:58,169 - app.middlewares.route_logging - INFO - Path: /api/v1/search | Method: GET | Processing Time: 12.07ms
+2025-03-20 17:07:58,173 - app.routes.search_product - INFO - Found 12 results for empty query (all products)
+2025-03-20 17:07:58,176 - app.middlewares.route_logging - INFO - Path: /api/v1/search | Method: GET | Processing Time: 12.00ms
+2025-03-20 17:07:59,027 - app.routes.search_product - INFO - Empty query provided, returning all products in paginated form
+2025-03-20 17:07:59,030 - app.routes.search_product - INFO - Found 12 results for empty query (all products)
+2025-03-20 17:07:59,033 - app.middlewares.route_logging - INFO - Path: /api/v1/search | Method: GET | Processing Time: 9.18ms
+2025-03-20 17:07:59,039 - app.routes.search_product - INFO - Empty query provided, returning all products in paginated form
+2025-03-20 17:07:59,041 - app.routes.search_product - INFO - Found 12 results for empty query (all products)
+2025-03-20 17:07:59,043 - app.middlewares.route_logging - INFO - Path: /api/v1/search | Method: GET | Processing Time: 8.51ms
+2025-03-20 17:09:04,020 - app.routes.search_product - INFO - Empty query provided, returning all products in paginated form
+2025-03-20 17:09:04,036 - app.routes.search_product - INFO - Found 12 results for empty query (all products)
+2025-03-20 17:09:04,036 - app.middlewares.route_logging - INFO - Path: /api/v1/search | Method: GET | Processing Time: 15.67ms
+2025-03-20 17:09:04,043 - app.routes.search_product - INFO - Empty query provided, returning all products in paginated form
+2025-03-20 17:09:04,043 - app.routes.search_product - INFO - Found 12 results for empty query (all products)
+2025-03-20 17:09:04,051 - app.middlewares.route_logging - INFO - Path: /api/v1/search | Method: GET | Processing Time: 15.73ms
+2025-03-20 17:09:04,225 - app.routes.search_product - INFO - Empty query provided, returning all products in paginated form
+2025-03-20 17:09:04,225 - app.routes.search_product - INFO - Found 12 results for empty query (all products)
+2025-03-20 17:09:04,225 - app.middlewares.route_logging - INFO - Path: /api/v1/search | Method: GET | Processing Time: 0.00ms
+2025-03-20 17:09:04,240 - app.routes.search_product - INFO - Empty query provided, returning all products in paginated form
+2025-03-20 17:09:04,240 - app.routes.search_product - INFO - Found 12 results for empty query (all products)
+2025-03-20 17:09:04,249 - app.middlewares.route_logging - INFO - Path: /api/v1/search | Method: GET | Processing Time: 24.42ms
+2025-03-20 17:09:04,826 - app.routes.search_product - INFO - Empty query provided, returning all products in paginated form
+2025-03-20 17:09:04,842 - app.routes.search_product - INFO - Found 10 results for empty query (all products)
+2025-03-20 17:09:04,842 - app.middlewares.route_logging - INFO - Path: /api/v1/search | Method: GET | Processing Time: 16.35ms
+2025-03-20 17:09:04,842 - app.routes.search_product - INFO - Empty query provided, returning all products in paginated form
+2025-03-20 17:09:04,842 - app.routes.search_product - INFO - Found 10 results for empty query (all products)
+2025-03-20 17:09:04,858 - app.middlewares.route_logging - INFO - Path: /api/v1/search | Method: GET | Processing Time: 15.34ms
+2025-03-20 17:10:19,815 - app.routes.search_product - INFO - Empty query provided, returning all products in paginated form
+2025-03-20 17:10:19,823 - app.routes.search_product - INFO - Found 12 results for empty query (all products)
+2025-03-20 17:10:19,823 - app.middlewares.route_logging - INFO - Path: /api/v1/search | Method: GET | Processing Time: 15.92ms
+2025-03-20 17:10:19,843 - app.routes.search_product - INFO - Empty query provided, returning all products in paginated form
+2025-03-20 17:10:19,856 - app.routes.search_product - INFO - Found 12 results for empty query (all products)
+2025-03-20 17:10:19,865 - app.middlewares.route_logging - INFO - Path: /api/v1/search | Method: GET | Processing Time: 24.04ms
+2025-03-20 17:16:12,866 - app.routes.search_product - INFO - Empty query provided, returning all products in paginated form
+2025-03-20 17:16:12,869 - app.routes.search_product - INFO - Found 12 results for empty query (all products)
+2025-03-20 17:16:12,872 - app.middlewares.route_logging - INFO - Path: /api/v1/search | Method: GET | Processing Time: 9.10ms
+2025-03-20 17:16:12,878 - app.routes.search_product - INFO - Empty query provided, returning all products in paginated form
+2025-03-20 17:16:12,883 - app.routes.search_product - INFO - Found 12 results for empty query (all products)
+2025-03-20 17:16:12,886 - app.middlewares.route_logging - INFO - Path: /api/v1/search | Method: GET | Processing Time: 11.00ms
+2025-03-20 17:16:14,379 - app.routes.search_product - INFO - Empty query provided, returning all products in paginated form
+2025-03-20 17:16:14,379 - app.routes.search_product - INFO - Found 12 results for empty query (all products)
+2025-03-20 17:16:14,379 - app.middlewares.route_logging - INFO - Path: /api/v1/search | Method: GET | Processing Time: 0.00ms
+2025-03-20 17:16:14,395 - app.routes.search_product - INFO - Empty query provided, returning all products in paginated form
+2025-03-20 17:16:14,395 - app.routes.search_product - INFO - Found 12 results for empty query (all products)
+2025-03-20 17:16:14,395 - app.middlewares.route_logging - INFO - Path: /api/v1/search | Method: GET | Processing Time: 15.96ms
+2025-03-20 17:27:55,944 - app.routes.search_product - INFO - Empty query provided, returning all products in paginated form
+2025-03-20 17:27:55,951 - app.routes.search_product - INFO - Found 12 results for empty query (all products)
+2025-03-20 17:27:55,951 - app.middlewares.route_logging - INFO - Path: /api/v1/search | Method: GET | Processing Time: 701221.62ms
+2025-03-20 17:27:56,884 - app.routes.search_product - INFO - Empty query provided, returning all products in paginated form
+2025-03-20 17:27:56,892 - app.routes.search_product - INFO - Found 12 results for empty query (all products)
+2025-03-20 17:27:56,923 - app.middlewares.route_logging - INFO - Path: /api/v1/search | Method: GET | Processing Time: 44.21ms
+2025-03-20 17:28:04,000 - app.routes.search_product - INFO - Empty query provided, returning all products in paginated form
+2025-03-20 17:28:04,002 - app.routes.search_product - INFO - Found 12 results for empty query (all products)
+2025-03-20 17:28:04,007 - app.middlewares.route_logging - INFO - Path: /api/v1/search | Method: GET | Processing Time: 12.27ms
+2025-03-20 17:28:04,032 - app.routes.search_product - INFO - Empty query provided, returning all products in paginated form
+2025-03-20 17:28:04,032 - app.routes.search_product - INFO - Found 12 results for empty query (all products)
+2025-03-20 17:28:04,032 - app.middlewares.route_logging - INFO - Path: /api/v1/search | Method: GET | Processing Time: 5.81ms
+2025-03-20 17:28:04,534 - app.routes.search_product - INFO - Empty query provided, returning all products in paginated form
+2025-03-20 17:28:04,539 - app.routes.search_product - INFO - Found 12 results for empty query (all products)
+2025-03-20 17:28:04,542 - app.middlewares.route_logging - INFO - Path: /api/v1/search | Method: GET | Processing Time: 12.14ms
+2025-03-20 17:28:04,546 - app.routes.search_product - INFO - Empty query provided, returning all products in paginated form
+2025-03-20 17:28:04,546 - app.routes.search_product - INFO - Found 12 results for empty query (all products)
+2025-03-20 17:28:04,546 - app.middlewares.route_logging - INFO - Path: /api/v1/search | Method: GET | Processing Time: 0.00ms
+2025-03-20 17:28:05,003 - app.routes.search_product - INFO - Empty query provided, returning all products in paginated form
+2025-03-20 17:28:05,007 - app.routes.search_product - INFO - Found 10 results for empty query (all products)
+2025-03-20 17:28:05,010 - app.middlewares.route_logging - INFO - Path: /api/v1/search | Method: GET | Processing Time: 13.03ms
+2025-03-20 17:28:05,028 - app.routes.search_product - INFO - Empty query provided, returning all products in paginated form
+2025-03-20 17:28:05,036 - app.routes.search_product - INFO - Found 10 results for empty query (all products)
+2025-03-20 17:28:05,040 - app.middlewares.route_logging - INFO - Path: /api/v1/search | Method: GET | Processing Time: 16.77ms
+2025-03-20 18:30:30,309 - app.routes.search_product - INFO - Empty query provided, returning all products in paginated form
+2025-03-20 18:30:46,261 - app.routes.search_product - INFO - Found 12 results for empty query (all products)
+2025-03-20 18:30:46,518 - app.middlewares.route_logging - INFO - Path: /api/v1/search | Method: GET | Processing Time: 16311.84ms
+2025-03-20 18:30:46,549 - app.routes.search_product - INFO - Empty query provided, returning all products in paginated form
+2025-03-20 18:30:46,557 - app.routes.search_product - INFO - Found 12 results for empty query (all products)
+2025-03-20 18:30:46,567 - app.middlewares.route_logging - INFO - Path: /api/v1/search | Method: GET | Processing Time: 31.41ms
+2025-03-20 18:30:48,940 - app.main - INFO - Shutting down...
+2025-03-21 00:15:17,254 - app.main - INFO - Initializing model and processor...
+2025-03-21 00:15:17,519 - app.main - INFO - Database connection successful
+2025-03-21 00:15:18,323 - app.services.vertex - INFO - Total embedding process completed in 0.804s
+2025-03-21 00:15:18,323 - app.main - INFO - Initialization complete.
+2025-03-21 00:19:11,808 - app.middlewares.route_logging - INFO - Path: /api/v1/sync-products | Method: OPTIONS | Processing Time: 1.51ms
+2025-03-21 00:19:11,947 - app.routes.sync_product - INFO - Created sync history record with ID: 4c03df59-2c17-4778-8ae1-63ba860ae733
+2025-03-21 00:19:11,947 - app.temporal.core.client - INFO - Connecting to Temporal server at localhost:7233 with namespace default
+2025-03-21 00:19:11,973 - app.temporal.core.client - INFO - Connected to Temporal server
+2025-03-21 00:19:11,973 - app.temporal.core.client - INFO - Starting workflow ProductSyncWorkflow with ID product-sync-manual_file_upload-2c9fa2db-95b9-46c5-a33d-3e2e7593c310 on queue product-sync-task-queue
+2025-03-21 00:19:12,124 - app.temporal.core.client - INFO - Workflow started with ID: product-sync-manual_file_upload-2c9fa2db-95b9-46c5-a33d-3e2e7593c310
+2025-03-21 00:19:12,124 - app.middlewares.route_logging - INFO - Path: /api/v1/sync-products | Method: POST | Processing Time: 311.90ms
+2025-03-21 00:19:14,936 - app.middlewares.route_logging - INFO - Path: /api/v1/sync-history | Method: GET | Processing Time: 27.83ms
+2025-03-21 00:19:56,637 - app.middlewares.route_logging - INFO - Path: /api/v1/products | Method: GET | Processing Time: 18.26ms
+2025-03-21 00:23:17,504 - app.routes.sync_product - INFO - Created sync history record with ID: ea82ade0-01c2-42e3-9404-39c0d0828cf2
+2025-03-21 00:23:17,505 - app.temporal.core.client - INFO - Connecting to Temporal server at localhost:7233 with namespace default
+2025-03-21 00:23:17,508 - app.temporal.core.client - INFO - Connected to Temporal server
+2025-03-21 00:23:17,508 - app.temporal.core.client - INFO - Starting workflow ProductSyncWorkflow with ID product-sync-manual_file_upload-90c2de18-5399-48ee-9733-aa33fb10531c on queue product-sync-task-queue
+2025-03-21 00:23:17,588 - app.temporal.core.client - INFO - Workflow started with ID: product-sync-manual_file_upload-90c2de18-5399-48ee-9733-aa33fb10531c
+2025-03-21 00:23:17,588 - app.middlewares.route_logging - INFO - Path: /api/v1/sync-products | Method: POST | Processing Time: 100.59ms
+2025-03-21 00:23:18,729 - app.middlewares.route_logging - INFO - Path: /api/v1/sync-history | Method: GET | Processing Time: 10.15ms
+2025-03-21 00:23:33,593 - app.middlewares.route_logging - INFO - Path: /api/v1/sync-history | Method: GET | Processing Time: 10.43ms
+2025-03-21 00:42:50,168 - app.middlewares.route_logging - INFO - Path: /api/v1/sync-products | Method: OPTIONS | Processing Time: 15.66ms
+2025-03-21 00:42:50,385 - app.routes.sync_product - INFO - Created sync history record with ID: 5c829062-3822-4175-be87-28c647763dd4
+2025-03-21 00:42:50,385 - app.temporal.core.client - INFO - Connecting to Temporal server at localhost:7233 with namespace default
+2025-03-21 00:42:50,485 - app.temporal.core.client - INFO - Connected to Temporal server
+2025-03-21 00:42:50,485 - app.temporal.core.client - INFO - Starting workflow ProductSyncWorkflow with ID product-sync-manual_file_upload-11e2a1ba-d322-4f09-9ca9-2d01aea7572d on queue product-sync-task-queue
+2025-03-21 00:42:50,569 - app.temporal.core.client - INFO - Workflow started with ID: product-sync-manual_file_upload-11e2a1ba-d322-4f09-9ca9-2d01aea7572d
+2025-03-21 00:42:50,569 - app.middlewares.route_logging - INFO - Path: /api/v1/sync-products | Method: POST | Processing Time: 366.54ms
+2025-03-21 00:42:50,635 - app.main - INFO - Shutting down...
+2025-03-21 00:43:03,741 - app.main - INFO - Initializing model and processor...
+2025-03-21 00:43:03,832 - app.main - INFO - Database connection successful
+2025-03-21 00:43:04,609 - app.services.vertex - INFO - Total embedding process completed in 0.776s
+2025-03-21 00:43:04,610 - app.main - INFO - Initialization complete.
+2025-03-21 00:43:11,157 - app.main - INFO - Initializing model and processor...
+2025-03-21 00:43:11,209 - app.main - INFO - Database connection successful
+2025-03-21 00:43:11,888 - app.services.vertex - INFO - Total embedding process completed in 0.679s
+2025-03-21 00:43:11,888 - app.main - INFO - Initialization complete.
+2025-03-21 00:43:11,928 - app.middlewares.route_logging - INFO - Path: /api/v1/sync-history | Method: GET | Processing Time: 32.78ms
+2025-03-21 00:43:37,983 - app.middlewares.route_logging - INFO - Path: /api/v1/sync-history | Method: GET | Processing Time: 10.72ms
+2025-03-21 00:43:56,597 - app.main - INFO - Shutting down...
+2025-03-21 00:44:05,490 - app.main - INFO - Initializing model and processor...
+2025-03-21 00:44:05,562 - app.main - INFO - Database connection successful
+2025-03-21 00:44:06,487 - app.services.vertex - INFO - Total embedding process completed in 0.926s
+2025-03-21 00:44:06,487 - app.main - INFO - Initialization complete.
+2025-03-21 00:44:53,433 - app.routes.sync_product - INFO - Created sync history record with ID: c2066c81-3abe-4958-b3aa-4624a1fd6c15
+2025-03-21 00:44:53,433 - app.temporal.core.client - INFO - Connecting to Temporal server at localhost:7233 with namespace supersearch
+2025-03-21 00:44:53,433 - app.temporal.core.client - INFO - Checking if namespace 'supersearch' exists
+2025-03-21 00:44:53,500 - app.temporal.core.client - INFO - Namespace 'supersearch' already exists
+2025-03-21 00:44:53,500 - app.temporal.core.client - INFO - Connected to Temporal server
+2025-03-21 00:44:53,500 - app.temporal.core.client - INFO - Starting workflow ProductSyncWorkflow with ID product-sync-manual_file_upload-21548922-d86a-473d-b1d5-6bc9fd1d0961 on queue product-sync-task-queue
+2025-03-21 00:44:53,579 - app.temporal.core.client - INFO - Workflow started with ID: product-sync-manual_file_upload-21548922-d86a-473d-b1d5-6bc9fd1d0961
+2025-03-21 00:44:53,580 - app.middlewares.route_logging - INFO - Path: /api/v1/sync-products | Method: POST | Processing Time: 186.11ms
+2025-03-21 00:44:55,232 - app.middlewares.route_logging - INFO - Path: /api/v1/sync-history | Method: GET | Processing Time: 15.00ms
+2025-03-21 00:45:01,516 - app.middlewares.route_logging - INFO - Path: /api/v1/sync-history | Method: GET | Processing Time: 9.99ms
+2025-03-21 00:53:58,650 - app.main - INFO - Shutting down...
+2025-03-21 00:54:08,281 - app.main - INFO - Initializing model and processor...
+2025-03-21 00:54:08,408 - app.main - INFO - Database connection successful
+2025-03-21 00:54:09,110 - app.services.vertex - INFO - Total embedding process completed in 0.702s
+2025-03-21 00:54:09,110 - app.main - INFO - Initialization complete.
+2025-03-21 02:50:20,502 - app.main - INFO - Shutting down...
+2025-03-21 02:50:32,090 - app.main - INFO - Initializing model and processor...
+2025-03-21 02:50:32,247 - app.main - INFO - Database connection successful
+2025-03-21 02:50:32,983 - app.services.vertex - INFO - Total embedding process completed in 0.735s
+2025-03-21 02:50:32,983 - app.main - INFO - Initialization complete.
+2025-03-21 02:50:44,045 - app.main - INFO - Initializing model and processor...
+2025-03-21 02:50:44,106 - app.main - INFO - Database connection successful
+2025-03-21 02:50:45,232 - app.services.vertex - INFO - Total embedding process completed in 1.125s
+2025-03-21 02:50:45,232 - app.main - INFO - Initialization complete.
+2025-03-21 02:50:53,518 - app.main - INFO - Initializing model and processor...
+2025-03-21 02:50:53,578 - app.main - INFO - Database connection successful
+2025-03-21 02:50:54,703 - app.services.vertex - INFO - Total embedding process completed in 1.125s
+2025-03-21 02:50:54,703 - app.main - INFO - Initialization complete.
+2025-03-21 02:50:58,248 - app.middlewares.route_logging - INFO - Path: /docs | Method: GET | Processing Time: 0.00ms
+2025-03-21 02:50:58,514 - app.middlewares.route_logging - INFO - Path: /openapi.json | Method: GET | Processing Time: 30.26ms
+2025-03-21 02:51:59,554 - root - INFO - AFC is enabled with max remote calls: 10.
+2025-03-21 02:52:02,245 - root - INFO - AFC remote call 1 is done.
+2025-03-21 02:52:02,246 - app.services.shopping_assistant - INFO - Determined intent: direct_response for query: what pants go well with black tshirt
+2025-03-21 02:52:02,353 - root - INFO - AFC is enabled with max remote calls: 10.
+2025-03-21 02:52:08,622 - root - INFO - AFC remote call 1 is done.
+2025-03-21 02:52:08,647 - app.services.shopping_assistant - INFO - Saved conversation for ID: c2
+2025-03-21 02:52:08,647 - app.middlewares.route_logging - INFO - Path: /api/v1/shopping-assistant/chat | Method: POST | Processing Time: 9108.39ms
+2025-03-21 03:06:41,874 - app.routes.search_product - INFO - Empty query provided, returning all products in paginated form
+2025-03-21 03:06:41,975 - app.routes.search_product - INFO - Found 12 results for empty query (all products)
+2025-03-21 03:06:42,006 - app.middlewares.route_logging - INFO - Path: /api/v1/search | Method: GET | Processing Time: 254.27ms
+2025-03-21 03:06:42,024 - app.routes.search_product - INFO - Empty query provided, returning all products in paginated form
+2025-03-21 03:06:42,049 - app.routes.search_product - INFO - Found 12 results for empty query (all products)
+2025-03-21 03:06:42,052 - app.middlewares.route_logging - INFO - Path: /api/v1/search | Method: GET | Processing Time: 40.53ms
+2025-03-21 03:13:31,367 - app.middlewares.route_logging - INFO - Path: /docs | Method: GET | Processing Time: 30.86ms
+2025-03-21 03:13:31,636 - app.middlewares.route_logging - INFO - Path: /openapi.json | Method: GET | Processing Time: 34.32ms
+2025-03-21 03:14:56,102 - root - INFO - AFC is enabled with max remote calls: 10.
+2025-03-21 03:14:58,593 - root - INFO - AFC remote call 1 is done.
+2025-03-21 03:14:58,599 - app.services.shopping_assistant - INFO - Determined intent: fetch_products for query: Which GPU to buy to play latest games
+2025-03-21 03:15:03,247 - app.services.vertex - INFO - Total embedding process completed in 4.647s
+2025-03-21 03:15:03,483 - root - INFO - AFC is enabled with max remote calls: 10.
+2025-03-21 03:15:05,646 - root - INFO - AFC remote call 1 is done.
+2025-03-21 03:15:05,678 - app.services.shopping_assistant - INFO - Saved conversation for ID: c3
+2025-03-21 03:15:05,678 - app.middlewares.route_logging - INFO - Path: /api/v1/shopping-assistant/chat | Method: POST | Processing Time: 9639.56ms
+2025-03-21 03:15:05,765 - app.main - INFO - Shutting down...
+2025-03-21 03:15:23,843 - app.main - INFO - Initializing model and processor...
+2025-03-21 03:15:23,908 - app.main - INFO - Database connection successful
+2025-03-21 03:15:28,699 - app.services.vertex - INFO - Total embedding process completed in 4.791s
+2025-03-21 03:15:28,699 - app.main - INFO - Initialization complete.
+2025-03-21 03:15:30,814 - app.middlewares.route_logging - INFO - Path: /docs | Method: GET | Processing Time: 0.00ms
+2025-03-21 03:15:30,959 - app.middlewares.route_logging - INFO - Path: /openapi.json | Method: GET | Processing Time: 29.99ms
+2025-03-21 03:16:03,248 - root - INFO - AFC is enabled with max remote calls: 10.
+2025-03-21 03:16:04,749 - root - INFO - AFC remote call 1 is done.
+2025-03-21 03:16:04,749 - app.services.shopping_assistant - INFO - Determined intent: fetch_products for query: which GPU to buy to play latest games
+2025-03-21 03:16:05,232 - app.services.vertex - INFO - Total embedding process completed in 0.484s
+2025-03-21 03:16:05,464 - app.middlewares.route_logging - INFO - Path: /api/v1/shopping-assistant/chat | Method: POST | Processing Time: 2246.21ms
+2025-03-21 03:24:38,528 - app.main - INFO - Shutting down...
+2025-03-21 03:25:13,703 - app.main - INFO - Initializing model and processor...
+2025-03-21 03:25:13,767 - app.main - INFO - Database connection successful
+2025-03-21 03:25:14,504 - app.services.vertex - INFO - Total embedding process completed in 0.737s
+2025-03-21 03:25:14,505 - app.main - INFO - Initialization complete.
+2025-03-21 03:25:21,413 - root - INFO - AFC is enabled with max remote calls: 10.
+2025-03-21 03:25:23,893 - app.services.shopping_assistant - INFO - Determined intent: fetch_products for query: which GPU to buy to play latest games
+2025-03-21 03:25:27,974 - app.services.vertex - INFO - Total embedding process completed in 4.081s
+2025-03-21 03:25:28,074 - root - INFO - AFC is enabled with max remote calls: 10.
+2025-03-21 03:25:28,075 - app.middlewares.route_logging - INFO - Path: /api/v1/shopping-assistant/chat | Method: POST | Processing Time: 6680.32ms
+2025-03-21 03:27:40,407 - app.main - INFO - Shutting down...
+2025-03-21 03:27:46,232 - app.main - INFO - Initializing model and processor...
+2025-03-21 03:27:46,281 - app.main - INFO - Database connection successful
+2025-03-21 03:27:50,791 - app.services.vertex - INFO - Total embedding process completed in 4.510s
+2025-03-21 03:27:50,791 - app.main - INFO - Initialization complete.
+2025-03-21 03:27:50,837 - root - INFO - AFC is enabled with max remote calls: 10.
+2025-03-21 03:27:53,064 - app.services.shopping_assistant - INFO - Determined intent: fetch_products for query: which GPU to buy to play latest games
+2025-03-21 03:27:56,747 - app.services.vertex - INFO - Total embedding process completed in 3.682s
+2025-03-21 03:27:56,866 - root - INFO - AFC is enabled with max remote calls: 10.
+2025-03-21 03:27:56,866 - app.middlewares.route_logging - INFO - Path: /api/v1/shopping-assistant/chat | Method: POST | Processing Time: 6034.78ms
+2025-03-21 03:28:58,984 - root - INFO - AFC is enabled with max remote calls: 10.
+2025-03-21 03:29:00,840 - app.services.shopping_assistant - INFO - Determined intent: fetch_products for query: which GPU to buy to play latest games
+2025-03-21 03:29:01,402 - app.services.vertex - INFO - Total embedding process completed in 0.562s
+2025-03-21 03:29:01,469 - root - INFO - AFC is enabled with max remote calls: 10.
+2025-03-21 03:29:01,469 - app.middlewares.route_logging - INFO - Path: /api/v1/shopping-assistant/chat | Method: POST | Processing Time: 2490.34ms
+2025-03-21 03:29:09,879 - app.main - INFO - Shutting down...
+2025-03-21 03:29:15,527 - app.main - INFO - Initializing model and processor...
+2025-03-21 03:29:15,578 - app.main - INFO - Database connection successful
+2025-03-21 03:29:16,271 - app.services.vertex - INFO - Total embedding process completed in 0.693s
+2025-03-21 03:29:16,271 - app.main - INFO - Initialization complete.
+2025-03-21 03:29:25,260 - root - INFO - AFC is enabled with max remote calls: 10.
+2025-03-21 03:29:27,651 - app.services.shopping_assistant - INFO - Determined intent: fetch_products for query: which GPU to buy to play latest games
+2025-03-21 03:29:30,884 - app.services.vertex - INFO - Total embedding process completed in 3.232s
+2025-03-21 03:29:31,026 - root - INFO - AFC is enabled with max remote calls: 10.
+2025-03-21 03:29:31,029 - app.middlewares.route_logging - INFO - Path: /api/v1/shopping-assistant/chat | Method: POST | Processing Time: 5775.71ms
+2025-03-21 03:29:33,055 - root - INFO - AFC remote call 1 is done.
+2025-03-21 03:29:33,323 - app.services.shopping_assistant - ERROR - Error saving conversation: (sqlalchemy.dialects.postgresql.asyncpg.ProgrammingError) <class 'asyncpg.exceptions.UndefinedTableError'>: relation "conversations" does not exist
+[SQL: SELECT * FROM conversations WHERE conversation_id = $1]
+[parameters: ('c3',)]
+(Background on this error at: https://sqlalche.me/e/20/f405)
+2025-03-21 03:32:08,296 - app.main - INFO - Shutting down...
+2025-03-21 03:32:14,637 - app.main - INFO - Initializing model and processor...
+2025-03-21 03:32:14,703 - app.main - INFO - Database connection successful
+2025-03-21 03:32:15,479 - app.services.vertex - INFO - Total embedding process completed in 0.776s
+2025-03-21 03:32:15,479 - app.main - INFO - Initialization complete.
+2025-03-21 03:32:28,499 - root - INFO - AFC is enabled with max remote calls: 10.
+2025-03-21 03:32:31,134 - app.services.shopping_assistant - INFO - Determined intent: fetch_products for query: which GPU to buy to play latest games
+2025-03-21 03:32:34,979 - app.services.vertex - INFO - Total embedding process completed in 3.846s
+2025-03-21 03:32:35,117 - root - INFO - AFC is enabled with max remote calls: 10.
+2025-03-21 03:32:35,117 - app.middlewares.route_logging - INFO - Path: /api/v1/shopping-assistant/chat | Method: POST | Processing Time: 6633.17ms
+2025-03-21 03:32:37,376 - root - INFO - AFC remote call 1 is done.
+2025-03-21 03:32:37,619 - app.services.shopping_assistant - ERROR - Error saving conversation: (sqlalchemy.dialects.postgresql.asyncpg.ProgrammingError) <class 'asyncpg.exceptions.UndefinedTableError'>: relation "conversations" does not exist
+[SQL: SELECT * FROM conversations WHERE conversation_id = $1]
+[parameters: ('c3',)]
+(Background on this error at: https://sqlalche.me/e/20/f405)
+2025-03-21 03:34:12,737 - root - INFO - AFC is enabled with max remote calls: 10.
+2025-03-21 03:34:14,757 - app.services.shopping_assistant - INFO - Determined intent: direct_response for query: How are you
+2025-03-21 03:34:14,770 - root - INFO - AFC is enabled with max remote calls: 10.
+2025-03-21 03:34:16,751 - app.services.shopping_assistant - INFO - Saved conversation for ID: c6
+2025-03-21 03:34:16,751 - app.middlewares.route_logging - INFO - Path: /api/v1/shopping-assistant/chat | Method: POST | Processing Time: 4018.46ms
+2025-03-21 03:34:46,929 - root - INFO - AFC is enabled with max remote calls: 10.
+2025-03-21 03:34:48,881 - app.services.shopping_assistant - INFO - Determined intent: fetch_products for query: which gaming laptop to buy
+2025-03-21 03:34:53,213 - app.services.vertex - INFO - Total embedding process completed in 4.317s
+2025-03-21 03:34:53,280 - root - INFO - AFC is enabled with max remote calls: 10.
+2025-03-21 03:34:55,663 - app.services.shopping_assistant - INFO - Saved conversation for ID: c6
+2025-03-21 03:34:55,663 - app.middlewares.route_logging - INFO - Path: /api/v1/shopping-assistant/chat | Method: POST | Processing Time: 8739.45ms
+2025-03-21 03:36:10,081 - root - INFO - AFC is enabled with max remote calls: 10.
+2025-03-21 03:36:12,080 - app.services.shopping_assistant - INFO - Determined intent: fetch_products for query: latest gaming laptop to buy
+2025-03-21 03:36:12,578 - app.services.vertex - INFO - Total embedding process completed in 0.484s
+2025-03-21 03:36:12,647 - root - INFO - AFC is enabled with max remote calls: 10.
+2025-03-21 03:36:15,345 - app.services.shopping_assistant - INFO - Saved conversation for ID: c6
+2025-03-21 03:36:15,352 - app.middlewares.route_logging - INFO - Path: /api/v1/shopping-assistant/chat | Method: POST | Processing Time: 5272.78ms
+2025-03-21 03:36:38,046 - root - INFO - AFC is enabled with max remote calls: 10.
+2025-03-21 03:36:39,995 - app.services.shopping_assistant - INFO - Determined intent: fetch_products for query: latest gaming laptop to buy
+2025-03-21 03:36:44,127 - app.services.vertex - INFO - Total embedding process completed in 4.131s
+2025-03-21 03:36:44,195 - root - INFO - AFC is enabled with max remote calls: 10.
+2025-03-21 03:36:46,415 - app.services.shopping_assistant - INFO - Saved conversation for ID: c7
+2025-03-21 03:36:46,415 - app.middlewares.route_logging - INFO - Path: /api/v1/shopping-assistant/chat | Method: POST | Processing Time: 8378.48ms
+2025-03-21 03:37:16,118 - root - INFO - AFC is enabled with max remote calls: 10.
+2025-03-21 03:37:18,014 - app.services.shopping_assistant - INFO - Determined intent: fetch_products for query: latest gaming laptop to buy
+2025-03-21 03:37:19,614 - app.services.vertex - INFO - Total embedding process completed in 1.600s
+2025-03-21 03:37:19,662 - root - INFO - AFC is enabled with max remote calls: 10.
+2025-03-21 03:37:19,663 - app.middlewares.route_logging - INFO - Path: /api/v1/shopping-assistant/chat | Method: POST | Processing Time: 3550.34ms
+2025-03-21 03:37:21,695 - root - INFO - AFC remote call 1 is done.
+2025-03-21 03:37:21,996 - app.services.shopping_assistant - INFO - Saved conversation for ID: c7
+2025-03-21 03:42:08,604 - app.main - INFO - Shutting down...
+2025-03-21 03:42:19,631 - app.main - INFO - Initializing model and processor...
+2025-03-21 03:42:19,835 - app.main - INFO - Database connection successful
+2025-03-21 03:42:22,489 - app.services.vertex - INFO - Total embedding process completed in 2.637s
+2025-03-21 03:42:22,489 - app.main - INFO - Initialization complete.
+2025-03-21 03:44:24,988 - app.routes.search_product - INFO - Empty query provided, returning all products in paginated form
+2025-03-21 03:44:25,158 - app.routes.search_product - INFO - Found 12 results for empty query (all products)
+2025-03-21 03:44:25,162 - app.middlewares.route_logging - INFO - Path: /api/v1/search | Method: GET | Processing Time: 189.00ms
+2025-03-21 03:44:28,305 - app.routes.search_product - INFO - Empty query provided, returning all products in paginated form
+2025-03-21 03:44:28,310 - app.routes.search_product - INFO - Found 12 results for empty query (all products)
+2025-03-21 03:44:28,313 - app.middlewares.route_logging - INFO - Path: /api/v1/search | Method: GET | Processing Time: 14.53ms
+2025-03-21 03:44:28,326 - app.routes.search_product - INFO - Empty query provided, returning all products in paginated form
+2025-03-21 03:44:28,331 - app.routes.search_product - INFO - Found 12 results for empty query (all products)
+2025-03-21 03:44:28,331 - app.middlewares.route_logging - INFO - Path: /api/v1/search | Method: GET | Processing Time: 13.00ms
+2025-03-21 03:51:31,931 - app.routes.search_product - INFO - Empty query provided, returning all products in paginated form
+2025-03-21 03:51:31,931 - app.routes.search_product - INFO - Found 12 results for empty query (all products)
+2025-03-21 03:51:31,931 - app.middlewares.route_logging - INFO - Path: /api/v1/search | Method: GET | Processing Time: 0.74ms
+2025-03-21 03:51:31,948 - app.routes.search_product - INFO - Empty query provided, returning all products in paginated form
+2025-03-21 03:51:31,948 - app.routes.search_product - INFO - Found 12 results for empty query (all products)
+2025-03-21 03:51:31,948 - app.middlewares.route_logging - INFO - Path: /api/v1/search | Method: GET | Processing Time: 16.50ms
+2025-03-21 03:51:41,590 - app.middlewares.route_logging - INFO - Path: /api/v1/shopping-assistant/chat | Method: GET | Processing Time: 2.01ms
+2025-03-21 03:52:12,478 - app.main - INFO - Initializing model and processor...
+2025-03-21 03:52:12,551 - app.main - INFO - Database connection successful
+2025-03-21 03:52:13,200 - app.services.vertex - INFO - Total embedding process completed in 0.649s
+2025-03-21 03:52:13,201 - app.main - INFO - Initialization complete.
+2025-03-21 03:52:15,889 - root - INFO - AFC is enabled with max remote calls: 10.
+2025-03-21 03:52:18,220 - app.services.shopping_assistant - INFO - Determined intent: fetch_products for query: latest gaming laptop to buy
+2025-03-21 03:52:18,714 - app.services.vertex - INFO - Total embedding process completed in 0.493s
+2025-03-21 03:52:19,051 - root - INFO - AFC is enabled with max remote calls: 10.
+2025-03-21 03:52:19,054 - app.middlewares.route_logging - INFO - Path: /api/v1/shopping-assistant/chat | Method: GET | Processing Time: 3169.64ms
+2025-03-21 03:52:21,048 - root - INFO - AFC remote call 1 is done.
+2025-03-21 03:52:21,351 - app.services.shopping_assistant - ERROR - Error saving conversation: (sqlalchemy.dialects.postgresql.asyncpg.ProgrammingError) <class 'asyncpg.exceptions.UndefinedTableError'>: relation "conversations" does not exist
+[SQL: SELECT * FROM conversations WHERE conversation_id = $1]
+[parameters: ('c1',)]
+(Background on this error at: https://sqlalche.me/e/20/f405)
+2025-03-21 03:52:56,438 - app.main - INFO - Shutting down...
+2025-03-21 03:53:02,104 - app.main - INFO - Initializing model and processor...
+2025-03-21 03:53:02,175 - app.main - INFO - Database connection successful
+2025-03-21 03:53:06,008 - app.services.vertex - INFO - Total embedding process completed in 3.832s
+2025-03-21 03:53:06,008 - app.main - INFO - Initialization complete.
+2025-03-21 03:53:12,962 - root - INFO - AFC is enabled with max remote calls: 10.
+2025-03-21 03:53:15,282 - app.services.shopping_assistant - INFO - Determined intent: fetch_products for query: latest gaming laptop to buy
+2025-03-21 03:53:15,753 - app.services.vertex - INFO - Total embedding process completed in 0.470s
+2025-03-21 03:53:15,907 - root - INFO - AFC is enabled with max remote calls: 10.
+2025-03-21 03:53:15,907 - app.middlewares.route_logging - INFO - Path: /api/v1/shopping-assistant/chat | Method: GET | Processing Time: 2945.37ms
+2025-03-21 03:53:17,836 - root - INFO - AFC remote call 1 is done.
+2025-03-21 03:53:18,230 - app.services.shopping_assistant - ERROR - Error saving conversation: (sqlalchemy.dialects.postgresql.asyncpg.ProgrammingError) <class 'asyncpg.exceptions.UndefinedTableError'>: relation "conversations" does not exist
+[SQL: 
+                    INSERT INTO conversations (conversation_id, messages) 
+                    VALUES ($1, $2)
+                ]
+[parameters: ('c1', '[{"role": "user", "content": "latest gaming laptop to buy"}, {"role": "model", "content": "Context provided:\\nAvailable Products:\\n1. Dell Inspiron ... (793 characters truncated) ... p Pro\\n*   **Price:** 1799.99\\n*   **Details:** High-performance gaming laptop with a powerful GPU, high-refresh-rate display, and RGB keyboard."}]')]
+(Background on this error at: https://sqlalche.me/e/20/f405)
+2025-03-21 03:54:24,372 - app.main - INFO - Initializing model and processor...
+2025-03-21 03:54:24,420 - app.main - INFO - Database connection successful
+2025-03-21 03:54:28,238 - app.services.vertex - INFO - Total embedding process completed in 3.817s
+2025-03-21 03:54:28,239 - app.main - INFO - Initialization complete.
+2025-03-21 03:54:38,745 - root - INFO - AFC is enabled with max remote calls: 10.
+2025-03-21 03:54:40,868 - app.services.shopping_assistant - INFO - Determined intent: fetch_products for query: latest gaming laptop to buy
+2025-03-21 03:54:44,400 - app.services.vertex - INFO - Total embedding process completed in 3.523s
+2025-03-21 03:54:44,584 - root - INFO - AFC is enabled with max remote calls: 10.
+2025-03-21 03:54:44,584 - app.middlewares.route_logging - INFO - Path: /api/v1/shopping-assistant/chat | Method: GET | Processing Time: 5838.70ms
+2025-03-21 03:54:46,621 - root - INFO - AFC remote call 1 is done.
+2025-03-21 03:54:46,876 - app.services.shopping_assistant - INFO - Saved conversation for ID: c1
+2025-03-21 03:55:34,490 - root - INFO - AFC is enabled with max remote calls: 10.
+2025-03-21 03:55:36,396 - app.services.shopping_assistant - INFO - Determined intent: fetch_products for query: latest gaming laptop to buy
+2025-03-21 03:55:39,912 - app.services.vertex - INFO - Total embedding process completed in 3.515s
+2025-03-21 03:55:39,939 - root - INFO - AFC is enabled with max remote calls: 10.
+2025-03-21 03:55:39,940 - app.middlewares.route_logging - INFO - Path: /api/v1/shopping-assistant/chat | Method: GET | Processing Time: 5455.86ms
+2025-03-21 03:55:41,769 - root - INFO - AFC remote call 1 is done.
+2025-03-21 03:55:42,129 - app.services.shopping_assistant - INFO - Saved conversation for ID: c1
+2025-03-21 03:57:12,592 - app.middlewares.route_logging - INFO - Path: /api/v1/shopping-assistant/chat | Method: OPTIONS | Processing Time: 0.00ms
+2025-03-21 03:57:12,592 - app.middlewares.route_logging - INFO - Path: /api/v1/shopping-assistant/chat | Method: POST | Processing Time: 0.00ms
+2025-03-21 03:57:15,135 - app.routes.search_product - INFO - Empty query provided, returning all products in paginated form
+2025-03-21 03:57:15,142 - app.routes.search_product - INFO - Found 12 results for empty query (all products)
+2025-03-21 03:57:15,147 - app.middlewares.route_logging - INFO - Path: /api/v1/search | Method: GET | Processing Time: 18.01ms
+2025-03-21 03:57:15,154 - app.routes.search_product - INFO - Empty query provided, returning all products in paginated form
+2025-03-21 03:57:15,161 - app.routes.search_product - INFO - Found 12 results for empty query (all products)
+2025-03-21 03:57:15,165 - app.middlewares.route_logging - INFO - Path: /api/v1/search | Method: GET | Processing Time: 15.72ms
+2025-03-21 03:57:19,314 - app.middlewares.route_logging - INFO - Path: /api/v1/shopping-assistant/chat | Method: POST | Processing Time: 0.00ms
+2025-03-21 03:58:49,445 - root - INFO - AFC is enabled with max remote calls: 10.
+2025-03-21 03:58:51,917 - app.services.shopping_assistant - INFO - Determined intent: fetch_products for query: latest gaming laptop to buy
+2025-03-21 03:58:55,273 - app.services.vertex - INFO - Total embedding process completed in 3.356s
+2025-03-21 03:58:55,291 - root - INFO - AFC is enabled with max remote calls: 10.
+2025-03-21 03:58:55,291 - app.middlewares.route_logging - INFO - Path: /api/v1/shopping-assistant/chat | Method: GET | Processing Time: 5845.60ms
+2025-03-21 03:58:57,511 - root - INFO - AFC remote call 1 is done.
+2025-03-21 03:58:58,340 - app.services.shopping_assistant - INFO - Saved conversation for ID: c1
+2025-03-21 03:59:32,409 - app.main - INFO - Shutting down...
+2025-03-21 03:59:39,093 - app.main - INFO - Initializing model and processor...
+2025-03-21 03:59:39,168 - app.main - INFO - Database connection successful
+2025-03-21 03:59:43,692 - app.services.vertex - INFO - Total embedding process completed in 4.523s
+2025-03-21 03:59:43,692 - app.main - INFO - Initialization complete.
+2025-03-21 04:00:30,757 - root - INFO - AFC is enabled with max remote calls: 10.
+2025-03-21 04:00:33,222 - app.services.shopping_assistant - INFO - Determined intent: fetch_products for query: latest gaming laptop to buy
+2025-03-21 04:00:36,688 - app.services.vertex - INFO - Total embedding process completed in 3.465s
+2025-03-21 04:00:36,815 - root - INFO - AFC is enabled with max remote calls: 10.
+2025-03-21 04:00:36,816 - app.middlewares.route_logging - INFO - Path: /api/v1/shopping-assistant/chat | Method: GET | Processing Time: 6065.47ms
+2025-03-21 04:00:39,108 - root - INFO - AFC remote call 1 is done.
+2025-03-21 04:00:39,283 - app.services.shopping_assistant - INFO - Saved conversation for ID: c1
+2025-03-21 04:01:42,294 - app.main - INFO - Shutting down...
+2025-03-21 04:01:48,505 - app.main - INFO - Initializing model and processor...
+2025-03-21 04:01:48,571 - app.main - INFO - Database connection successful
+2025-03-21 04:01:53,665 - app.services.vertex - INFO - Total embedding process completed in 5.094s
+2025-03-21 04:01:53,665 - app.main - INFO - Initialization complete.
+2025-03-21 04:01:54,189 - root - INFO - AFC is enabled with max remote calls: 10.
+2025-03-21 04:01:56,540 - app.services.shopping_assistant - INFO - Determined intent: fetch_products for query: latest gaming laptop to buy
+2025-03-21 04:02:00,869 - app.services.vertex - INFO - Total embedding process completed in 4.315s
+2025-03-21 04:02:01,037 - root - INFO - AFC is enabled with max remote calls: 10.
+2025-03-21 04:02:01,041 - app.middlewares.route_logging - INFO - Path: /api/v1/shopping-assistant/chat | Method: GET | Processing Time: 6857.42ms
+2025-03-21 04:02:03,206 - root - INFO - AFC remote call 1 is done.
+2025-03-21 04:04:21,911 - app.middlewares.route_logging - INFO - Path: /api/v1/shopping-assistant/chat | Method: POST | Processing Time: 0.00ms
+2025-03-21 04:05:22,172 - root - INFO - AFC is enabled with max remote calls: 10.
+2025-03-21 04:05:24,299 - app.services.shopping_assistant - INFO - Determined intent: fetch_products for query: latest gaming laptop to buy
+2025-03-21 04:05:25,692 - app.services.vertex - INFO - Total embedding process completed in 1.393s
+2025-03-21 04:05:25,768 - root - INFO - AFC is enabled with max remote calls: 10.
+2025-03-21 04:05:25,768 - app.middlewares.route_logging - INFO - Path: /api/v1/shopping-assistant/chat | Method: GET | Processing Time: 3597.90ms
+2025-03-21 04:05:27,727 - root - INFO - AFC remote call 1 is done.
+2025-03-21 04:06:39,750 - root - INFO - AFC is enabled with max remote calls: 10.
+2025-03-21 04:06:41,662 - app.services.shopping_assistant - INFO - Determined intent: fetch_products for query: latest gaming laptop to buy, compare it with other laptops in the store
+2025-03-21 04:06:43,423 - app.services.vertex - INFO - Total embedding process completed in 1.761s
+2025-03-21 04:06:43,497 - root - INFO - AFC is enabled with max remote calls: 10.
+2025-03-21 04:06:43,500 - app.middlewares.route_logging - INFO - Path: /api/v1/shopping-assistant/chat | Method: GET | Processing Time: 3755.08ms
+2025-03-21 04:06:45,373 - root - INFO - AFC remote call 1 is done.
+2025-03-21 04:06:58,636 - root - INFO - AFC is enabled with max remote calls: 10.
+2025-03-21 04:07:00,578 - app.services.shopping_assistant - INFO - Determined intent: fetch_products for query: latest gaming laptop to buy, compare it with other laptops in the store
+2025-03-21 04:07:01,033 - app.services.vertex - INFO - Total embedding process completed in 0.455s
+2025-03-21 04:07:01,102 - root - INFO - AFC is enabled with max remote calls: 10.
+2025-03-21 04:07:01,117 - app.middlewares.route_logging - INFO - Path: /api/v1/shopping-assistant/chat | Method: GET | Processing Time: 2488.80ms
+2025-03-21 04:07:03,052 - root - INFO - AFC remote call 1 is done.
+2025-03-21 12:10:00,969 - app.routes.search_product - INFO - Empty query provided, returning all products in paginated form
+2025-03-21 12:10:01,271 - app.routes.search_product - INFO - Found 12 results for empty query (all products)
+2025-03-21 12:10:01,354 - app.middlewares.route_logging - INFO - Path: /api/v1/search | Method: GET | Processing Time: 1456.44ms
+2025-03-21 16:22:59,402 - app.main - INFO - Shutting down...
+2025-03-22 14:23:04,634 - app.main - INFO - Initializing model and processor...
+2025-03-22 14:23:08,711 - app.database.session - ERROR - Failed to create database session: Multiple exceptions: [Errno 10061] Connect call failed ('::1', 5433, 0, 0), [Errno 10061] Connect call failed ('127.0.0.1', 5433)
+2025-03-22 14:23:08,712 - app.main - ERROR - Database connection failed
+2025-03-22 15:11:21,778 - app.main - INFO - Initializing model and processor...
+2025-03-22 15:11:25,862 - app.database.session - ERROR - Failed to create database session: Multiple exceptions: [Errno 10061] Connect call failed ('::1', 5433, 0, 0), [Errno 10061] Connect call failed ('127.0.0.1', 5433)
+2025-03-22 15:11:25,862 - app.main - ERROR - Database connection failed
+2025-03-22 15:12:18,303 - app.main - INFO - Initializing model and processor...
+2025-03-22 15:12:22,362 - app.database.session - ERROR - Failed to create database session: Multiple exceptions: [Errno 10061] Connect call failed ('::1', 5433, 0, 0), [Errno 10061] Connect call failed ('127.0.0.1', 5433)
+2025-03-22 15:12:22,362 - app.main - ERROR - Database connection failed
+2025-03-22 15:21:41,231 - app.main - INFO - Initializing model and processor...
+2025-03-22 15:21:45,299 - app.database.session - ERROR - Failed to create database session: Multiple exceptions: [Errno 10061] Connect call failed ('::1', 5433, 0, 0), [Errno 10061] Connect call failed ('127.0.0.1', 5433)
+2025-03-22 15:21:45,299 - app.main - ERROR - Database connection failed
+2025-03-22 15:22:11,473 - app.main - INFO - Initializing model and processor...
+2025-03-22 15:22:15,521 - app.database.session - ERROR - Failed to create database session: Multiple exceptions: [Errno 10061] Connect call failed ('::1', 5433, 0, 0), [Errno 10061] Connect call failed ('127.0.0.1', 5433)
+2025-03-22 15:22:15,521 - app.main - ERROR - Database connection failed
+2025-03-22 15:22:31,439 - app.main - INFO - Initializing model and processor...
+2025-03-22 15:22:35,504 - app.database.session - ERROR - Failed to create database session: Multiple exceptions: [Errno 10061] Connect call failed ('::1', 5433, 0, 0), [Errno 10061] Connect call failed ('127.0.0.1', 5433)
+2025-03-22 15:22:35,504 - app.main - ERROR - Database connection failed
+2025-03-22 15:30:24,199 - app.main - INFO - Initializing model and processor...
+2025-03-22 15:30:28,274 - app.database.session - ERROR - Failed to create database session: Multiple exceptions: [Errno 10061] Connect call failed ('::1', 5433, 0, 0), [Errno 10061] Connect call failed ('127.0.0.1', 5433)
+2025-03-22 15:30:28,274 - app.main - ERROR - Database connection failed
+2025-03-22 15:31:55,520 - app.main - INFO - Initializing model and processor...
+2025-03-22 15:31:59,591 - app.database.session - ERROR - Failed to create database session: Multiple exceptions: [Errno 10061] Connect call failed ('::1', 5433, 0, 0), [Errno 10061] Connect call failed ('127.0.0.1', 5433)
+2025-03-22 15:31:59,591 - app.main - ERROR - Database connection failed
+2025-03-22 15:34:10,960 - app.main - INFO - Initializing model and processor...
+2025-03-22 15:34:15,029 - app.database.session - ERROR - Failed to create database session: Multiple exceptions: [Errno 10061] Connect call failed ('::1', 5433, 0, 0), [Errno 10061] Connect call failed ('127.0.0.1', 5433)
+2025-03-22 15:34:15,029 - app.main - ERROR - Database connection failed
+2025-03-22 15:34:28,729 - app.main - INFO - Initializing model and processor...
+2025-03-22 15:34:32,790 - app.database.session - ERROR - Failed to create database session: Multiple exceptions: [Errno 10061] Connect call failed ('::1', 5433, 0, 0), [Errno 10061] Connect call failed ('127.0.0.1', 5433)
+2025-03-22 15:34:32,790 - app.main - ERROR - Database connection failed
+2025-03-22 15:40:19,436 - app.main - INFO - Initializing model and processor...
+2025-03-22 15:40:23,551 - app.database.session - ERROR - Failed to create database session: Multiple exceptions: [Errno 10061] Connect call failed ('::1', 5433, 0, 0), [Errno 10061] Connect call failed ('127.0.0.1', 5433)
+2025-03-22 15:40:23,551 - app.main - ERROR - Database connection failed
+2025-03-22 15:41:35,463 - app.main - INFO - Initializing model and processor...
+2025-03-22 15:41:39,521 - app.database.session - ERROR - Failed to create database session: Multiple exceptions: [Errno 10061] Connect call failed ('::1', 5433, 0, 0), [Errno 10061] Connect call failed ('127.0.0.1', 5433)
+2025-03-22 15:41:39,521 - app.main - ERROR - Database connection failed
+2025-03-22 15:41:46,105 - app.main - INFO - Initializing model and processor...
+2025-03-22 15:41:50,171 - app.database.session - ERROR - Failed to create database session: Multiple exceptions: [Errno 10061] Connect call failed ('::1', 5433, 0, 0), [Errno 10061] Connect call failed ('127.0.0.1', 5433)
+2025-03-22 15:41:50,171 - app.main - ERROR - Database connection failed
+2025-03-22 15:41:58,309 - app.main - INFO - Initializing model and processor...
+2025-03-22 15:42:02,414 - app.database.session - ERROR - Failed to create database session: Multiple exceptions: [Errno 10061] Connect call failed ('::1', 5433, 0, 0), [Errno 10061] Connect call failed ('127.0.0.1', 5433)
+2025-03-22 15:42:02,414 - app.main - ERROR - Database connection failed
+2025-03-22 15:43:54,685 - app.main - INFO - Initializing model and processor...
+2025-03-22 15:43:58,736 - app.database.session - ERROR - Failed to create database session: Multiple exceptions: [Errno 10061] Connect call failed ('::1', 5433, 0, 0), [Errno 10061] Connect call failed ('127.0.0.1', 5433)
+2025-03-22 15:43:58,737 - app.main - ERROR - Database connection failed
+2025-03-22 15:44:22,633 - app.main - INFO - Initializing model and processor...
+2025-03-22 15:44:26,696 - app.database.session - ERROR - Failed to create database session: Multiple exceptions: [Errno 10061] Connect call failed ('::1', 5433, 0, 0), [Errno 10061] Connect call failed ('127.0.0.1', 5433)
+2025-03-22 15:44:26,696 - app.main - ERROR - Database connection failed
+2025-03-22 15:44:37,467 - app.main - INFO - Initializing model and processor...
+2025-03-22 15:44:41,527 - app.database.session - ERROR - Failed to create database session: Multiple exceptions: [Errno 10061] Connect call failed ('::1', 5433, 0, 0), [Errno 10061] Connect call failed ('127.0.0.1', 5433)
+2025-03-22 15:44:41,527 - app.main - ERROR - Database connection failed
+2025-03-22 15:44:55,198 - app.main - INFO - Initializing model and processor...
+2025-03-22 15:44:59,265 - app.database.session - ERROR - Failed to create database session: Multiple exceptions: [Errno 10061] Connect call failed ('::1', 5433, 0, 0), [Errno 10061] Connect call failed ('127.0.0.1', 5433)
+2025-03-22 15:44:59,266 - app.main - ERROR - Database connection failed
+2025-03-22 15:45:06,608 - app.main - INFO - Initializing model and processor...
+2025-03-22 15:45:10,661 - app.database.session - ERROR - Failed to create database session: Multiple exceptions: [Errno 10061] Connect call failed ('::1', 5433, 0, 0), [Errno 10061] Connect call failed ('127.0.0.1', 5433)
+2025-03-22 15:45:10,662 - app.main - ERROR - Database connection failed
+2025-03-22 15:45:17,972 - app.main - INFO - Initializing model and processor...
+2025-03-22 15:45:22,038 - app.database.session - ERROR - Failed to create database session: Multiple exceptions: [Errno 10061] Connect call failed ('::1', 5433, 0, 0), [Errno 10061] Connect call failed ('127.0.0.1', 5433)
+2025-03-22 15:45:22,038 - app.main - ERROR - Database connection failed
+2025-03-22 15:45:28,639 - app.main - INFO - Initializing model and processor...
+2025-03-22 15:45:32,693 - app.database.session - ERROR - Failed to create database session: Multiple exceptions: [Errno 10061] Connect call failed ('::1', 5433, 0, 0), [Errno 10061] Connect call failed ('127.0.0.1', 5433)
+2025-03-22 15:45:32,694 - app.main - ERROR - Database connection failed
+2025-03-22 15:52:18,129 - app.main - INFO - Initializing model and processor...
+2025-03-22 15:52:22,213 - app.database.session - ERROR - Failed to create database session: Multiple exceptions: [Errno 10061] Connect call failed ('::1', 5433, 0, 0), [Errno 10061] Connect call failed ('127.0.0.1', 5433)
+2025-03-22 15:52:22,213 - app.main - ERROR - Database connection failed
+2025-03-22 15:53:04,270 - app.main - INFO - Initializing model and processor...
+2025-03-22 15:53:04,384 - app.main - INFO - Database connection successful
+2025-03-22 15:53:05,194 - app.services.vertex - INFO - Total embedding process completed in 0.810s
+2025-03-22 15:53:05,195 - app.main - INFO - Initialization complete.
+2025-03-22 15:56:50,073 - app.routes.search_product - INFO - Empty query provided, returning all products in paginated form
+2025-03-22 15:56:50,093 - app.routes.search_product - INFO - Found 12 results for empty query (all products)
+2025-03-22 15:56:50,097 - app.middlewares.route_logging - INFO - Path: /api/v1/search | Method: GET | Processing Time: 33.41ms
+2025-03-22 15:56:50,103 - app.routes.search_product - INFO - Empty query provided, returning all products in paginated form
+2025-03-22 15:56:50,106 - app.routes.search_product - INFO - Found 12 results for empty query (all products)
+2025-03-22 15:56:50,108 - app.middlewares.route_logging - INFO - Path: /api/v1/search | Method: GET | Processing Time: 9.56ms
+2025-03-22 15:57:32,241 - app.services.vertex - INFO - Total embedding process completed in 3.125s
+2025-03-22 15:57:32,369 - app.middlewares.route_logging - INFO - Path: /api/v1/shopping-assistant/chat | Method: GET | Processing Time: 3261.90ms
+2025-03-22 15:57:32,369 - root - INFO - AFC is enabled with max remote calls: 10.
+2025-03-22 15:57:35,149 - root - INFO - AFC remote call 1 is done.
+2025-03-22 15:57:38,801 - app.services.shopping_assistant - INFO - Saved conversation for ID: c7
+2025-03-22 15:57:49,834 - app.services.vertex - INFO - Total embedding process completed in 0.364s
+2025-03-22 15:57:49,834 - app.middlewares.route_logging - INFO - Path: /api/v1/shopping-assistant/chat | Method: GET | Processing Time: 369.17ms
+2025-03-22 15:57:49,834 - root - INFO - AFC is enabled with max remote calls: 10.
+2025-03-22 15:57:51,777 - root - INFO - AFC remote call 1 is done.
+2025-03-22 15:57:54,294 - app.services.shopping_assistant - INFO - Saved conversation for ID: c7
+2025-03-22 15:58:45,680 - app.services.vertex - INFO - Total embedding process completed in 0.489s
+2025-03-22 15:58:45,691 - app.middlewares.route_logging - INFO - Path: /api/v1/shopping-assistant/chat | Method: GET | Processing Time: 503.20ms
+2025-03-22 15:58:45,691 - root - INFO - AFC is enabled with max remote calls: 10.
+2025-03-22 15:58:47,757 - root - INFO - AFC remote call 1 is done.
+2025-03-22 15:58:50,760 - app.services.shopping_assistant - INFO - Saved conversation for ID: c7
+2025-03-22 16:00:13,885 - app.services.vertex - INFO - Total embedding process completed in 0.434s
+2025-03-22 16:00:13,894 - app.middlewares.route_logging - INFO - Path: /api/v1/shopping-assistant/chat | Method: GET | Processing Time: 448.26ms
+2025-03-22 16:00:13,894 - root - INFO - AFC is enabled with max remote calls: 10.
+2025-03-22 16:00:15,819 - root - INFO - AFC remote call 1 is done.
+2025-03-22 16:00:18,930 - app.services.shopping_assistant - INFO - Saved conversation for ID: c7
+2025-03-22 16:06:03,303 - app.services.vertex - INFO - Total embedding process completed in 0.794s
+2025-03-22 16:06:03,321 - app.middlewares.route_logging - INFO - Path: /api/v1/shopping-assistant/chat | Method: GET | Processing Time: 818.95ms
+2025-03-22 16:06:03,322 - root - INFO - AFC is enabled with max remote calls: 10.
+2025-03-22 16:06:05,899 - app.routes.search_product - INFO - Empty query provided, returning all products in paginated form
+2025-03-22 16:06:05,912 - app.routes.search_product - INFO - Found 12 results for empty query (all products)
+2025-03-22 16:06:05,916 - app.middlewares.route_logging - INFO - Path: /api/v1/search | Method: GET | Processing Time: 22.79ms
+2025-03-22 16:06:05,924 - app.routes.search_product - INFO - Empty query provided, returning all products in paginated form
+2025-03-22 16:06:05,928 - app.routes.search_product - INFO - Found 12 results for empty query (all products)
+2025-03-22 16:06:05,931 - app.middlewares.route_logging - INFO - Path: /api/v1/search | Method: GET | Processing Time: 11.68ms
+2025-03-22 16:06:43,888 - app.services.vertex - INFO - Total embedding process completed in 0.379s
+2025-03-22 16:06:44,009 - app.middlewares.route_logging - INFO - Path: /api/v1/shopping-assistant/chat | Method: GET | Processing Time: 504.61ms
+2025-03-22 16:06:44,010 - root - INFO - AFC is enabled with max remote calls: 10.
+2025-03-22 16:06:45,948 - root - INFO - AFC remote call 1 is done.
+2025-03-22 16:06:46,358 - app.services.shopping_assistant - INFO - Saved conversation for ID: c7
+2025-03-22 16:13:51,080 - app.routes.search_product - INFO - Empty query provided, returning all products in paginated form
+2025-03-22 16:13:51,084 - app.routes.search_product - INFO - Found 12 results for empty query (all products)
+2025-03-22 16:13:51,087 - app.middlewares.route_logging - INFO - Path: /api/v1/search | Method: GET | Processing Time: 9.98ms
+2025-03-22 16:14:45,733 - app.routes.search_product - INFO - Empty query provided, returning all products in paginated form
+2025-03-22 16:14:45,738 - app.routes.search_product - INFO - Found 12 results for empty query (all products)
+2025-03-22 16:14:45,740 - app.middlewares.route_logging - INFO - Path: /api/v1/search | Method: GET | Processing Time: 11.51ms
+2025-03-22 16:14:45,748 - app.routes.search_product - INFO - Empty query provided, returning all products in paginated form
+2025-03-22 16:14:45,751 - app.routes.search_product - INFO - Found 12 results for empty query (all products)
+2025-03-22 16:14:45,754 - app.middlewares.route_logging - INFO - Path: /api/v1/search | Method: GET | Processing Time: 10.00ms
+2025-03-22 16:15:02,977 - app.services.vertex - INFO - Total embedding process completed in 0.701s
+2025-03-22 16:15:03,037 - app.middlewares.route_logging - INFO - Path: /api/v1/shopping-assistant/chat | Method: GET | Processing Time: 765.84ms
+2025-03-22 16:15:03,037 - root - INFO - AFC is enabled with max remote calls: 10.
+2025-03-22 16:15:05,484 - root - INFO - AFC remote call 1 is done.
+2025-03-22 16:15:05,724 - app.services.shopping_assistant - INFO - Saved conversation for ID: c1742640285677
+2025-03-22 16:15:47,132 - app.services.vertex - INFO - Total embedding process completed in 0.508s
+2025-03-22 16:15:47,188 - app.middlewares.route_logging - INFO - Path: /api/v1/shopping-assistant/chat | Method: GET | Processing Time: 568.02ms
+2025-03-22 16:15:47,188 - root - INFO - AFC is enabled with max remote calls: 10.
+2025-03-22 16:15:49,169 - root - INFO - AFC remote call 1 is done.
+2025-03-22 16:15:50,921 - app.services.shopping_assistant - INFO - Saved conversation for ID: c1742640285677
+2025-03-22 16:22:19,911 - app.services.vertex - INFO - Total embedding process completed in 0.851s
+2025-03-22 16:22:19,975 - app.middlewares.route_logging - INFO - Path: /api/v1/shopping-assistant/chat | Method: GET | Processing Time: 920.68ms
+2025-03-22 16:22:19,977 - root - INFO - AFC is enabled with max remote calls: 10.
+2025-03-22 16:22:22,231 - root - INFO - AFC remote call 1 is done.
+2025-03-22 16:22:22,442 - app.services.shopping_assistant - INFO - Saved conversation for ID: c1742640610625
+2025-03-22 16:22:47,115 - app.services.vertex - INFO - Total embedding process completed in 0.540s
+2025-03-22 16:22:47,173 - app.middlewares.route_logging - INFO - Path: /api/v1/shopping-assistant/chat | Method: GET | Processing Time: 603.13ms
+2025-03-22 16:22:47,173 - root - INFO - AFC is enabled with max remote calls: 10.
+2025-03-22 16:22:49,350 - root - INFO - AFC remote call 1 is done.
+2025-03-22 16:22:50,071 - app.services.shopping_assistant - INFO - Saved conversation for ID: c1742640610625
+2025-03-22 16:27:52,160 - app.routes.search_product - INFO - Empty query provided, returning all products in paginated form
+2025-03-22 16:27:52,162 - app.routes.search_product - INFO - Found 12 results for empty query (all products)
+2025-03-22 16:27:52,164 - app.middlewares.route_logging - INFO - Path: /api/v1/search | Method: GET | Processing Time: 10.26ms
+2025-03-22 16:27:52,170 - app.routes.search_product - INFO - Empty query provided, returning all products in paginated form
+2025-03-22 16:27:52,174 - app.routes.search_product - INFO - Found 12 results for empty query (all products)
+2025-03-22 16:27:52,176 - app.middlewares.route_logging - INFO - Path: /api/v1/search | Method: GET | Processing Time: 10.10ms
+2025-03-22 16:36:28,301 - app.services.vertex - INFO - Total embedding process completed in 3.073s
+2025-03-22 16:36:28,364 - app.middlewares.route_logging - INFO - Path: /api/v1/shopping-assistant/chat | Method: GET | Processing Time: 3135.44ms
+2025-03-22 16:36:28,364 - root - INFO - AFC is enabled with max remote calls: 10.
+2025-03-22 16:36:30,545 - root - INFO - AFC remote call 1 is done.
+2025-03-22 16:36:30,912 - app.services.shopping_assistant - INFO - Saved conversation for ID: c1742641071413
+2025-03-22 16:38:41,426 - app.services.vertex - INFO - Total embedding process completed in 0.529s
+2025-03-22 16:38:41,493 - app.middlewares.route_logging - INFO - Path: /api/v1/shopping-assistant/chat | Method: GET | Processing Time: 599.24ms
+2025-03-22 16:38:41,493 - root - INFO - AFC is enabled with max remote calls: 10.
+2025-03-22 16:38:43,450 - root - INFO - AFC remote call 1 is done.
+2025-03-22 16:38:45,159 - app.services.shopping_assistant - INFO - Saved conversation for ID: c1742641071413
+2025-03-22 16:41:40,126 - app.routes.search_product - INFO - Empty query provided, returning all products in paginated form
+2025-03-22 16:41:40,134 - app.routes.search_product - INFO - Found 12 results for empty query (all products)
+2025-03-22 16:41:40,142 - app.middlewares.route_logging - INFO - Path: /api/v1/search | Method: GET | Processing Time: 25.08ms
+2025-03-22 16:41:40,157 - app.routes.search_product - INFO - Empty query provided, returning all products in paginated form
+2025-03-22 16:41:40,164 - app.routes.search_product - INFO - Found 12 results for empty query (all products)
+2025-03-22 16:41:40,168 - app.middlewares.route_logging - INFO - Path: /api/v1/search | Method: GET | Processing Time: 19.50ms
+2025-03-22 16:47:53,139 - app.routes.search_product - INFO - Empty query provided, returning all products in paginated form
+2025-03-22 16:47:53,153 - app.routes.search_product - INFO - Found 12 results for empty query (all products)
+2025-03-22 16:47:53,153 - app.middlewares.route_logging - INFO - Path: /api/v1/search | Method: GET | Processing Time: 14.00ms
+2025-03-22 16:47:53,153 - app.routes.search_product - INFO - Empty query provided, returning all products in paginated form
+2025-03-22 16:47:53,167 - app.routes.search_product - INFO - Found 12 results for empty query (all products)
+2025-03-22 16:47:53,171 - app.middlewares.route_logging - INFO - Path: /api/v1/search | Method: GET | Processing Time: 17.51ms
+2025-03-22 17:42:11,047 - app.routes.search_product - INFO - Empty query provided, returning all products in paginated form
+2025-03-22 17:42:11,055 - app.routes.search_product - INFO - Found 12 results for empty query (all products)
+2025-03-22 17:42:11,063 - app.middlewares.route_logging - INFO - Path: /api/v1/search | Method: GET | Processing Time: 22.80ms
+2025-03-22 17:42:11,078 - app.routes.search_product - INFO - Empty query provided, returning all products in paginated form
+2025-03-22 17:42:11,084 - app.routes.search_product - INFO - Found 12 results for empty query (all products)
+2025-03-22 17:42:11,087 - app.middlewares.route_logging - INFO - Path: /api/v1/search | Method: GET | Processing Time: 16.09ms
+2025-03-22 18:38:53,179 - app.routes.search_product - INFO - Empty query provided, returning all products in paginated form
+2025-03-22 18:38:53,183 - app.routes.search_product - INFO - Found 12 results for empty query (all products)
+2025-03-22 18:38:53,183 - app.middlewares.route_logging - INFO - Path: /api/v1/search | Method: GET | Processing Time: 15.43ms
+2025-03-22 18:38:53,200 - app.routes.search_product - INFO - Empty query provided, returning all products in paginated form
+2025-03-22 18:38:53,208 - app.routes.search_product - INFO - Found 12 results for empty query (all products)
+2025-03-22 18:38:53,215 - app.middlewares.route_logging - INFO - Path: /api/v1/search | Method: GET | Processing Time: 31.89ms
+2025-03-22 19:00:40,267 - app.routes.search_product - INFO - Empty query provided, returning all products in paginated form
+2025-03-22 19:00:40,276 - app.routes.search_product - INFO - Found 12 results for empty query (all products)
+2025-03-22 19:00:40,283 - app.middlewares.route_logging - INFO - Path: /api/v1/search | Method: GET | Processing Time: 57.21ms
+2025-03-22 19:00:40,292 - app.routes.search_product - INFO - Empty query provided, returning all products in paginated form
+2025-03-22 19:00:40,299 - app.routes.search_product - INFO - Found 12 results for empty query (all products)
+2025-03-22 19:00:40,302 - app.middlewares.route_logging - INFO - Path: /api/v1/search | Method: GET | Processing Time: 19.17ms
+2025-03-22 19:07:55,912 - app.main - INFO - Shutting down...
+2025-03-22 19:08:10,565 - app.main - INFO - Initializing model and processor...
+2025-03-22 19:08:10,681 - app.main - INFO - Database connection successful
+2025-03-22 19:08:11,517 - app.services.vertex - INFO - Total embedding process completed in 0.835s
+2025-03-22 19:08:11,517 - app.main - INFO - Initialization complete.
+2025-03-22 19:10:05,635 - app.services.vertex - INFO - Total embedding process completed in 0.502s
+2025-03-22 19:10:06,138 - root - INFO - AFC is enabled with max remote calls: 10.
+2025-03-22 19:10:06,788 - app.middlewares.route_logging - INFO - Path: /api/v1/shopping-assistant/chat | Method: GET | Processing Time: 1663.61ms
+2025-03-22 19:10:09,254 - root - INFO - AFC remote call 1 is done.
+2025-03-22 19:10:10,648 - app.services.shopping_assistant - INFO - Saved conversation for ID: c1742650239831
+2025-03-22 19:11:21,668 - app.routes.search_product - INFO - Empty query provided, returning all products in paginated form
+2025-03-22 19:11:21,674 - app.routes.search_product - INFO - Found 12 results for empty query (all products)
+2025-03-22 19:11:21,677 - app.middlewares.route_logging - INFO - Path: /api/v1/search | Method: GET | Processing Time: 13.29ms
+2025-03-22 19:11:21,686 - app.routes.search_product - INFO - Empty query provided, returning all products in paginated form
+2025-03-22 19:11:21,695 - app.routes.search_product - INFO - Found 12 results for empty query (all products)
+2025-03-22 19:11:21,699 - app.middlewares.route_logging - INFO - Path: /api/v1/search | Method: GET | Processing Time: 19.29ms
+2025-03-22 19:11:29,714 - app.services.vertex - INFO - Total embedding process completed in 2.830s
+2025-03-22 19:11:29,773 - root - INFO - AFC is enabled with max remote calls: 10.
+2025-03-22 19:11:29,773 - app.middlewares.route_logging - INFO - Path: /api/v1/shopping-assistant/chat | Method: GET | Processing Time: 2893.12ms
+2025-03-22 19:11:31,684 - root - INFO - AFC remote call 1 is done.
+2025-03-22 19:11:31,741 - app.services.shopping_assistant - INFO - Saved conversation for ID: c1742650881298
+2025-03-22 19:12:15,841 - app.services.vertex - INFO - Total embedding process completed in 0.540s
+2025-03-22 19:12:15,910 - root - INFO - AFC is enabled with max remote calls: 10.
+2025-03-22 19:12:15,912 - app.middlewares.route_logging - INFO - Path: /api/v1/shopping-assistant/chat | Method: GET | Processing Time: 614.27ms
+2025-03-22 19:12:17,920 - root - INFO - AFC remote call 1 is done.
+2025-03-22 19:12:19,500 - app.services.shopping_assistant - INFO - Saved conversation for ID: c1742650881298
+2025-03-22 19:17:56,162 - app.main - INFO - Shutting down...
+2025-03-22 19:18:05,189 - app.main - INFO - Initializing model and processor...
+2025-03-22 19:18:05,284 - app.main - INFO - Database connection successful
+2025-03-22 19:18:06,051 - app.services.vertex - INFO - Total embedding process completed in 0.767s
+2025-03-22 19:18:06,051 - app.main - INFO - Initialization complete.
+2025-03-22 19:22:58,083 - app.main - INFO - Shutting down...
+2025-03-22 19:23:04,893 - app.main - INFO - Initializing model and processor...
+2025-03-22 19:23:04,944 - app.main - INFO - Database connection successful
+2025-03-22 19:23:05,711 - app.services.vertex - INFO - Total embedding process completed in 0.768s
+2025-03-22 19:23:05,711 - app.main - INFO - Initialization complete.
+2025-03-22 19:23:11,833 - app.main - INFO - Initializing model and processor...
+2025-03-22 19:23:11,894 - app.main - INFO - Database connection successful
+2025-03-22 19:23:12,641 - app.services.vertex - INFO - Total embedding process completed in 0.747s
+2025-03-22 19:23:12,641 - app.main - INFO - Initialization complete.
+2025-03-22 19:56:02,593 - app.routes.search_product - INFO - Empty query provided, returning all products in paginated form
+2025-03-22 19:56:02,602 - app.routes.search_product - INFO - Found 12 results for empty query (all products)
+2025-03-22 19:56:02,618 - app.middlewares.route_logging - INFO - Path: /api/v1/search | Method: GET | Processing Time: 45.12ms
+2025-03-22 19:56:02,623 - app.routes.search_product - INFO - Empty query provided, returning all products in paginated form
+2025-03-22 19:56:02,623 - app.routes.search_product - INFO - Found 12 results for empty query (all products)
+2025-03-22 19:56:02,623 - app.middlewares.route_logging - INFO - Path: /api/v1/search | Method: GET | Processing Time: 5.43ms
+2025-03-22 19:56:24,244 - app.main - INFO - Shutting down...
+2025-03-22 19:56:31,718 - app.main - INFO - Initializing model and processor...
+2025-03-22 19:56:31,770 - app.main - INFO - Database connection successful
+2025-03-22 19:56:33,534 - app.services.vertex - INFO - Total embedding process completed in 1.764s
+2025-03-22 19:56:33,534 - app.main - INFO - Initialization complete.
+2025-03-22 19:57:12,778 - app.services.vertex - INFO - Total embedding process completed in 0.369s
+2025-03-22 19:57:13,023 - root - INFO - AFC is enabled with max remote calls: 10.
+2025-03-22 19:57:13,023 - app.middlewares.route_logging - INFO - Path: /api/v1/shopping-assistant/chat | Method: GET | Processing Time: 628.73ms
+2025-03-22 19:57:15,610 - root - INFO - AFC remote call 1 is done.
+2025-03-22 19:57:15,850 - app.services.shopping_assistant - INFO - Saved conversation for ID: c1742653562034
+2025-03-22 20:06:24,574 - app.main - INFO - Shutting down...
+2025-03-22 20:06:37,872 - app.main - INFO - Initializing model and processor...
+2025-03-22 20:06:38,092 - app.main - INFO - Database connection successful
+2025-03-22 20:06:38,860 - app.services.vertex - INFO - Total embedding process completed in 0.764s
+2025-03-22 20:06:38,876 - app.main - INFO - Initialization complete.
+2025-03-22 20:11:26,593 - app.main - INFO - Shutting down...
+2025-03-22 20:11:41,422 - app.main - INFO - Initializing model and processor...
+2025-03-22 20:11:41,635 - app.main - INFO - Database connection successful
+2025-03-22 20:11:42,589 - app.services.vertex - INFO - Total embedding process completed in 0.947s
+2025-03-22 20:11:42,589 - app.main - INFO - Initialization complete.
+2025-03-22 20:11:52,768 - app.main - INFO - Initializing model and processor...
+2025-03-22 20:11:52,911 - app.main - INFO - Database connection successful
+2025-03-22 20:11:53,648 - app.services.vertex - INFO - Total embedding process completed in 0.737s
+2025-03-22 20:11:53,648 - app.main - INFO - Initialization complete.
+2025-03-22 20:12:05,510 - app.main - INFO - Initializing model and processor...
+2025-03-22 20:12:05,638 - app.main - INFO - Database connection successful
+2025-03-22 20:12:06,552 - app.services.vertex - INFO - Total embedding process completed in 0.914s
+2025-03-22 20:12:06,552 - app.main - INFO - Initialization complete.
+2025-03-22 21:09:32,422 - app.routes.search_product - INFO - Empty query provided, returning all products in paginated form
+2025-03-22 21:09:32,452 - app.routes.search_product - INFO - Found 12 results for empty query (all products)
+2025-03-22 21:09:32,458 - app.middlewares.route_logging - INFO - Path: /api/v1/search | Method: GET | Processing Time: 49.18ms
+2025-03-22 21:09:32,470 - app.routes.search_product - INFO - Empty query provided, returning all products in paginated form
+2025-03-22 21:09:32,473 - app.routes.search_product - INFO - Found 12 results for empty query (all products)
+2025-03-22 21:09:32,478 - app.middlewares.route_logging - INFO - Path: /api/v1/search | Method: GET | Processing Time: 14.54ms
+2025-03-22 21:46:55,428 - app.main - INFO - Initializing model and processor...
+2025-03-22 21:46:55,644 - app.main - INFO - Database connection successful
+2025-03-22 21:46:56,582 - app.services.vertex - INFO - Total embedding process completed in 0.938s
+2025-03-22 21:46:56,582 - app.main - INFO - Initialization complete.
+2025-03-22 21:47:45,472 - app.services.vertex - INFO - Total embedding process completed in 0.494s
+2025-03-22 21:47:45,777 - root - INFO - AFC is enabled with max remote calls: 10.
+2025-03-22 21:47:45,780 - app.middlewares.route_logging - INFO - Path: /api/v1/shopping-assistant/chat | Method: GET | Processing Time: 815.96ms
+2025-03-22 21:47:48,339 - root - INFO - AFC remote call 1 is done.
+2025-03-22 21:47:48,735 - app.services.shopping_assistant - INFO - Saved conversation for ID: c1742657971914
+2025-03-22 21:49:58,989 - app.routes.search_product - INFO - Empty query provided, returning all products in paginated form
+2025-03-22 21:49:59,000 - app.routes.search_product - INFO - Found 12 results for empty query (all products)
+2025-03-22 21:49:59,000 - app.middlewares.route_logging - INFO - Path: /api/v1/search | Method: GET | Processing Time: 15.64ms
+2025-03-22 21:49:59,016 - app.routes.search_product - INFO - Empty query provided, returning all products in paginated form
+2025-03-22 21:49:59,025 - app.routes.search_product - INFO - Found 12 results for empty query (all products)
+2025-03-22 21:49:59,031 - app.middlewares.route_logging - INFO - Path: /api/v1/search | Method: GET | Processing Time: 31.49ms
+2025-03-22 21:51:40,169 - app.main - INFO - Shutting down...
+2025-03-22 21:51:53,361 - app.main - INFO - Initializing model and processor...
+2025-03-22 21:51:53,545 - app.main - INFO - Database connection successful
+2025-03-22 21:51:54,614 - app.services.vertex - INFO - Total embedding process completed in 1.069s
+2025-03-22 21:51:54,615 - app.main - INFO - Initialization complete.
+2025-03-22 21:52:10,068 - app.main - INFO - Initializing model and processor...
+2025-03-22 21:52:10,242 - app.main - INFO - Database connection successful
+2025-03-22 21:52:11,091 - app.services.vertex - INFO - Total embedding process completed in 0.849s
+2025-03-22 21:52:11,091 - app.main - INFO - Initialization complete.
+2025-03-22 21:52:20,412 - app.services.vertex - INFO - Total embedding process completed in 0.473s
+2025-03-22 21:52:20,672 - root - INFO - AFC is enabled with max remote calls: 10.
+2025-03-22 21:52:20,673 - app.middlewares.route_logging - INFO - Path: /api/v1/shopping-assistant/chat | Method: GET | Processing Time: 748.85ms
+2025-03-22 21:52:22,943 - root - INFO - AFC remote call 1 is done.
+2025-03-22 21:52:23,616 - app.services.shopping_assistant - INFO - Saved conversation for ID: c1742660398627
+2025-03-22 21:55:06,905 - app.services.vertex - INFO - Total embedding process completed in 0.454s
+2025-03-22 21:55:06,988 - root - INFO - AFC is enabled with max remote calls: 10.
+2025-03-22 21:55:06,988 - app.middlewares.route_logging - INFO - Path: /api/v1/shopping-assistant/chat | Method: GET | Processing Time: 549.48ms
+2025-03-22 21:55:09,159 - root - INFO - AFC remote call 1 is done.
+2025-03-22 21:55:11,663 - app.services.shopping_assistant - INFO - Saved conversation for ID: c1742660398627
+2025-03-22 21:57:28,143 - app.services.vertex - INFO - Total embedding process completed in 3.177s
+2025-03-22 21:57:28,219 - root - INFO - AFC is enabled with max remote calls: 10.
+2025-03-22 21:57:28,229 - app.middlewares.route_logging - INFO - Path: /api/v1/shopping-assistant/chat | Method: GET | Processing Time: 3267.38ms
+2025-03-22 21:57:30,283 - root - INFO - AFC remote call 1 is done.
+2025-03-22 21:57:30,586 - app.services.shopping_assistant - INFO - Saved conversation for ID: c1742660398627
+2025-03-22 21:57:56,278 - app.services.vertex - INFO - Total embedding process completed in 0.534s
+2025-03-22 21:57:56,353 - root - INFO - AFC is enabled with max remote calls: 10.
+2025-03-22 21:57:56,353 - app.middlewares.route_logging - INFO - Path: /api/v1/shopping-assistant/chat | Method: GET | Processing Time: 617.74ms
+2025-03-22 21:57:58,519 - root - INFO - AFC remote call 1 is done.
+2025-03-22 21:57:58,825 - app.services.shopping_assistant - INFO - Saved conversation for ID: c1742660398627
+2025-03-22 21:57:58,899 - app.main - INFO - Shutting down...
+2025-03-22 21:58:09,295 - app.main - INFO - Initializing model and processor...
+2025-03-22 21:58:09,377 - app.main - INFO - Database connection successful
+2025-03-22 21:58:10,202 - app.services.vertex - INFO - Total embedding process completed in 0.825s
+2025-03-22 21:58:10,202 - app.main - INFO - Initialization complete.
+2025-03-22 21:58:20,551 - app.main - INFO - Initializing model and processor...
+2025-03-22 21:58:20,641 - app.main - INFO - Database connection successful
+2025-03-22 21:58:21,365 - app.services.vertex - INFO - Total embedding process completed in 0.723s
+2025-03-22 21:58:21,365 - app.main - INFO - Initialization complete.
+2025-03-22 22:00:26,650 - app.main - INFO - Shutting down...
+2025-03-22 22:00:38,937 - app.main - INFO - Initializing model and processor...
+2025-03-22 22:00:39,124 - app.main - INFO - Database connection successful
+2025-03-22 22:00:40,219 - app.services.vertex - INFO - Total embedding process completed in 1.094s
+2025-03-22 22:00:40,219 - app.main - INFO - Initialization complete.
+2025-03-22 22:05:10,162 - app.middlewares.route_logging - INFO - Path: /docs | Method: GET | Processing Time: 1.52ms
+2025-03-22 22:05:10,361 - app.middlewares.route_logging - INFO - Path: /openapi.json | Method: GET | Processing Time: 34.95ms
+2025-03-22 22:07:17,827 - app.services.vertex - INFO - Total embedding process completed in 0.903s
+2025-03-22 22:07:17,981 - root - INFO - AFC is enabled with max remote calls: 10.
+2025-03-22 22:07:20,866 - app.services.shopping_assistant - INFO - Saved conversation for ID: x
+2025-03-22 22:07:20,866 - app.middlewares.route_logging - INFO - Path: /api/v1/shopping-assistant/chat | Method: GET | Processing Time: 3957.04ms
+2025-03-23 00:04:36,070 - app.routes.search_product - INFO - Empty query provided, returning all products in paginated form
+2025-03-23 00:04:36,089 - app.routes.search_product - INFO - Found 12 results for empty query (all products)
+2025-03-23 00:04:36,093 - app.middlewares.route_logging - INFO - Path: /api/v1/search | Method: GET | Processing Time: 39.10ms
+2025-03-23 00:04:36,101 - app.routes.search_product - INFO - Empty query provided, returning all products in paginated form
+2025-03-23 00:04:36,114 - app.routes.search_product - INFO - Found 12 results for empty query (all products)
+2025-03-23 00:04:36,117 - app.middlewares.route_logging - INFO - Path: /api/v1/search | Method: GET | Processing Time: 24.23ms
+2025-03-23 00:09:23,453 - app.main - INFO - Shutting down...
+2025-03-23 00:09:44,661 - app.main - INFO - Initializing model and processor...
+2025-03-23 00:09:44,830 - app.main - INFO - Database connection successful
+2025-03-23 00:09:46,160 - app.services.vertex - INFO - Total embedding process completed in 1.330s
+2025-03-23 00:09:46,164 - app.main - INFO - Initialization complete.
+2025-03-23 00:19:23,869 - app.main - INFO - Shutting down...
+2025-03-23 00:19:33,721 - app.main - INFO - Initializing model and processor...
+2025-03-23 00:19:33,814 - app.main - INFO - Database connection successful
+2025-03-23 00:19:34,846 - app.services.vertex - INFO - Total embedding process completed in 1.033s
+2025-03-23 00:19:34,847 - app.main - INFO - Initialization complete.
+2025-03-23 00:19:44,798 - app.main - INFO - Initializing model and processor...
+2025-03-23 00:19:44,879 - app.main - INFO - Database connection successful
+2025-03-23 00:19:45,705 - app.services.vertex - INFO - Total embedding process completed in 0.826s
+2025-03-23 00:19:45,705 - app.main - INFO - Initialization complete.
+2025-03-23 00:28:25,968 - app.main - INFO - Shutting down...
+2025-03-23 00:28:35,901 - app.main - INFO - Initializing model and processor...
+2025-03-23 00:28:35,979 - app.main - INFO - Database connection successful
+2025-03-23 00:28:36,848 - app.services.vertex - INFO - Total embedding process completed in 0.868s
+2025-03-23 00:28:36,849 - app.main - INFO - Initialization complete.
+2025-03-23 00:28:46,583 - app.services.vertex - INFO - Total embedding process completed in 0.364s
+2025-03-23 00:28:46,847 - root - INFO - AFC is enabled with max remote calls: 10.
+2025-03-23 00:28:46,912 - app.middlewares.route_logging - INFO - Path: /api/v1/shopping-assistant/chat | Method: GET | Processing Time: 712.07ms
+2025-03-23 00:28:49,375 - root - INFO - AFC remote call 1 is done.
+2025-03-23 00:28:49,985 - app.services.shopping_assistant - INFO - Saved conversation for ID: c1742668475474
+2025-03-23 00:33:26,761 - app.main - INFO - Shutting down...
+2025-03-23 00:33:49,413 - app.main - INFO - Initializing model and processor...
+2025-03-23 00:33:49,601 - app.main - INFO - Database connection successful
+2025-03-23 00:33:50,289 - app.services.vertex - INFO - Total embedding process completed in 0.688s
+2025-03-23 00:33:50,289 - app.main - INFO - Initialization complete.
+2025-03-23 00:34:03,112 - app.main - INFO - Initializing model and processor...
+2025-03-23 00:34:03,255 - app.main - INFO - Database connection successful
+2025-03-23 00:34:03,872 - app.services.vertex - INFO - Total embedding process completed in 0.618s
+2025-03-23 00:34:03,872 - app.main - INFO - Initialization complete.
+2025-03-23 00:34:15,738 - app.main - INFO - Initializing model and processor...
+2025-03-23 00:34:15,878 - app.main - INFO - Database connection successful
+2025-03-23 00:34:16,701 - app.services.vertex - INFO - Total embedding process completed in 0.823s
+2025-03-23 00:34:16,701 - app.main - INFO - Initialization complete.
+2025-03-23 00:38:26,820 - app.main - INFO - Shutting down...
+2025-03-23 00:38:37,766 - app.main - INFO - Initializing model and processor...
+2025-03-23 00:38:37,915 - app.main - INFO - Database connection successful
+2025-03-23 00:38:38,643 - app.services.vertex - INFO - Total embedding process completed in 0.729s
+2025-03-23 00:38:38,644 - app.main - INFO - Initialization complete.
+2025-03-23 00:43:28,869 - app.main - INFO - Shutting down...
+2025-03-23 00:43:44,310 - app.main - INFO - Initializing model and processor...
+2025-03-23 00:43:44,534 - app.main - INFO - Database connection successful
+2025-03-23 00:43:45,324 - app.services.vertex - INFO - Total embedding process completed in 0.790s
+2025-03-23 00:43:45,324 - app.main - INFO - Initialization complete.
+2025-03-23 00:43:55,319 - app.main - INFO - Initializing model and processor...
+2025-03-23 00:43:55,493 - app.main - INFO - Database connection successful
+2025-03-23 00:43:56,177 - app.services.vertex - INFO - Total embedding process completed in 0.683s
+2025-03-23 00:43:56,177 - app.main - INFO - Initialization complete.
+2025-03-23 00:48:47,298 - app.main - INFO - Shutting down...
+2025-03-23 00:48:58,420 - app.main - INFO - Initializing model and processor...
+2025-03-23 00:48:58,614 - app.main - INFO - Database connection successful
+2025-03-23 00:48:59,482 - app.services.vertex - INFO - Total embedding process completed in 0.868s
+2025-03-23 00:48:59,482 - app.main - INFO - Initialization complete.
+2025-03-23 00:53:49,559 - app.main - INFO - Shutting down...
+2025-03-23 00:54:02,563 - app.main - INFO - Initializing model and processor...
+2025-03-23 00:54:02,785 - app.main - INFO - Database connection successful
+2025-03-23 00:54:03,605 - app.services.vertex - INFO - Total embedding process completed in 0.820s
+2025-03-23 00:54:03,605 - app.main - INFO - Initialization complete.
+2025-03-23 00:54:14,509 - app.main - INFO - Initializing model and processor...
+2025-03-23 00:54:14,668 - app.main - INFO - Database connection successful
+2025-03-23 00:54:15,457 - app.services.vertex - INFO - Total embedding process completed in 0.788s
+2025-03-23 00:54:15,457 - app.main - INFO - Initialization complete.
+2025-03-23 00:54:28,299 - app.main - INFO - Initializing model and processor...
+2025-03-23 00:54:28,507 - app.main - INFO - Database connection successful
+2025-03-23 00:54:31,865 - app.services.vertex - INFO - Total embedding process completed in 3.357s
+2025-03-23 00:54:31,865 - app.main - INFO - Initialization complete.
+2025-03-23 00:54:44,997 - app.main - INFO - Initializing model and processor...
+2025-03-23 00:54:45,130 - app.main - INFO - Database connection successful
+2025-03-23 00:54:45,879 - app.services.vertex - INFO - Total embedding process completed in 0.749s
+2025-03-23 00:54:45,879 - app.main - INFO - Initialization complete.
+2025-03-23 00:54:58,383 - app.main - INFO - Initializing model and processor...
+2025-03-23 00:54:58,592 - app.main - INFO - Database connection successful
+2025-03-23 00:54:59,198 - app.services.vertex - INFO - Total embedding process completed in 0.599s
+2025-03-23 00:54:59,198 - app.main - INFO - Initialization complete.
+2025-03-23 00:55:13,533 - app.main - INFO - Initializing model and processor...
+2025-03-23 00:55:13,776 - app.main - INFO - Database connection successful
+2025-03-23 00:55:14,648 - app.services.vertex - INFO - Total embedding process completed in 0.871s
+2025-03-23 00:55:14,648 - app.main - INFO - Initialization complete.
+2025-03-23 00:55:28,367 - app.main - INFO - Initializing model and processor...
+2025-03-23 00:55:28,551 - app.main - INFO - Database connection successful
+2025-03-23 00:55:31,669 - app.services.vertex - INFO - Total embedding process completed in 3.118s
+2025-03-23 00:55:31,669 - app.main - INFO - Initialization complete.
+2025-03-23 00:55:46,277 - app.main - INFO - Initializing model and processor...
+2025-03-23 00:55:46,476 - app.main - INFO - Database connection successful
+2025-03-23 00:55:47,430 - app.services.vertex - INFO - Total embedding process completed in 0.953s
+2025-03-23 00:55:47,430 - app.main - INFO - Initialization complete.
+2025-03-23 00:55:59,721 - app.main - INFO - Initializing model and processor...
+2025-03-23 00:55:59,864 - app.main - INFO - Database connection successful
+2025-03-23 00:56:00,747 - app.services.vertex - INFO - Total embedding process completed in 0.883s
+2025-03-23 00:56:00,747 - app.main - INFO - Initialization complete.
+2025-03-23 00:58:21,049 - app.main - INFO - Initializing model and processor...
+2025-03-23 00:58:21,133 - app.main - INFO - Database connection successful
+2025-03-23 00:58:22,673 - app.services.vertex - INFO - Total embedding process completed in 1.540s
+2025-03-23 00:58:22,674 - app.main - INFO - Initialization complete.
+2025-03-23 00:58:46,860 - app.services.vertex - INFO - Total embedding process completed in 0.654s
+2025-03-23 00:58:47,062 - root - INFO - AFC is enabled with max remote calls: 10.
+2025-03-23 00:58:47,102 - app.middlewares.route_logging - INFO - Path: /api/v1/shopping-assistant/chat | Method: GET | Processing Time: 907.89ms
+2025-03-23 00:58:49,501 - root - INFO - AFC remote call 1 is done.
+2025-03-23 00:58:49,809 - app.services.shopping_assistant - INFO - Saved conversation for ID: c1742668475474
+2025-03-23 01:08:12,817 - app.main - INFO - Shutting down...
+2025-03-23 01:08:26,779 - app.main - INFO - Initializing model and processor...
+2025-03-23 01:08:26,975 - app.main - INFO - Database connection successful
+2025-03-23 01:08:30,609 - app.services.vertex - INFO - Total embedding process completed in 3.634s
+2025-03-23 01:08:30,609 - app.main - INFO - Initialization complete.
+2025-03-23 01:08:41,751 - app.main - INFO - Initializing model and processor...
+2025-03-23 01:08:41,915 - app.main - INFO - Database connection successful
+2025-03-23 01:08:42,642 - app.services.vertex - INFO - Total embedding process completed in 0.724s
+2025-03-23 01:08:42,642 - app.main - INFO - Initialization complete.
+2025-03-23 01:10:20,477 - app.main - INFO - Shutting down...
+2025-03-23 01:10:31,581 - app.main - INFO - Initializing model and processor...
+2025-03-23 01:10:31,734 - app.main - INFO - Database connection successful
+2025-03-23 01:10:33,054 - app.services.vertex - INFO - Total embedding process completed in 1.320s
+2025-03-23 01:10:33,054 - app.main - INFO - Initialization complete.
+2025-03-23 01:15:20,794 - app.main - INFO - Shutting down...
+2025-03-23 01:15:33,407 - app.main - INFO - Initializing model and processor...
+2025-03-23 01:15:33,595 - app.main - INFO - Database connection successful
+2025-03-23 01:15:34,433 - app.services.vertex - INFO - Total embedding process completed in 0.838s
+2025-03-23 01:15:34,433 - app.main - INFO - Initialization complete.
+2025-03-23 01:15:47,710 - app.main - INFO - Initializing model and processor...
+2025-03-23 01:15:47,868 - app.main - INFO - Database connection successful
+2025-03-23 01:15:48,776 - app.services.vertex - INFO - Total embedding process completed in 0.908s
+2025-03-23 01:15:48,776 - app.main - INFO - Initialization complete.
+2025-03-23 01:25:36,798 - app.main - INFO - Shutting down...
+2025-03-23 01:25:48,435 - app.main - INFO - Initializing model and processor...
+2025-03-23 01:25:48,615 - app.main - INFO - Database connection successful
+2025-03-23 01:25:49,431 - app.services.vertex - INFO - Total embedding process completed in 0.815s
+2025-03-23 01:25:49,431 - app.main - INFO - Initialization complete.
+2025-03-23 01:26:00,019 - app.main - INFO - Initializing model and processor...
+2025-03-23 01:26:00,184 - app.main - INFO - Database connection successful
+2025-03-23 01:26:01,321 - app.services.vertex - INFO - Total embedding process completed in 1.137s
+2025-03-23 01:26:01,321 - app.main - INFO - Initialization complete.
+2025-03-23 01:30:51,426 - app.main - INFO - Shutting down...
+2025-03-23 01:31:07,002 - app.main - INFO - Initializing model and processor...
+2025-03-23 01:31:07,201 - app.main - INFO - Database connection successful
+2025-03-23 01:31:07,947 - app.services.vertex - INFO - Total embedding process completed in 0.746s
+2025-03-23 01:31:07,947 - app.main - INFO - Initialization complete.
+2025-03-23 01:31:21,099 - app.main - INFO - Initializing model and processor...
+2025-03-23 01:31:21,267 - app.main - INFO - Database connection successful
+2025-03-23 01:31:22,847 - app.services.vertex - INFO - Total embedding process completed in 1.576s
+2025-03-23 01:31:22,847 - app.main - INFO - Initialization complete.
+2025-03-23 01:36:10,538 - app.main - INFO - Shutting down...
+2025-03-23 01:36:23,327 - app.main - INFO - Initializing model and processor...
+2025-03-23 01:36:23,488 - app.main - INFO - Database connection successful
+2025-03-23 01:36:27,002 - app.services.vertex - INFO - Total embedding process completed in 3.515s
+2025-03-23 01:36:27,002 - app.main - INFO - Initialization complete.
+2025-03-23 01:36:47,804 - app.main - INFO - Initializing model and processor...
+2025-03-23 01:36:47,974 - app.main - INFO - Database connection successful
+2025-03-23 01:36:48,784 - app.services.vertex - INFO - Total embedding process completed in 0.810s
+2025-03-23 01:36:48,784 - app.main - INFO - Initialization complete.

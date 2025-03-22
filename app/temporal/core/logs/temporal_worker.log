@@ -24039,3 +24039,120 @@ ImportError: cannot import name 'ProductSyncWithIdInput' from 'app.models.sync_p
 2025-03-11 01:24:03,639 [INFO] Starting worker for task queue: product-sync-task-queue
 2025-03-11 01:24:03,639 [INFO] Started worker with task queue product-sync-task-queue
 2025-03-11 02:09:28,306 [INFO] Beginning worker shutdown, will wait 0:00:00 before cancelling activities
+2025-03-12 01:54:29,409 [INFO] Connecting to Temporal server at localhost:7233 with namespace default
+2025-03-12 01:54:29,409 [INFO] Connecting to Temporal server at localhost:7233 with namespace default
+2025-03-12 01:54:29,521 [INFO] Connected to Temporal server
+2025-03-12 01:54:29,521 [INFO] Creating worker for task queue: product-sync-task-queue
+2025-03-12 01:54:31,827 [INFO] Worker created for task queue: product-sync-task-queue
+2025-03-12 01:54:31,827 [INFO] Starting worker for task queue: product-sync-task-queue
+2025-03-12 01:54:31,827 [INFO] Started worker with task queue product-sync-task-queue
+2025-03-12 02:09:55,908 [INFO] Beginning worker shutdown, will wait 0:00:00 before cancelling activities
+2025-03-12 02:10:03,248 [INFO] Connecting to Temporal server at localhost:7233 with namespace default
+2025-03-12 02:10:03,248 [INFO] Connecting to Temporal server at localhost:7233 with namespace default
+2025-03-12 02:10:03,260 [INFO] Connected to Temporal server
+2025-03-12 02:10:03,260 [INFO] Creating worker for task queue: product-sync-task-queue
+2025-03-12 02:10:04,229 [INFO] Worker created for task queue: product-sync-task-queue
+2025-03-12 02:10:04,229 [INFO] Starting worker for task queue: product-sync-task-queue
+2025-03-12 02:10:04,229 [INFO] Started worker with task queue product-sync-task-queue
+2025-03-12 02:10:51,487 [INFO] Beginning worker shutdown, will wait 0:00:00 before cancelling activities
+2025-03-12 02:10:57,207 [INFO] Connecting to Temporal server at localhost:7233 with namespace default
+2025-03-12 02:10:57,207 [INFO] Connecting to Temporal server at localhost:7233 with namespace default
+2025-03-12 02:10:57,217 [INFO] Connected to Temporal server
+2025-03-12 02:10:57,218 [INFO] Creating worker for task queue: product-sync-task-queue
+2025-03-12 02:10:59,466 [INFO] Worker created for task queue: product-sync-task-queue
+2025-03-12 02:10:59,466 [INFO] Starting worker for task queue: product-sync-task-queue
+2025-03-12 02:10:59,466 [INFO] Started worker with task queue product-sync-task-queue
+2025-03-12 02:13:05,999 [INFO] Beginning worker shutdown, will wait 0:00:00 before cancelling activities
+2025-03-12 02:13:12,223 [INFO] Connecting to Temporal server at localhost:7233 with namespace default
+2025-03-12 02:13:12,223 [INFO] Connecting to Temporal server at localhost:7233 with namespace default
+2025-03-12 02:13:12,231 [INFO] Connected to Temporal server
+2025-03-12 02:13:12,232 [INFO] Creating worker for task queue: product-sync-task-queue
+2025-03-12 02:13:13,086 [INFO] Worker created for task queue: product-sync-task-queue
+2025-03-12 02:13:13,086 [INFO] Starting worker for task queue: product-sync-task-queue
+2025-03-12 02:13:13,086 [INFO] Started worker with task queue product-sync-task-queue
+2025-03-12 02:14:12,234 [INFO] Beginning worker shutdown, will wait 0:00:00 before cancelling activities
+2025-03-12 02:14:17,314 [INFO] Connecting to Temporal server at localhost:7233 with namespace default
+2025-03-12 02:14:17,314 [INFO] Connecting to Temporal server at localhost:7233 with namespace default
+2025-03-12 02:14:17,327 [INFO] Connected to Temporal server
+2025-03-12 02:14:17,327 [INFO] Creating worker for task queue: product-sync-task-queue
+2025-03-12 02:14:18,367 [INFO] Worker created for task queue: product-sync-task-queue
+2025-03-12 02:14:18,367 [INFO] Starting worker for task queue: product-sync-task-queue
+2025-03-12 02:14:18,368 [INFO] Started worker with task queue product-sync-task-queue
+2025-03-12 02:28:18,306 [INFO] Beginning worker shutdown, will wait 0:00:00 before cancelling activities
+2025-03-21 00:15:23,280 [INFO] Connecting to Temporal server at localhost:7233 with namespace default
+2025-03-21 00:15:23,281 [INFO] Connecting to Temporal server at localhost:7233 with namespace default
+2025-03-21 00:15:23,332 [INFO] Connected to Temporal server
+2025-03-21 00:15:23,333 [INFO] Creating worker for task queue: product-sync-task-queue
+2025-03-21 00:15:24,652 [INFO] Worker created for task queue: product-sync-task-queue
+2025-03-21 00:15:24,653 [INFO] Starting worker for task queue: product-sync-task-queue
+2025-03-21 00:15:24,653 [INFO] Started worker with task queue product-sync-task-queue
+2025-03-21 00:19:12,308 [INFO] Getting products from source: MANUAL_FILE_UPLOAD
+2025-03-21 00:19:12,308 [INFO] Getting products from manual file upload
+2025-03-21 00:19:13,258 [INFO] Total embedding process completed in 0.767s
+2025-03-21 00:19:13,668 [INFO] Total embedding process completed in 0.409s
+2025-03-21 00:19:14,060 [INFO] Total embedding process completed in 0.392s
+2025-03-21 00:19:14,060 [INFO] Retrieved 3 products from source: MANUAL_FILE_UPLOAD
+2025-03-21 00:19:14,157 [INFO] Inserting 3 products into database
+2025-03-21 00:19:14,538 [INFO] Inserted 3 products into database
+2025-03-21 00:19:14,648 [INFO] Updating sync history record with ID: 4c03df59-2c17-4778-8ae1-63ba860ae733
+2025-03-21 00:19:14,740 [INFO] Updated sync history record with ID: 4c03df59-2c17-4778-8ae1-63ba860ae733
+2025-03-21 00:22:03,904 [INFO] Beginning worker shutdown, will wait 0:00:00 before cancelling activities
+2025-03-21 00:22:17,119 [INFO] Connecting to Temporal server at localhost:7233 with namespace default
+2025-03-21 00:22:17,120 [INFO] Connecting to Temporal server at localhost:7233 with namespace default
+2025-03-21 00:22:17,130 [INFO] Connected to Temporal server
+2025-03-21 00:22:17,131 [INFO] Creating worker for task queue: product-sync-task-queue
+2025-03-21 00:22:20,415 [INFO] Worker created for task queue: product-sync-task-queue
+2025-03-21 00:22:20,415 [INFO] Starting worker for task queue: product-sync-task-queue
+2025-03-21 00:22:20,415 [INFO] Started worker with task queue product-sync-task-queue
+2025-03-21 00:23:17,710 [INFO] Getting products from source: MANUAL_FILE_UPLOAD
+2025-03-21 00:23:17,710 [INFO] Getting products from manual file upload
+2025-03-21 00:23:18,622 [INFO] Total embedding process completed in 0.734s
+2025-03-21 00:23:19,103 [INFO] Total embedding process completed in 0.479s
+2025-03-21 00:23:19,474 [INFO] Total embedding process completed in 0.369s
+2025-03-21 00:23:19,474 [INFO] Retrieved 3 products from source: MANUAL_FILE_UPLOAD
+2025-03-21 00:23:19,544 [INFO] Inserting 3 products into database
+2025-03-21 00:23:19,670 [INFO] Inserted 3 products into database
+2025-03-21 00:23:19,753 [INFO] Updating sync history record with ID: ea82ade0-01c2-42e3-9404-39c0d0828cf2
+2025-03-21 00:23:19,784 [INFO] Updated sync history record with ID: ea82ade0-01c2-42e3-9404-39c0d0828cf2
+2025-03-21 00:39:31,058 [INFO] Beginning worker shutdown, will wait 0:00:00 before cancelling activities
+2025-03-21 00:39:46,099 [INFO] Connecting to Temporal server at localhost:7233 with namespace default
+2025-03-21 00:39:46,100 [INFO] Connecting to Temporal server at localhost:7233 with namespace default
+2025-03-21 00:39:46,100 [INFO] Checking if namespace 'default' exists
+2025-03-21 00:39:46,164 [INFO] Namespace 'default' already exists
+2025-03-21 00:39:46,169 [INFO] Connected to Temporal server
+2025-03-21 00:39:46,169 [INFO] Creating worker for task queue: product-sync-task-queue
+2025-03-21 00:39:47,113 [INFO] Worker created for task queue: product-sync-task-queue
+2025-03-21 00:39:47,113 [INFO] Starting worker for task queue: product-sync-task-queue
+2025-03-21 00:39:47,113 [INFO] Started worker with task queue product-sync-task-queue
+2025-03-21 00:41:00,267 [INFO] Beginning worker shutdown, will wait 0:00:00 before cancelling activities
+2025-03-21 00:41:05,737 [INFO] Connecting to Temporal server at localhost:7233 with namespace supersearch
+2025-03-21 00:41:05,737 [INFO] Connecting to Temporal server at localhost:7233 with namespace supersearch
+2025-03-21 00:41:05,737 [INFO] Checking if namespace 'supersearch' exists
+2025-03-21 00:41:05,798 [INFO] Creating namespace 'supersearch'
+2025-03-21 00:41:05,827 [INFO] Namespace 'supersearch' created successfully
+2025-03-21 00:41:05,834 [INFO] Connected to Temporal server
+2025-03-21 00:41:05,834 [INFO] Creating worker for task queue: product-sync-task-queue
+2025-03-21 00:41:06,776 [INFO] Worker created for task queue: product-sync-task-queue
+2025-03-21 00:41:06,776 [INFO] Starting worker for task queue: product-sync-task-queue
+2025-03-21 00:41:06,776 [INFO] Started worker with task queue product-sync-task-queue
+2025-03-21 00:44:00,897 [INFO] Beginning worker shutdown, will wait 0:00:00 before cancelling activities
+2025-03-21 00:44:07,087 [INFO] Connecting to Temporal server at localhost:7233 with namespace supersearch
+2025-03-21 00:44:07,087 [INFO] Connecting to Temporal server at localhost:7233 with namespace supersearch
+2025-03-21 00:44:07,087 [INFO] Checking if namespace 'supersearch' exists
+2025-03-21 00:44:07,148 [INFO] Namespace 'supersearch' already exists
+2025-03-21 00:44:07,152 [INFO] Connected to Temporal server
+2025-03-21 00:44:07,153 [INFO] Creating worker for task queue: product-sync-task-queue
+2025-03-21 00:44:08,135 [INFO] Worker created for task queue: product-sync-task-queue
+2025-03-21 00:44:08,136 [INFO] Starting worker for task queue: product-sync-task-queue
+2025-03-21 00:44:08,136 [INFO] Started worker with task queue product-sync-task-queue
+2025-03-21 00:44:53,684 [INFO] Getting products from source: MANUAL_FILE_UPLOAD
+2025-03-21 00:44:53,684 [INFO] Getting products from manual file upload
+2025-03-21 00:44:54,776 [INFO] Total embedding process completed in 0.893s
+2025-03-21 00:44:55,239 [INFO] Total embedding process completed in 0.462s
+2025-03-21 00:44:55,714 [INFO] Total embedding process completed in 0.474s
+2025-03-21 00:44:55,714 [INFO] Retrieved 3 products from source: MANUAL_FILE_UPLOAD
+2025-03-21 00:44:55,793 [INFO] Inserting 3 products into database
+2025-03-21 00:44:55,902 [INFO] Inserted 3 products into database
+2025-03-21 00:44:55,981 [INFO] Updating sync history record with ID: c2066c81-3abe-4958-b3aa-4624a1fd6c15
+2025-03-21 00:44:55,997 [INFO] Updated sync history record with ID: c2066c81-3abe-4958-b3aa-4624a1fd6c15
+2025-03-21 16:23:03,901 [INFO] Beginning worker shutdown, will wait 0:00:00 before cancelling activities

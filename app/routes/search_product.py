@@ -6,7 +6,7 @@ from fastapi import Depends
 import logging
 from app.models.product import ProductSearchResult
 from app.services.vertex import get_embedding, TaskType
-from app.database.sql.sql import render_sql
+from app.database.sql.sql import render_sql, SQLFilePath
 from app.services.reranker import rerank_search_results
 from typing import List, Optional
 
@@ -117,17 +117,17 @@ async def hybrid_search(
         # Get vector embedding for the query
         query_embedding = await get_embedding(query, TaskType.QUERY)
 
-        sql_query = render_sql('product/hybrid_search',
+        sql_query = render_sql(SQLFilePath.PRODUCT_HYBRID_SEARCH,
                                query_text=query,
                                query_embedding=query_embedding,
                                match_count=size,
                                offset=offset,
-                               full_text_weight=0.25,
-                               semantic_weight=0.75,
+                               full_text_weight=0.1,
+                               semantic_weight=0.9,
                                rrf_k=10,
                                fuzzy_distance=1
                                )
-        
+        print(sql_query)
         result = await db.execute(text(sql_query))
         
         products = [
@@ -192,12 +192,11 @@ async def full_text_search(
             logger.info(f"Found {len(products)} results for empty query (all products)")
             return products
         
-        # Render the SQL query with parameters
-        sql_query = render_sql('product/full_text_search',
-                               query_text=query,
-                               match_count=limit,
-                               fuzzy_distance=fuzzy_distance
-                               )
+        # Use full-text search for short queries or when semantic search fails
+        sql_query = render_sql(SQLFilePath.PRODUCT_FULL_TEXT_SEARCH,
+                              query_text=query,
+                              fuzzy_distance=fuzzy_distance,
+                              match_count=limit)
         
         result = await db.execute(text(sql_query))
         
@@ -259,12 +258,9 @@ async def autocomplete_search(
             logger.info(f"Found {len(products)} results for empty autocomplete query")
             return {"results": products}
             
-        sql_query = render_sql('product/autocomplete_search',
-                               query_text=query,
-                               query_length=len(query),
-                               match_count=limit,
-                               fuzzy_distance=fuzzy_distance
-                               )
+        sql_query = render_sql(SQLFilePath.PRODUCT_AUTOCOMPLETE_SEARCH,
+                              prefix=query,
+                              match_count=limit)
         
         result = await db.execute(text(sql_query))
         
@@ -306,11 +302,10 @@ async def semantic_search(
         # Get vector embedding for the query
         query_embedding = await get_embedding(query, TaskType.QUERY)
 
-        sql_query = render_sql('product/semantic_search',
-                               query_embedding=query_embedding,
-                               match_count=size,
-                               offset=offset
-                               )
+        sql_query = render_sql(SQLFilePath.PRODUCT_SEMANTIC_SEARCH,
+                              query_embedding=query_embedding,
+                              match_count=size,
+                              offset=offset)
         print(sql_query)
         result = await db.execute(text(sql_query))
         
@@ -355,13 +350,11 @@ async def hybrid_search_without_ranking(
         # Get vector embedding for the query
         query_embedding = await get_embedding(query, TaskType.QUERY)
 
-        sql_query = render_sql('product/hybrid_search_without_ranking',
+        sql_query = render_sql(SQLFilePath.PRODUCT_HYBRID_SEARCH_WITHOUT_RANKING,
                                query_text=query,
                                query_embedding=query_embedding,
                                match_count=size,
-                               offset=offset,
-                               fuzzy_distance=1
-                               )
+                               offset=offset)
         
         result = await db.execute(text(sql_query))
         
@@ -418,13 +411,11 @@ async def hybrid_search_with_reranking(
         # We'll retrieve more results than requested and then rerank them
         rerank_pool_size = size*3  # Get 2x results
         
-        sql_query = render_sql('product/hybrid_search_without_ranking',
+        sql_query = render_sql(SQLFilePath.PRODUCT_HYBRID_SEARCH_WITHOUT_RANKING,
                                query_text=query,
                                query_embedding=query_embedding,
                                match_count=rerank_pool_size,
-                               offset=offset,
-                               fuzzy_distance=1
-                               )
+                               offset=offset)
         
         result = await db.execute(text(sql_query))
         

@@ -55,8 +55,6 @@ class Product(BaseModel):
 
     model_config = ConfigDict(from_attributes=True)
 
-
-
 class ProductSearchResult(BaseModel):
     """
     Simplified product model for search results
@@ -67,8 +65,6 @@ class ProductSearchResult(BaseModel):
     searchable_content: Optional[str] = None
     score: Optional[float] = None
     search_type: Optional[str] = None
-
-    model_config = ConfigDict(from_attributes=True)
 
 class PaginatedProductsResponse(BaseModel):
     """

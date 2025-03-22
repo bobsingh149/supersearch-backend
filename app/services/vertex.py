@@ -18,8 +18,8 @@ vertexai.init(project=project, credentials=credentials, location="asia-south1")
 MODEL_NAME = "text-embedding-005"
 model = TextEmbeddingModel.from_pretrained(MODEL_NAME)
 
-genai_client  = genai.Client(vertexai=True, project="spheric-hawk-449810-a2",
-             location="asia-south1")
+# Initialize the Gemini client
+genai_client = genai.Client(vertexai=True, project="spheric-hawk-449810-a2", location='us-central1')
 
 def get_genai_client():
     return genai_client

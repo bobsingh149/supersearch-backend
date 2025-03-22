@@ -38,4 +38,5 @@ torch
 transformers
 uvicorn[standard]
 pydantic[email]
+async-lru
 

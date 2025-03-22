@@ -405,3 +405,8 @@ u can even give it context with custom data
 end result fully functioning app with AI
 With the tools just add sample api user can edit it
 and gemeni rag
+
+
+For AI shopping asssistant when opening
+the modal supply the prduct id or list of prodcts ids
+based on which page was ctrl+k or icon was clicked

@@ -34,7 +34,7 @@ async def main():
     """Run the product sync worker."""
     # Get Temporal client
     server_url = os.getenv("TEMPORAL_SERVER_URL", "localhost:7233")
-    namespace = os.getenv("TEMPORAL_NAMESPACE", "default")
+    namespace = os.getenv("TEMPORAL_NAMESPACE", "supersearch")
     
     logger.info(f"Connecting to Temporal server at {server_url} with namespace {namespace}")
     client = await get_temporal_client(server_url, namespace)
