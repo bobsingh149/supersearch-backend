@@ -4195,3 +4195,12 @@ LIMIT 3]
 2025-03-26 16:06:28,789 - app.routes.search_product - INFO - Empty query provided, returning all products in paginated form
 2025-03-26 16:06:28,809 - app.routes.search_product - INFO - Found 12 results for empty query (all products)
 2025-03-26 16:06:28,809 - app.middlewares.route_logging - INFO - Path: /api/v1/search | Method: GET | Processing Time: 19.49ms
+2025-03-26 17:11:20,982 - app.main - INFO - Initializing model and processor...
+2025-03-26 17:11:21,344 - app.main - INFO - Database connection successful
+2025-03-26 17:11:22,295 - app.services.vertex - INFO - Total embedding process completed in 0.951s
+2025-03-26 17:11:22,295 - app.main - INFO - Initialization complete.
+2025-03-26 17:15:27,941 - app.main - INFO - Shutting down...
+2025-03-26 17:15:38,901 - app.main - INFO - Initializing model and processor...
+2025-03-26 17:15:38,986 - app.main - INFO - Database connection successful
+2025-03-26 17:15:40,135 - app.services.vertex - INFO - Total embedding process completed in 1.149s
+2025-03-26 17:15:40,136 - app.main - INFO - Initialization complete.
