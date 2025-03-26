@@ -13,6 +13,7 @@ class ProductDB(Base):
     text_embedding = Column(Vector(768), nullable=True)
     image_embedding = Column(Vector(768), nullable=True)
     searchable_content = Column(Text, nullable=True)
+    image_url = Column(Text, nullable=True)
     created_at = Column(DateTime(timezone=True), server_default=func.now(), nullable=False)
     updated_at = Column(DateTime(timezone=True), server_default=func.now(), onupdate=func.now(), nullable=False)
     custom_data = Column(JSON, nullable=True)
@@ -20,6 +21,7 @@ class ProductDB(Base):
 class ProductInput(BaseModel):
     id_field: str
     title_field: str
+    image_url_field: Optional[str] = None
     searchable_attribute_fields: List[str]
     data: List[Dict[str, Any]] | None = None
 
@@ -37,6 +39,10 @@ class ProductInput(BaseModel):
         if self.title_field not in first_item:
             raise ValueError(f"title_field '{self.title_field}' not found in data")
             
+        # Only validate image_url_field if it's provided
+        if self.image_url_field and self.image_url_field not in first_item:
+            raise ValueError(f"image_url_field '{self.image_url_field}' not found in data")
+            
         for field in self.searchable_attribute_fields:
             if field not in first_item:
                 raise ValueError(f"searchable field '{field}' not found in data")
@@ -49,6 +55,7 @@ class Product(BaseModel):
     text_embedding: Optional[list[float]] = None  # Vector will be converted to/from list
     image_embedding: Optional[list[float]] = None  # Vector will be converted to/from list
     searchable_content: Optional[str] = None
+    image_url: Optional[str] = None
     created_at: Optional[datetime] = None
     updated_at: Optional[datetime] = None
     custom_data: Optional[Dict] = None
@@ -65,6 +72,7 @@ class ProductSearchResult(BaseModel):
     searchable_content: Optional[str] = None
     score: Optional[float] = None
     search_type: Optional[str] = None
+    image_url: Optional[str] = None
 
 class PaginatedProductsResponse(BaseModel):
     """

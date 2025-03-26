@@ -122,26 +122,26 @@ async def insert_products(
         Number of products inserted
     """
     products_count = len(products_output.products)
-    logger.info(f"Inserting {products_count} products into database")
+    return products_count
+    # logger.info(f"Inserting {products_count} products into database")
     
-    async with get_async_session_with_contextmanager() as session:
-        # Convert processed products to dictionaries for bulk insert
-        products_to_insert = []
-        for product in products_output.products:
-            # Convert to dict and exclude created_at and updated_at as they are handled by the database
-            product_dict = product.model_dump(exclude={'created_at', 'updated_at'})
-            products_to_insert.append(product_dict)
+    # async with get_async_session_with_contextmanager() as session:
+    #     # Convert processed products to dictionaries for bulk insert
+    #     products_to_insert = []
+    #     for product in products_output.products:
+    #         # Convert to dict and exclude created_at and updated_at as they are handled by the database
+    #         product_dict = product.model_dump(exclude={'created_at', 'updated_at'})
+    #         products_to_insert.append(product_dict)
         
-        # Bulk insert using insert()
-        stmt = insert(ProductDB).values(products_to_insert)
-        await session.execute(stmt)
+    #     # Bulk insert using insert()
+    #     stmt = insert(ProductDB).values(products_to_insert)
+    #     await session.execute(stmt)
         
-        # Commit the transaction
-        await session.commit()
+    #     # Commit the transaction
+    #     await session.commit()
         
-        logger.info(f"Inserted {products_count} products into database")
+    #     logger.info(f"Inserted {products_count} products into database")
         
-        return products_count
 
 @activity.defn
 async def update_sync_history(

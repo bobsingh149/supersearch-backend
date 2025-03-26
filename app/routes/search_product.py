@@ -46,6 +46,7 @@ async def handle_empty_query(query: str, page: int, size: int, db: AsyncSession,
                 id, 
                 custom_data, 
                 searchable_content,
+                image_url,
                 0 as score,
                 'all_products' as search_type
             FROM products
@@ -59,6 +60,7 @@ async def handle_empty_query(query: str, page: int, size: int, db: AsyncSession,
                 title,
                 custom_data, 
                 searchable_content,
+                image_url,
                 0 as score
             FROM products
             ORDER BY id
@@ -76,6 +78,7 @@ async def handle_empty_query(query: str, page: int, size: int, db: AsyncSession,
                 id=row._mapping['id'],
                 custom_data=row._mapping['custom_data'],
                 searchable_content=row._mapping['searchable_content'],
+                image_url=row._mapping.get('image_url'),
                 score=float(row._mapping['score'] or 0.0),
                 search_type=row._mapping['search_type']
             ) for row in result
@@ -87,6 +90,7 @@ async def handle_empty_query(query: str, page: int, size: int, db: AsyncSession,
                 title=row._mapping.get('title'),
                 custom_data=row._mapping['custom_data'],
                 searchable_content=row._mapping['searchable_content'],
+                image_url=row._mapping.get('image_url'),
                 score=float(row._mapping['score'] or 0.0)
             ) for row in result
         ]
@@ -136,6 +140,7 @@ async def hybrid_search(
                 title=row._mapping['title'],
                 custom_data=row._mapping['custom_data'],
                 searchable_content=row._mapping['searchable_content'],
+                image_url=row._mapping.get('image_url'),
                 score=float(row._mapping['score'] or 0.0)
             ) for row in result
         ]
@@ -169,6 +174,7 @@ async def full_text_search(
                     id, 
                     custom_data, 
                     searchable_content,
+                    image_url,
                     0 as score
                 FROM products
                 ORDER BY id
@@ -185,6 +191,7 @@ async def full_text_search(
                     id=row._mapping['id'],
                     custom_data=row._mapping['custom_data'],
                     searchable_content=row._mapping['searchable_content'],
+                    image_url=row._mapping.get('image_url'),
                     score=float(row._mapping['score'] or 0.0)
                 ) for row in result
             ]
@@ -205,6 +212,7 @@ async def full_text_search(
                 id=row._mapping['id'],
                 custom_data=row._mapping['custom_data'],
                 searchable_content=row._mapping['searchable_content'],
+                image_url=row._mapping.get('image_url'),
                 score=float(row._mapping['score'] or 0.0)
             ) for row in result
         ]
@@ -314,6 +322,7 @@ async def semantic_search(
                 id=row._mapping['id'],
                 custom_data=row._mapping['custom_data'],
                 searchable_content=row._mapping['searchable_content'],
+                image_url=row._mapping.get('image_url'),
                 score=float(row._mapping['score'] or 0.0)
             ) for row in result
         ]
@@ -363,6 +372,7 @@ async def hybrid_search_without_ranking(
                 id=row._mapping['id'],
                 custom_data=row._mapping['custom_data'],
                 searchable_content=row._mapping['searchable_content'],
+                image_url=row._mapping.get('image_url'),
                 score=float(row._mapping['score'] or 0.0),
                 search_type=row._mapping['search_type']
             ) for row in result
@@ -424,6 +434,7 @@ async def hybrid_search_with_reranking(
                 id=row._mapping['id'],
                 custom_data=row._mapping['custom_data'],
                 searchable_content=row._mapping['searchable_content'],
+                image_url=row._mapping.get('image_url'),
                 score=float(row._mapping['score'] or 0.0),
                 search_type=row._mapping['search_type']
             ) for row in result

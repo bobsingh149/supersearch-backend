@@ -3,6 +3,7 @@ SELECT
     p.title,
     p.custom_data,
     p.searchable_content,
+    p.image_url,
     CASE 
         WHEN length('{{ query_text }}') < 3 THEN 1
         ELSE paradedb.score(p.id)

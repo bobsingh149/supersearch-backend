@@ -3,6 +3,7 @@ SELECT
     p.title,
     p.custom_data,
     p.searchable_content,
+    p.image_url,
     paradedb.score(p.id) as score
 FROM
     products p

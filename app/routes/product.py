@@ -41,12 +41,18 @@ async def create_products(
                 if item.get(field)
             )
             
+            # Get image URL if field is specified
+            image_url = None
+            if bulk_input.image_url_field:
+                image_url = item.get(bulk_input.image_url_field)
+            
             products.append(
                 Product(
                     id=product_id,
                     custom_data=item,
                     title=item.get(bulk_input.title_field),
-                    searchable_content=searchable_content
+                    searchable_content=searchable_content,
+                    image_url=image_url
                 )
             )
         

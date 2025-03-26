@@ -123,7 +123,7 @@ class ShoppingAssistantUtils:
         """
         try:
             # Check if conversation exists
-            query = text("SELECT * FROM development.conversations WHERE conversation_id = :conversation_id")
+            query = text("SELECT * FROM demo_movies.conversations WHERE conversation_id = :conversation_id")
             result = await db.execute(query, {"conversation_id": conversation_id})
             conversation = result.first()
             
@@ -145,7 +145,7 @@ class ShoppingAssistantUtils:
             if conversation:
                 # Update existing conversation
                 update_query = text("""
-                    UPDATE development.conversations 
+                    UPDATE demo_movies.conversations 
                     SET messages = messages || CAST(:new_messages AS jsonb)
                     WHERE conversation_id = :conversation_id
                 """)
@@ -156,7 +156,7 @@ class ShoppingAssistantUtils:
             else:
                 # Insert new conversation
                 insert_query = text("""
-                    INSERT INTO development.conversations (conversation_id, messages) 
+                    INSERT INTO demo_movies.conversations (conversation_id, messages) 
                     VALUES (:conversation_id, :messages)
                 """)
                 await db.execute(insert_query, {
@@ -216,7 +216,7 @@ async def get_chat_from_history(conversation_id: str, client: genai.Client) -> A
     try:
         # Get conversation history from database
         async with get_async_session_with_contextmanager() as session:
-            query = text("SELECT * FROM development.conversations WHERE conversation_id = :conversation_id")
+            query = text("SELECT * FROM demo_movies.conversations WHERE conversation_id = :conversation_id")
             result = await session.execute(query, {"conversation_id": conversation_id})
             conversation = result.first()
 

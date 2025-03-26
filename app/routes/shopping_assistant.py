@@ -47,7 +47,7 @@ async def chat_with_assistant(
         # Fetch specific products if IDs provided
         if product_id_list:
             # Get context for specific products
-            query_stmt = select(ProductDB.id, ProductDB.title, ProductDB.custom_data, ProductDB.searchable_content).where(ProductDB.id.in_(product_id_list))
+            query_stmt = select(ProductDB.id, ProductDB.title, ProductDB.custom_data, ProductDB.searchable_content, ProductDB.image_url).where(ProductDB.id.in_(product_id_list))
             result = await session.execute(query_stmt)
             id_lookup_products = [row._mapping for row in result]
             

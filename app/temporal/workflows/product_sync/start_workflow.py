@@ -57,7 +57,7 @@ async def start_product_sync_workflow(
         workflow_id=workflow_id,
         task_queue=task_queue.value,
         cron_schedule=cron_schedule,
-        execution_timeout=timedelta(minutes=3)
+        execution_timeout=timedelta(hours=1)
     )
 
     return {

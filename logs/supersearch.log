@@ -3124,3 +3124,1074 @@ LIMIT 3]
 2025-03-23 01:36:47,974 - app.main - INFO - Database connection successful
 2025-03-23 01:36:48,784 - app.services.vertex - INFO - Total embedding process completed in 0.810s
 2025-03-23 01:36:48,784 - app.main - INFO - Initialization complete.
+2025-03-23 11:05:54,811 - app.routes.search_product - INFO - Empty query provided, returning all products in paginated form
+2025-03-23 11:05:54,938 - app.routes.search_product - INFO - Found 12 results for empty query (all products)
+2025-03-23 11:05:54,967 - app.middlewares.route_logging - INFO - Path: /api/v1/search | Method: GET | Processing Time: 371.10ms
+2025-03-23 11:05:54,985 - app.routes.search_product - INFO - Empty query provided, returning all products in paginated form
+2025-03-23 11:05:54,990 - app.routes.search_product - INFO - Found 12 results for empty query (all products)
+2025-03-23 11:05:54,994 - app.middlewares.route_logging - INFO - Path: /api/v1/search | Method: GET | Processing Time: 14.58ms
+2025-03-23 22:54:06,452 - app.main - INFO - Initializing model and processor...
+2025-03-23 22:54:06,594 - app.main - INFO - Database connection successful
+2025-03-23 22:54:07,404 - app.services.vertex - INFO - Total embedding process completed in 0.810s
+2025-03-23 22:54:07,405 - app.main - INFO - Initialization complete.
+2025-03-23 23:06:50,481 - app.routes.search_product - INFO - Empty query provided, returning all products in paginated form
+2025-03-23 23:06:50,532 - app.routes.search_product - INFO - Found 12 results for empty query (all products)
+2025-03-23 23:06:50,541 - app.middlewares.route_logging - INFO - Path: /api/v1/search | Method: GET | Processing Time: 77.55ms
+2025-03-23 23:06:50,550 - app.routes.search_product - INFO - Empty query provided, returning all products in paginated form
+2025-03-23 23:06:50,558 - app.routes.search_product - INFO - Found 12 results for empty query (all products)
+2025-03-23 23:06:50,563 - app.middlewares.route_logging - INFO - Path: /api/v1/search | Method: GET | Processing Time: 16.52ms
+2025-03-24 00:18:54,763 - app.main - INFO - Shutting down...
+2025-03-24 00:19:02,067 - app.main - INFO - Initializing model and processor...
+2025-03-24 00:19:02,120 - app.main - INFO - Database connection successful
+2025-03-24 00:19:02,809 - app.services.vertex - INFO - Total embedding process completed in 0.690s
+2025-03-24 00:19:02,809 - app.main - INFO - Initialization complete.
+2025-03-24 00:20:36,884 - app.middlewares.route_logging - INFO - Path: /api/v1/products | Method: GET | Processing Time: 15.70ms
+2025-03-24 00:20:48,637 - app.middlewares.route_logging - INFO - Path: /api/v1/sync-history | Method: GET | Processing Time: 34.68ms
+2025-03-24 00:21:18,476 - app.routes.search_product - INFO - Empty query provided, returning all products in paginated form
+2025-03-24 00:21:18,483 - app.routes.search_product - INFO - Found 0 results for empty query (all products)
+2025-03-24 00:21:18,485 - app.middlewares.route_logging - INFO - Path: /api/v1/search | Method: GET | Processing Time: 15.80ms
+2025-03-24 00:21:18,497 - app.routes.search_product - INFO - Empty query provided, returning all products in paginated form
+2025-03-24 00:21:18,500 - app.routes.search_product - INFO - Found 0 results for empty query (all products)
+2025-03-24 00:21:18,505 - app.middlewares.route_logging - INFO - Path: /api/v1/search | Method: GET | Processing Time: 20.01ms
+2025-03-24 00:21:25,033 - app.middlewares.route_logging - INFO - Path: /api/v1/settings/SEARCH_CONFIG | Method: GET | Processing Time: 11.46ms
+2025-03-24 00:28:55,049 - app.main - INFO - Shutting down...
+2025-03-24 00:29:04,168 - app.main - INFO - Initializing model and processor...
+2025-03-24 00:29:13,836 - app.main - INFO - Initializing model and processor...
+2025-03-24 00:29:13,974 - app.main - INFO - Database connection successful
+2025-03-24 00:29:14,690 - app.services.vertex - INFO - Total embedding process completed in 0.716s
+2025-03-24 00:29:14,692 - app.main - INFO - Initialization complete.
+2025-03-24 00:33:01,328 - app.main - INFO - Shutting down...
+2025-03-24 00:33:10,966 - app.main - INFO - Initializing model and processor...
+2025-03-24 00:33:11,102 - app.main - INFO - Database connection successful
+2025-03-24 00:33:11,880 - app.services.vertex - INFO - Total embedding process completed in 0.777s
+2025-03-24 00:33:11,881 - app.main - INFO - Initialization complete.
+2025-03-24 01:02:31,761 - app.main - INFO - Shutting down...
+2025-03-24 01:02:40,289 - app.main - INFO - Initializing model and processor...
+2025-03-24 01:02:40,359 - app.main - INFO - Database connection successful
+2025-03-24 01:02:41,000 - app.services.vertex - INFO - Total embedding process completed in 0.642s
+2025-03-24 01:02:41,000 - app.main - INFO - Initialization complete.
+2025-03-24 01:06:10,058 - app.main - INFO - Initializing model and processor...
+2025-03-24 01:06:10,107 - app.main - INFO - Database connection successful
+2025-03-24 01:06:10,844 - app.services.vertex - INFO - Total embedding process completed in 0.737s
+2025-03-24 01:06:10,845 - app.main - INFO - Initialization complete.
+2025-03-24 01:07:34,844 - app.middlewares.route_logging - INFO - Path: /api/v1/sync-products | Method: OPTIONS | Processing Time: 0.00ms
+2025-03-24 01:07:34,925 - app.routes.sync_product - INFO - Created sync history record with ID: 17a33ad8-f426-4fce-91f8-5b30ff35ca46
+2025-03-24 01:07:34,925 - app.temporal.core.client - INFO - Connecting to Temporal server at localhost:7233 with namespace supersearch
+2025-03-24 01:07:34,925 - app.temporal.core.client - INFO - Checking if namespace 'supersearch' exists
+2025-03-24 01:07:35,027 - app.temporal.core.client - INFO - Namespace 'supersearch' already exists
+2025-03-24 01:07:35,047 - app.temporal.core.client - INFO - Connected to Temporal server
+2025-03-24 01:07:35,047 - app.temporal.core.client - INFO - Starting workflow ProductSyncWorkflow with ID product-sync-manual_file_upload-b894402a-9f9e-4242-9e78-535a5e2bcbbd on queue product-sync-task-queue
+2025-03-24 01:07:35,271 - app.temporal.core.client - INFO - Workflow started with ID: product-sync-manual_file_upload-b894402a-9f9e-4242-9e78-535a5e2bcbbd
+2025-03-24 01:07:35,274 - app.middlewares.route_logging - INFO - Path: /api/v1/sync-products | Method: POST | Processing Time: 418.07ms
+2025-03-24 01:09:12,958 - app.routes.search_product - INFO - Empty query provided, returning all products in paginated form
+2025-03-24 01:09:12,977 - app.routes.search_product - INFO - Found 0 results for empty query (all products)
+2025-03-24 01:09:12,984 - app.middlewares.route_logging - INFO - Path: /api/v1/search | Method: GET | Processing Time: 26.10ms
+2025-03-24 01:09:12,991 - app.routes.search_product - INFO - Empty query provided, returning all products in paginated form
+2025-03-24 01:09:12,991 - app.routes.search_product - INFO - Found 0 results for empty query (all products)
+2025-03-24 01:09:12,991 - app.middlewares.route_logging - INFO - Path: /api/v1/search | Method: GET | Processing Time: 6.93ms
+2025-03-24 01:09:14,278 - app.middlewares.route_logging - INFO - Path: /api/v1/settings/SEARCH_CONFIG | Method: GET | Processing Time: 15.08ms
+2025-03-24 01:10:35,411 - app.middlewares.route_logging - INFO - Path: /docs | Method: GET | Processing Time: 0.00ms
+2025-03-24 01:10:36,539 - app.middlewares.route_logging - INFO - Path: /openapi.json | Method: GET | Processing Time: 68.96ms
+2025-03-24 01:13:30,964 - app.routes.search_product - INFO - Empty query provided, returning all products in paginated form
+2025-03-24 01:13:30,972 - app.routes.search_product - INFO - Found 0 results for empty query (all products)
+2025-03-24 01:13:30,975 - app.middlewares.route_logging - INFO - Path: /api/v1/search | Method: GET | Processing Time: 18.83ms
+2025-03-24 01:13:30,981 - app.routes.search_product - INFO - Empty query provided, returning all products in paginated form
+2025-03-24 01:13:30,983 - app.routes.search_product - INFO - Found 0 results for empty query (all products)
+2025-03-24 01:13:30,986 - app.middlewares.route_logging - INFO - Path: /api/v1/search | Method: GET | Processing Time: 9.62ms
+2025-03-24 01:15:41,710 - app.middlewares.route_logging - INFO - Path: /api/v1/settings/SEARCH_CONFIG | Method: GET | Processing Time: 7.28ms
+2025-03-24 01:17:58,302 - app.middlewares.route_logging - INFO - Path: /api/v1/settings/search-config | Method: OPTIONS | Processing Time: 0.00ms
+2025-03-24 01:17:58,445 - app.middlewares.route_logging - INFO - Path: /api/v1/settings/search-config | Method: POST | Processing Time: 143.11ms
+2025-03-24 01:18:14,195 - app.routes.search_product - INFO - Empty query provided, returning all products in paginated form
+2025-03-24 01:18:14,198 - app.routes.search_product - INFO - Found 0 results for empty query (all products)
+2025-03-24 01:18:14,199 - app.middlewares.route_logging - INFO - Path: /api/v1/search | Method: GET | Processing Time: 9.01ms
+2025-03-24 01:18:14,204 - app.routes.search_product - INFO - Empty query provided, returning all products in paginated form
+2025-03-24 01:18:14,206 - app.routes.search_product - INFO - Found 0 results for empty query (all products)
+2025-03-24 01:18:14,207 - app.middlewares.route_logging - INFO - Path: /api/v1/search | Method: GET | Processing Time: 6.00ms
+2025-03-24 01:18:16,547 - app.middlewares.route_logging - INFO - Path: /api/v1/settings/SEARCH_CONFIG | Method: GET | Processing Time: 7.37ms
+2025-03-24 01:20:34,799 - app.middlewares.route_logging - INFO - Path: /api/v1/sync-products | Method: OPTIONS | Processing Time: 0.00ms
+2025-03-24 01:20:34,813 - app.routes.sync_product - INFO - Created sync history record with ID: 99629b22-aefc-4fa5-80d8-707d7903cda0
+2025-03-24 01:20:34,813 - app.temporal.core.client - INFO - Connecting to Temporal server at localhost:7233 with namespace supersearch
+2025-03-24 01:20:34,813 - app.temporal.core.client - INFO - Checking if namespace 'supersearch' exists
+2025-03-24 01:20:34,828 - app.temporal.core.client - INFO - Namespace 'supersearch' already exists
+2025-03-24 01:20:34,841 - app.temporal.core.client - INFO - Connected to Temporal server
+2025-03-24 01:20:34,841 - app.temporal.core.client - INFO - Starting workflow ProductSyncWorkflow with ID product-sync-manual_file_upload-6bea7f0a-59ca-49b2-915e-1676ce95290e on queue product-sync-task-queue
+2025-03-24 01:20:34,949 - app.temporal.core.client - INFO - Workflow started with ID: product-sync-manual_file_upload-6bea7f0a-59ca-49b2-915e-1676ce95290e
+2025-03-24 01:20:34,960 - app.middlewares.route_logging - INFO - Path: /api/v1/sync-products | Method: POST | Processing Time: 161.58ms
+2025-03-24 01:20:44,166 - app.middlewares.route_logging - INFO - Path: /api/v1/sync-history | Method: GET | Processing Time: 25.01ms
+2025-03-24 01:21:21,517 - app.main - INFO - Shutting down...
+2025-03-24 01:23:17,459 - app.main - INFO - Initializing model and processor...
+2025-03-24 01:23:17,532 - app.main - INFO - Database connection successful
+2025-03-24 01:23:18,290 - app.services.vertex - INFO - Total embedding process completed in 0.757s
+2025-03-24 01:23:18,290 - app.main - INFO - Initialization complete.
+2025-03-24 01:26:28,455 - app.routes.sync_product - INFO - Created sync history record with ID: 9250e71b-038f-4db3-ac25-4bdefc3abc2c
+2025-03-24 01:26:28,456 - app.temporal.core.client - INFO - Connecting to Temporal server at localhost:7233 with namespace supersearch
+2025-03-24 01:26:28,456 - app.temporal.core.client - INFO - Checking if namespace 'supersearch' exists
+2025-03-24 01:26:28,508 - app.temporal.core.client - INFO - Namespace 'supersearch' already exists
+2025-03-24 01:26:28,525 - app.temporal.core.client - INFO - Connected to Temporal server
+2025-03-24 01:26:28,526 - app.temporal.core.client - INFO - Starting workflow ProductSyncWorkflow with ID product-sync-manual_file_upload-fe84eb83-6419-4b10-b5c2-9393ef898850 on queue product-sync-task-queue
+2025-03-24 01:26:28,591 - app.temporal.core.client - INFO - Workflow started with ID: product-sync-manual_file_upload-fe84eb83-6419-4b10-b5c2-9393ef898850
+2025-03-24 01:26:28,591 - app.middlewares.route_logging - INFO - Path: /api/v1/sync-products | Method: POST | Processing Time: 163.63ms
+2025-03-24 01:26:30,740 - app.middlewares.route_logging - INFO - Path: /api/v1/sync-history | Method: GET | Processing Time: 13.62ms
+2025-03-24 01:46:40,142 - app.main - INFO - Shutting down...
+2025-03-24 01:46:49,175 - app.main - INFO - Initializing model and processor...
+2025-03-24 01:46:49,247 - app.main - INFO - Database connection successful
+2025-03-24 01:46:50,106 - app.services.vertex - INFO - Total embedding process completed in 0.859s
+2025-03-24 01:46:50,107 - app.main - INFO - Initialization complete.
+2025-03-24 01:50:30,601 - app.main - INFO - Shutting down...
+2025-03-24 01:50:37,747 - app.main - INFO - Initializing model and processor...
+2025-03-24 01:50:37,801 - app.main - INFO - Database connection successful
+2025-03-24 01:50:38,581 - app.services.vertex - INFO - Total embedding process completed in 0.779s
+2025-03-24 01:50:38,581 - app.main - INFO - Initialization complete.
+2025-03-24 01:51:22,948 - app.middlewares.route_logging - INFO - Path: /api/v1/sync-products | Method: OPTIONS | Processing Time: 0.00ms
+2025-03-24 01:51:22,981 - app.routes.sync_product - INFO - Created sync history record with ID: 51178005-dce7-46f5-ace9-9a1a7e19ecee
+2025-03-24 01:51:22,981 - app.temporal.core.client - INFO - Connecting to Temporal server at localhost:7233 with namespace supersearch
+2025-03-24 01:51:22,981 - app.temporal.core.client - INFO - Checking if namespace 'supersearch' exists
+2025-03-24 01:51:23,049 - app.temporal.core.client - INFO - Namespace 'supersearch' already exists
+2025-03-24 01:51:23,065 - app.temporal.core.client - INFO - Connected to Temporal server
+2025-03-24 01:51:23,065 - app.temporal.core.client - INFO - Starting workflow ProductSyncWorkflow with ID product-sync-manual_file_upload-08f7f83f-6178-4830-989e-27fe4538a45e on queue product-sync-task-queue
+2025-03-24 01:51:23,097 - app.temporal.core.client - INFO - Workflow started with ID: product-sync-manual_file_upload-08f7f83f-6178-4830-989e-27fe4538a45e
+2025-03-24 01:51:23,097 - app.middlewares.route_logging - INFO - Path: /api/v1/sync-products | Method: POST | Processing Time: 142.85ms
+2025-03-24 01:51:38,360 - app.middlewares.route_logging - INFO - Path: /api/v1/sync-history | Method: GET | Processing Time: 14.51ms
+2025-03-24 02:29:39,195 - app.routes.search_product - INFO - Empty query provided, returning all products in paginated form
+2025-03-24 02:29:39,213 - app.routes.search_product - INFO - Found 10 results for empty query (all products)
+2025-03-24 02:29:39,223 - app.middlewares.route_logging - INFO - Path: /api/v1/search | Method: GET | Processing Time: 60.77ms
+2025-03-24 02:29:39,228 - app.routes.search_product - INFO - Empty query provided, returning all products in paginated form
+2025-03-24 02:29:39,228 - app.routes.search_product - INFO - Found 10 results for empty query (all products)
+2025-03-24 02:29:39,228 - app.middlewares.route_logging - INFO - Path: /api/v1/search | Method: GET | Processing Time: 0.00ms
+2025-03-24 02:31:50,553 - app.routes.search_product - INFO - Empty query provided, returning all products in paginated form
+2025-03-24 02:31:50,555 - app.routes.search_product - INFO - Found 0 results for empty query (all products)
+2025-03-24 02:31:50,557 - app.middlewares.route_logging - INFO - Path: /api/v1/search | Method: GET | Processing Time: 8.01ms
+2025-03-24 02:31:50,568 - app.routes.search_product - INFO - Empty query provided, returning all products in paginated form
+2025-03-24 02:31:50,573 - app.routes.search_product - INFO - Found 0 results for empty query (all products)
+2025-03-24 02:31:50,579 - app.middlewares.route_logging - INFO - Path: /api/v1/search | Method: GET | Processing Time: 17.34ms
+2025-03-24 02:32:00,615 - app.middlewares.route_logging - INFO - Path: /api/v1/sync-products | Method: OPTIONS | Processing Time: 0.00ms
+2025-03-24 02:32:00,643 - app.routes.sync_product - INFO - Created sync history record with ID: 82143f44-7637-44d8-8634-aa425b945aef
+2025-03-24 02:32:00,649 - app.temporal.core.client - INFO - Connecting to Temporal server at localhost:7233 with namespace supersearch
+2025-03-24 02:32:00,649 - app.temporal.core.client - INFO - Checking if namespace 'supersearch' exists
+2025-03-24 02:32:00,660 - app.temporal.core.client - INFO - Namespace 'supersearch' already exists
+2025-03-24 02:32:00,660 - app.temporal.core.client - INFO - Connected to Temporal server
+2025-03-24 02:32:00,660 - app.temporal.core.client - INFO - Starting workflow ProductSyncWorkflow with ID product-sync-manual_file_upload-a5be4cfb-ea62-438e-aa42-83073322ab1a on queue product-sync-task-queue
+2025-03-24 02:32:00,711 - app.temporal.core.client - INFO - Workflow started with ID: product-sync-manual_file_upload-a5be4cfb-ea62-438e-aa42-83073322ab1a
+2025-03-24 02:32:00,711 - app.middlewares.route_logging - INFO - Path: /api/v1/sync-products | Method: POST | Processing Time: 95.87ms
+2025-03-24 02:32:02,658 - app.middlewares.route_logging - INFO - Path: /api/v1/sync-history | Method: GET | Processing Time: 9.53ms
+2025-03-24 02:55:49,910 - app.main - INFO - Shutting down...
+2025-03-24 23:31:30,587 - app.main - INFO - Initializing model and processor...
+2025-03-24 23:31:34,669 - app.database.session - ERROR - Failed to create database session: Multiple exceptions: [Errno 10061] Connect call failed ('::1', 5433, 0, 0), [Errno 10061] Connect call failed ('127.0.0.1', 5433)
+2025-03-24 23:31:34,669 - app.main - ERROR - Database connection failed
+2025-03-24 23:34:31,599 - app.main - INFO - Initializing model and processor...
+2025-03-24 23:34:35,648 - app.database.session - ERROR - Failed to create database session: Multiple exceptions: [Errno 10061] Connect call failed ('::1', 5433, 0, 0), [Errno 10061] Connect call failed ('127.0.0.1', 5433)
+2025-03-24 23:34:35,648 - app.main - ERROR - Database connection failed
+2025-03-24 23:34:44,178 - app.main - INFO - Initializing model and processor...
+2025-03-24 23:34:48,263 - app.database.session - ERROR - Failed to create database session: Multiple exceptions: [Errno 10061] Connect call failed ('::1', 5433, 0, 0), [Errno 10061] Connect call failed ('127.0.0.1', 5433)
+2025-03-24 23:34:48,263 - app.main - ERROR - Database connection failed
+2025-03-24 23:34:57,637 - app.main - INFO - Initializing model and processor...
+2025-03-24 23:35:01,688 - app.database.session - ERROR - Failed to create database session: Multiple exceptions: [Errno 10061] Connect call failed ('::1', 5433, 0, 0), [Errno 10061] Connect call failed ('127.0.0.1', 5433)
+2025-03-24 23:35:01,688 - app.main - ERROR - Database connection failed
+2025-03-24 23:37:29,078 - app.main - INFO - Initializing model and processor...
+2025-03-24 23:37:33,125 - app.database.session - ERROR - Failed to create database session: Multiple exceptions: [Errno 10061] Connect call failed ('::1', 5433, 0, 0), [Errno 10061] Connect call failed ('127.0.0.1', 5433)
+2025-03-24 23:37:33,125 - app.main - ERROR - Database connection failed
+2025-03-24 23:37:41,340 - app.main - INFO - Initializing model and processor...
+2025-03-24 23:37:45,378 - app.database.session - ERROR - Failed to create database session: Multiple exceptions: [Errno 10061] Connect call failed ('::1', 5433, 0, 0), [Errno 10061] Connect call failed ('127.0.0.1', 5433)
+2025-03-24 23:37:45,378 - app.main - ERROR - Database connection failed
+2025-03-24 23:37:52,878 - app.main - INFO - Initializing model and processor...
+2025-03-24 23:37:56,941 - app.database.session - ERROR - Failed to create database session: Multiple exceptions: [Errno 10061] Connect call failed ('::1', 5433, 0, 0), [Errno 10061] Connect call failed ('127.0.0.1', 5433)
+2025-03-24 23:37:56,941 - app.main - ERROR - Database connection failed
+2025-03-24 23:38:04,415 - app.main - INFO - Initializing model and processor...
+2025-03-24 23:38:08,484 - app.database.session - ERROR - Failed to create database session: Multiple exceptions: [Errno 10061] Connect call failed ('::1', 5433, 0, 0), [Errno 10061] Connect call failed ('127.0.0.1', 5433)
+2025-03-24 23:38:08,484 - app.main - ERROR - Database connection failed
+2025-03-24 23:38:22,920 - app.main - INFO - Initializing model and processor...
+2025-03-24 23:38:26,992 - app.database.session - ERROR - Failed to create database session: Multiple exceptions: [Errno 10061] Connect call failed ('::1', 5433, 0, 0), [Errno 10061] Connect call failed ('127.0.0.1', 5433)
+2025-03-24 23:38:26,992 - app.main - ERROR - Database connection failed
+2025-03-24 23:38:45,829 - app.main - INFO - Initializing model and processor...
+2025-03-24 23:38:49,908 - app.database.session - ERROR - Failed to create database session: Multiple exceptions: [Errno 10061] Connect call failed ('::1', 5433, 0, 0), [Errno 10061] Connect call failed ('127.0.0.1', 5433)
+2025-03-24 23:38:49,908 - app.main - ERROR - Database connection failed
+2025-03-24 23:38:57,428 - app.main - INFO - Initializing model and processor...
+2025-03-24 23:39:01,480 - app.database.session - ERROR - Failed to create database session: Multiple exceptions: [Errno 10061] Connect call failed ('::1', 5433, 0, 0), [Errno 10061] Connect call failed ('127.0.0.1', 5433)
+2025-03-24 23:39:01,481 - app.main - ERROR - Database connection failed
+2025-03-24 23:39:34,192 - app.main - INFO - Initializing model and processor...
+2025-03-24 23:39:38,243 - app.database.session - ERROR - Failed to create database session: Multiple exceptions: [Errno 10061] Connect call failed ('::1', 5433, 0, 0), [Errno 10061] Connect call failed ('127.0.0.1', 5433)
+2025-03-24 23:39:38,243 - app.main - ERROR - Database connection failed
+2025-03-24 23:39:45,578 - app.main - INFO - Initializing model and processor...
+2025-03-24 23:39:49,624 - app.database.session - ERROR - Failed to create database session: Multiple exceptions: [Errno 10061] Connect call failed ('::1', 5433, 0, 0), [Errno 10061] Connect call failed ('127.0.0.1', 5433)
+2025-03-24 23:39:49,626 - app.main - ERROR - Database connection failed
+2025-03-24 23:40:01,909 - app.main - INFO - Initializing model and processor...
+2025-03-24 23:40:05,972 - app.database.session - ERROR - Failed to create database session: Multiple exceptions: [Errno 10061] Connect call failed ('::1', 5433, 0, 0), [Errno 10061] Connect call failed ('127.0.0.1', 5433)
+2025-03-24 23:40:05,972 - app.main - ERROR - Database connection failed
+2025-03-24 23:40:42,230 - app.main - INFO - Initializing model and processor...
+2025-03-24 23:40:46,291 - app.database.session - ERROR - Failed to create database session: Multiple exceptions: [Errno 10061] Connect call failed ('::1', 5433, 0, 0), [Errno 10061] Connect call failed ('127.0.0.1', 5433)
+2025-03-24 23:40:46,293 - app.main - ERROR - Database connection failed
+2025-03-24 23:41:25,431 - app.main - INFO - Initializing model and processor...
+2025-03-24 23:41:29,495 - app.database.session - ERROR - Failed to create database session: Multiple exceptions: [Errno 10061] Connect call failed ('::1', 5433, 0, 0), [Errno 10061] Connect call failed ('127.0.0.1', 5433)
+2025-03-24 23:41:29,495 - app.main - ERROR - Database connection failed
+2025-03-24 23:41:38,719 - app.main - INFO - Initializing model and processor...
+2025-03-24 23:41:42,788 - app.database.session - ERROR - Failed to create database session: Multiple exceptions: [Errno 10061] Connect call failed ('::1', 5433, 0, 0), [Errno 10061] Connect call failed ('127.0.0.1', 5433)
+2025-03-24 23:41:42,789 - app.main - ERROR - Database connection failed
+2025-03-24 23:41:50,230 - app.main - INFO - Initializing model and processor...
+2025-03-24 23:41:54,304 - app.database.session - ERROR - Failed to create database session: Multiple exceptions: [Errno 10061] Connect call failed ('::1', 5433, 0, 0), [Errno 10061] Connect call failed ('127.0.0.1', 5433)
+2025-03-24 23:41:54,306 - app.main - ERROR - Database connection failed
+2025-03-24 23:42:42,165 - app.main - INFO - Initializing model and processor...
+2025-03-24 23:42:46,254 - app.database.session - ERROR - Failed to create database session: Multiple exceptions: [Errno 10061] Connect call failed ('::1', 5433, 0, 0), [Errno 10061] Connect call failed ('127.0.0.1', 5433)
+2025-03-24 23:42:46,255 - app.main - ERROR - Database connection failed
+2025-03-24 23:42:59,830 - app.main - INFO - Initializing model and processor...
+2025-03-24 23:43:03,928 - app.database.session - ERROR - Failed to create database session: Multiple exceptions: [Errno 10061] Connect call failed ('::1', 5433, 0, 0), [Errno 10061] Connect call failed ('127.0.0.1', 5433)
+2025-03-24 23:43:03,928 - app.main - ERROR - Database connection failed
+2025-03-24 23:43:13,798 - app.main - INFO - Initializing model and processor...
+2025-03-24 23:43:18,068 - app.database.session - ERROR - Failed to create database session: Multiple exceptions: [Errno 10061] Connect call failed ('::1', 5433, 0, 0), [Errno 10061] Connect call failed ('127.0.0.1', 5433)
+2025-03-24 23:43:18,068 - app.main - ERROR - Database connection failed
+2025-03-24 23:43:27,594 - app.main - INFO - Initializing model and processor...
+2025-03-24 23:43:31,648 - app.database.session - ERROR - Failed to create database session: Multiple exceptions: [Errno 10061] Connect call failed ('::1', 5433, 0, 0), [Errno 10061] Connect call failed ('127.0.0.1', 5433)
+2025-03-24 23:43:31,650 - app.main - ERROR - Database connection failed
+2025-03-24 23:46:01,221 - app.main - INFO - Initializing model and processor...
+2025-03-24 23:46:05,265 - app.database.session - ERROR - Failed to create database session: Multiple exceptions: [Errno 10061] Connect call failed ('::1', 5433, 0, 0), [Errno 10061] Connect call failed ('127.0.0.1', 5433)
+2025-03-24 23:46:05,265 - app.main - ERROR - Database connection failed
+2025-03-24 23:46:20,823 - app.main - INFO - Initializing model and processor...
+2025-03-24 23:46:24,920 - app.database.session - ERROR - Failed to create database session: Multiple exceptions: [Errno 10061] Connect call failed ('::1', 5433, 0, 0), [Errno 10061] Connect call failed ('127.0.0.1', 5433)
+2025-03-24 23:46:24,921 - app.main - ERROR - Database connection failed
+2025-03-24 23:46:32,638 - app.main - INFO - Initializing model and processor...
+2025-03-24 23:46:36,725 - app.database.session - ERROR - Failed to create database session: Multiple exceptions: [Errno 10061] Connect call failed ('::1', 5433, 0, 0), [Errno 10061] Connect call failed ('127.0.0.1', 5433)
+2025-03-24 23:46:36,725 - app.main - ERROR - Database connection failed
+2025-03-24 23:46:44,784 - app.main - INFO - Initializing model and processor...
+2025-03-24 23:46:48,843 - app.database.session - ERROR - Failed to create database session: Multiple exceptions: [Errno 10061] Connect call failed ('::1', 5433, 0, 0), [Errno 10061] Connect call failed ('127.0.0.1', 5433)
+2025-03-24 23:46:48,843 - app.main - ERROR - Database connection failed
+2025-03-24 23:52:05,448 - app.main - INFO - Initializing model and processor...
+2025-03-24 23:52:05,523 - app.main - INFO - Database connection successful
+2025-03-24 23:52:06,790 - app.services.vertex - INFO - Total embedding process completed in 1.267s
+2025-03-24 23:52:06,790 - app.main - INFO - Initialization complete.
+2025-03-24 23:53:50,634 - app.routes.search_product - INFO - Empty query provided, returning all products in paginated form
+2025-03-24 23:53:50,640 - app.routes.search_product - INFO - Found 0 results for empty query (all products)
+2025-03-24 23:53:50,644 - app.middlewares.route_logging - INFO - Path: /api/v1/search | Method: GET | Processing Time: 17.59ms
+2025-03-24 23:53:50,652 - app.routes.search_product - INFO - Empty query provided, returning all products in paginated form
+2025-03-24 23:53:50,656 - app.routes.search_product - INFO - Found 0 results for empty query (all products)
+2025-03-24 23:53:50,662 - app.middlewares.route_logging - INFO - Path: /api/v1/search | Method: GET | Processing Time: 15.07ms
+2025-03-24 23:53:51,585 - app.middlewares.route_logging - INFO - Path: /api/v1/settings/SEARCH_CONFIG | Method: GET | Processing Time: 25.92ms
+2025-03-24 23:56:54,861 - app.main - INFO - Shutting down...
+2025-03-24 23:57:03,320 - app.main - INFO - Initializing model and processor...
+2025-03-24 23:57:03,393 - app.main - INFO - Database connection successful
+2025-03-24 23:57:05,277 - app.services.vertex - INFO - Total embedding process completed in 1.884s
+2025-03-24 23:57:05,278 - app.main - INFO - Initialization complete.
+2025-03-25 00:01:50,918 - app.routes.search_product - INFO - Empty query provided, returning all products in paginated form
+2025-03-25 00:01:50,939 - app.routes.search_product - INFO - Found 0 results for empty query (all products)
+2025-03-25 00:01:50,939 - app.middlewares.route_logging - INFO - Path: /api/v1/search | Method: GET | Processing Time: 33.90ms
+2025-03-25 00:01:50,953 - app.routes.search_product - INFO - Empty query provided, returning all products in paginated form
+2025-03-25 00:01:50,955 - app.routes.search_product - INFO - Found 0 results for empty query (all products)
+2025-03-25 00:01:50,955 - app.middlewares.route_logging - INFO - Path: /api/v1/search | Method: GET | Processing Time: 16.18ms
+2025-03-25 00:01:54,888 - app.main - INFO - Shutting down...
+2025-03-25 00:02:04,101 - app.main - INFO - Initializing model and processor...
+2025-03-25 00:02:04,164 - app.main - INFO - Database connection successful
+2025-03-25 00:02:05,049 - app.services.vertex - INFO - Total embedding process completed in 0.885s
+2025-03-25 00:02:05,049 - app.main - INFO - Initialization complete.
+2025-03-25 00:02:18,192 - app.main - INFO - Initializing model and processor...
+2025-03-25 00:02:18,260 - app.main - INFO - Database connection successful
+2025-03-25 00:02:19,086 - app.services.vertex - INFO - Total embedding process completed in 0.826s
+2025-03-25 00:02:19,086 - app.main - INFO - Initialization complete.
+2025-03-25 00:02:39,667 - app.routes.search_product - INFO - Empty query provided, returning all products in paginated form
+2025-03-25 00:02:39,682 - app.routes.search_product - INFO - Found 0 results for empty query (all products)
+2025-03-25 00:02:39,683 - app.middlewares.route_logging - INFO - Path: /api/v1/search | Method: GET | Processing Time: 16.35ms
+2025-03-25 00:02:39,695 - app.routes.search_product - INFO - Empty query provided, returning all products in paginated form
+2025-03-25 00:02:39,699 - app.routes.search_product - INFO - Found 0 results for empty query (all products)
+2025-03-25 00:02:39,703 - app.middlewares.route_logging - INFO - Path: /api/v1/search | Method: GET | Processing Time: 19.45ms
+2025-03-25 00:02:40,872 - app.middlewares.route_logging - INFO - Path: /api/v1/settings/SEARCH_CONFIG | Method: GET | Processing Time: 32.53ms
+2025-03-25 00:03:46,482 - app.middlewares.route_logging - INFO - Path: /api/v1/settings/search-config | Method: OPTIONS | Processing Time: 0.00ms
+2025-03-25 00:03:46,699 - app.middlewares.route_logging - INFO - Path: /api/v1/settings/search-config | Method: POST | Processing Time: 217.25ms
+2025-03-25 00:04:02,896 - app.middlewares.route_logging - INFO - Path: /api/v1/products | Method: GET | Processing Time: 19.34ms
+2025-03-25 00:04:03,616 - app.middlewares.route_logging - INFO - Path: /api/v1/sync-history | Method: GET | Processing Time: 19.03ms
+2025-03-25 00:04:05,134 - app.middlewares.route_logging - INFO - Path: /api/v1/products | Method: GET | Processing Time: 10.53ms
+2025-03-25 00:05:48,865 - app.middlewares.route_logging - INFO - Path: /api/v1/sync-products | Method: OPTIONS | Processing Time: 0.00ms
+2025-03-25 00:05:48,895 - app.routes.sync_product - INFO - Created sync history record with ID: 2413cf45-db76-48ee-8585-b4992f56379f
+2025-03-25 00:05:48,895 - app.temporal.core.client - INFO - Connecting to Temporal server at localhost:7233 with namespace supersearch
+2025-03-25 00:05:48,895 - app.temporal.core.client - INFO - Checking if namespace 'supersearch' exists
+2025-03-25 00:05:48,948 - app.temporal.core.client - INFO - Namespace 'supersearch' already exists
+2025-03-25 00:05:48,965 - app.temporal.core.client - INFO - Connected to Temporal server
+2025-03-25 00:05:48,966 - app.temporal.core.client - INFO - Starting workflow ProductSyncWorkflow with ID product-sync-manual_file_upload-a636d9cb-c90b-4fa6-a5a9-a1c0df75d6d3 on queue product-sync-task-queue
+2025-03-25 00:05:49,049 - app.temporal.core.client - INFO - Workflow started with ID: product-sync-manual_file_upload-a636d9cb-c90b-4fa6-a5a9-a1c0df75d6d3
+2025-03-25 00:05:49,049 - app.middlewares.route_logging - INFO - Path: /api/v1/sync-products | Method: POST | Processing Time: 183.37ms
+2025-03-25 00:05:51,883 - app.middlewares.route_logging - INFO - Path: /api/v1/sync-history | Method: GET | Processing Time: 13.45ms
+2025-03-25 00:06:10,648 - app.middlewares.route_logging - INFO - Path: /api/v1/products | Method: GET | Processing Time: 0.00ms
+2025-03-25 00:06:24,184 - app.middlewares.route_logging - INFO - Path: /api/v1/sync-history | Method: GET | Processing Time: 14.23ms
+2025-03-25 00:09:50,145 - app.middlewares.route_logging - INFO - Path: /api/v1/products | Method: GET | Processing Time: 0.00ms
+2025-03-25 00:12:11,711 - app.main - INFO - Shutting down...
+2025-03-25 00:12:33,128 - app.main - INFO - Initializing model and processor...
+2025-03-25 00:12:33,241 - app.main - INFO - Database connection successful
+2025-03-25 00:12:33,971 - app.services.vertex - INFO - Total embedding process completed in 0.730s
+2025-03-25 00:12:33,972 - app.main - INFO - Initialization complete.
+2025-03-25 00:21:10,268 - app.main - INFO - Shutting down...
+2025-03-25 00:21:18,075 - app.main - INFO - Initializing model and processor...
+2025-03-25 00:21:18,136 - app.main - INFO - Database connection successful
+2025-03-25 00:21:18,916 - app.services.vertex - INFO - Total embedding process completed in 0.780s
+2025-03-25 00:21:18,916 - app.main - INFO - Initialization complete.
+2025-03-25 00:21:33,752 - app.main - INFO - Initializing model and processor...
+2025-03-25 00:21:33,831 - app.main - INFO - Database connection successful
+2025-03-25 00:21:34,557 - app.services.vertex - INFO - Total embedding process completed in 0.725s
+2025-03-25 00:21:34,557 - app.main - INFO - Initialization complete.
+2025-03-25 00:21:36,964 - app.middlewares.route_logging - INFO - Path: /api/v1/products | Method: GET | Processing Time: 68.16ms
+2025-03-25 00:22:32,022 - app.middlewares.route_logging - INFO - Path: /api/v1/sync-history | Method: GET | Processing Time: 44.81ms
+2025-03-25 00:22:35,370 - app.middlewares.route_logging - INFO - Path: /api/v1/products | Method: GET | Processing Time: 12.56ms
+2025-03-25 00:22:36,877 - app.middlewares.route_logging - INFO - Path: /api/v1/sync-history | Method: GET | Processing Time: 13.76ms
+2025-03-25 00:22:41,746 - app.middlewares.route_logging - INFO - Path: /api/v1/products | Method: GET | Processing Time: 16.86ms
+2025-03-25 00:22:42,662 - app.middlewares.route_logging - INFO - Path: /api/v1/sync-history | Method: GET | Processing Time: 14.61ms
+2025-03-25 00:22:45,568 - app.middlewares.route_logging - INFO - Path: /api/v1/products | Method: GET | Processing Time: 12.40ms
+2025-03-25 00:22:57,709 - app.middlewares.route_logging - INFO - Path: /api/v1/sync-history | Method: GET | Processing Time: 11.70ms
+2025-03-25 00:23:18,217 - app.middlewares.route_logging - INFO - Path: /api/v1/products | Method: GET | Processing Time: 12.49ms
+2025-03-25 00:23:29,465 - app.routes.search_product - INFO - Empty query provided, returning all products in paginated form
+2025-03-25 00:23:29,484 - app.routes.search_product - INFO - Found 10 results for empty query (all products)
+2025-03-25 00:23:29,494 - app.middlewares.route_logging - INFO - Path: /api/v1/search | Method: GET | Processing Time: 33.38ms
+2025-03-25 00:23:29,500 - app.routes.search_product - INFO - Empty query provided, returning all products in paginated form
+2025-03-25 00:23:29,510 - app.routes.search_product - INFO - Found 10 results for empty query (all products)
+2025-03-25 00:23:29,514 - app.middlewares.route_logging - INFO - Path: /api/v1/search | Method: GET | Processing Time: 13.83ms
+2025-03-25 00:26:26,260 - app.main - INFO - Shutting down...
+2025-03-25 00:26:37,685 - app.main - INFO - Initializing model and processor...
+2025-03-25 00:26:37,778 - app.main - INFO - Database connection successful
+2025-03-25 00:26:38,597 - app.services.vertex - INFO - Total embedding process completed in 0.806s
+2025-03-25 00:26:38,597 - app.main - INFO - Initialization complete.
+2025-03-25 00:29:51,914 - app.main - INFO - Shutting down...
+2025-03-25 00:30:06,223 - app.main - INFO - Initializing model and processor...
+2025-03-25 00:30:06,339 - app.main - INFO - Database connection successful
+2025-03-25 00:30:07,044 - app.services.vertex - INFO - Total embedding process completed in 0.705s
+2025-03-25 00:30:07,045 - app.main - INFO - Initialization complete.
+2025-03-25 00:30:46,674 - app.middlewares.route_logging - INFO - Path: /api/v1/sync-products | Method: OPTIONS | Processing Time: 0.00ms
+2025-03-25 00:30:46,740 - app.routes.sync_product - INFO - Created sync history record with ID: e5b01403-8de0-436e-8818-5de52b07b38a
+2025-03-25 00:30:46,740 - app.temporal.core.client - INFO - Connecting to Temporal server at localhost:7233 with namespace supersearch
+2025-03-25 00:30:46,754 - app.temporal.core.client - INFO - Checking if namespace 'supersearch' exists
+2025-03-25 00:30:46,808 - app.temporal.core.client - INFO - Namespace 'supersearch' already exists
+2025-03-25 00:30:46,825 - app.temporal.core.client - INFO - Connected to Temporal server
+2025-03-25 00:30:46,825 - app.temporal.core.client - INFO - Starting workflow ProductSyncWorkflow with ID product-sync-manual_file_upload-eb5ac17b-6c74-471a-ac30-efd7a9d4557f on queue product-sync-task-queue
+2025-03-25 00:30:46,909 - app.temporal.core.client - INFO - Workflow started with ID: product-sync-manual_file_upload-eb5ac17b-6c74-471a-ac30-efd7a9d4557f
+2025-03-25 00:30:46,909 - app.middlewares.route_logging - INFO - Path: /api/v1/sync-products | Method: POST | Processing Time: 212.76ms
+2025-03-25 00:34:56,851 - app.main - INFO - Shutting down...
+2025-03-25 00:35:04,513 - app.main - INFO - Initializing model and processor...
+2025-03-25 00:35:04,612 - app.main - INFO - Database connection successful
+2025-03-25 00:35:05,257 - app.services.vertex - INFO - Total embedding process completed in 0.644s
+2025-03-25 00:35:05,257 - app.main - INFO - Initialization complete.
+2025-03-25 00:35:13,708 - app.main - INFO - Initializing model and processor...
+2025-03-25 00:35:13,794 - app.main - INFO - Database connection successful
+2025-03-25 00:35:14,480 - app.services.vertex - INFO - Total embedding process completed in 0.686s
+2025-03-25 00:35:14,480 - app.main - INFO - Initialization complete.
+2025-03-25 00:38:04,936 - app.routes.sync_product - INFO - Created sync history record with ID: 5301492e-2c8e-4ae4-b927-b8f1b51deb52
+2025-03-25 00:38:04,936 - app.temporal.core.client - INFO - Connecting to Temporal server at localhost:7233 with namespace supersearch
+2025-03-25 00:38:04,936 - app.temporal.core.client - INFO - Checking if namespace 'supersearch' exists
+2025-03-25 00:38:04,992 - app.temporal.core.client - INFO - Namespace 'supersearch' already exists
+2025-03-25 00:38:05,008 - app.temporal.core.client - INFO - Connected to Temporal server
+2025-03-25 00:38:05,008 - app.temporal.core.client - INFO - Starting workflow ProductSyncWorkflow with ID product-sync-manual_file_upload-3268dd3b-bec0-493d-8a7a-f659fda8a036 on queue product-sync-task-queue
+2025-03-25 00:38:05,070 - app.temporal.core.client - INFO - Workflow started with ID: product-sync-manual_file_upload-3268dd3b-bec0-493d-8a7a-f659fda8a036
+2025-03-25 00:38:05,071 - app.middlewares.route_logging - INFO - Path: /api/v1/sync-products | Method: POST | Processing Time: 166.88ms
+2025-03-25 00:47:32,061 - app.middlewares.route_logging - INFO - Path: /api/v1/sync-products | Method: OPTIONS | Processing Time: 2.00ms
+2025-03-25 00:47:32,096 - app.routes.sync_product - INFO - Created sync history record with ID: 5dfd80c9-1831-4361-9020-d41ebd3bd9e7
+2025-03-25 00:47:32,097 - app.temporal.core.client - INFO - Connecting to Temporal server at localhost:7233 with namespace supersearch
+2025-03-25 00:47:32,097 - app.temporal.core.client - INFO - Checking if namespace 'supersearch' exists
+2025-03-25 00:47:32,162 - app.temporal.core.client - INFO - Namespace 'supersearch' already exists
+2025-03-25 00:47:32,179 - app.temporal.core.client - INFO - Connected to Temporal server
+2025-03-25 00:47:32,179 - app.temporal.core.client - INFO - Starting workflow ProductSyncWorkflow with ID product-sync-manual_file_upload-06b47e66-89dd-455c-b28e-9498f192675e on queue product-sync-task-queue
+2025-03-25 00:47:32,257 - app.temporal.core.client - INFO - Workflow started with ID: product-sync-manual_file_upload-06b47e66-89dd-455c-b28e-9498f192675e
+2025-03-25 00:47:32,258 - app.middlewares.route_logging - INFO - Path: /api/v1/sync-products | Method: POST | Processing Time: 191.63ms
+2025-03-25 00:49:48,132 - app.middlewares.route_logging - INFO - Path: /api/v1/products | Method: GET | Processing Time: 22.65ms
+2025-03-25 00:49:50,407 - app.middlewares.route_logging - INFO - Path: /api/v1/sync-history | Method: GET | Processing Time: 46.66ms
+2025-03-25 00:50:34,018 - app.middlewares.route_logging - INFO - Path: /api/v1/products | Method: GET | Processing Time: 18.38ms
+2025-03-25 00:50:38,843 - app.middlewares.route_logging - INFO - Path: /api/v1/sync-history | Method: GET | Processing Time: 11.09ms
+2025-03-25 00:51:00,685 - app.middlewares.route_logging - INFO - Path: /api/v1/products | Method: GET | Processing Time: 0.00ms
+2025-03-25 00:51:01,578 - app.middlewares.route_logging - INFO - Path: /api/v1/sync-history | Method: GET | Processing Time: 13.85ms
+2025-03-25 00:52:42,996 - app.middlewares.route_logging - INFO - Path: /api/v1/products | Method: GET | Processing Time: 15.25ms
+2025-03-25 00:52:48,040 - app.middlewares.route_logging - INFO - Path: /api/v1/sync-history | Method: GET | Processing Time: 11.06ms
+2025-03-25 00:52:52,029 - app.middlewares.route_logging - INFO - Path: /api/v1/products | Method: GET | Processing Time: 13.34ms
+2025-03-25 00:53:01,772 - app.middlewares.route_logging - INFO - Path: /api/v1/sync-history | Method: GET | Processing Time: 5.70ms
+2025-03-25 00:53:13,602 - app.middlewares.route_logging - INFO - Path: /api/v1/products | Method: GET | Processing Time: 2.60ms
+2025-03-25 00:53:16,657 - app.middlewares.route_logging - INFO - Path: /api/v1/products | Method: GET | Processing Time: 11.89ms
+2025-03-25 00:53:17,849 - app.middlewares.route_logging - INFO - Path: /api/v1/sync-history | Method: GET | Processing Time: 7.49ms
+2025-03-25 00:53:21,245 - app.middlewares.route_logging - INFO - Path: /api/v1/products | Method: GET | Processing Time: 9.60ms
+2025-03-25 00:53:22,715 - app.middlewares.route_logging - INFO - Path: /api/v1/sync-history | Method: GET | Processing Time: 0.00ms
+2025-03-25 00:53:58,552 - app.middlewares.route_logging - INFO - Path: /api/v1/products | Method: GET | Processing Time: 15.69ms
+2025-03-25 00:53:59,168 - app.middlewares.route_logging - INFO - Path: /api/v1/sync-history | Method: GET | Processing Time: 10.03ms
+2025-03-25 00:54:12,788 - app.middlewares.route_logging - INFO - Path: /api/v1/products | Method: GET | Processing Time: 12.04ms
+2025-03-25 00:54:15,269 - app.middlewares.route_logging - INFO - Path: /api/v1/products | Method: GET | Processing Time: 12.37ms
+2025-03-25 00:54:31,965 - app.routes.search_product - INFO - Empty query provided, returning all products in paginated form
+2025-03-25 00:54:31,980 - app.routes.search_product - INFO - Found 10 results for empty query (all products)
+2025-03-25 00:54:31,981 - app.middlewares.route_logging - INFO - Path: /api/v1/search | Method: GET | Processing Time: 32.96ms
+2025-03-25 00:54:31,994 - app.routes.search_product - INFO - Empty query provided, returning all products in paginated form
+2025-03-25 00:54:31,998 - app.routes.search_product - INFO - Found 10 results for empty query (all products)
+2025-03-25 00:54:31,998 - app.middlewares.route_logging - INFO - Path: /api/v1/search | Method: GET | Processing Time: 10.62ms
+2025-03-25 00:54:33,996 - app.routes.search_product - INFO - Empty query provided, returning all products in paginated form
+2025-03-25 00:54:33,999 - app.routes.search_product - INFO - Found 10 results for empty query (all products)
+2025-03-25 00:54:34,002 - app.middlewares.route_logging - INFO - Path: /api/v1/search | Method: GET | Processing Time: 10.26ms
+2025-03-25 00:54:34,008 - app.routes.search_product - INFO - Empty query provided, returning all products in paginated form
+2025-03-25 00:54:34,010 - app.routes.search_product - INFO - Found 10 results for empty query (all products)
+2025-03-25 00:54:34,014 - app.middlewares.route_logging - INFO - Path: /api/v1/search | Method: GET | Processing Time: 10.67ms
+2025-03-25 01:01:31,309 - app.services.vertex - INFO - Total embedding process completed in 2.933s
+2025-03-25 01:01:31,867 - root - INFO - AFC is enabled with max remote calls: 10.
+2025-03-25 01:01:31,911 - app.middlewares.route_logging - INFO - Path: /api/v1/shopping-assistant/chat | Method: GET | Processing Time: 3587.68ms
+2025-03-25 01:01:34,872 - root - INFO - AFC remote call 1 is done.
+2025-03-25 01:01:35,144 - app.services.shopping_assistant - ERROR - Error saving conversation: (sqlalchemy.dialects.postgresql.asyncpg.ProgrammingError) <class 'asyncpg.exceptions.UndefinedTableError'>: relation "conversations" does not exist
+[SQL: SELECT * FROM conversations WHERE conversation_id = $1]
+[parameters: ('c1742844596025',)]
+(Background on this error at: https://sqlalche.me/e/20/f405)
+2025-03-25 01:10:25,939 - app.main - INFO - Shutting down...
+2025-03-25 01:10:34,619 - app.main - INFO - Initializing model and processor...
+2025-03-25 01:10:34,689 - app.main - INFO - Database connection successful
+2025-03-25 01:10:35,820 - app.services.vertex - INFO - Total embedding process completed in 1.130s
+2025-03-25 01:10:35,821 - app.main - INFO - Initialization complete.
+2025-03-25 01:11:16,949 - app.services.vertex - INFO - Total embedding process completed in 0.579s
+2025-03-25 01:11:17,169 - root - INFO - AFC is enabled with max remote calls: 10.
+2025-03-25 01:11:17,218 - app.middlewares.route_logging - INFO - Path: /api/v1/shopping-assistant/chat | Method: GET | Processing Time: 854.38ms
+2025-03-25 01:11:19,709 - root - INFO - AFC remote call 1 is done.
+2025-03-25 01:11:19,885 - app.services.shopping_assistant - INFO - Saved conversation for ID: c1742845256623
+2025-03-25 01:34:49,282 - app.routes.search_product - INFO - Empty query provided, returning all products in paginated form
+2025-03-25 01:34:49,335 - app.routes.search_product - INFO - Found 12 results for empty query (all products)
+2025-03-25 01:34:49,350 - app.middlewares.route_logging - INFO - Path: /api/v1/search | Method: GET | Processing Time: 173.85ms
+2025-03-25 01:34:49,365 - app.routes.search_product - INFO - Empty query provided, returning all products in paginated form
+2025-03-25 01:34:49,406 - app.routes.search_product - INFO - Found 12 results for empty query (all products)
+2025-03-25 01:34:49,409 - app.middlewares.route_logging - INFO - Path: /api/v1/search | Method: GET | Processing Time: 54.33ms
+2025-03-25 01:40:07,580 - app.routes.search_product - INFO - Empty query provided, returning all products in paginated form
+2025-03-25 01:40:07,595 - app.routes.search_product - INFO - Found 12 results for empty query (all products)
+2025-03-25 01:40:07,599 - app.middlewares.route_logging - INFO - Path: /api/v1/search | Method: GET | Processing Time: 31.33ms
+2025-03-25 01:43:08,561 - app.routes.search_product - INFO - Empty query provided, returning all products in paginated form
+2025-03-25 01:43:08,585 - app.routes.search_product - INFO - Found 12 results for empty query (all products)
+2025-03-25 01:43:08,585 - app.middlewares.route_logging - INFO - Path: /api/v1/search | Method: GET | Processing Time: 72.23ms
+2025-03-25 01:43:08,617 - app.routes.search_product - INFO - Empty query provided, returning all products in paginated form
+2025-03-25 01:43:08,628 - app.routes.search_product - INFO - Found 12 results for empty query (all products)
+2025-03-25 01:43:08,632 - app.middlewares.route_logging - INFO - Path: /api/v1/search | Method: GET | Processing Time: 33.03ms
+2025-03-25 01:43:20,151 - app.middlewares.route_logging - INFO - Path: /api/v1/item/1 | Method: GET | Processing Time: 14.86ms
+2025-03-25 01:43:20,154 - app.middlewares.route_logging - INFO - Path: /api/v1/item/1 | Method: GET | Processing Time: 1.01ms
+2025-03-25 01:43:20,193 - app.routes.search_product - INFO - Empty query provided, returning all products in paginated form
+2025-03-25 01:43:20,199 - app.routes.search_product - INFO - Found 10 results for empty query (all products)
+2025-03-25 01:43:20,204 - app.middlewares.route_logging - INFO - Path: /api/v1/search | Method: GET | Processing Time: 43.54ms
+2025-03-25 01:43:20,212 - app.routes.search_product - INFO - Empty query provided, returning all products in paginated form
+2025-03-25 01:43:20,218 - app.routes.search_product - INFO - Found 10 results for empty query (all products)
+2025-03-25 01:43:20,220 - app.middlewares.route_logging - INFO - Path: /api/v1/search | Method: GET | Processing Time: 11.02ms
+2025-03-25 01:43:43,069 - app.routes.search_product - INFO - Empty query provided, returning all products in paginated form
+2025-03-25 01:43:43,075 - app.routes.search_product - INFO - Found 12 results for empty query (all products)
+2025-03-25 01:43:43,077 - app.middlewares.route_logging - INFO - Path: /api/v1/search | Method: GET | Processing Time: 13.77ms
+2025-03-25 01:43:43,084 - app.routes.search_product - INFO - Empty query provided, returning all products in paginated form
+2025-03-25 01:43:43,090 - app.routes.search_product - INFO - Found 12 results for empty query (all products)
+2025-03-25 01:43:43,092 - app.middlewares.route_logging - INFO - Path: /api/v1/search | Method: GET | Processing Time: 13.00ms
+2025-03-25 01:45:07,251 - app.middlewares.route_logging - INFO - Path: /api/v1/item/2 | Method: GET | Processing Time: 1.00ms
+2025-03-25 01:45:07,253 - app.middlewares.route_logging - INFO - Path: /api/v1/item/2 | Method: GET | Processing Time: 0.99ms
+2025-03-25 01:45:07,258 - app.routes.search_product - INFO - Empty query provided, returning all products in paginated form
+2025-03-25 01:45:07,261 - app.routes.search_product - INFO - Found 10 results for empty query (all products)
+2025-03-25 01:45:07,265 - app.middlewares.route_logging - INFO - Path: /api/v1/search | Method: GET | Processing Time: 9.99ms
+2025-03-25 01:45:07,269 - app.routes.search_product - INFO - Empty query provided, returning all products in paginated form
+2025-03-25 01:45:07,274 - app.routes.search_product - INFO - Found 10 results for empty query (all products)
+2025-03-25 01:45:07,276 - app.middlewares.route_logging - INFO - Path: /api/v1/search | Method: GET | Processing Time: 10.47ms
+2025-03-25 01:45:10,708 - app.routes.search_product - INFO - Empty query provided, returning all products in paginated form
+2025-03-25 01:45:10,713 - app.routes.search_product - INFO - Found 12 results for empty query (all products)
+2025-03-25 01:45:10,717 - app.middlewares.route_logging - INFO - Path: /api/v1/search | Method: GET | Processing Time: 12.65ms
+2025-03-25 01:45:10,724 - app.routes.search_product - INFO - Empty query provided, returning all products in paginated form
+2025-03-25 01:45:10,727 - app.routes.search_product - INFO - Found 12 results for empty query (all products)
+2025-03-25 01:45:10,731 - app.middlewares.route_logging - INFO - Path: /api/v1/search | Method: GET | Processing Time: 11.01ms
+2025-03-25 01:45:13,094 - app.middlewares.route_logging - INFO - Path: /api/v1/item/2 | Method: GET | Processing Time: 0.00ms
+2025-03-25 01:45:13,099 - app.middlewares.route_logging - INFO - Path: /api/v1/item/2 | Method: GET | Processing Time: 1.01ms
+2025-03-25 01:45:13,103 - app.routes.search_product - INFO - Empty query provided, returning all products in paginated form
+2025-03-25 01:45:13,107 - app.routes.search_product - INFO - Found 10 results for empty query (all products)
+2025-03-25 01:45:13,109 - app.middlewares.route_logging - INFO - Path: /api/v1/search | Method: GET | Processing Time: 10.41ms
+2025-03-25 01:45:13,116 - app.routes.search_product - INFO - Empty query provided, returning all products in paginated form
+2025-03-25 01:45:13,118 - app.routes.search_product - INFO - Found 10 results for empty query (all products)
+2025-03-25 01:45:13,122 - app.middlewares.route_logging - INFO - Path: /api/v1/search | Method: GET | Processing Time: 10.29ms
+2025-03-25 01:45:15,953 - app.routes.search_product - INFO - Empty query provided, returning all products in paginated form
+2025-03-25 01:45:15,956 - app.routes.search_product - INFO - Found 12 results for empty query (all products)
+2025-03-25 01:45:15,959 - app.middlewares.route_logging - INFO - Path: /api/v1/search | Method: GET | Processing Time: 10.00ms
+2025-03-25 01:45:15,965 - app.routes.search_product - INFO - Empty query provided, returning all products in paginated form
+2025-03-25 01:45:15,970 - app.routes.search_product - INFO - Found 12 results for empty query (all products)
+2025-03-25 01:45:15,973 - app.middlewares.route_logging - INFO - Path: /api/v1/search | Method: GET | Processing Time: 11.44ms
+2025-03-25 01:45:17,427 - app.middlewares.route_logging - INFO - Path: /api/v1/item/10 | Method: GET | Processing Time: 0.00ms
+2025-03-25 01:45:17,429 - app.middlewares.route_logging - INFO - Path: /api/v1/item/10 | Method: GET | Processing Time: 0.00ms
+2025-03-25 01:45:17,434 - app.routes.search_product - INFO - Empty query provided, returning all products in paginated form
+2025-03-25 01:45:17,437 - app.routes.search_product - INFO - Found 10 results for empty query (all products)
+2025-03-25 01:45:17,439 - app.middlewares.route_logging - INFO - Path: /api/v1/search | Method: GET | Processing Time: 8.04ms
+2025-03-25 01:45:17,445 - app.routes.search_product - INFO - Empty query provided, returning all products in paginated form
+2025-03-25 01:45:17,450 - app.routes.search_product - INFO - Found 10 results for empty query (all products)
+2025-03-25 01:45:17,454 - app.middlewares.route_logging - INFO - Path: /api/v1/search | Method: GET | Processing Time: 13.93ms
+2025-03-25 01:45:19,916 - app.routes.search_product - INFO - Empty query provided, returning all products in paginated form
+2025-03-25 01:45:19,920 - app.routes.search_product - INFO - Found 12 results for empty query (all products)
+2025-03-25 01:45:19,923 - app.middlewares.route_logging - INFO - Path: /api/v1/search | Method: GET | Processing Time: 12.01ms
+2025-03-25 01:45:19,929 - app.routes.search_product - INFO - Empty query provided, returning all products in paginated form
+2025-03-25 01:45:19,934 - app.routes.search_product - INFO - Found 12 results for empty query (all products)
+2025-03-25 01:45:19,938 - app.middlewares.route_logging - INFO - Path: /api/v1/search | Method: GET | Processing Time: 11.10ms
+2025-03-25 01:45:21,545 - app.middlewares.route_logging - INFO - Path: /api/v1/item/11 | Method: GET | Processing Time: 1.49ms
+2025-03-25 01:45:21,549 - app.middlewares.route_logging - INFO - Path: /api/v1/item/11 | Method: GET | Processing Time: 1.44ms
+2025-03-25 01:45:21,557 - app.routes.search_product - INFO - Empty query provided, returning all products in paginated form
+2025-03-25 01:45:21,560 - app.routes.search_product - INFO - Found 10 results for empty query (all products)
+2025-03-25 01:45:21,564 - app.middlewares.route_logging - INFO - Path: /api/v1/search | Method: GET | Processing Time: 11.27ms
+2025-03-25 01:45:21,570 - app.routes.search_product - INFO - Empty query provided, returning all products in paginated form
+2025-03-25 01:45:21,573 - app.routes.search_product - INFO - Found 10 results for empty query (all products)
+2025-03-25 01:45:21,577 - app.middlewares.route_logging - INFO - Path: /api/v1/search | Method: GET | Processing Time: 10.34ms
+2025-03-25 01:45:42,431 - app.middlewares.route_logging - INFO - Path: /docs | Method: GET | Processing Time: 28.02ms
+2025-03-25 01:45:43,002 - app.middlewares.route_logging - INFO - Path: /openapi.json | Method: GET | Processing Time: 343.70ms
+2025-03-25 01:45:52,989 - app.middlewares.route_logging - INFO - Path: /api/v1/products/1 | Method: GET | Processing Time: 430.18ms
+2025-03-25 01:52:00,014 - app.routes.search_product - INFO - Empty query provided, returning all products in paginated form
+2025-03-25 01:52:00,045 - app.routes.search_product - INFO - Found 12 results for empty query (all products)
+2025-03-25 01:52:00,067 - app.middlewares.route_logging - INFO - Path: /api/v1/search | Method: GET | Processing Time: 143.02ms
+2025-03-25 01:52:00,088 - app.routes.search_product - INFO - Empty query provided, returning all products in paginated form
+2025-03-25 01:52:00,095 - app.routes.search_product - INFO - Found 12 results for empty query (all products)
+2025-03-25 01:52:00,100 - app.middlewares.route_logging - INFO - Path: /api/v1/search | Method: GET | Processing Time: 27.66ms
+2025-03-25 01:52:03,567 - app.middlewares.route_logging - INFO - Path: /api/v1/products/1 | Method: GET | Processing Time: 168.70ms
+2025-03-25 01:52:03,586 - app.middlewares.route_logging - INFO - Path: /api/v1/products/1 | Method: GET | Processing Time: 18.00ms
+2025-03-25 01:52:06,625 - app.routes.search_product - INFO - Empty query provided, returning all products in paginated form
+2025-03-25 01:52:06,632 - app.routes.search_product - INFO - Found 12 results for empty query (all products)
+2025-03-25 01:52:06,636 - app.middlewares.route_logging - INFO - Path: /api/v1/search | Method: GET | Processing Time: 14.97ms
+2025-03-25 01:52:06,644 - app.routes.search_product - INFO - Empty query provided, returning all products in paginated form
+2025-03-25 01:52:06,648 - app.routes.search_product - INFO - Found 12 results for empty query (all products)
+2025-03-25 01:52:06,653 - app.middlewares.route_logging - INFO - Path: /api/v1/search | Method: GET | Processing Time: 12.90ms
+2025-03-25 01:52:07,917 - app.middlewares.route_logging - INFO - Path: /api/v1/products/10 | Method: GET | Processing Time: 13.80ms
+2025-03-25 01:52:07,931 - app.middlewares.route_logging - INFO - Path: /api/v1/products/10 | Method: GET | Processing Time: 12.63ms
+2025-03-25 01:52:10,066 - app.routes.search_product - INFO - Empty query provided, returning all products in paginated form
+2025-03-25 01:52:10,069 - app.routes.search_product - INFO - Found 12 results for empty query (all products)
+2025-03-25 01:52:10,073 - app.middlewares.route_logging - INFO - Path: /api/v1/search | Method: GET | Processing Time: 14.04ms
+2025-03-25 01:52:10,080 - app.routes.search_product - INFO - Empty query provided, returning all products in paginated form
+2025-03-25 01:52:10,083 - app.routes.search_product - INFO - Found 12 results for empty query (all products)
+2025-03-25 01:52:10,085 - app.middlewares.route_logging - INFO - Path: /api/v1/search | Method: GET | Processing Time: 10.52ms
+2025-03-25 01:52:11,570 - app.routes.search_product - INFO - Empty query provided, returning all products in paginated form
+2025-03-25 01:52:11,574 - app.routes.search_product - INFO - Found 12 results for empty query (all products)
+2025-03-25 01:52:11,577 - app.middlewares.route_logging - INFO - Path: /api/v1/search | Method: GET | Processing Time: 12.11ms
+2025-03-25 01:52:11,584 - app.routes.search_product - INFO - Empty query provided, returning all products in paginated form
+2025-03-25 01:52:11,588 - app.routes.search_product - INFO - Found 12 results for empty query (all products)
+2025-03-25 01:52:11,592 - app.middlewares.route_logging - INFO - Path: /api/v1/search | Method: GET | Processing Time: 13.39ms
+2025-03-25 01:52:13,295 - app.middlewares.route_logging - INFO - Path: /api/v1/products/1 | Method: GET | Processing Time: 13.00ms
+2025-03-25 01:52:13,309 - app.middlewares.route_logging - INFO - Path: /api/v1/products/1 | Method: GET | Processing Time: 10.90ms
+2025-03-25 01:52:17,514 - app.routes.search_product - INFO - Empty query provided, returning all products in paginated form
+2025-03-25 01:52:17,518 - app.routes.search_product - INFO - Found 12 results for empty query (all products)
+2025-03-25 01:52:17,521 - app.middlewares.route_logging - INFO - Path: /api/v1/search | Method: GET | Processing Time: 11.00ms
+2025-03-25 01:52:17,527 - app.routes.search_product - INFO - Empty query provided, returning all products in paginated form
+2025-03-25 01:52:17,530 - app.routes.search_product - INFO - Found 12 results for empty query (all products)
+2025-03-25 01:52:17,535 - app.middlewares.route_logging - INFO - Path: /api/v1/search | Method: GET | Processing Time: 11.94ms
+2025-03-25 01:52:19,013 - app.middlewares.route_logging - INFO - Path: /api/v1/products/10 | Method: GET | Processing Time: 10.19ms
+2025-03-25 01:52:19,031 - app.middlewares.route_logging - INFO - Path: /api/v1/products/10 | Method: GET | Processing Time: 16.03ms
+2025-03-25 01:52:24,710 - app.routes.search_product - INFO - Empty query provided, returning all products in paginated form
+2025-03-25 01:52:24,718 - app.routes.search_product - INFO - Found 12 results for empty query (all products)
+2025-03-25 01:52:24,722 - app.middlewares.route_logging - INFO - Path: /api/v1/search | Method: GET | Processing Time: 20.47ms
+2025-03-25 01:52:24,728 - app.routes.search_product - INFO - Empty query provided, returning all products in paginated form
+2025-03-25 01:52:24,733 - app.routes.search_product - INFO - Found 12 results for empty query (all products)
+2025-03-25 01:52:24,737 - app.middlewares.route_logging - INFO - Path: /api/v1/search | Method: GET | Processing Time: 13.11ms
+2025-03-25 01:52:26,003 - app.middlewares.route_logging - INFO - Path: /api/v1/products/11 | Method: GET | Processing Time: 20.11ms
+2025-03-25 01:52:26,017 - app.middlewares.route_logging - INFO - Path: /api/v1/products/11 | Method: GET | Processing Time: 12.05ms
+2025-03-25 01:52:29,553 - app.routes.search_product - INFO - Empty query provided, returning all products in paginated form
+2025-03-25 01:52:29,557 - app.routes.search_product - INFO - Found 12 results for empty query (all products)
+2025-03-25 01:52:29,562 - app.middlewares.route_logging - INFO - Path: /api/v1/search | Method: GET | Processing Time: 16.01ms
+2025-03-25 01:52:29,569 - app.routes.search_product - INFO - Empty query provided, returning all products in paginated form
+2025-03-25 01:52:29,575 - app.routes.search_product - INFO - Found 12 results for empty query (all products)
+2025-03-25 01:52:29,579 - app.middlewares.route_logging - INFO - Path: /api/v1/search | Method: GET | Processing Time: 15.01ms
+2025-03-25 01:52:38,548 - app.middlewares.route_logging - INFO - Path: /api/v1/products/12 | Method: GET | Processing Time: 12.61ms
+2025-03-25 01:52:38,566 - app.middlewares.route_logging - INFO - Path: /api/v1/products/12 | Method: GET | Processing Time: 16.06ms
+2025-03-25 01:52:48,151 - app.middlewares.route_logging - INFO - Path: /api/v1/products/12 | Method: GET | Processing Time: 16.03ms
+2025-03-25 01:52:48,170 - app.middlewares.route_logging - INFO - Path: /api/v1/products/12 | Method: GET | Processing Time: 16.90ms
+2025-03-25 01:52:56,272 - app.routes.search_product - INFO - Empty query provided, returning all products in paginated form
+2025-03-25 01:52:56,275 - app.routes.search_product - INFO - Found 12 results for empty query (all products)
+2025-03-25 01:52:56,278 - app.middlewares.route_logging - INFO - Path: /api/v1/search | Method: GET | Processing Time: 10.02ms
+2025-03-25 01:52:56,284 - app.routes.search_product - INFO - Empty query provided, returning all products in paginated form
+2025-03-25 01:52:56,287 - app.routes.search_product - INFO - Found 12 results for empty query (all products)
+2025-03-25 01:52:56,291 - app.middlewares.route_logging - INFO - Path: /api/v1/search | Method: GET | Processing Time: 11.12ms
+2025-03-25 01:52:59,262 - app.routes.search_product - INFO - Empty query provided, returning all products in paginated form
+2025-03-25 01:52:59,266 - app.routes.search_product - INFO - Found 12 results for empty query (all products)
+2025-03-25 01:52:59,269 - app.middlewares.route_logging - INFO - Path: /api/v1/search | Method: GET | Processing Time: 11.53ms
+2025-03-25 01:52:59,275 - app.routes.search_product - INFO - Empty query provided, returning all products in paginated form
+2025-03-25 01:52:59,280 - app.routes.search_product - INFO - Found 12 results for empty query (all products)
+2025-03-25 01:52:59,282 - app.middlewares.route_logging - INFO - Path: /api/v1/search | Method: GET | Processing Time: 9.85ms
+2025-03-25 01:53:24,874 - app.middlewares.route_logging - INFO - Path: /api/v1/products/15 | Method: GET | Processing Time: 11.08ms
+2025-03-25 01:53:24,899 - app.middlewares.route_logging - INFO - Path: /api/v1/products/15 | Method: GET | Processing Time: 20.75ms
+2025-03-25 01:53:43,588 - app.routes.search_product - INFO - Empty query provided, returning all products in paginated form
+2025-03-25 01:53:43,591 - app.routes.search_product - INFO - Found 12 results for empty query (all products)
+2025-03-25 01:53:43,594 - app.middlewares.route_logging - INFO - Path: /api/v1/search | Method: GET | Processing Time: 10.03ms
+2025-03-25 01:53:43,601 - app.routes.search_product - INFO - Empty query provided, returning all products in paginated form
+2025-03-25 01:53:43,605 - app.routes.search_product - INFO - Found 12 results for empty query (all products)
+2025-03-25 01:53:43,609 - app.middlewares.route_logging - INFO - Path: /api/v1/search | Method: GET | Processing Time: 13.19ms
+2025-03-25 01:53:46,208 - app.middlewares.route_logging - INFO - Path: /api/v1/products/2 | Method: GET | Processing Time: 10.66ms
+2025-03-25 01:53:46,218 - app.middlewares.route_logging - INFO - Path: /api/v1/products/2 | Method: GET | Processing Time: 7.66ms
+2025-03-25 01:53:50,549 - app.routes.search_product - INFO - Empty query provided, returning all products in paginated form
+2025-03-25 01:53:50,554 - app.routes.search_product - INFO - Found 12 results for empty query (all products)
+2025-03-25 01:53:50,557 - app.middlewares.route_logging - INFO - Path: /api/v1/search | Method: GET | Processing Time: 13.08ms
+2025-03-25 01:53:50,565 - app.routes.search_product - INFO - Empty query provided, returning all products in paginated form
+2025-03-25 01:53:50,568 - app.routes.search_product - INFO - Found 12 results for empty query (all products)
+2025-03-25 01:53:50,573 - app.middlewares.route_logging - INFO - Path: /api/v1/search | Method: GET | Processing Time: 12.00ms
+2025-03-25 01:55:45,929 - app.services.vertex - INFO - Total embedding process completed in 1.035s
+2025-03-25 01:55:46,105 - root - INFO - AFC is enabled with max remote calls: 10.
+2025-03-25 01:55:46,146 - app.middlewares.route_logging - INFO - Path: /api/v1/shopping-assistant/chat | Method: GET | Processing Time: 1283.91ms
+2025-03-25 01:55:48,586 - root - INFO - AFC remote call 1 is done.
+2025-03-25 01:55:48,986 - app.services.shopping_assistant - INFO - Saved conversation for ID: c1742847830512
+2025-03-25 01:56:14,695 - app.routes.search_product - INFO - Empty query provided, returning all products in paginated form
+2025-03-25 01:56:14,699 - app.routes.search_product - INFO - Found 12 results for empty query (all products)
+2025-03-25 01:56:14,703 - app.middlewares.route_logging - INFO - Path: /api/v1/search | Method: GET | Processing Time: 14.47ms
+2025-03-25 01:56:14,710 - app.routes.search_product - INFO - Empty query provided, returning all products in paginated form
+2025-03-25 01:56:14,714 - app.routes.search_product - INFO - Found 12 results for empty query (all products)
+2025-03-25 01:56:14,717 - app.middlewares.route_logging - INFO - Path: /api/v1/search | Method: GET | Processing Time: 12.02ms
+2025-03-25 01:56:31,550 - app.services.vertex - INFO - Total embedding process completed in 0.931s
+2025-03-25 01:56:31,628 - root - INFO - AFC is enabled with max remote calls: 10.
+2025-03-25 01:56:31,630 - app.middlewares.route_logging - INFO - Path: /api/v1/shopping-assistant/chat | Method: GET | Processing Time: 1020.30ms
+2025-03-25 01:56:33,881 - root - INFO - AFC remote call 1 is done.
+2025-03-25 01:56:34,037 - app.services.shopping_assistant - INFO - Saved conversation for ID: c1742847974634
+2025-03-25 01:57:41,649 - app.routes.search_product - INFO - Empty query provided, returning all products in paginated form
+2025-03-25 01:57:41,653 - app.routes.search_product - INFO - Found 12 results for empty query (all products)
+2025-03-25 01:57:41,656 - app.middlewares.route_logging - INFO - Path: /api/v1/search | Method: GET | Processing Time: 14.52ms
+2025-03-25 01:57:41,665 - app.routes.search_product - INFO - Empty query provided, returning all products in paginated form
+2025-03-25 01:57:41,671 - app.routes.search_product - INFO - Found 12 results for empty query (all products)
+2025-03-25 01:57:41,676 - app.middlewares.route_logging - INFO - Path: /api/v1/search | Method: GET | Processing Time: 17.70ms
+2025-03-25 01:57:51,232 - app.routes.search_product - INFO - Empty query provided, returning all products in paginated form
+2025-03-25 01:57:51,235 - app.routes.search_product - INFO - Found 12 results for empty query (all products)
+2025-03-25 01:57:51,237 - app.middlewares.route_logging - INFO - Path: /api/v1/search | Method: GET | Processing Time: 10.71ms
+2025-03-25 01:57:51,242 - app.routes.search_product - INFO - Empty query provided, returning all products in paginated form
+2025-03-25 01:57:51,245 - app.routes.search_product - INFO - Found 12 results for empty query (all products)
+2025-03-25 01:57:51,249 - app.middlewares.route_logging - INFO - Path: /api/v1/search | Method: GET | Processing Time: 9.27ms
+2025-03-25 01:58:23,184 - app.services.vertex - INFO - Total embedding process completed in 0.683s
+2025-03-25 01:58:23,274 - root - INFO - AFC is enabled with max remote calls: 10.
+2025-03-25 01:58:23,275 - app.middlewares.route_logging - INFO - Path: /api/v1/shopping-assistant/chat | Method: GET | Processing Time: 777.94ms
+2025-03-25 01:58:25,541 - root - INFO - AFC remote call 1 is done.
+2025-03-25 01:58:25,782 - app.services.shopping_assistant - INFO - Saved conversation for ID: c1742848084890
+2025-03-25 02:00:39,311 - app.routes.search_product - INFO - Empty query provided, returning all products in paginated form
+2025-03-25 02:00:39,316 - app.routes.search_product - INFO - Found 12 results for empty query (all products)
+2025-03-25 02:00:39,324 - app.middlewares.route_logging - INFO - Path: /api/v1/search | Method: GET | Processing Time: 26.22ms
+2025-03-25 02:00:39,333 - app.routes.search_product - INFO - Empty query provided, returning all products in paginated form
+2025-03-25 02:00:39,337 - app.routes.search_product - INFO - Found 12 results for empty query (all products)
+2025-03-25 02:00:39,342 - app.middlewares.route_logging - INFO - Path: /api/v1/search | Method: GET | Processing Time: 13.40ms
+2025-03-25 02:04:06,399 - app.routes.search_product - INFO - Empty query provided, returning all products in paginated form
+2025-03-25 02:04:06,402 - app.routes.search_product - INFO - Found 12 results for empty query (all products)
+2025-03-25 02:04:06,404 - app.middlewares.route_logging - INFO - Path: /api/v1/search | Method: GET | Processing Time: 9.52ms
+2025-03-25 02:04:06,409 - app.routes.search_product - INFO - Empty query provided, returning all products in paginated form
+2025-03-25 02:04:06,413 - app.routes.search_product - INFO - Found 12 results for empty query (all products)
+2025-03-25 02:04:06,418 - app.middlewares.route_logging - INFO - Path: /api/v1/search | Method: GET | Processing Time: 12.89ms
+2025-03-25 02:08:55,863 - app.routes.search_product - INFO - Empty query provided, returning all products in paginated form
+2025-03-25 02:08:55,866 - app.routes.search_product - INFO - Found 12 results for empty query (all products)
+2025-03-25 02:08:55,868 - app.middlewares.route_logging - INFO - Path: /api/v1/search | Method: GET | Processing Time: 9.82ms
+2025-03-25 02:08:55,873 - app.routes.search_product - INFO - Empty query provided, returning all products in paginated form
+2025-03-25 02:08:55,879 - app.routes.search_product - INFO - Found 12 results for empty query (all products)
+2025-03-25 02:08:55,882 - app.middlewares.route_logging - INFO - Path: /api/v1/search | Method: GET | Processing Time: 11.35ms
+2025-03-25 02:21:24,497 - app.services.vertex - INFO - Total embedding process completed in 2.240s
+2025-03-25 02:21:24,616 - root - INFO - AFC is enabled with max remote calls: 10.
+2025-03-25 02:21:24,642 - app.middlewares.route_logging - INFO - Path: /api/v1/shopping-assistant/chat | Method: GET | Processing Time: 2441.06ms
+2025-03-25 02:21:27,114 - root - INFO - AFC remote call 1 is done.
+2025-03-25 02:21:27,361 - app.services.shopping_assistant - INFO - Saved conversation for ID: c1742848938417
+2025-03-25 02:22:02,064 - app.middlewares.route_logging - INFO - Path: /api/v1/products/20 | Method: GET | Processing Time: 44.48ms
+2025-03-25 02:22:02,080 - app.middlewares.route_logging - INFO - Path: /api/v1/products/20 | Method: GET | Processing Time: 13.77ms
+2025-03-25 02:22:33,847 - app.middlewares.route_logging - INFO - Path: /api/v1/products/20 | Method: GET | Processing Time: 4.58ms
+2025-03-25 02:22:33,867 - app.middlewares.route_logging - INFO - Path: /api/v1/products/20 | Method: GET | Processing Time: 19.86ms
+2025-03-25 02:22:36,571 - app.routes.search_product - INFO - Empty query provided, returning all products in paginated form
+2025-03-25 02:22:36,575 - app.routes.search_product - INFO - Found 12 results for empty query (all products)
+2025-03-25 02:22:36,577 - app.middlewares.route_logging - INFO - Path: /api/v1/search | Method: GET | Processing Time: 10.00ms
+2025-03-25 02:22:36,585 - app.routes.search_product - INFO - Empty query provided, returning all products in paginated form
+2025-03-25 02:22:36,592 - app.routes.search_product - INFO - Found 12 results for empty query (all products)
+2025-03-25 02:22:36,598 - app.middlewares.route_logging - INFO - Path: /api/v1/search | Method: GET | Processing Time: 19.01ms
+2025-03-25 02:22:49,274 - app.services.vertex - INFO - Total embedding process completed in 0.464s
+2025-03-25 02:22:49,339 - root - INFO - AFC is enabled with max remote calls: 10.
+2025-03-25 02:22:49,339 - app.middlewares.route_logging - INFO - Path: /api/v1/shopping-assistant/chat | Method: GET | Processing Time: 533.42ms
+2025-03-25 02:22:51,298 - root - INFO - AFC remote call 1 is done.
+2025-03-25 02:22:51,606 - app.services.shopping_assistant - INFO - Saved conversation for ID: c1742849556521
+2025-03-25 02:23:40,030 - app.routes.search_product - INFO - Empty query provided, returning all products in paginated form
+2025-03-25 02:23:40,030 - app.routes.search_product - INFO - Found 12 results for empty query (all products)
+2025-03-25 02:23:40,046 - app.middlewares.route_logging - INFO - Path: /api/v1/search | Method: GET | Processing Time: 16.71ms
+2025-03-25 02:23:40,046 - app.routes.search_product - INFO - Empty query provided, returning all products in paginated form
+2025-03-25 02:23:40,071 - app.routes.search_product - INFO - Found 12 results for empty query (all products)
+2025-03-25 02:23:40,075 - app.middlewares.route_logging - INFO - Path: /api/v1/search | Method: GET | Processing Time: 28.85ms
+2025-03-25 02:29:27,823 - app.services.vertex - INFO - Total embedding process completed in 3.713s
+2025-03-25 02:29:27,889 - root - INFO - AFC is enabled with max remote calls: 10.
+2025-03-25 02:29:27,890 - app.middlewares.route_logging - INFO - Path: /api/v1/shopping-assistant/chat | Method: GET | Processing Time: 3780.73ms
+2025-03-25 02:29:30,113 - root - INFO - AFC remote call 1 is done.
+2025-03-25 02:29:30,275 - app.services.shopping_assistant - INFO - Saved conversation for ID: c1742849619665
+2025-03-25 02:29:39,457 - app.middlewares.route_logging - INFO - Path: /api/v1/products/1 | Method: GET | Processing Time: 7.07ms
+2025-03-25 02:29:39,471 - app.middlewares.route_logging - INFO - Path: /api/v1/products/1 | Method: GET | Processing Time: 14.41ms
+2025-03-25 02:29:43,851 - app.middlewares.route_logging - INFO - Path: /api/v1/products/10 | Method: GET | Processing Time: 11.21ms
+2025-03-25 02:29:43,857 - app.middlewares.route_logging - INFO - Path: /api/v1/products/10 | Method: GET | Processing Time: 2.11ms
+2025-03-25 02:29:53,247 - app.middlewares.route_logging - INFO - Path: /api/v1/products/1 | Method: GET | Processing Time: 6.70ms
+2025-03-25 02:29:53,255 - app.middlewares.route_logging - INFO - Path: /api/v1/products/1 | Method: GET | Processing Time: 6.54ms
+2025-03-25 02:31:08,923 - app.services.vertex - INFO - Total embedding process completed in 0.511s
+2025-03-25 02:31:09,002 - root - INFO - AFC is enabled with max remote calls: 10.
+2025-03-25 02:31:09,004 - app.middlewares.route_logging - INFO - Path: /api/v1/shopping-assistant/chat | Method: GET | Processing Time: 597.59ms
+2025-03-25 02:31:10,909 - root - INFO - AFC remote call 1 is done.
+2025-03-25 02:31:11,887 - app.services.shopping_assistant - INFO - Saved conversation for ID: c1742849619665
+2025-03-25 02:31:46,204 - app.services.vertex - INFO - Total embedding process completed in 0.396s
+2025-03-25 02:31:46,271 - root - INFO - AFC is enabled with max remote calls: 10.
+2025-03-25 02:31:46,271 - app.middlewares.route_logging - INFO - Path: /api/v1/shopping-assistant/chat | Method: GET | Processing Time: 468.06ms
+2025-03-25 02:31:48,341 - root - INFO - AFC remote call 1 is done.
+2025-03-25 02:31:48,950 - app.services.shopping_assistant - INFO - Saved conversation for ID: c1742849619665
+2025-03-25 11:23:25,357 - app.routes.search_product - INFO - Empty query provided, returning all products in paginated form
+2025-03-25 11:23:25,405 - app.routes.search_product - INFO - Found 12 results for empty query (all products)
+2025-03-25 11:23:25,416 - app.middlewares.route_logging - INFO - Path: /api/v1/search | Method: GET | Processing Time: 200.80ms
+2025-03-25 11:23:25,450 - app.routes.search_product - INFO - Empty query provided, returning all products in paginated form
+2025-03-25 11:23:25,474 - app.routes.search_product - INFO - Found 12 results for empty query (all products)
+2025-03-25 11:23:25,478 - app.middlewares.route_logging - INFO - Path: /api/v1/search | Method: GET | Processing Time: 45.54ms
+2025-03-25 11:23:53,025 - app.services.vertex - INFO - Total embedding process completed in 1.171s
+2025-03-25 11:23:53,191 - root - INFO - AFC is enabled with max remote calls: 10.
+2025-03-25 11:23:53,199 - app.middlewares.route_logging - INFO - Path: /api/v1/shopping-assistant/chat | Method: GET | Processing Time: 1389.94ms
+2025-03-25 11:23:55,612 - root - INFO - AFC remote call 1 is done.
+2025-03-25 11:23:56,103 - app.services.shopping_assistant - INFO - Saved conversation for ID: c1742882004687
+2025-03-25 11:24:27,684 - app.services.vertex - INFO - Total embedding process completed in 0.856s
+2025-03-25 11:24:27,787 - root - INFO - AFC is enabled with max remote calls: 10.
+2025-03-25 11:24:27,787 - app.middlewares.route_logging - INFO - Path: /api/v1/shopping-assistant/chat | Method: GET | Processing Time: 958.63ms
+2025-03-25 11:24:29,731 - root - INFO - AFC remote call 1 is done.
+2025-03-25 11:24:29,951 - app.services.shopping_assistant - INFO - Saved conversation for ID: c1742882004687
+2025-03-25 11:25:11,511 - app.services.vertex - INFO - Total embedding process completed in 0.534s
+2025-03-25 11:25:11,613 - root - INFO - AFC is enabled with max remote calls: 10.
+2025-03-25 11:25:11,613 - app.middlewares.route_logging - INFO - Path: /api/v1/shopping-assistant/chat | Method: GET | Processing Time: 648.73ms
+2025-03-25 11:25:13,646 - root - INFO - AFC remote call 1 is done.
+2025-03-25 11:25:13,741 - app.services.shopping_assistant - INFO - Saved conversation for ID: c1742882004687
+2025-03-25 11:26:54,147 - app.middlewares.route_logging - INFO - Path: /api/v1/products/26 | Method: GET | Processing Time: 70.85ms
+2025-03-25 11:26:54,171 - app.middlewares.route_logging - INFO - Path: /api/v1/products/26 | Method: GET | Processing Time: 19.44ms
+2025-03-25 11:31:19,761 - app.routes.search_product - INFO - Empty query provided, returning all products in paginated form
+2025-03-25 11:31:19,788 - app.routes.search_product - INFO - Found 12 results for empty query (all products)
+2025-03-25 11:31:19,848 - app.middlewares.route_logging - INFO - Path: /api/v1/search | Method: GET | Processing Time: 143.64ms
+2025-03-25 11:31:19,856 - app.routes.search_product - INFO - Empty query provided, returning all products in paginated form
+2025-03-25 11:31:19,862 - app.routes.search_product - INFO - Found 12 results for empty query (all products)
+2025-03-25 11:31:19,865 - app.middlewares.route_logging - INFO - Path: /api/v1/search | Method: GET | Processing Time: 14.98ms
+2025-03-25 11:31:26,159 - app.middlewares.route_logging - INFO - Path: /api/v1/products/26 | Method: GET | Processing Time: 314.10ms
+2025-03-25 11:31:26,198 - app.middlewares.route_logging - INFO - Path: /api/v1/products/26 | Method: GET | Processing Time: 37.53ms
+2025-03-25 11:32:48,215 - app.services.vertex - INFO - Total embedding process completed in 0.872s
+2025-03-25 11:32:48,327 - root - INFO - AFC is enabled with max remote calls: 10.
+2025-03-25 11:32:48,334 - app.middlewares.route_logging - INFO - Path: /api/v1/shopping-assistant/chat | Method: GET | Processing Time: 996.67ms
+2025-03-25 11:32:49,629 - root - INFO - AFC remote call 1 is done.
+2025-03-25 11:32:49,962 - app.services.shopping_assistant - INFO - Saved conversation for ID: c1742882479144
+2025-03-25 11:33:15,342 - app.services.vertex - INFO - Total embedding process completed in 0.460s
+2025-03-25 11:33:15,437 - root - INFO - AFC is enabled with max remote calls: 10.
+2025-03-25 11:33:15,440 - app.middlewares.route_logging - INFO - Path: /api/v1/shopping-assistant/chat | Method: GET | Processing Time: 573.43ms
+2025-03-25 11:33:17,459 - root - INFO - AFC remote call 1 is done.
+2025-03-25 11:33:17,589 - app.services.shopping_assistant - INFO - Saved conversation for ID: c1742882479144
+2025-03-25 11:34:00,346 - app.services.vertex - INFO - Total embedding process completed in 0.471s
+2025-03-25 11:34:00,426 - root - INFO - AFC is enabled with max remote calls: 10.
+2025-03-25 11:34:00,426 - app.middlewares.route_logging - INFO - Path: /api/v1/shopping-assistant/chat | Method: GET | Processing Time: 551.91ms
+2025-03-25 11:34:02,538 - root - INFO - AFC remote call 1 is done.
+2025-03-25 11:34:02,624 - app.services.shopping_assistant - INFO - Saved conversation for ID: c1742882479144
+2025-03-25 11:35:24,439 - app.services.vertex - INFO - Total embedding process completed in 0.672s
+2025-03-25 11:35:24,531 - root - INFO - AFC is enabled with max remote calls: 10.
+2025-03-25 11:35:24,536 - app.middlewares.route_logging - INFO - Path: /api/v1/shopping-assistant/chat | Method: GET | Processing Time: 783.70ms
+2025-03-25 11:35:26,508 - root - INFO - AFC remote call 1 is done.
+2025-03-25 11:35:26,951 - app.services.shopping_assistant - INFO - Saved conversation for ID: c1742882479144
+2025-03-25 11:36:24,423 - app.services.vertex - INFO - Total embedding process completed in 0.639s
+2025-03-25 11:36:24,523 - root - INFO - AFC is enabled with max remote calls: 10.
+2025-03-25 11:36:24,539 - app.middlewares.route_logging - INFO - Path: /api/v1/shopping-assistant/chat | Method: GET | Processing Time: 767.09ms
+2025-03-25 11:36:26,918 - root - INFO - AFC remote call 1 is done.
+2025-03-25 11:36:27,069 - app.services.shopping_assistant - INFO - Saved conversation for ID: c1742882479144
+2025-03-25 11:36:55,260 - app.middlewares.route_logging - INFO - Path: /api/v1/products/26 | Method: GET | Processing Time: 22.41ms
+2025-03-25 11:36:55,283 - app.middlewares.route_logging - INFO - Path: /api/v1/products/26 | Method: GET | Processing Time: 15.12ms
+2025-03-25 11:40:07,854 - app.middlewares.route_logging - INFO - Path: /api/v1/products/17 | Method: GET | Processing Time: 24.02ms
+2025-03-25 11:40:07,875 - app.middlewares.route_logging - INFO - Path: /api/v1/products/17 | Method: GET | Processing Time: 14.94ms
+2025-03-25 11:40:32,582 - app.routes.search_product - INFO - Empty query provided, returning all products in paginated form
+2025-03-25 11:40:32,584 - app.routes.search_product - INFO - Found 12 results for empty query (all products)
+2025-03-25 11:40:32,592 - app.middlewares.route_logging - INFO - Path: /api/v1/search | Method: GET | Processing Time: 18.23ms
+2025-03-25 11:40:32,605 - app.routes.search_product - INFO - Empty query provided, returning all products in paginated form
+2025-03-25 11:40:32,609 - app.routes.search_product - INFO - Found 12 results for empty query (all products)
+2025-03-25 11:40:32,609 - app.middlewares.route_logging - INFO - Path: /api/v1/search | Method: GET | Processing Time: 16.84ms
+2025-03-25 11:53:31,949 - app.routes.search_product - INFO - Empty query provided, returning all products in paginated form
+2025-03-25 11:53:31,970 - app.routes.search_product - INFO - Found 12 results for empty query (all products)
+2025-03-25 11:53:31,980 - app.middlewares.route_logging - INFO - Path: /api/v1/search | Method: GET | Processing Time: 55.08ms
+2025-03-25 11:56:45,551 - app.routes.search_product - INFO - Empty query provided, returning all products in paginated form
+2025-03-25 11:56:45,561 - app.routes.search_product - INFO - Found 12 results for empty query (all products)
+2025-03-25 11:56:45,571 - app.middlewares.route_logging - INFO - Path: /api/v1/search | Method: GET | Processing Time: 50.47ms
+2025-03-25 12:00:31,296 - app.services.vertex - INFO - Total embedding process completed in 1.045s
+2025-03-25 12:00:31,427 - root - INFO - AFC is enabled with max remote calls: 10.
+2025-03-25 12:00:31,429 - app.middlewares.route_logging - INFO - Path: /api/v1/shopping-assistant/chat | Method: GET | Processing Time: 1211.58ms
+2025-03-25 12:00:33,602 - root - INFO - AFC remote call 1 is done.
+2025-03-25 12:00:33,747 - app.services.shopping_assistant - INFO - Saved conversation for ID: c1742884005103
+2025-03-25 12:02:03,516 - app.services.vertex - INFO - Total embedding process completed in 0.680s
+2025-03-25 12:02:03,637 - root - INFO - AFC is enabled with max remote calls: 10.
+2025-03-25 12:02:03,641 - app.middlewares.route_logging - INFO - Path: /api/v1/shopping-assistant/chat | Method: GET | Processing Time: 811.63ms
+2025-03-25 12:02:05,552 - root - INFO - AFC remote call 1 is done.
+2025-03-25 12:02:05,874 - app.services.shopping_assistant - INFO - Saved conversation for ID: c1742884005103
+2025-03-25 12:02:22,455 - app.middlewares.route_logging - INFO - Path: /api/v1/products/20 | Method: GET | Processing Time: 80.13ms
+2025-03-25 12:02:22,482 - app.middlewares.route_logging - INFO - Path: /api/v1/products/20 | Method: GET | Processing Time: 22.60ms
+2025-03-25 12:04:41,186 - app.services.vertex - INFO - Total embedding process completed in 0.441s
+2025-03-25 12:04:41,265 - root - INFO - AFC is enabled with max remote calls: 10.
+2025-03-25 12:04:41,283 - app.middlewares.route_logging - INFO - Path: /api/v1/shopping-assistant/chat | Method: GET | Processing Time: 551.56ms
+2025-03-25 12:04:43,457 - root - INFO - AFC remote call 1 is done.
+2025-03-25 12:04:43,494 - app.services.shopping_assistant - INFO - Saved conversation for ID: c1742884005103
+2025-03-25 12:05:00,261 - app.middlewares.route_logging - INFO - Path: /api/v1/products/23 | Method: GET | Processing Time: 15.58ms
+2025-03-25 12:05:00,277 - app.middlewares.route_logging - INFO - Path: /api/v1/products/23 | Method: GET | Processing Time: 14.35ms
+2025-03-25 12:07:15,527 - app.services.vertex - INFO - Total embedding process completed in 0.605s
+2025-03-25 12:07:15,624 - root - INFO - AFC is enabled with max remote calls: 10.
+2025-03-25 12:07:15,626 - app.middlewares.route_logging - INFO - Path: /api/v1/shopping-assistant/chat | Method: GET | Processing Time: 716.70ms
+2025-03-25 12:07:17,795 - root - INFO - AFC remote call 1 is done.
+2025-03-25 12:07:17,997 - app.services.shopping_assistant - INFO - Saved conversation for ID: c1742884005103
+2025-03-25 12:07:21,752 - app.middlewares.route_logging - INFO - Path: /api/v1/products/22 | Method: GET | Processing Time: 19.02ms
+2025-03-25 12:07:21,777 - app.middlewares.route_logging - INFO - Path: /api/v1/products/22 | Method: GET | Processing Time: 23.74ms
+2025-03-25 12:07:30,081 - app.routes.search_product - INFO - Empty query provided, returning all products in paginated form
+2025-03-25 12:07:30,089 - app.routes.search_product - INFO - Found 12 results for empty query (all products)
+2025-03-25 12:07:30,099 - app.middlewares.route_logging - INFO - Path: /api/v1/search | Method: GET | Processing Time: 23.04ms
+2025-03-25 12:07:30,105 - app.routes.search_product - INFO - Empty query provided, returning all products in paginated form
+2025-03-25 12:07:30,113 - app.routes.search_product - INFO - Found 12 results for empty query (all products)
+2025-03-25 12:07:30,113 - app.middlewares.route_logging - INFO - Path: /api/v1/search | Method: GET | Processing Time: 14.13ms
+2025-03-25 13:51:02,576 - app.main - INFO - Shutting down...
+2025-03-25 13:51:35,396 - app.main - INFO - Initializing model and processor...
+2025-03-25 13:51:35,689 - app.main - INFO - Database connection successful
+2025-03-25 13:51:36,456 - app.services.vertex - INFO - Total embedding process completed in 0.766s
+2025-03-25 13:51:36,456 - app.main - INFO - Initialization complete.
+2025-03-25 13:51:36,963 - app.routes.search_product - INFO - Empty query provided, returning all products in paginated form
+2025-03-25 13:51:36,972 - app.routes.search_product - INFO - Empty query provided, returning all products in paginated form
+2025-03-25 13:51:37,037 - app.routes.search_product - INFO - Found 10 results for empty query (all products)
+2025-03-25 13:51:37,040 - app.routes.search_product - INFO - Found 12 results for empty query (all products)
+2025-03-25 13:51:37,040 - app.middlewares.route_logging - INFO - Path: /api/v1/search | Method: GET | Processing Time: 567.54ms
+2025-03-25 13:51:37,040 - app.middlewares.route_logging - INFO - Path: /api/v1/search | Method: GET | Processing Time: 567.54ms
+2025-03-25 13:51:37,040 - app.routes.search_product - INFO - Empty query provided, returning all products in paginated form
+2025-03-25 13:51:37,055 - app.routes.search_product - INFO - Found 10 results for empty query (all products)
+2025-03-25 13:51:37,059 - app.middlewares.route_logging - INFO - Path: /api/v1/search | Method: GET | Processing Time: 19.22ms
+2025-03-25 13:51:37,085 - app.middlewares.route_logging - INFO - Path: /api/v1/products/22 | Method: GET | Processing Time: 612.88ms
+2025-03-25 13:51:37,085 - app.middlewares.route_logging - INFO - Path: /api/v1/products/23 | Method: GET | Processing Time: 612.88ms
+2025-03-25 13:51:37,087 - app.middlewares.route_logging - INFO - Path: /api/v1/products/22 | Method: GET | Processing Time: 614.89ms
+2025-03-25 13:52:40,354 - app.routes.search_product - INFO - Empty query provided, returning all products in paginated form
+2025-03-25 13:52:40,354 - app.routes.search_product - INFO - Found 10 results for empty query (all products)
+2025-03-25 13:52:40,354 - app.middlewares.route_logging - INFO - Path: /api/v1/search | Method: GET | Processing Time: 14.92ms
+2025-03-25 13:52:40,373 - app.routes.search_product - INFO - Empty query provided, returning all products in paginated form
+2025-03-25 13:52:40,381 - app.routes.search_product - INFO - Found 10 results for empty query (all products)
+2025-03-25 13:52:40,383 - app.middlewares.route_logging - INFO - Path: /api/v1/search | Method: GET | Processing Time: 28.97ms
+2025-03-25 13:54:05,109 - app.routes.search_product - INFO - Empty query provided, returning all products in paginated form
+2025-03-25 13:54:05,112 - app.routes.search_product - INFO - Found 5 results for empty query (all products)
+2025-03-25 13:54:05,115 - app.middlewares.route_logging - INFO - Path: /api/v1/search | Method: GET | Processing Time: 11.14ms
+2025-03-25 14:01:10,143 - app.routes.search_product - INFO - Empty query provided, returning all products in paginated form
+2025-03-25 14:01:10,221 - app.routes.search_product - INFO - Found 10 results for empty query (all products)
+2025-03-25 14:01:10,252 - app.middlewares.route_logging - INFO - Path: /api/v1/search | Method: GET | Processing Time: 269.95ms
+2025-03-25 14:01:10,274 - app.routes.search_product - INFO - Empty query provided, returning all products in paginated form
+2025-03-25 14:01:10,307 - app.routes.search_product - INFO - Found 10 results for empty query (all products)
+2025-03-25 14:01:10,313 - app.middlewares.route_logging - INFO - Path: /api/v1/search | Method: GET | Processing Time: 56.94ms
+2025-03-25 14:01:46,880 - app.routes.search_product - INFO - Empty query provided, returning all products in paginated form
+2025-03-25 14:01:46,901 - app.routes.search_product - INFO - Found 10 results for empty query (all products)
+2025-03-25 14:01:46,915 - app.middlewares.route_logging - INFO - Path: /api/v1/search | Method: GET | Processing Time: 54.61ms
+2025-03-25 14:01:54,873 - app.routes.search_product - INFO - Empty query provided, returning all products in paginated form
+2025-03-25 14:01:54,892 - app.routes.search_product - INFO - Found 6 results for empty query (all products)
+2025-03-25 14:01:54,900 - app.middlewares.route_logging - INFO - Path: /api/v1/search | Method: GET | Processing Time: 70.25ms
+2025-03-25 14:02:03,080 - app.routes.search_product - INFO - Empty query provided, returning all products in paginated form
+2025-03-25 14:02:03,101 - app.routes.search_product - INFO - Found 10 results for empty query (all products)
+2025-03-25 14:02:03,106 - app.middlewares.route_logging - INFO - Path: /api/v1/search | Method: GET | Processing Time: 47.16ms
+2025-03-25 14:08:17,516 - app.routes.search_product - INFO - Empty query provided, returning all products in paginated form
+2025-03-25 14:08:17,539 - app.routes.search_product - INFO - Found 12 results for empty query (all products)
+2025-03-25 14:08:17,546 - app.middlewares.route_logging - INFO - Path: /api/v1/search | Method: GET | Processing Time: 52.12ms
+2025-03-25 14:08:17,563 - app.routes.search_product - INFO - Empty query provided, returning all products in paginated form
+2025-03-25 14:08:17,580 - app.routes.search_product - INFO - Found 12 results for empty query (all products)
+2025-03-25 14:08:17,584 - app.middlewares.route_logging - INFO - Path: /api/v1/search | Method: GET | Processing Time: 32.94ms
+2025-03-25 14:10:12,959 - app.routes.search_product - INFO - Empty query provided, returning all products in paginated form
+2025-03-25 14:10:12,968 - app.routes.search_product - INFO - Found 6 results for empty query (all products)
+2025-03-25 14:10:12,979 - app.middlewares.route_logging - INFO - Path: /api/v1/search | Method: GET | Processing Time: 68.53ms
+2025-03-25 14:10:31,589 - app.routes.search_product - INFO - Empty query provided, returning all products in paginated form
+2025-03-25 14:10:31,597 - app.routes.search_product - INFO - Found 6 results for empty query (all products)
+2025-03-25 14:10:31,601 - app.middlewares.route_logging - INFO - Path: /api/v1/search | Method: GET | Processing Time: 20.24ms
+2025-03-25 14:10:35,095 - app.routes.search_product - INFO - Empty query provided, returning all products in paginated form
+2025-03-25 14:10:35,102 - app.routes.search_product - INFO - Found 6 results for empty query (all products)
+2025-03-25 14:10:35,112 - app.middlewares.route_logging - INFO - Path: /api/v1/search | Method: GET | Processing Time: 27.18ms
+2025-03-25 14:10:42,532 - app.routes.search_product - INFO - Empty query provided, returning all products in paginated form
+2025-03-25 14:10:42,535 - app.routes.search_product - INFO - Found 6 results for empty query (all products)
+2025-03-25 14:10:42,540 - app.middlewares.route_logging - INFO - Path: /api/v1/search | Method: GET | Processing Time: 18.41ms
+2025-03-25 14:10:46,050 - app.routes.search_product - INFO - Empty query provided, returning all products in paginated form
+2025-03-25 14:10:46,056 - app.routes.search_product - INFO - Found 6 results for empty query (all products)
+2025-03-25 14:10:46,063 - app.middlewares.route_logging - INFO - Path: /api/v1/search | Method: GET | Processing Time: 22.33ms
+2025-03-25 14:17:35,059 - app.routes.search_product - INFO - Empty query provided, returning all products in paginated form
+2025-03-25 14:17:35,091 - app.routes.search_product - INFO - Found 12 results for empty query (all products)
+2025-03-25 14:17:35,105 - app.middlewares.route_logging - INFO - Path: /api/v1/search | Method: GET | Processing Time: 85.81ms
+2025-03-25 14:17:35,123 - app.routes.search_product - INFO - Empty query provided, returning all products in paginated form
+2025-03-25 14:17:35,138 - app.routes.search_product - INFO - Found 12 results for empty query (all products)
+2025-03-25 14:17:35,147 - app.middlewares.route_logging - INFO - Path: /api/v1/search | Method: GET | Processing Time: 36.61ms
+2025-03-25 14:18:52,746 - app.routes.search_product - INFO - Empty query provided, returning all products in paginated form
+2025-03-25 14:18:52,761 - app.routes.search_product - INFO - Found 10 results for empty query (all products)
+2025-03-25 14:18:52,775 - app.middlewares.route_logging - INFO - Path: /api/v1/search | Method: GET | Processing Time: 43.41ms
+2025-03-25 14:18:55,885 - app.routes.search_product - INFO - Empty query provided, returning all products in paginated form
+2025-03-25 14:18:55,894 - app.routes.search_product - INFO - Found 10 results for empty query (all products)
+2025-03-25 14:18:55,900 - app.middlewares.route_logging - INFO - Path: /api/v1/search | Method: GET | Processing Time: 31.05ms
+2025-03-25 14:19:19,407 - app.routes.search_product - INFO - Empty query provided, returning all products in paginated form
+2025-03-25 14:19:19,421 - app.routes.search_product - INFO - Found 12 results for empty query (all products)
+2025-03-25 14:19:19,427 - app.middlewares.route_logging - INFO - Path: /api/v1/search | Method: GET | Processing Time: 38.86ms
+2025-03-25 14:19:19,434 - app.routes.search_product - INFO - Empty query provided, returning all products in paginated form
+2025-03-25 14:19:19,441 - app.routes.search_product - INFO - Found 12 results for empty query (all products)
+2025-03-25 14:19:19,445 - app.middlewares.route_logging - INFO - Path: /api/v1/search | Method: GET | Processing Time: 15.06ms
+2025-03-25 14:19:45,819 - app.routes.search_product - INFO - Empty query provided, returning all products in paginated form
+2025-03-25 14:19:45,823 - app.routes.search_product - INFO - Found 12 results for empty query (all products)
+2025-03-25 14:19:45,826 - app.middlewares.route_logging - INFO - Path: /api/v1/search | Method: GET | Processing Time: 13.58ms
+2025-03-25 14:19:45,833 - app.routes.search_product - INFO - Empty query provided, returning all products in paginated form
+2025-03-25 14:19:45,837 - app.routes.search_product - INFO - Found 12 results for empty query (all products)
+2025-03-25 14:19:45,841 - app.middlewares.route_logging - INFO - Path: /api/v1/search | Method: GET | Processing Time: 12.16ms
+2025-03-25 14:44:39,039 - app.routes.search_product - INFO - Empty query provided, returning all products in paginated form
+2025-03-25 14:44:39,095 - app.routes.search_product - INFO - Found 12 results for empty query (all products)
+2025-03-25 14:44:39,111 - app.middlewares.route_logging - INFO - Path: /api/v1/search | Method: GET | Processing Time: 196.01ms
+2025-03-25 14:44:39,146 - app.routes.search_product - INFO - Empty query provided, returning all products in paginated form
+2025-03-25 14:44:39,158 - app.routes.search_product - INFO - Found 12 results for empty query (all products)
+2025-03-25 14:44:39,162 - app.middlewares.route_logging - INFO - Path: /api/v1/search | Method: GET | Processing Time: 45.60ms
+2025-03-25 14:48:00,093 - app.middlewares.route_logging - INFO - Path: /api/v1/products/11 | Method: GET | Processing Time: 503.97ms
+2025-03-25 14:48:00,168 - app.middlewares.route_logging - INFO - Path: /api/v1/products/11 | Method: GET | Processing Time: 69.49ms
+2025-03-25 14:48:07,630 - app.routes.search_product - INFO - Empty query provided, returning all products in paginated form
+2025-03-25 14:48:07,641 - app.routes.search_product - INFO - Found 12 results for empty query (all products)
+2025-03-25 14:48:07,648 - app.middlewares.route_logging - INFO - Path: /api/v1/search | Method: GET | Processing Time: 34.49ms
+2025-03-25 14:48:07,655 - app.routes.search_product - INFO - Empty query provided, returning all products in paginated form
+2025-03-25 14:48:07,661 - app.routes.search_product - INFO - Found 12 results for empty query (all products)
+2025-03-25 14:48:07,666 - app.middlewares.route_logging - INFO - Path: /api/v1/search | Method: GET | Processing Time: 15.00ms
+2025-03-25 14:48:11,425 - app.middlewares.route_logging - INFO - Path: /api/v1/products/18 | Method: GET | Processing Time: 43.69ms
+2025-03-25 14:48:11,444 - app.middlewares.route_logging - INFO - Path: /api/v1/products/18 | Method: GET | Processing Time: 15.54ms
+2025-03-25 14:48:13,327 - app.routes.search_product - INFO - Empty query provided, returning all products in paginated form
+2025-03-25 14:48:13,331 - app.routes.search_product - INFO - Found 12 results for empty query (all products)
+2025-03-25 14:48:13,336 - app.middlewares.route_logging - INFO - Path: /api/v1/search | Method: GET | Processing Time: 14.60ms
+2025-03-25 14:48:13,343 - app.routes.search_product - INFO - Empty query provided, returning all products in paginated form
+2025-03-25 14:48:13,347 - app.routes.search_product - INFO - Found 12 results for empty query (all products)
+2025-03-25 14:48:13,351 - app.middlewares.route_logging - INFO - Path: /api/v1/search | Method: GET | Processing Time: 12.86ms
+2025-03-25 14:49:02,955 - app.middlewares.route_logging - INFO - Path: /api/v1/products/14 | Method: GET | Processing Time: 26.87ms
+2025-03-25 14:49:02,975 - app.middlewares.route_logging - INFO - Path: /api/v1/products/14 | Method: GET | Processing Time: 16.19ms
+2025-03-25 14:49:14,378 - app.routes.search_product - INFO - Empty query provided, returning all products in paginated form
+2025-03-25 14:49:14,384 - app.routes.search_product - INFO - Found 12 results for empty query (all products)
+2025-03-25 14:49:14,390 - app.middlewares.route_logging - INFO - Path: /api/v1/search | Method: GET | Processing Time: 17.28ms
+2025-03-25 14:49:14,398 - app.routes.search_product - INFO - Empty query provided, returning all products in paginated form
+2025-03-25 14:49:14,404 - app.routes.search_product - INFO - Found 12 results for empty query (all products)
+2025-03-25 14:49:14,408 - app.middlewares.route_logging - INFO - Path: /api/v1/search | Method: GET | Processing Time: 16.39ms
+2025-03-25 14:53:50,844 - app.routes.search_product - INFO - Empty query provided, returning all products in paginated form
+2025-03-25 14:53:50,853 - app.routes.search_product - INFO - Found 12 results for empty query (all products)
+2025-03-25 14:53:50,858 - app.middlewares.route_logging - INFO - Path: /api/v1/search | Method: GET | Processing Time: 21.86ms
+2025-03-25 14:53:50,868 - app.routes.search_product - INFO - Empty query provided, returning all products in paginated form
+2025-03-25 14:53:50,874 - app.routes.search_product - INFO - Found 12 results for empty query (all products)
+2025-03-25 14:53:50,879 - app.middlewares.route_logging - INFO - Path: /api/v1/search | Method: GET | Processing Time: 17.90ms
+2025-03-25 14:54:19,763 - app.routes.search_product - INFO - Empty query provided, returning all products in paginated form
+2025-03-25 14:54:19,777 - app.routes.search_product - INFO - Found 12 results for empty query (all products)
+2025-03-25 14:54:19,788 - app.middlewares.route_logging - INFO - Path: /api/v1/search | Method: GET | Processing Time: 34.44ms
+2025-03-25 14:54:19,802 - app.routes.search_product - INFO - Empty query provided, returning all products in paginated form
+2025-03-25 14:54:19,811 - app.routes.search_product - INFO - Found 12 results for empty query (all products)
+2025-03-25 14:54:19,818 - app.middlewares.route_logging - INFO - Path: /api/v1/search | Method: GET | Processing Time: 26.32ms
+2025-03-25 14:57:13,477 - app.middlewares.route_logging - INFO - Path: /api/v1/products/10 | Method: GET | Processing Time: 74.93ms
+2025-03-25 14:57:13,525 - app.middlewares.route_logging - INFO - Path: /api/v1/products/10 | Method: GET | Processing Time: 43.06ms
+2025-03-25 14:57:27,623 - app.routes.search_product - INFO - Empty query provided, returning all products in paginated form
+2025-03-25 14:57:27,633 - app.routes.search_product - INFO - Found 12 results for empty query (all products)
+2025-03-25 14:57:27,640 - app.middlewares.route_logging - INFO - Path: /api/v1/search | Method: GET | Processing Time: 27.44ms
+2025-03-25 14:57:27,651 - app.routes.search_product - INFO - Empty query provided, returning all products in paginated form
+2025-03-25 14:57:27,656 - app.routes.search_product - INFO - Found 12 results for empty query (all products)
+2025-03-25 14:57:27,660 - app.middlewares.route_logging - INFO - Path: /api/v1/search | Method: GET | Processing Time: 18.48ms
+2025-03-25 14:57:45,236 - app.routes.search_product - INFO - Empty query provided, returning all products in paginated form
+2025-03-25 14:57:45,249 - app.routes.search_product - INFO - Found 12 results for empty query (all products)
+2025-03-25 14:57:45,255 - app.middlewares.route_logging - INFO - Path: /api/v1/search | Method: GET | Processing Time: 29.28ms
+2025-03-25 14:57:48,692 - app.routes.search_product - INFO - Empty query provided, returning all products in paginated form
+2025-03-25 14:57:48,696 - app.routes.search_product - INFO - Found 2 results for empty query (all products)
+2025-03-25 14:57:48,701 - app.middlewares.route_logging - INFO - Path: /api/v1/search | Method: GET | Processing Time: 16.06ms
+2025-03-25 14:58:02,475 - app.routes.search_product - INFO - Empty query provided, returning all products in paginated form
+2025-03-25 14:58:02,480 - app.routes.search_product - INFO - Found 6 results for empty query (all products)
+2025-03-25 14:58:02,485 - app.middlewares.route_logging - INFO - Path: /api/v1/search | Method: GET | Processing Time: 16.31ms
+2025-03-25 14:58:54,483 - app.services.vertex - INFO - Total embedding process completed in 1.259s
+2025-03-25 14:58:55,117 - app.routes.search_product - INFO - Found 10 results for query: superhero movies
+2025-03-25 14:58:55,125 - app.middlewares.route_logging - INFO - Path: /api/v1/search | Method: GET | Processing Time: 1920.07ms
+2025-03-25 14:59:07,933 - app.services.vertex - INFO - Total embedding process completed in 0.394s
+2025-03-25 14:59:08,076 - app.routes.search_product - INFO - Found 10 results for query: crime movies
+2025-03-25 14:59:08,081 - app.middlewares.route_logging - INFO - Path: /api/v1/search | Method: GET | Processing Time: 551.25ms
+2025-03-25 15:11:47,594 - app.middlewares.route_logging - INFO - Path: /api/v1/products/3 | Method: GET | Processing Time: 288.11ms
+2025-03-25 15:11:47,648 - app.middlewares.route_logging - INFO - Path: /api/v1/products/3 | Method: GET | Processing Time: 46.23ms
+2025-03-25 15:11:54,433 - app.routes.search_product - INFO - Empty query provided, returning all products in paginated form
+2025-03-25 15:11:54,444 - app.routes.search_product - INFO - Found 12 results for empty query (all products)
+2025-03-25 15:11:54,464 - app.middlewares.route_logging - INFO - Path: /api/v1/search | Method: GET | Processing Time: 45.73ms
+2025-03-25 15:11:54,479 - app.routes.search_product - INFO - Empty query provided, returning all products in paginated form
+2025-03-25 15:11:54,490 - app.routes.search_product - INFO - Found 12 results for empty query (all products)
+2025-03-25 15:11:54,495 - app.middlewares.route_logging - INFO - Path: /api/v1/search | Method: GET | Processing Time: 27.79ms
+2025-03-25 15:14:01,473 - app.routes.search_product - INFO - Empty query provided, returning all products in paginated form
+2025-03-25 15:14:01,487 - app.routes.search_product - INFO - Found 12 results for empty query (all products)
+2025-03-25 15:14:01,499 - app.middlewares.route_logging - INFO - Path: /api/v1/search | Method: GET | Processing Time: 38.69ms
+2025-03-25 15:14:07,699 - app.routes.search_product - INFO - Empty query provided, returning all products in paginated form
+2025-03-25 15:14:07,706 - app.routes.search_product - INFO - Found 12 results for empty query (all products)
+2025-03-25 15:14:07,711 - app.middlewares.route_logging - INFO - Path: /api/v1/search | Method: GET | Processing Time: 17.74ms
+2025-03-25 15:52:31,539 - app.routes.search_product - INFO - Empty query provided, returning all products in paginated form
+2025-03-25 15:52:31,569 - app.routes.search_product - INFO - Found 12 results for empty query (all products)
+2025-03-25 15:52:31,580 - app.middlewares.route_logging - INFO - Path: /api/v1/search | Method: GET | Processing Time: 143.16ms
+2025-03-25 15:52:31,610 - app.routes.search_product - INFO - Empty query provided, returning all products in paginated form
+2025-03-25 15:52:31,626 - app.routes.search_product - INFO - Found 12 results for empty query (all products)
+2025-03-25 15:52:31,629 - app.middlewares.route_logging - INFO - Path: /api/v1/search | Method: GET | Processing Time: 46.27ms
+2025-03-25 16:23:04,953 - app.routes.search_product - INFO - Empty query provided, returning all products in paginated form
+2025-03-25 16:23:04,978 - app.routes.search_product - INFO - Found 12 results for empty query (all products)
+2025-03-25 16:23:04,988 - app.middlewares.route_logging - INFO - Path: /api/v1/search | Method: GET | Processing Time: 105.55ms
+2025-03-25 16:23:05,021 - app.routes.search_product - INFO - Empty query provided, returning all products in paginated form
+2025-03-25 16:23:05,032 - app.routes.search_product - INFO - Found 12 results for empty query (all products)
+2025-03-25 16:23:05,035 - app.middlewares.route_logging - INFO - Path: /api/v1/search | Method: GET | Processing Time: 37.22ms
+2025-03-25 16:53:59,708 - app.middlewares.route_logging - INFO - Path: /api/v1/search | Method: OPTIONS | Processing Time: 9.84ms
+2025-03-25 16:53:59,802 - app.routes.search_product - INFO - Empty query provided, returning all products in paginated form
+2025-03-25 16:53:59,824 - app.routes.search_product - INFO - Found 10 results for empty query (all products)
+2025-03-25 16:53:59,841 - app.middlewares.route_logging - INFO - Path: /api/v1/search | Method: GET | Processing Time: 113.50ms
+2025-03-25 16:55:35,079 - app.routes.search_product - INFO - Empty query provided, returning all products in paginated form
+2025-03-25 16:55:35,089 - app.routes.search_product - INFO - Found 10 results for empty query (all products)
+2025-03-25 16:55:35,089 - app.middlewares.route_logging - INFO - Path: /api/v1/search | Method: GET | Processing Time: 49.81ms
+2025-03-25 16:55:51,745 - app.middlewares.route_logging - INFO - Path: /api/v1/products | Method: OPTIONS | Processing Time: 0.00ms
+2025-03-25 16:55:51,918 - app.middlewares.route_logging - INFO - Path: /api/v1/products | Method: GET | Processing Time: 167.32ms
+2025-03-25 17:01:39,375 - app.routes.search_product - INFO - Empty query provided, returning all products in paginated form
+2025-03-25 17:01:39,398 - app.routes.search_product - INFO - Found 12 results for empty query (all products)
+2025-03-25 17:01:39,409 - app.middlewares.route_logging - INFO - Path: /api/v1/search | Method: GET | Processing Time: 101.43ms
+2025-03-25 17:01:39,431 - app.routes.search_product - INFO - Empty query provided, returning all products in paginated form
+2025-03-25 17:01:39,442 - app.routes.search_product - INFO - Found 12 results for empty query (all products)
+2025-03-25 17:01:39,447 - app.middlewares.route_logging - INFO - Path: /api/v1/search | Method: GET | Processing Time: 36.09ms
+2025-03-25 17:02:14,702 - app.middlewares.route_logging - INFO - Path: /api/v1/search | Method: OPTIONS | Processing Time: 0.00ms
+2025-03-25 17:02:14,736 - app.routes.search_product - INFO - Empty query provided, returning all products in paginated form
+2025-03-25 17:02:14,748 - app.routes.search_product - INFO - Found 10 results for empty query (all products)
+2025-03-25 17:02:14,752 - app.middlewares.route_logging - INFO - Path: /api/v1/search | Method: GET | Processing Time: 50.52ms
+2025-03-25 17:26:03,154 - app.routes.search_product - INFO - Empty query provided, returning all products in paginated form
+2025-03-25 17:26:03,216 - app.routes.search_product - INFO - Found 12 results for empty query (all products)
+2025-03-25 17:26:03,235 - app.middlewares.route_logging - INFO - Path: /api/v1/search | Method: GET | Processing Time: 310.15ms
+2025-03-25 17:26:07,512 - app.routes.search_product - INFO - Empty query provided, returning all products in paginated form
+2025-03-25 17:26:07,526 - app.routes.search_product - INFO - Found 10 results for empty query (all products)
+2025-03-25 17:26:07,531 - app.middlewares.route_logging - INFO - Path: /api/v1/search | Method: GET | Processing Time: 57.33ms
+2025-03-25 17:26:13,592 - app.routes.search_product - INFO - Empty query provided, returning all products in paginated form
+2025-03-25 17:26:13,600 - app.routes.search_product - INFO - Found 10 results for empty query (all products)
+2025-03-25 17:26:13,634 - app.middlewares.route_logging - INFO - Path: /api/v1/search | Method: GET | Processing Time: 76.95ms
+2025-03-25 17:30:51,770 - app.main - INFO - Shutting down...
+2025-03-25 23:51:04,981 - app.main - INFO - Initializing model and processor...
+2025-03-25 23:51:05,315 - app.main - INFO - Database connection successful
+2025-03-25 23:51:06,135 - app.services.vertex - INFO - Total embedding process completed in 0.818s
+2025-03-25 23:51:06,135 - app.main - INFO - Initialization complete.
+2025-03-25 23:51:51,020 - app.routes.search_product - INFO - Empty query provided, returning all products in paginated form
+2025-03-25 23:51:51,156 - app.routes.search_product - INFO - Found 10 results for empty query (all products)
+2025-03-25 23:51:51,159 - app.middlewares.route_logging - INFO - Path: /api/v1/search | Method: GET | Processing Time: 150.96ms
+2025-03-25 23:51:51,166 - app.routes.search_product - INFO - Empty query provided, returning all products in paginated form
+2025-03-25 23:51:51,171 - app.routes.search_product - INFO - Found 10 results for empty query (all products)
+2025-03-25 23:51:51,175 - app.middlewares.route_logging - INFO - Path: /api/v1/search | Method: GET | Processing Time: 11.61ms
+2025-03-25 23:51:54,907 - app.routes.search_product - INFO - Empty query provided, returning all products in paginated form
+2025-03-25 23:51:54,921 - app.routes.search_product - INFO - Found 12 results for empty query (all products)
+2025-03-25 23:51:54,921 - app.middlewares.route_logging - INFO - Path: /api/v1/search | Method: GET | Processing Time: 23.54ms
+2025-03-25 23:51:54,927 - app.routes.search_product - INFO - Empty query provided, returning all products in paginated form
+2025-03-25 23:51:54,937 - app.routes.search_product - INFO - Found 12 results for empty query (all products)
+2025-03-25 23:51:54,944 - app.middlewares.route_logging - INFO - Path: /api/v1/search | Method: GET | Processing Time: 16.06ms
+2025-03-26 00:00:43,646 - app.middlewares.route_logging - INFO - Path: /api/v1/search | Method: OPTIONS | Processing Time: 5.85ms
+2025-03-26 00:00:43,669 - app.routes.search_product - INFO - Empty query provided, returning all products in paginated form
+2025-03-26 00:00:43,685 - app.routes.search_product - INFO - Found 10 results for empty query (all products)
+2025-03-26 00:00:43,685 - app.middlewares.route_logging - INFO - Path: /api/v1/search | Method: GET | Processing Time: 31.83ms
+2025-03-26 00:01:13,199 - app.routes.search_product - INFO - Empty query provided, returning all products in paginated form
+2025-03-26 00:01:13,206 - app.routes.search_product - INFO - Found 10 results for empty query (all products)
+2025-03-26 00:01:13,208 - app.middlewares.route_logging - INFO - Path: /api/v1/search | Method: GET | Processing Time: 26.47ms
+2025-03-26 00:11:35,868 - app.middlewares.route_logging - INFO - Path: /api/v1/search | Method: OPTIONS | Processing Time: 5.83ms
+2025-03-26 00:11:35,878 - app.routes.search_product - INFO - Empty query provided, returning all products in paginated form
+2025-03-26 00:11:35,894 - app.routes.search_product - INFO - Found 10 results for empty query (all products)
+2025-03-26 00:11:35,904 - app.middlewares.route_logging - INFO - Path: /api/v1/search | Method: GET | Processing Time: 34.65ms
+2025-03-26 00:27:36,209 - app.middlewares.route_logging - INFO - Path: /api/v1/search | Method: OPTIONS | Processing Time: 0.00ms
+2025-03-26 00:27:36,225 - app.routes.search_product - INFO - Empty query provided, returning all products in paginated form
+2025-03-26 00:27:36,225 - app.routes.search_product - INFO - Found 10 results for empty query (all products)
+2025-03-26 00:27:36,234 - app.middlewares.route_logging - INFO - Path: /api/v1/search | Method: GET | Processing Time: 18.21ms
+2025-03-26 00:27:44,256 - app.routes.search_product - INFO - Empty query provided, returning all products in paginated form
+2025-03-26 00:27:44,263 - app.routes.search_product - INFO - Found 10 results for empty query (all products)
+2025-03-26 00:27:44,272 - app.middlewares.route_logging - INFO - Path: /api/v1/search | Method: GET | Processing Time: 23.30ms
+2025-03-26 00:27:49,195 - app.middlewares.route_logging - INFO - Path: /api/v1/settings/SEARCH_CONFIG | Method: OPTIONS | Processing Time: 0.00ms
+2025-03-26 00:27:49,656 - app.middlewares.route_logging - INFO - Path: /api/v1/settings/SEARCH_CONFIG | Method: GET | Processing Time: 460.50ms
+2025-03-26 00:27:52,923 - app.routes.search_product - INFO - Empty query provided, returning all products in paginated form
+2025-03-26 00:27:52,923 - app.routes.search_product - INFO - Found 10 results for empty query (all products)
+2025-03-26 00:27:52,939 - app.middlewares.route_logging - INFO - Path: /api/v1/search | Method: GET | Processing Time: 20.81ms
+2025-03-26 00:27:54,258 - app.routes.search_product - INFO - Empty query provided, returning all products in paginated form
+2025-03-26 00:27:54,258 - app.routes.search_product - INFO - Found 10 results for empty query (all products)
+2025-03-26 00:27:54,265 - app.middlewares.route_logging - INFO - Path: /api/v1/search | Method: GET | Processing Time: 15.83ms
+2025-03-26 11:28:09,772 - app.main - INFO - Shutting down...
+2025-03-26 11:28:26,206 - app.main - INFO - Initializing model and processor...
+2025-03-26 11:28:26,389 - app.main - INFO - Database connection successful
+2025-03-26 11:28:27,233 - app.services.vertex - INFO - Total embedding process completed in 0.844s
+2025-03-26 11:28:27,233 - app.main - INFO - Initialization complete.
+2025-03-26 11:28:34,595 - app.routes.search_product - INFO - Empty query provided, returning all products in paginated form
+2025-03-26 11:28:34,637 - app.routes.search_product - INFO - Found 12 results for empty query (all products)
+2025-03-26 11:28:34,648 - app.middlewares.route_logging - INFO - Path: /api/v1/search | Method: GET | Processing Time: 66.20ms
+2025-03-26 11:28:34,657 - app.routes.search_product - INFO - Empty query provided, returning all products in paginated form
+2025-03-26 11:28:34,663 - app.routes.search_product - INFO - Found 12 results for empty query (all products)
+2025-03-26 11:28:34,668 - app.middlewares.route_logging - INFO - Path: /api/v1/search | Method: GET | Processing Time: 18.16ms
+2025-03-26 11:29:13,243 - app.middlewares.route_logging - INFO - Path: /api/v1/search | Method: OPTIONS | Processing Time: 0.00ms
+2025-03-26 11:29:13,275 - app.routes.search_product - INFO - Empty query provided, returning all products in paginated form
+2025-03-26 11:29:13,291 - app.routes.search_product - INFO - Found 10 results for empty query (all products)
+2025-03-26 11:29:13,295 - app.middlewares.route_logging - INFO - Path: /api/v1/search | Method: GET | Processing Time: 45.19ms
+2025-03-26 11:29:16,585 - app.routes.search_product - INFO - Empty query provided, returning all products in paginated form
+2025-03-26 11:29:16,600 - app.routes.search_product - INFO - Found 10 results for empty query (all products)
+2025-03-26 11:29:16,603 - app.middlewares.route_logging - INFO - Path: /api/v1/search | Method: GET | Processing Time: 18.83ms
+2025-03-26 11:29:47,280 - app.middlewares.route_logging - INFO - Path: /api/v1/settings/SEARCH_CONFIG | Method: OPTIONS | Processing Time: 0.00ms
+2025-03-26 11:29:47,343 - app.middlewares.route_logging - INFO - Path: /api/v1/settings/SEARCH_CONFIG | Method: GET | Processing Time: 63.55ms
+2025-03-26 11:29:51,767 - app.routes.search_product - INFO - Empty query provided, returning all products in paginated form
+2025-03-26 11:29:51,781 - app.routes.search_product - INFO - Found 10 results for empty query (all products)
+2025-03-26 11:29:51,783 - app.middlewares.route_logging - INFO - Path: /api/v1/search | Method: GET | Processing Time: 16.90ms
+2025-03-26 11:33:57,082 - app.routes.search_product - INFO - Empty query provided, returning all products in paginated form
+2025-03-26 11:33:57,093 - app.routes.search_product - INFO - Found 10 results for empty query (all products)
+2025-03-26 11:33:57,098 - app.middlewares.route_logging - INFO - Path: /api/v1/search | Method: GET | Processing Time: 30.99ms
+2025-03-26 11:34:00,376 - app.routes.search_product - INFO - Empty query provided, returning all products in paginated form
+2025-03-26 11:34:00,380 - app.routes.search_product - INFO - Found 10 results for empty query (all products)
+2025-03-26 11:34:00,387 - app.middlewares.route_logging - INFO - Path: /api/v1/search | Method: GET | Processing Time: 20.48ms
+2025-03-26 11:36:43,801 - app.routes.search_product - INFO - Empty query provided, returning all products in paginated form
+2025-03-26 11:36:43,810 - app.routes.search_product - INFO - Found 10 results for empty query (all products)
+2025-03-26 11:36:43,816 - app.middlewares.route_logging - INFO - Path: /api/v1/search | Method: GET | Processing Time: 18.95ms
+2025-03-26 12:16:42,749 - app.middlewares.route_logging - INFO - Path: /api/v1/search | Method: OPTIONS | Processing Time: 17.67ms
+2025-03-26 12:16:42,843 - app.routes.search_product - INFO - Empty query provided, returning all products in paginated form
+2025-03-26 12:16:42,858 - app.routes.search_product - INFO - Found 12 results for empty query (all products)
+2025-03-26 12:16:42,875 - app.middlewares.route_logging - INFO - Path: /api/v1/search | Method: GET | Processing Time: 109.32ms
+2025-03-26 12:16:54,500 - app.middlewares.route_logging - INFO - Path: /api/v1/search | Method: OPTIONS | Processing Time: 0.00ms
+2025-03-26 12:16:54,518 - app.routes.search_product - INFO - Empty query provided, returning all products in paginated form
+2025-03-26 12:16:54,520 - app.routes.search_product - INFO - Found 12 results for empty query (all products)
+2025-03-26 12:16:54,538 - app.middlewares.route_logging - INFO - Path: /api/v1/search | Method: GET | Processing Time: 38.19ms
+2025-03-26 16:06:24,738 - app.middlewares.route_logging - INFO - Path: /api/v1/search | Method: OPTIONS | Processing Time: 15.78ms
+2025-03-26 16:06:24,881 - app.routes.search_product - INFO - Empty query provided, returning all products in paginated form
+2025-03-26 16:06:24,920 - app.routes.search_product - INFO - Found 12 results for empty query (all products)
+2025-03-26 16:06:24,937 - app.middlewares.route_logging - INFO - Path: /api/v1/search | Method: GET | Processing Time: 165.60ms
+2025-03-26 16:06:28,789 - app.routes.search_product - INFO - Empty query provided, returning all products in paginated form
+2025-03-26 16:06:28,809 - app.routes.search_product - INFO - Found 12 results for empty query (all products)
+2025-03-26 16:06:28,809 - app.middlewares.route_logging - INFO - Path: /api/v1/search | Method: GET | Processing Time: 19.49ms

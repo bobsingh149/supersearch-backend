@@ -15,6 +15,7 @@ class SearchConfigModel(BaseModel):
     """Model for search configuration"""
     id_field: str
     title_field: str
+    image_url_field: Optional[str] = None
     searchable_attribute_fields: List[str]
 
 @router.post("", response_model=Settings)

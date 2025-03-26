@@ -11,6 +11,7 @@ SELECT
     p.title,
     p.custom_data,
     p.searchable_content,
+    p.image_url,
     p.text_embedding <=> pe.text_embedding as score
 FROM
     products p,

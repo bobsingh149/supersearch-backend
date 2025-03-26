@@ -19,7 +19,7 @@ down_revision: Union[str, None] = '73eca35a6d13'
 branch_labels: Union[str, Sequence[str], None] = None
 depends_on: Union[str, Sequence[str], None] = None
 
-SCHEMAS = ['test','local','development', 'staging', 'production']
+SCHEMAS = ['demo_movies', 'test','development', 'staging', 'production']
 
 def upgrade() -> None:
     # Convert enum values to strings and join them for SQL
@@ -50,6 +50,7 @@ def upgrade() -> None:
             text_embedding public.vector(768),
             image_embedding public.vector(768),
             searchable_content TEXT,
+            image_url TEXT,
             created_at TIMESTAMP WITH TIME ZONE NOT NULL DEFAULT CURRENT_TIMESTAMP,
             updated_at TIMESTAMP WITH TIME ZONE NOT NULL DEFAULT CURRENT_TIMESTAMP,
             custom_data JSONB
@@ -149,10 +150,7 @@ def upgrade() -> None:
         USING diskann (image_embedding public.vector_cosine_ops);
         """)
 
-        op.execute(f"""
-        CREATE INDEX IF NOT EXISTS title_trgm_idx ON {schema}.products 
-        USING gin (title gin_trgm_ops);
-        """)
+
 
 
 def downgrade() -> None:
@@ -171,7 +169,6 @@ def downgrade() -> None:
         DROP INDEX IF EXISTS {schema}.text_embedding_idx;
         DROP INDEX IF EXISTS {schema}.image_embedding_idx;
         DROP INDEX IF EXISTS {schema}.idx_conversations_id;
-        DROP INDEX IF EXISTS {schema}.products_title_trgm_idx;
         
         -- Drop tables
         DROP TABLE IF EXISTS {schema}.products;

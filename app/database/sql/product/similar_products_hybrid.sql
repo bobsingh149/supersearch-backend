@@ -41,6 +41,7 @@ SELECT
     p.title,
     p.custom_data,
     p.searchable_content,
+    p.image_url,
     (COALESCE(1.0 / ({{ rrf_k }} + bm25_matches.rank_ix), 0.0) * {{ full_text_weight }} +
      COALESCE(1.0 / ({{ rrf_k }} + semantic.rank_ix), 0.0) * {{ semantic_weight }}) as score
 FROM

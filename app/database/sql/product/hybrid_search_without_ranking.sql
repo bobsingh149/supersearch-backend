@@ -5,6 +5,7 @@ WITH combined_results AS (
             p.title,
             p.custom_data,
             p.searchable_content,
+            p.image_url,
             paradedb.score(id) as score,
             'keyword' as search_type
         FROM
@@ -25,6 +26,7 @@ WITH combined_results AS (
             p.title,
             p.custom_data,
             p.searchable_content,
+            p.image_url,
             0 as score,
             'semantic' as search_type
         FROM
@@ -39,6 +41,7 @@ SELECT DISTINCT ON (id)
     title,
     custom_data,
     searchable_content,
+    image_url,
     score,
     search_type
 FROM 

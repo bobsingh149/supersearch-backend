@@ -18,7 +18,6 @@ openai
 pandas
 pgvector
 pillow
-psycopg
 pydantic-settings
 pyjwt
 pytest
