@@ -14,7 +14,7 @@ from app.routes import organization, product, recommend, search_product, shoppin
 from app.database.session import check_db_connection
 from dotenv import load_dotenv
 from app.middlewares.route_logging import RequestTimingMiddleware
-from app.middlewares.auth import ClerkAuthMiddleware
+from app.middlewares.auth import AuthMiddleware
 
 load_dotenv()
 
@@ -56,7 +56,7 @@ async def lifespan(_app: FastAPI):
         raise RuntimeError("Database connection failed")
     logger.info("Database connection successful")
     
-    embedding = await get_embedding("startup")
+    await get_embedding("startup")
     logger.info("Initialization complete.")
     
     yield
@@ -74,7 +74,7 @@ app.add_middleware(
     allow_headers=["*"],
 )
 app.add_middleware(RequestTimingMiddleware)
-app.add_middleware(ClerkAuthMiddleware)
+app.add_middleware(AuthMiddleware)
 
 # Include all routers
 API_V1_PREFIX = "/api/v1"
