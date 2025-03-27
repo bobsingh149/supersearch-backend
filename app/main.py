@@ -10,10 +10,11 @@ from starlette.responses import StreamingResponse
 
 from app.core.settings import settings
 from app.services.vertex import get_embedding
-from app.routes import organization, product, recommend, search_product, shopping_assistant, sync_product, settings, sync_history
+from app.routes import organization, product, recommend, search_product, shopping_assistant, sync_product, settings, sync_history, auth
 from app.database.session import check_db_connection
 from dotenv import load_dotenv
 from app.middlewares.route_logging import RequestTimingMiddleware
+from app.middlewares.auth import ClerkAuthMiddleware
 
 load_dotenv()
 
@@ -73,6 +74,7 @@ app.add_middleware(
     allow_headers=["*"],
 )
 app.add_middleware(RequestTimingMiddleware)
+app.add_middleware(ClerkAuthMiddleware)
 
 # Include all routers
 API_V1_PREFIX = "/api/v1"
@@ -85,6 +87,7 @@ app.include_router(settings.router, prefix=API_V1_PREFIX)
 app.include_router(shopping_assistant.router, prefix=API_V1_PREFIX)
 app.include_router(sync_product.router, prefix=API_V1_PREFIX)
 app.include_router(sync_history.router, prefix=API_V1_PREFIX)
+app.include_router(auth.router, prefix=API_V1_PREFIX)
 
 
 @app.get("/health",operation_id="root")

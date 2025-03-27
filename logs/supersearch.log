@@ -4204,3 +4204,4 @@ LIMIT 3]
 2025-03-26 17:15:38,986 - app.main - INFO - Database connection successful
 2025-03-26 17:15:40,135 - app.services.vertex - INFO - Total embedding process completed in 1.149s
 2025-03-26 17:15:40,136 - app.main - INFO - Initialization complete.
+2025-03-27 13:16:25,757 - app.main - INFO - Shutting down...

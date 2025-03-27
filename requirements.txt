@@ -27,4 +27,5 @@ timescale_vector
 uvicorn[standard]
 pydantic[email]
 async-lru
+clerk-backend-api
 
