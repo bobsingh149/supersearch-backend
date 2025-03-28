@@ -26264,3 +26264,485 @@ temporalio.worker._workflow._DeadlockError: [TMPRL1101] Potential deadlock detec
 2025-03-25 00:52:32,252 [INFO] Updating sync history record with ID: 5dfd80c9-1831-4361-9020-d41ebd3bd9e7
 2025-03-25 00:52:32,375 [INFO] Updated sync history record with ID: 5dfd80c9-1831-4361-9020-d41ebd3bd9e7
 2025-03-25 17:30:55,311 [INFO] Beginning worker shutdown, will wait 0:00:00 before cancelling activities
+2025-03-29 01:18:13,556 [INFO] Connecting to Temporal server at localhost:7233 with namespace supersearch
+2025-03-29 01:18:13,557 [INFO] Connecting to Temporal server at localhost:7233 with namespace supersearch
+2025-03-29 01:18:13,557 [INFO] Checking if namespace 'supersearch' exists
+2025-03-29 01:18:13,671 [INFO] Namespace 'supersearch' already exists
+2025-03-29 01:18:13,686 [INFO] Connected to Temporal server
+2025-03-29 01:18:13,686 [INFO] Creating worker for task queue: product-sync-task-queue
+2025-03-29 01:18:14,631 [INFO] Worker created for task queue: product-sync-task-queue
+2025-03-29 01:18:14,631 [INFO] Starting worker for task queue: product-sync-task-queue
+2025-03-29 01:18:14,631 [INFO] Started worker with task queue product-sync-task-queue
+2025-03-29 01:22:30,749 [INFO] Beginning worker shutdown, will wait 0:00:00 before cancelling activities
+2025-03-29 01:22:36,539 [INFO] Connecting to Temporal server at localhost:7233 with namespace supersearch
+2025-03-29 01:22:36,539 [INFO] Connecting to Temporal server at localhost:7233 with namespace supersearch
+2025-03-29 01:22:36,539 [INFO] Checking if namespace 'supersearch' exists
+2025-03-29 01:22:36,602 [INFO] Namespace 'supersearch' already exists
+2025-03-29 01:22:36,607 [INFO] Connected to Temporal server
+2025-03-29 01:22:36,608 [INFO] Creating worker for task queue: product-sync-task-queue
+2025-03-29 01:22:37,635 [INFO] Worker created for task queue: product-sync-task-queue
+2025-03-29 01:22:37,635 [INFO] Starting worker for task queue: product-sync-task-queue
+2025-03-29 01:22:37,635 [INFO] Started worker with task queue product-sync-task-queue
+2025-03-29 01:23:21,508 [INFO] Getting products from source: MANUAL_FILE_UPLOAD
+2025-03-29 01:23:21,508 [INFO] Getting products from manual file upload
+2025-03-29 01:23:21,846 [INFO] New product de54510b-8aa6-4655-ad1d-1f25d881459d, generating embedding
+2025-03-29 01:23:22,822 [ERROR] Error generating text embedding: 400 The text content is empty.
+Traceback (most recent call last):
+  File "C:\startup\supersearch\supersearch_venv\Lib\site-packages\google\api_core\grpc_helpers_async.py", line 85, in __await__
+    response = yield from self._call.__await__()
+               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\startup\supersearch\supersearch_venv\Lib\site-packages\grpc\aio\_interceptor.py", line 472, in __await__
+    response = yield from call.__await__()
+               ^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\startup\supersearch\supersearch_venv\Lib\site-packages\grpc\aio\_call.py", line 327, in __await__
+    raise _create_rpc_error(
+grpc.aio._call.AioRpcError: <AioRpcError of RPC that terminated with:
+	status = StatusCode.INVALID_ARGUMENT
+	details = "The text content is empty."
+	debug_error_string = "UNKNOWN:Error received from peer ipv4:142.250.195.138:443 {grpc_message:"The text content is empty.", grpc_status:3, created_time:"2025-03-28T19:53:22.7406873+00:00"}"
+>
+
+The above exception was the direct cause of the following exception:
+
+Traceback (most recent call last):
+  File "C:\startup\supersearch\app\services\vertex.py", line 66, in get_embedding
+    embeddings = await model.get_embeddings_async(inputs)
+                 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\startup\supersearch\supersearch_venv\Lib\site-packages\vertexai\language_models\_language_models.py", line 2224, in get_embeddings_async
+    prediction_response = await self._endpoint.predict_async(
+                          ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\startup\supersearch\supersearch_venv\Lib\site-packages\google\cloud\aiplatform\models.py", line 2490, in predict_async
+    prediction_response = await self._prediction_async_client.predict(
+                          ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\startup\supersearch\supersearch_venv\Lib\site-packages\google\cloud\aiplatform_v1\services\prediction_service\async_client.py", line 447, in predict
+    response = await rpc(
+               ^^^^^^^^^^
+  File "C:\startup\supersearch\supersearch_venv\Lib\site-packages\google\api_core\grpc_helpers_async.py", line 88, in __await__
+    raise exceptions.from_grpc_error(rpc_error) from rpc_error
+google.api_core.exceptions.InvalidArgument: 400 The text content is empty.
+2025-03-29 01:23:23,016 [ERROR] Error generating embedding for new product de54510b-8aa6-4655-ad1d-1f25d881459d: 400 The text content is empty.
+2025-03-29 01:23:23,049 [INFO] Inserted new product de54510b-8aa6-4655-ad1d-1f25d881459d
+2025-03-29 01:23:31,706 [INFO] New product 26d91446-bfd9-45d7-9186-6d3e269abb2b, generating embedding
+2025-03-29 01:23:31,838 [ERROR] Error generating text embedding: 400 The text content is empty.
+Traceback (most recent call last):
+  File "C:\startup\supersearch\supersearch_venv\Lib\site-packages\google\api_core\grpc_helpers_async.py", line 85, in __await__
+    response = yield from self._call.__await__()
+               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\startup\supersearch\supersearch_venv\Lib\site-packages\grpc\aio\_interceptor.py", line 472, in __await__
+    response = yield from call.__await__()
+               ^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\startup\supersearch\supersearch_venv\Lib\site-packages\grpc\aio\_call.py", line 327, in __await__
+    raise _create_rpc_error(
+grpc.aio._call.AioRpcError: <AioRpcError of RPC that terminated with:
+	status = StatusCode.INVALID_ARGUMENT
+	details = "The text content is empty."
+	debug_error_string = "UNKNOWN:Error received from peer ipv4:142.250.195.138:443 {created_time:"2025-03-28T19:53:31.8222672+00:00", grpc_status:3, grpc_message:"The text content is empty."}"
+>
+
+The above exception was the direct cause of the following exception:
+
+Traceback (most recent call last):
+  File "C:\startup\supersearch\app\services\vertex.py", line 66, in get_embedding
+    embeddings = await model.get_embeddings_async(inputs)
+                 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\startup\supersearch\supersearch_venv\Lib\site-packages\vertexai\language_models\_language_models.py", line 2224, in get_embeddings_async
+    prediction_response = await self._endpoint.predict_async(
+                          ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\startup\supersearch\supersearch_venv\Lib\site-packages\google\cloud\aiplatform\models.py", line 2490, in predict_async
+    prediction_response = await self._prediction_async_client.predict(
+                          ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\startup\supersearch\supersearch_venv\Lib\site-packages\google\cloud\aiplatform_v1\services\prediction_service\async_client.py", line 447, in predict
+    response = await rpc(
+               ^^^^^^^^^^
+  File "C:\startup\supersearch\supersearch_venv\Lib\site-packages\google\api_core\grpc_helpers_async.py", line 88, in __await__
+    raise exceptions.from_grpc_error(rpc_error) from rpc_error
+google.api_core.exceptions.InvalidArgument: 400 The text content is empty.
+2025-03-29 01:23:31,839 [ERROR] Error generating embedding for new product 26d91446-bfd9-45d7-9186-6d3e269abb2b: 400 The text content is empty.
+2025-03-29 01:23:31,839 [INFO] Inserted new product 26d91446-bfd9-45d7-9186-6d3e269abb2b
+2025-03-29 01:23:41,697 [INFO] New product 3e324c36-cf31-4357-a63b-b19549fb53ba, generating embedding
+2025-03-29 01:23:41,870 [ERROR] Error generating text embedding: 400 The text content is empty.
+Traceback (most recent call last):
+  File "C:\startup\supersearch\supersearch_venv\Lib\site-packages\google\api_core\grpc_helpers_async.py", line 85, in __await__
+    response = yield from self._call.__await__()
+               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\startup\supersearch\supersearch_venv\Lib\site-packages\grpc\aio\_interceptor.py", line 472, in __await__
+    response = yield from call.__await__()
+               ^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\startup\supersearch\supersearch_venv\Lib\site-packages\grpc\aio\_call.py", line 327, in __await__
+    raise _create_rpc_error(
+grpc.aio._call.AioRpcError: <AioRpcError of RPC that terminated with:
+	status = StatusCode.INVALID_ARGUMENT
+	details = "The text content is empty."
+	debug_error_string = "UNKNOWN:Error received from peer ipv4:142.250.195.138:443 {created_time:"2025-03-28T19:53:41.8584987+00:00", grpc_status:3, grpc_message:"The text content is empty."}"
+>
+
+The above exception was the direct cause of the following exception:
+
+Traceback (most recent call last):
+  File "C:\startup\supersearch\app\services\vertex.py", line 66, in get_embedding
+    embeddings = await model.get_embeddings_async(inputs)
+                 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\startup\supersearch\supersearch_venv\Lib\site-packages\vertexai\language_models\_language_models.py", line 2224, in get_embeddings_async
+    prediction_response = await self._endpoint.predict_async(
+                          ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\startup\supersearch\supersearch_venv\Lib\site-packages\google\cloud\aiplatform\models.py", line 2490, in predict_async
+    prediction_response = await self._prediction_async_client.predict(
+                          ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\startup\supersearch\supersearch_venv\Lib\site-packages\google\cloud\aiplatform_v1\services\prediction_service\async_client.py", line 447, in predict
+    response = await rpc(
+               ^^^^^^^^^^
+  File "C:\startup\supersearch\supersearch_venv\Lib\site-packages\google\api_core\grpc_helpers_async.py", line 88, in __await__
+    raise exceptions.from_grpc_error(rpc_error) from rpc_error
+google.api_core.exceptions.InvalidArgument: 400 The text content is empty.
+2025-03-29 01:23:41,870 [ERROR] Error generating embedding for new product 3e324c36-cf31-4357-a63b-b19549fb53ba: 400 The text content is empty.
+2025-03-29 01:23:41,871 [INFO] Inserted new product 3e324c36-cf31-4357-a63b-b19549fb53ba
+2025-03-29 01:23:43,771 [INFO] Beginning worker shutdown, will wait 0:00:00 before cancelling activities
+2025-03-29 02:06:44,220 [INFO] Connecting to Temporal server at localhost:7233 with namespace supersearch
+2025-03-29 02:06:44,221 [INFO] Connecting to Temporal server at localhost:7233 with namespace supersearch
+2025-03-29 02:06:44,221 [INFO] Checking if namespace 'supersearch' exists
+2025-03-29 02:06:44,330 [INFO] Namespace 'supersearch' already exists
+2025-03-29 02:06:44,340 [INFO] Connected to Temporal server
+2025-03-29 02:06:44,340 [INFO] Creating worker for task queue: product-sync-task-queue
+2025-03-29 02:06:46,544 [INFO] Worker created for task queue: product-sync-task-queue
+2025-03-29 02:06:46,544 [INFO] Starting worker for task queue: product-sync-task-queue
+2025-03-29 02:06:46,544 [INFO] Started worker with task queue product-sync-task-queue
+2025-03-29 02:06:46,662 [INFO] Getting products from source: MANUAL_FILE_UPLOAD
+2025-03-29 02:06:46,662 [INFO] Getting products from manual file upload
+2025-03-29 02:06:46,771 [INFO] Getting products from source: MANUAL_FILE_UPLOAD
+2025-03-29 02:06:46,772 [INFO] Getting products from manual file upload
+2025-03-29 02:06:47,038 [INFO] New product f5072c1e-714b-47ec-919e-66841d5d93f0, generating embedding
+2025-03-29 02:06:47,049 [INFO] New product 3c47210e-a635-46fe-949f-9867f7c70b72, generating embedding
+2025-03-29 02:06:47,455 [ERROR] Error generating text embedding: 400 The text content is empty.
+Traceback (most recent call last):
+  File "C:\startup\supersearch\supersearch_venv\Lib\site-packages\google\api_core\grpc_helpers_async.py", line 85, in __await__
+    response = yield from self._call.__await__()
+               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\startup\supersearch\supersearch_venv\Lib\site-packages\grpc\aio\_interceptor.py", line 472, in __await__
+    response = yield from call.__await__()
+               ^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\startup\supersearch\supersearch_venv\Lib\site-packages\grpc\aio\_call.py", line 327, in __await__
+    raise _create_rpc_error(
+grpc.aio._call.AioRpcError: <AioRpcError of RPC that terminated with:
+	status = StatusCode.INVALID_ARGUMENT
+	details = "The text content is empty."
+	debug_error_string = "UNKNOWN:Error received from peer ipv6:%5B2404:6800:4007:824::200a%5D:443 {created_time:"2025-03-28T20:36:47.4042697+00:00", grpc_status:3, grpc_message:"The text content is empty."}"
+>
+
+The above exception was the direct cause of the following exception:
+
+Traceback (most recent call last):
+  File "C:\startup\supersearch\app\services\vertex.py", line 66, in get_embedding
+    embeddings = await model.get_embeddings_async(inputs)
+                 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\startup\supersearch\supersearch_venv\Lib\site-packages\vertexai\language_models\_language_models.py", line 2224, in get_embeddings_async
+    prediction_response = await self._endpoint.predict_async(
+                          ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\startup\supersearch\supersearch_venv\Lib\site-packages\google\cloud\aiplatform\models.py", line 2490, in predict_async
+    prediction_response = await self._prediction_async_client.predict(
+                          ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\startup\supersearch\supersearch_venv\Lib\site-packages\google\cloud\aiplatform_v1\services\prediction_service\async_client.py", line 447, in predict
+    response = await rpc(
+               ^^^^^^^^^^
+  File "C:\startup\supersearch\supersearch_venv\Lib\site-packages\google\api_core\grpc_helpers_async.py", line 88, in __await__
+    raise exceptions.from_grpc_error(rpc_error) from rpc_error
+google.api_core.exceptions.InvalidArgument: 400 The text content is empty.
+2025-03-29 02:06:47,473 [ERROR] Error generating embedding for new product 3c47210e-a635-46fe-949f-9867f7c70b72: 400 The text content is empty.
+2025-03-29 02:06:47,475 [INFO] Inserted new product 3c47210e-a635-46fe-949f-9867f7c70b72
+2025-03-29 02:06:47,480 [ERROR] Error generating text embedding: 400 The text content is empty.
+Traceback (most recent call last):
+  File "C:\startup\supersearch\supersearch_venv\Lib\site-packages\google\api_core\grpc_helpers_async.py", line 85, in __await__
+    response = yield from self._call.__await__()
+               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\startup\supersearch\supersearch_venv\Lib\site-packages\grpc\aio\_interceptor.py", line 472, in __await__
+    response = yield from call.__await__()
+               ^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\startup\supersearch\supersearch_venv\Lib\site-packages\grpc\aio\_call.py", line 327, in __await__
+    raise _create_rpc_error(
+grpc.aio._call.AioRpcError: <AioRpcError of RPC that terminated with:
+	status = StatusCode.INVALID_ARGUMENT
+	details = "The text content is empty."
+	debug_error_string = "UNKNOWN:Error received from peer ipv6:%5B2404:6800:4007:824::200a%5D:443 {grpc_message:"The text content is empty.", grpc_status:3, created_time:"2025-03-28T20:36:47.4307928+00:00"}"
+>
+
+The above exception was the direct cause of the following exception:
+
+Traceback (most recent call last):
+  File "C:\startup\supersearch\app\services\vertex.py", line 66, in get_embedding
+    embeddings = await model.get_embeddings_async(inputs)
+                 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\startup\supersearch\supersearch_venv\Lib\site-packages\vertexai\language_models\_language_models.py", line 2224, in get_embeddings_async
+    prediction_response = await self._endpoint.predict_async(
+                          ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\startup\supersearch\supersearch_venv\Lib\site-packages\google\cloud\aiplatform\models.py", line 2490, in predict_async
+    prediction_response = await self._prediction_async_client.predict(
+                          ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\startup\supersearch\supersearch_venv\Lib\site-packages\google\cloud\aiplatform_v1\services\prediction_service\async_client.py", line 447, in predict
+    response = await rpc(
+               ^^^^^^^^^^
+  File "C:\startup\supersearch\supersearch_venv\Lib\site-packages\google\api_core\grpc_helpers_async.py", line 88, in __await__
+    raise exceptions.from_grpc_error(rpc_error) from rpc_error
+google.api_core.exceptions.InvalidArgument: 400 The text content is empty.
+2025-03-29 02:06:47,485 [ERROR] Error generating embedding for new product f5072c1e-714b-47ec-919e-66841d5d93f0: 400 The text content is empty.
+2025-03-29 02:06:47,485 [INFO] Inserted new product f5072c1e-714b-47ec-919e-66841d5d93f0
+2025-03-29 02:06:56,910 [INFO] New product 27be84d5-2c5a-4d28-8067-576ba8d7aff5, generating embedding
+2025-03-29 02:06:56,911 [INFO] New product 5e87fe85-ba7e-42df-b099-5fb99b6f996f, generating embedding
+2025-03-29 02:06:57,052 [ERROR] Error generating text embedding: 400 The text content is empty.
+Traceback (most recent call last):
+  File "C:\startup\supersearch\supersearch_venv\Lib\site-packages\google\api_core\grpc_helpers_async.py", line 85, in __await__
+    response = yield from self._call.__await__()
+               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\startup\supersearch\supersearch_venv\Lib\site-packages\grpc\aio\_interceptor.py", line 472, in __await__
+    response = yield from call.__await__()
+               ^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\startup\supersearch\supersearch_venv\Lib\site-packages\grpc\aio\_call.py", line 327, in __await__
+    raise _create_rpc_error(
+grpc.aio._call.AioRpcError: <AioRpcError of RPC that terminated with:
+	status = StatusCode.INVALID_ARGUMENT
+	details = "The text content is empty."
+	debug_error_string = "UNKNOWN:Error received from peer ipv6:%5B2404:6800:4007:824::200a%5D:443 {grpc_message:"The text content is empty.", grpc_status:3, created_time:"2025-03-28T20:36:57.0279393+00:00"}"
+>
+
+The above exception was the direct cause of the following exception:
+
+Traceback (most recent call last):
+  File "C:\startup\supersearch\app\services\vertex.py", line 66, in get_embedding
+    embeddings = await model.get_embeddings_async(inputs)
+                 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\startup\supersearch\supersearch_venv\Lib\site-packages\vertexai\language_models\_language_models.py", line 2224, in get_embeddings_async
+    prediction_response = await self._endpoint.predict_async(
+                          ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\startup\supersearch\supersearch_venv\Lib\site-packages\google\cloud\aiplatform\models.py", line 2490, in predict_async
+    prediction_response = await self._prediction_async_client.predict(
+                          ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\startup\supersearch\supersearch_venv\Lib\site-packages\google\cloud\aiplatform_v1\services\prediction_service\async_client.py", line 447, in predict
+    response = await rpc(
+               ^^^^^^^^^^
+  File "C:\startup\supersearch\supersearch_venv\Lib\site-packages\google\api_core\grpc_helpers_async.py", line 88, in __await__
+    raise exceptions.from_grpc_error(rpc_error) from rpc_error
+google.api_core.exceptions.InvalidArgument: 400 The text content is empty.
+2025-03-29 02:06:57,053 [ERROR] Error generating embedding for new product 27be84d5-2c5a-4d28-8067-576ba8d7aff5: 400 The text content is empty.
+2025-03-29 02:06:57,054 [INFO] Inserted new product 27be84d5-2c5a-4d28-8067-576ba8d7aff5
+2025-03-29 02:06:57,131 [ERROR] Error generating text embedding: 400 The text content is empty.
+Traceback (most recent call last):
+  File "C:\startup\supersearch\supersearch_venv\Lib\site-packages\google\api_core\grpc_helpers_async.py", line 85, in __await__
+    response = yield from self._call.__await__()
+               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\startup\supersearch\supersearch_venv\Lib\site-packages\grpc\aio\_interceptor.py", line 472, in __await__
+    response = yield from call.__await__()
+               ^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\startup\supersearch\supersearch_venv\Lib\site-packages\grpc\aio\_call.py", line 327, in __await__
+    raise _create_rpc_error(
+grpc.aio._call.AioRpcError: <AioRpcError of RPC that terminated with:
+	status = StatusCode.INVALID_ARGUMENT
+	details = "The text content is empty."
+	debug_error_string = "UNKNOWN:Error received from peer ipv6:%5B2404:6800:4007:824::200a%5D:443 {grpc_message:"The text content is empty.", grpc_status:3, created_time:"2025-03-28T20:36:57.1114234+00:00"}"
+>
+
+The above exception was the direct cause of the following exception:
+
+Traceback (most recent call last):
+  File "C:\startup\supersearch\app\services\vertex.py", line 66, in get_embedding
+    embeddings = await model.get_embeddings_async(inputs)
+                 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\startup\supersearch\supersearch_venv\Lib\site-packages\vertexai\language_models\_language_models.py", line 2224, in get_embeddings_async
+    prediction_response = await self._endpoint.predict_async(
+                          ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\startup\supersearch\supersearch_venv\Lib\site-packages\google\cloud\aiplatform\models.py", line 2490, in predict_async
+    prediction_response = await self._prediction_async_client.predict(
+                          ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\startup\supersearch\supersearch_venv\Lib\site-packages\google\cloud\aiplatform_v1\services\prediction_service\async_client.py", line 447, in predict
+    response = await rpc(
+               ^^^^^^^^^^
+  File "C:\startup\supersearch\supersearch_venv\Lib\site-packages\google\api_core\grpc_helpers_async.py", line 88, in __await__
+    raise exceptions.from_grpc_error(rpc_error) from rpc_error
+google.api_core.exceptions.InvalidArgument: 400 The text content is empty.
+2025-03-29 02:06:57,133 [ERROR] Error generating embedding for new product 5e87fe85-ba7e-42df-b099-5fb99b6f996f: 400 The text content is empty.
+2025-03-29 02:06:57,133 [INFO] Inserted new product 5e87fe85-ba7e-42df-b099-5fb99b6f996f
+2025-03-29 02:07:06,908 [INFO] New product 8c138d68-8459-483d-b359-7b34a26bb158, generating embedding
+2025-03-29 02:07:06,910 [INFO] New product 5b957612-be41-40b6-b050-3a31f304af94, generating embedding
+2025-03-29 02:07:07,005 [ERROR] Error generating text embedding: 400 The text content is empty.
+Traceback (most recent call last):
+  File "C:\startup\supersearch\supersearch_venv\Lib\site-packages\google\api_core\grpc_helpers_async.py", line 85, in __await__
+    response = yield from self._call.__await__()
+               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\startup\supersearch\supersearch_venv\Lib\site-packages\grpc\aio\_interceptor.py", line 472, in __await__
+    response = yield from call.__await__()
+               ^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\startup\supersearch\supersearch_venv\Lib\site-packages\grpc\aio\_call.py", line 327, in __await__
+    raise _create_rpc_error(
+grpc.aio._call.AioRpcError: <AioRpcError of RPC that terminated with:
+	status = StatusCode.INVALID_ARGUMENT
+	details = "The text content is empty."
+	debug_error_string = "UNKNOWN:Error received from peer ipv6:%5B2404:6800:4007:824::200a%5D:443 {grpc_message:"The text content is empty.", grpc_status:3, created_time:"2025-03-28T20:37:06.9867488+00:00"}"
+>
+
+The above exception was the direct cause of the following exception:
+
+Traceback (most recent call last):
+  File "C:\startup\supersearch\app\services\vertex.py", line 66, in get_embedding
+    embeddings = await model.get_embeddings_async(inputs)
+                 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\startup\supersearch\supersearch_venv\Lib\site-packages\vertexai\language_models\_language_models.py", line 2224, in get_embeddings_async
+    prediction_response = await self._endpoint.predict_async(
+                          ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\startup\supersearch\supersearch_venv\Lib\site-packages\google\cloud\aiplatform\models.py", line 2490, in predict_async
+    prediction_response = await self._prediction_async_client.predict(
+                          ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\startup\supersearch\supersearch_venv\Lib\site-packages\google\cloud\aiplatform_v1\services\prediction_service\async_client.py", line 447, in predict
+    response = await rpc(
+               ^^^^^^^^^^
+  File "C:\startup\supersearch\supersearch_venv\Lib\site-packages\google\api_core\grpc_helpers_async.py", line 88, in __await__
+    raise exceptions.from_grpc_error(rpc_error) from rpc_error
+google.api_core.exceptions.InvalidArgument: 400 The text content is empty.
+2025-03-29 02:07:07,006 [ERROR] Error generating embedding for new product 5b957612-be41-40b6-b050-3a31f304af94: 400 The text content is empty.
+2025-03-29 02:07:07,006 [INFO] Inserted new product 5b957612-be41-40b6-b050-3a31f304af94
+2025-03-29 02:07:07,023 [ERROR] Error generating text embedding: 400 The text content is empty.
+Traceback (most recent call last):
+  File "C:\startup\supersearch\supersearch_venv\Lib\site-packages\google\api_core\grpc_helpers_async.py", line 85, in __await__
+    response = yield from self._call.__await__()
+               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\startup\supersearch\supersearch_venv\Lib\site-packages\grpc\aio\_interceptor.py", line 472, in __await__
+    response = yield from call.__await__()
+               ^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\startup\supersearch\supersearch_venv\Lib\site-packages\grpc\aio\_call.py", line 327, in __await__
+    raise _create_rpc_error(
+grpc.aio._call.AioRpcError: <AioRpcError of RPC that terminated with:
+	status = StatusCode.INVALID_ARGUMENT
+	details = "The text content is empty."
+	debug_error_string = "UNKNOWN:Error received from peer ipv6:%5B2404:6800:4007:824::200a%5D:443 {created_time:"2025-03-28T20:37:07.0068876+00:00", grpc_status:3, grpc_message:"The text content is empty."}"
+>
+
+The above exception was the direct cause of the following exception:
+
+Traceback (most recent call last):
+  File "C:\startup\supersearch\app\services\vertex.py", line 66, in get_embedding
+    embeddings = await model.get_embeddings_async(inputs)
+                 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\startup\supersearch\supersearch_venv\Lib\site-packages\vertexai\language_models\_language_models.py", line 2224, in get_embeddings_async
+    prediction_response = await self._endpoint.predict_async(
+                          ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\startup\supersearch\supersearch_venv\Lib\site-packages\google\cloud\aiplatform\models.py", line 2490, in predict_async
+    prediction_response = await self._prediction_async_client.predict(
+                          ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\startup\supersearch\supersearch_venv\Lib\site-packages\google\cloud\aiplatform_v1\services\prediction_service\async_client.py", line 447, in predict
+    response = await rpc(
+               ^^^^^^^^^^
+  File "C:\startup\supersearch\supersearch_venv\Lib\site-packages\google\api_core\grpc_helpers_async.py", line 88, in __await__
+    raise exceptions.from_grpc_error(rpc_error) from rpc_error
+google.api_core.exceptions.InvalidArgument: 400 The text content is empty.
+2025-03-29 02:07:07,024 [ERROR] Error generating embedding for new product 8c138d68-8459-483d-b359-7b34a26bb158: 400 The text content is empty.
+2025-03-29 02:07:07,026 [INFO] Inserted new product 8c138d68-8459-483d-b359-7b34a26bb158
+2025-03-29 02:07:11,375 [INFO] Beginning worker shutdown, will wait 0:00:00 before cancelling activities
+2025-03-29 02:07:20,068 [INFO] Connecting to Temporal server at localhost:7233 with namespace supersearch
+2025-03-29 02:07:20,069 [INFO] Connecting to Temporal server at localhost:7233 with namespace supersearch
+2025-03-29 02:07:20,069 [INFO] Checking if namespace 'supersearch' exists
+2025-03-29 02:07:20,130 [INFO] Namespace 'supersearch' already exists
+2025-03-29 02:07:20,137 [INFO] Connected to Temporal server
+2025-03-29 02:07:20,137 [INFO] Creating worker for task queue: product-sync-task-queue
+2025-03-29 02:07:21,404 [INFO] Worker created for task queue: product-sync-task-queue
+2025-03-29 02:07:21,404 [INFO] Starting worker for task queue: product-sync-task-queue
+2025-03-29 02:07:21,404 [INFO] Started worker with task queue product-sync-task-queue
+2025-03-29 02:08:08,268 [INFO] Getting products from source: MANUAL_FILE_UPLOAD
+2025-03-29 02:08:08,268 [INFO] Getting products from manual file upload
+2025-03-29 02:08:08,428 [INFO] New product 1, generating embedding
+2025-03-29 02:08:09,043 [INFO] Total embedding process completed in 0.615s
+2025-03-29 02:08:09,043 [INFO] Inserted new product 1
+2025-03-29 02:08:18,378 [INFO] New product 2, generating embedding
+2025-03-29 02:08:18,925 [INFO] Total embedding process completed in 0.546s
+2025-03-29 02:08:18,925 [INFO] Inserted new product 2
+2025-03-29 02:08:28,387 [INFO] New product 3, generating embedding
+2025-03-29 02:08:28,845 [INFO] Total embedding process completed in 0.458s
+2025-03-29 02:08:28,846 [INFO] Inserted new product 3
+2025-03-29 02:08:32,311 [INFO] Beginning worker shutdown, will wait 0:00:00 before cancelling activities
+2025-03-29 02:10:05,498 [INFO] Connecting to Temporal server at localhost:7233 with namespace supersearch
+2025-03-29 02:10:05,498 [INFO] Connecting to Temporal server at localhost:7233 with namespace supersearch
+2025-03-29 02:10:05,498 [INFO] Checking if namespace 'supersearch' exists
+2025-03-29 02:10:05,561 [INFO] Namespace 'supersearch' already exists
+2025-03-29 02:10:05,568 [INFO] Connected to Temporal server
+2025-03-29 02:10:05,568 [INFO] Creating worker for task queue: product-sync-task-queue
+2025-03-29 02:10:06,666 [INFO] Worker created for task queue: product-sync-task-queue
+2025-03-29 02:10:06,666 [INFO] Starting worker for task queue: product-sync-task-queue
+2025-03-29 02:10:06,666 [INFO] Started worker with task queue product-sync-task-queue
+2025-03-29 02:12:11,914 [INFO] Getting products from source: MANUAL_FILE_UPLOAD
+2025-03-29 02:12:11,914 [INFO] Getting products from manual file upload
+2025-03-29 02:12:12,077 [INFO] New product 1, generating embedding
+2025-03-29 02:12:12,823 [INFO] Total embedding process completed in 0.746s
+2025-03-29 02:12:12,823 [INFO] Inserted new product 1
+2025-03-29 02:12:22,064 [INFO] New product 2, generating embedding
+2025-03-29 02:12:22,469 [INFO] Total embedding process completed in 0.405s
+2025-03-29 02:12:22,469 [INFO] Inserted new product 2
+2025-03-29 02:12:32,064 [INFO] New product 3, generating embedding
+2025-03-29 02:12:32,524 [INFO] Total embedding process completed in 0.460s
+2025-03-29 02:12:32,524 [INFO] Inserted new product 3
+2025-03-29 02:12:42,082 [INFO] New product 4, generating embedding
+2025-03-29 02:12:42,508 [INFO] Total embedding process completed in 0.426s
+2025-03-29 02:12:42,508 [INFO] Inserted new product 4
+2025-03-29 02:12:52,075 [INFO] New product 5, generating embedding
+2025-03-29 02:12:52,525 [INFO] Total embedding process completed in 0.449s
+2025-03-29 02:12:52,526 [INFO] Inserted new product 5
+2025-03-29 02:13:02,084 [INFO] New product 6, generating embedding
+2025-03-29 02:13:02,605 [INFO] Total embedding process completed in 0.521s
+2025-03-29 02:13:02,606 [INFO] Inserted new product 6
+2025-03-29 02:13:12,089 [INFO] New product 7, generating embedding
+2025-03-29 02:13:12,454 [INFO] Total embedding process completed in 0.365s
+2025-03-29 02:13:12,455 [INFO] Inserted new product 7
+2025-03-29 02:13:22,097 [INFO] New product 8, generating embedding
+2025-03-29 02:13:22,604 [INFO] Total embedding process completed in 0.507s
+2025-03-29 02:13:22,605 [INFO] Inserted new product 8
+2025-03-29 02:13:32,126 [INFO] New product 9, generating embedding
+2025-03-29 02:13:32,523 [INFO] Total embedding process completed in 0.398s
+2025-03-29 02:13:32,524 [INFO] Inserted new product 9
+2025-03-29 02:13:42,120 [INFO] New product 10, generating embedding
+2025-03-29 02:13:42,603 [INFO] Total embedding process completed in 0.483s
+2025-03-29 02:13:42,603 [INFO] Inserted new product 10
+2025-03-29 02:13:52,125 [INFO] New product 11, generating embedding
+2025-03-29 02:13:52,521 [INFO] Total embedding process completed in 0.396s
+2025-03-29 02:13:52,522 [INFO] Inserted new product 11
+2025-03-29 02:14:02,126 [INFO] New product 12, generating embedding
+2025-03-29 02:14:02,599 [INFO] Total embedding process completed in 0.472s
+2025-03-29 02:14:02,600 [INFO] Inserted new product 12
+2025-03-29 02:14:12,143 [INFO] New product 13, generating embedding
+2025-03-29 02:14:12,521 [INFO] Total embedding process completed in 0.378s
+2025-03-29 02:14:12,521 [INFO] Inserted new product 13
+2025-03-29 02:14:22,150 [INFO] New product 14, generating embedding
+2025-03-29 02:14:22,602 [INFO] Total embedding process completed in 0.452s
+2025-03-29 02:14:22,603 [INFO] Inserted new product 14
+2025-03-29 02:14:32,168 [INFO] New product 15, generating embedding
+2025-03-29 02:14:32,543 [INFO] Total embedding process completed in 0.370s
+2025-03-29 02:14:32,543 [INFO] Inserted new product 15
+2025-03-29 02:14:42,185 [INFO] New product 16, generating embedding
+2025-03-29 02:14:42,593 [INFO] Total embedding process completed in 0.408s
+2025-03-29 02:14:42,602 [INFO] Inserted new product 16
+2025-03-29 02:14:52,180 [INFO] New product 17, generating embedding
+2025-03-29 02:14:52,537 [INFO] Total embedding process completed in 0.357s
+2025-03-29 02:14:52,538 [INFO] Inserted new product 17
+2025-03-29 02:15:02,195 [INFO] New product 18, generating embedding
+2025-03-29 02:15:02,599 [INFO] Total embedding process completed in 0.404s
+2025-03-29 02:15:02,600 [INFO] Inserted new product 18
+2025-03-29 02:15:12,209 [INFO] New product 19, generating embedding
+2025-03-29 02:15:12,678 [INFO] Total embedding process completed in 0.468s
+2025-03-29 02:15:12,679 [INFO] Inserted new product 19
+2025-03-29 02:15:22,216 [INFO] New product 20, generating embedding
+2025-03-29 02:15:22,762 [INFO] Total embedding process completed in 0.547s
+2025-03-29 02:15:22,763 [INFO] Inserted new product 20
+2025-03-29 02:15:32,230 [INFO] New product 21, generating embedding
+2025-03-29 02:15:32,680 [INFO] Total embedding process completed in 0.450s
+2025-03-29 02:15:32,681 [INFO] Inserted new product 21
+2025-03-29 02:15:42,240 [INFO] New product 22, generating embedding
+2025-03-29 02:15:42,649 [INFO] Total embedding process completed in 0.409s
+2025-03-29 02:15:42,649 [INFO] Inserted new product 22
+2025-03-29 02:15:52,239 [INFO] New product 23, generating embedding
+2025-03-29 02:15:52,610 [INFO] Total embedding process completed in 0.371s
+2025-03-29 02:15:52,612 [INFO] Inserted new product 23
+2025-03-29 02:16:02,242 [INFO] New product 24, generating embedding
+2025-03-29 02:16:02,648 [INFO] Total embedding process completed in 0.406s
+2025-03-29 02:16:02,648 [INFO] Inserted new product 24
+2025-03-29 02:16:12,238 [INFO] New product 25, generating embedding
+2025-03-29 02:16:12,679 [INFO] Total embedding process completed in 0.441s
+2025-03-29 02:16:12,680 [INFO] Inserted new product 25
+2025-03-29 02:16:22,246 [INFO] New product 26, generating embedding
+2025-03-29 02:16:22,660 [INFO] Total embedding process completed in 0.414s
+2025-03-29 02:16:22,660 [INFO] Inserted new product 26
+2025-03-29 02:16:32,248 [INFO] Retrieved 26 products from source: MANUAL_FILE_UPLOAD
+2025-03-29 02:16:32,702 [INFO] Updating sync history record with ID: 1ab7ec7e-4fb9-4ce9-9c0d-4840b72a5db6
+2025-03-29 02:16:32,730 [INFO] Updated sync history record with ID: 1ab7ec7e-4fb9-4ce9-9c0d-4840b72a5db6

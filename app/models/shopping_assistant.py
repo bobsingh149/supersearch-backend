@@ -45,6 +45,14 @@ class ConversationResponse(BaseModel):
     updated_at: datetime
 
 
+class ChatRequest(BaseModel):
+    """Schema for chat endpoint request"""
+    query: str
+    conversation_id: str
+    product_ids: Optional[List[str]] = None
+    stream: Optional[bool] = False
+
+
 class ChatResponse(BaseModel):
     """Schema for chat endpoint response"""
     response: str

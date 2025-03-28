@@ -5,7 +5,7 @@ from app.database.sql.sql import render_sql, SQLFilePath
 from app.models.product import ProductDB, ProductSearchResult
 from app.models.shopping_assistant import (
     ConversationDB, ChatResponse, ConversationResponse, Message, 
-    StreamingResponse, StreamingResponseType
+    StreamingResponse, StreamingResponseType, ChatRequest
 )
 from sqlalchemy import text, select
 import logging
@@ -25,20 +25,17 @@ router = APIRouter(
 )
 
 
-@router.get("/chat")
+@router.post("/chat")
 async def chat_with_assistant(
-    query: str,
-    conversation_id: str,
-    product_ids: Optional[str] = None,
-    stream: Optional[bool] = False,
+    request: ChatRequest,
     session: AsyncSession = Depends(get_async_session)
 ):
     """Chat with the shopping assistant"""
     try:
         client = get_genai_client()
         
-        # Process product_ids string to list if provided
-        product_id_list = product_ids.split(',') if product_ids else []
+        # Use product_ids list directly
+        product_id_list = request.product_ids if request.product_ids else []
         
         # Build context
         context = ""
@@ -67,7 +64,7 @@ async def chat_with_assistant(
         
         # Always fetch products from database for all queries
         # Get vector embedding for the query
-        query_embedding = await get_embedding(query, TaskType.QUERY)
+        query_embedding = await get_embedding(request.query, TaskType.QUERY)
 
         sql_query = render_sql(SQLFilePath.PRODUCT_SEMANTIC_SEARCH,
                             query_embedding=query_embedding,
@@ -92,16 +89,16 @@ async def chat_with_assistant(
                 all_products[p.id] = p
         
         # Get chat session with history
-        chat = await get_chat_from_history(conversation_id, client)
+        chat = await get_chat_from_history(request.conversation_id, client)
         
         # Prepare prompt with context
         prompt = ShoppingAssistantUtils.construct_prompt(
-            query,
+            request.query,
             context,
         )
         
         # Handle streaming response
-        if stream:
+        if request.stream:
             async def response_stream_generator():
                 # Get the complete response to extract product IDs
                 full_response = ""
@@ -120,7 +117,7 @@ async def chat_with_assistant(
                             if clean_chunk:
                                 content_response = StreamingResponse(
                                     type=StreamingResponseType.CONTENT,
-                                    conversation_id=conversation_id,
+                                    conversation_id=request.conversation_id,
                                     content=clean_chunk
                                 )
                                 yield json.dumps(content_response.model_dump()) + "\n"
@@ -128,7 +125,7 @@ async def chat_with_assistant(
                         # Only yield if we haven't hit the marker yet
                         content_response = StreamingResponse(
                             type=StreamingResponseType.CONTENT,
-                            conversation_id=conversation_id,
+                            conversation_id=request.conversation_id,
                             content=chunk.text
                         )
                         yield json.dumps(content_response.model_dump()) + "\n"
@@ -148,13 +145,13 @@ async def chat_with_assistant(
                 if referenced_products:
                     product_response = StreamingResponse(
                         type=StreamingResponseType.PRODUCTS,
-                        conversation_id=conversation_id,
+                        conversation_id=request.conversation_id,
                         content=referenced_products
                     )
                     yield json.dumps(product_response.model_dump()) + "\n"
                 
                 # Save the complete conversation after streaming is done
-                await ShoppingAssistantUtils.save_conversation(session, conversation_id, query, full_response, context)
+                await ShoppingAssistantUtils.save_conversation(session, request.conversation_id, request.query, full_response, context)
             
             return FastAPIStreamingResponse(response_stream_generator(), media_type="application/json")
         else:
@@ -171,11 +168,11 @@ async def chat_with_assistant(
             ]
             
             # Save conversation
-            await ShoppingAssistantUtils.save_conversation(session, conversation_id, query, response.text, context)
+            await ShoppingAssistantUtils.save_conversation(session, request.conversation_id, request.query, response.text, context)
             
             return ChatResponse(
                 response=response.text,
-                conversation_id=conversation_id,
+                conversation_id=request.conversation_id,
                 products=referenced_products
             )
         

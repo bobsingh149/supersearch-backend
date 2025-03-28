@@ -74,7 +74,7 @@ app.add_middleware(RequestTimingMiddleware)
 app.add_middleware(AuthMiddleware)
 
 # Include all routers
-API_V1_PREFIX = "/api/v1"
+API_V1_PREFIX = "/v1"
 
 app.include_router(organization.router, prefix=API_V1_PREFIX)
 app.include_router(product.router, prefix=API_V1_PREFIX)
