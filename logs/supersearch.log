@@ -6119,3 +6119,15 @@ LIMIT 3]
 2025-03-28 02:36:27,864 - app.middlewares.route_logging - INFO - Path: /api/v1/settings/SEARCH_CONFIG | Method: GET | Processing Time: 12.80ms
 2025-03-28 02:36:31,845 - app.middlewares.route_logging - INFO - Path: /api/v1/settings/search-config | Method: OPTIONS | Processing Time: 0.00ms
 2025-03-28 02:37:20,859 - app.main - INFO - Shutting down...
+2025-03-28 14:29:11,288 - app.main - INFO - Initializing model and processor...
+2025-03-28 14:29:11,548 - app.main - INFO - Database connection successful
+2025-03-28 14:29:12,395 - app.services.vertex - INFO - Total embedding process completed in 0.847s
+2025-03-28 14:29:12,395 - app.main - INFO - Initialization complete.
+2025-03-28 14:30:22,149 - app.middlewares.route_logging - INFO - Path: /api/v1/search | Method: OPTIONS | Processing Time: 1.00ms
+2025-03-28 14:30:22,150 - app.middlewares.route_logging - INFO - Path: /api/v1/search | Method: OPTIONS | Processing Time: 1.00ms
+2025-03-28 14:30:22,154 - app.middlewares.auth - ERROR - JWT verification error: It is required that you pass in a value for the "algorithms" argument when calling decode().
+2025-03-28 14:30:22,493 - app.middlewares.auth - ERROR - JWT verification error: It is required that you pass in a value for the "algorithms" argument when calling decode().
+2025-03-28 14:30:25,184 - app.middlewares.route_logging - INFO - Path: /api/v1/settings/SEARCH_CONFIG | Method: OPTIONS | Processing Time: 0.00ms
+2025-03-28 14:30:25,188 - app.middlewares.auth - ERROR - JWT verification error: It is required that you pass in a value for the "algorithms" argument when calling decode().
+2025-03-28 14:30:26,524 - app.middlewares.auth - ERROR - JWT verification error: It is required that you pass in a value for the "algorithms" argument when calling decode().
+2025-03-28 14:30:26,774 - app.middlewares.auth - ERROR - JWT verification error: It is required that you pass in a value for the "algorithms" argument when calling decode().
