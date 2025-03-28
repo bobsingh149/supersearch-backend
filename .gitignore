@@ -42,3 +42,19 @@ logs/
 # OS specific
 .DS_Store
 Thumbs.db 
+/app/scripts/add_id_to_imdb.py
+/app/scripts/batch_movies.py
+/datasets/imdb_top_10.csv
+/datasets/imdb_top_1000.csv
+/datasets/movies.csv
+/datasets/movies_batches/movies_batch_1.csv
+/datasets/movies_batches/movies_batch_2.csv
+/datasets/movies_batches/movies_batch_3.csv
+/datasets/movies_batches/movies_batch_4.csv
+/datasets/movies_batches/movies_batch_5.csv
+/datasets/movies_batches/movies_batch_6.csv
+/datasets/movies_batches/movies_batch_7.csv
+/datasets/movies_batches/movies_batch_8.csv
+/datasets/movies_batches/movies_batch_9.csv
+/datasets/movies_batches/movies_batch_10.csv
+/datasets/movies_batches/movies_batch_sample.csv
