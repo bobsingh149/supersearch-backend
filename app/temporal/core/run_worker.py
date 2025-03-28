@@ -3,6 +3,14 @@ import asyncio
 import logging.handlers
 import os
 import sys
+from pathlib import Path
+
+# Add the project root to the Python path when running as standalone script
+if __name__ == "__main__":
+    # Get the absolute path of the project root
+    project_root = str(Path(__file__).parents[3])
+    if project_root not in sys.path:
+        sys.path.insert(0, project_root)
 
 from app.temporal.core.client import get_temporal_client
 from app.temporal.core.worker import run_worker, create_worker
