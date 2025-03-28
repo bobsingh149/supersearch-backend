@@ -67,8 +67,7 @@ class AuthMiddleware(BaseHTTPMiddleware):
             request.state.user_id = decoded.get("sub")
             request.state.user_payload = decoded
 
-            print(request.state.user_payload)
-            
+
         except jwt.PyJWTError as e:
             logger.error(f"JWT verification error: {str(e)}")
             raise HTTPException(status_code=401, detail=str(e))

@@ -64,6 +64,10 @@ async def process_products_from_data(data: List[Dict[str, Any]]) -> List[Product
     
     # Get search configuration from settings
     search_config = await get_search_config()
+
+    print("search config ")
+    print(search_config)
+
     id_field = search_config["id_field"]
     title_field = search_config["title_field"]
     searchable_attribute_fields = search_config["searchable_attribute_fields"]

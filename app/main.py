@@ -39,25 +39,22 @@ logging.basicConfig(
 )
 logger = logging.getLogger(__name__)
 
-@asynccontextmanager
-async def lifespan(_app: FastAPI):
-    """Initialize model and processor on startup"""
+async def initialize_server():
+    """Initialize all necessary components for server startup"""
     logger.info("Initializing model and processor...")
-
-    print("\nSettings:")
-    print("=" * 50)
-    print(settings)
-    print("=" * 50)
-    print()
-    
     # Check database connection
     if not await check_db_connection():
         logger.error("Database connection failed")
         raise RuntimeError("Database connection failed")
     logger.info("Database connection successful")
     
-    await get_embedding("startup")
+    await get_embedding("cognishop")
     logger.info("Initialization complete.")
+
+@asynccontextmanager
+async def lifespan(_app: FastAPI):
+    """Initialize model and processor on startup"""
+    await initialize_server()
     
     yield
     
