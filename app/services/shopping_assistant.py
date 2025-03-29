@@ -1,11 +1,11 @@
 from google import genai
 from google.genai.chats import AsyncChat
 from google.genai.types import Content, Part, GenerateContentConfig
-from typing import List, Optional, Dict, Any, Union
+from typing import List, Optional
 
 from sqlalchemy.ext.asyncio import AsyncSession
 import logging
-from sqlalchemy import text, RowMapping
+from sqlalchemy import text
 import json
 
 from app.database.session import get_async_session_with_contextmanager
@@ -51,38 +51,6 @@ class ShoppingAssistantUtils:
         temperature=0.3,
     )
 
-    @staticmethod
-    async def determine_intent(client: genai.Client, query: str) -> str:
-        """
-        Determine if the query requires product fetching or direct response
-        Returns: 'fetch_products' or 'direct_response'
-        """
-        prompt = f"""Determine if this shopping query requires product recommendations from a database or just general advice.
-        Query: "{query}"
-        
-        Return only one word:
-        - 'fetch_products' if the query is asking for specific product recommendations
-        - 'direct_response' if the query is asking for general advice or comparison
-        
-        Example:
-        "I want to buy a t-shirt" -> "fetch_products"
-        "What can I pair with this black shirt?" -> "direct_response"
-        "Compare these products" -> "direct_response"
-        
-        Answer:"""
-
-        try:
-            response = await client.aio.models.generate_content(
-                model=ShoppingAssistantUtils.model,
-                contents=prompt,
-                config=ShoppingAssistantUtils.model_config
-            )
-            intent = response.text.strip().lower()
-            logger.info(f"Determined intent: {intent} for query: {query}")
-            return intent
-        except Exception as e:
-            logger.error(f"Error determining intent: {str(e)}")
-            raise
 
     @staticmethod
     def format_product_context(products: List['ProductSearchResult']) -> str:
@@ -113,23 +81,6 @@ class ShoppingAssistantUtils:
 
         return context
 
-    @staticmethod
-    def create_chat_history(messages: List[Dict[str, str]]) -> List[Content]:
-        """
-        Create chat history format for Gemini API
-        
-        Args:
-            messages: List of message dictionaries with 'role' and 'content'
-        """
-        history = []
-
-        for msg in messages:
-            history.append(Content(
-                parts=[Part(text=msg['content'])],
-                role=msg['role']
-            ))
-            
-        return history
 
     @staticmethod
     async def save_conversation(

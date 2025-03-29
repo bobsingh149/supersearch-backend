@@ -1,4 +1,4 @@
-from fastapi import APIRouter, HTTPException, Depends, Query
+from fastapi import APIRouter, HTTPException, Depends
 from sqlalchemy.ext.asyncio import AsyncSession
 from app.database.session import get_async_session
 from app.database.sql.sql import render_sql, SQLFilePath
@@ -12,9 +12,8 @@ import logging
 from app.services.shopping_assistant import ShoppingAssistantUtils, get_chat_from_history
 from app.services.vertex import get_genai_client, get_embedding, TaskType
 from fastapi.responses import StreamingResponse as FastAPIStreamingResponse
-from typing import List, Optional, Dict
+from typing import List, Dict
 import json
-import re
 
 
 logger = logging.getLogger(__name__)
