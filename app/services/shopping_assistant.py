@@ -267,6 +267,10 @@ async def get_chat_from_history(conversation_id: str, client: genai.Client) -> A
                 role=msg['role']
             ))
 
+        logger.info(" ***************  history \n")
+        logger.info(history)
+        logger.info("\n*******************")
+
         return client.aio.chats.create(
             model="gemini-2.0-flash-001",
             history=history
