@@ -1,6 +1,6 @@
 from google import genai
 from google.genai.chats import AsyncChat
-from google.genai.types import Content, Part
+from google.genai.types import Content, Part, GenerateContentConfig
 from typing import List, Optional, Dict, Any, Union
 
 from sqlalchemy.ext.asyncio import AsyncSession
@@ -14,8 +14,42 @@ from app.models.product import ProductSearchResult
 logger = logging.getLogger(__name__)
 
 class ShoppingAssistantUtils:
-    SYSTEM_PROMPT = """You are a helpful shopping assistant. Your goal is to help users find products 
-    and answer questions about shopping. Provide clear, concise, and relevant responses."""
+    SYSTEM_PROMPT = """You are a friendly and helpful shopping assistant. Your goal is to help users find products 
+    and answer questions about products and shopping. Provide clear, concise, and relevant responses.
+    Respond in the same language as the query.
+
+    CONTEXT USAGE GUIDELINES:
+    - You will see two types of product contexts: user_query_context and user_query_search_result
+    - user_query_context: Products the user has explicitly asked about or mentioned earlier
+    - user_query_search_result: Products found by semantic search based on the current query
+
+    Follow these rules when using context:
+    1. If the user is searching for or asking about product recommendations, refer primarily to products in user_query_search_result
+    2. If the user is asking about specific products they mentioned before, refer to products in user_query_context
+    3. If the user query does not have product search/recommendation intent, ignore user_query_search_result and refer to recent history and user_query_context instead
+    4. ONLY recommend products that are DIRECTLY RELEVANT to the user's specific query
+    5. IGNORE any products that don't match what the user is asking for, even if they're in the context
+    6. If the user's query is not about shopping or products, ignore ALL product context
+    7. Don't force product recommendations when they're not appropriate
+
+    FORMATTING INSTRUCTIONS:
+    - When mentioning product titles in your response, format them as hyperlinks using markdown, like this: [Product Title](/demo_site/:product_id)
+    - For example, if you're recommending a product with ID 'abc123' and title 'Green T-shirt', format it as [Green T-shirt](/demo_site/abc123)
+    - Use proper markdown formatting for the rest of your response (headings, bullet points, etc.)
+
+    IMPORTANT: At the end of your response (after a blank line), list ALL referenced product IDs in this exact format:
+    product_ids:id1,id2,id3
+    where id1, id2, id3 are the IDs of products you referenced or recommended in your response.
+    If you did not reference any specific products, do not include this line.
+
+    Nicely format your responses using valid markdown:
+    """
+    model = "gemini-2.0-flash"
+    model_config = GenerateContentConfig(
+        system_instruction=SYSTEM_PROMPT,
+        max_output_tokens=1000,
+        temperature=0.3,
+    )
 
     @staticmethod
     async def determine_intent(client: genai.Client, query: str) -> str:
@@ -39,8 +73,9 @@ class ShoppingAssistantUtils:
 
         try:
             response = await client.aio.models.generate_content(
-                model="gemini-2.0-flash-001",
-                contents=prompt
+                model=ShoppingAssistantUtils.model,
+                contents=prompt,
+                config=ShoppingAssistantUtils.model_config
             )
             intent = response.text.strip().lower()
             logger.info(f"Determined intent: {intent} for query: {query}")
@@ -79,22 +114,15 @@ class ShoppingAssistantUtils:
         return context
 
     @staticmethod
-    def create_chat_history(messages: List[Dict[str, str]], system_prompt: Optional[str] = None) -> List[Content]:
+    def create_chat_history(messages: List[Dict[str, str]]) -> List[Content]:
         """
         Create chat history format for Gemini API
         
         Args:
             messages: List of message dictionaries with 'role' and 'content'
-            system_prompt: Optional system prompt to prepend
         """
         history = []
-        
-        if system_prompt:
-            history.append(Content(
-                parts=[Part(text=system_prompt)],
-                role="model"
-            ))
-        
+
         for msg in messages:
             history.append(Content(
                 parts=[Part(text=msg['content'])],
@@ -220,43 +248,14 @@ async def get_chat_from_history(conversation_id: str, client: genai.Client) -> A
             result = await session.execute(query, {"conversation_id": conversation_id})
             conversation = result.first()
 
-        SYSTEM_PROMPT = """You are a friendly and helpful shopping assistant. Your goal is to help users find products 
-        and answer questions about products and shopping. Provide clear, concise, and relevant responses.
-        Respond in the same language as the query.
-        
-        CONTEXT USAGE GUIDELINES:
-        - You will see two types of product contexts: user_query_context and user_query_search_result
-        - user_query_context: Products the user has explicitly asked about or mentioned earlier
-        - user_query_search_result: Products found by semantic search based on the current query
-        
-        Follow these rules when using context:
-        1. If the user is searching for or asking about product recommendations, refer primarily to products in user_query_search_result
-        2. If the user is asking about specific products they mentioned before, refer to products in user_query_context
-        3. If the user query does not have product search/recommendation intent, ignore user_query_search_result and refer to recent history and user_query_context instead
-        4. ONLY recommend products that are DIRECTLY RELEVANT to the user's specific query
-        5. IGNORE any products that don't match what the user is asking for, even if they're in the context
-        6. If the user's query is not about shopping or products, ignore ALL product context
-        7. Don't force product recommendations when they're not appropriate
-        
-        FORMATTING INSTRUCTIONS:
-        - When mentioning product titles in your response, format them as hyperlinks using markdown, like this: [Product Title](/demo_site/:product_id)
-        - For example, if you're recommending a product with ID 'abc123' and title 'Green T-shirt', format it as [Green T-shirt](/demo_site/abc123)
-        - Use proper markdown formatting for the rest of your response (headings, bullet points, etc.)
-        
-        IMPORTANT: At the end of your response (after a blank line), list ALL referenced product IDs in this exact format:
-        product_ids:id1,id2,id3
-        where id1, id2, id3 are the IDs of products you referenced or recommended in your response.
-        If you did not reference any specific products, do not include this line.
-        
-        Nicely format your responses using valid markdown:
-        """
+
+
         if not conversation:
             # Create new chat without history
             return client.aio.chats.create(
-                model="gemini-2.0-flash-001",
-                history=[
-                    Content(parts=[Part(text=SYSTEM_PROMPT)], role="model")
-                ]
+                model=ShoppingAssistantUtils.model,
+                config=ShoppingAssistantUtils.model_config
+
             )
 
         # Convert database history to chat format
@@ -267,13 +266,11 @@ async def get_chat_from_history(conversation_id: str, client: genai.Client) -> A
                 role=msg['role']
             ))
 
-        logger.info(" ***************  history \n")
-        logger.info(history)
-        logger.info("\n*******************")
 
         return client.aio.chats.create(
-            model="gemini-2.0-flash-001",
-            history=history
+            model=ShoppingAssistantUtils.model,
+            history=history,
+            config=ShoppingAssistantUtils.model_config
         )
     except Exception as e:
         logger.error(f"Error getting chat history: {str(e)}")
