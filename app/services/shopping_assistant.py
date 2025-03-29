@@ -213,7 +213,7 @@ async def get_chat_from_history(conversation_id: str, client: genai.Client) -> A
         history = []
         for msg in conversation.messages:
             history.append(Content(
-                parts=[Part(text=msg['content'])],
+                parts=[Part.from_text(text=msg['content'])],
                 role=msg['role']
             ))
 
