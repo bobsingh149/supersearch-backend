@@ -30,7 +30,7 @@ logging.basicConfig(
         logging.StreamHandler(),
         # File handler - rotating file handler to prevent logs from growing too large
         logging.handlers.RotatingFileHandler(
-            'logs/supersearch.log',
+            'logs/server.log',
             maxBytes=10485760,  # 10MB
             backupCount=5,
             encoding='utf-8'

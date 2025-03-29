@@ -29,10 +29,10 @@ pkill -f "uvicorn app.main:app" || echo "No uvicorn processes running."
 
 # Start worker process in background
 echo "Starting worker process in background..."
-nohup python app/temporal/core/run_worker.py > logs/temporal_worker.log 2>&1 &
+nohup python app/temporal/core/run_worker.py > logs/cognishop_worker.log 2>&1 &
 
 # Start uvicorn server in background
 echo "Starting uvicorn server in background..."
-nohup uvicorn app.main:app --host 0.0.0.0 --port 8000 > logs/server.log 2>&1 &
+nohup uvicorn app.main:app --host 0.0.0.0 --port 8000 > logs/cognishop_server.log 2>&1 &
 
 echo "Deployment completed successfully!" 
