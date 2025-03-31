@@ -26,6 +26,7 @@ class SQLFilePath(Enum):
     PRODUCT_AUTOCOMPLETE_SEARCH = "product/autocomplete_search"
     PRODUCT_SIMILAR_PRODUCTS_HYBRID = "product/similar_products_hybrid"
     PRODUCT_SIMILAR_PRODUCTS_SIMILAR = "product/similar_products_similar"
+    PRODUCT_GET_BY_IDS = "product/get_products_by_ids"
     
     # Add more SQL file paths as needed
     

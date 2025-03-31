@@ -2,7 +2,7 @@ from fastapi import APIRouter, HTTPException, Depends
 from sqlalchemy.ext.asyncio import AsyncSession
 from app.database.session import get_async_session
 from app.database.sql.sql import render_sql, SQLFilePath
-from app.models.product import ProductDB, ProductSearchResult
+from app.models.product import ProductSearchResult
 from app.models.shopping_assistant import (
     ConversationDB, ChatResponse, ConversationResponse, Message, 
     StreamingResponse, StreamingResponseType, ChatRequest,
@@ -11,10 +11,9 @@ from app.models.shopping_assistant import (
 from sqlalchemy import text, select, func
 from sqlalchemy.sql import desc
 import logging
-from app.services.shopping_assistant import ShoppingAssistantUtils
+from app.services.shopping_assistant import ShoppingAssistantUtils, get_chat_from_history
 from app.services.vertex import get_genai_client, get_embedding, TaskType
 from fastapi.responses import StreamingResponse as FastAPIStreamingResponse
-from typing import List, Dict, Optional
 import json
 
 
@@ -33,8 +32,6 @@ async def chat_with_assistant(
 ):
     """Chat with the shopping assistant"""
     try:
-        client = get_genai_client()
-        
         # Use product_ids list directly
         product_id_list = request.product_ids if request.product_ids else []
         
@@ -42,7 +39,6 @@ async def chat_with_assistant(
         context = ""
         
         # Fetch specific products if IDs provided
-        context_products = []
         if product_id_list:
             # Get context for specific products using utility method
             context_products = await ShoppingAssistantUtils.get_products_by_ids(session, product_id_list)
@@ -75,7 +71,7 @@ async def chat_with_assistant(
             context += "function_call_results:\n" + semantic_context
         
         # Get chat session with history
-        chat = await ShoppingAssistantUtils.get_chat_from_history(request.conversation_id, client)
+        chat = await get_chat_from_history(request.conversation_id)
         
         # Prepare prompt with context merged with user query
         prompt = ShoppingAssistantUtils.construct_prompt(
@@ -141,7 +137,7 @@ async def chat_with_assistant(
                 merged_response = clean_response
                 if referenced_products:
                     product_info = "\n\nFunction call results for the user query:\n" + "\n".join([
-                        f"- {p.title} (ID: {p.id})" for p in referenced_products
+                        f"- {p.model_dump_json()}" for p in referenced_products
                     ])
                     merged_response += product_info
                 
@@ -167,7 +163,7 @@ async def chat_with_assistant(
             merged_response = clean_response
             if referenced_products:
                 product_info = "\n\nReferenced Products:\n" + "\n".join([
-                    f"- {p.title} (ID: {p.id})" for p in referenced_products
+                    f"- {p.model_dump_json()}" for p in referenced_products
                 ])
                 merged_response += product_info
             
@@ -223,8 +219,8 @@ async def get_conversation_history(
 
 @router.get("/conversations", response_model=PaginatedConversationSummary)
 async def get_conversation_summaries(
-    page: Optional[int] = 1,
-    page_size: Optional[int] = 10,
+    page: int | None = 1,
+    page_size: int | None = 10,
     session: AsyncSession = Depends(get_async_session)
 ):
     """Get a paginated list of conversation summaries"""

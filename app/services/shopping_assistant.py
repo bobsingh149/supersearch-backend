@@ -1,6 +1,7 @@
+from async_lru import alru_cache
 from google import genai
 from google.genai.chats import AsyncChat
-from google.genai.types import Content, Part, GenerateContentConfig
+from google.genai.types import Content, Part, GenerateContentConfig, AutomaticFunctionCallingConfig
 from typing import List, Optional
 
 from sqlalchemy.ext.asyncio import AsyncSession
@@ -10,6 +11,8 @@ import json
 
 from app.database.session import get_async_session_with_contextmanager
 from app.models.product import ProductSearchResult
+from app.services.vertex import get_genai_client
+from app.database.sql.sql import render_sql, SQLFilePath
 
 logger = logging.getLogger(__name__)
 
@@ -44,11 +47,15 @@ class ShoppingAssistantUtils:
 
     Nicely format your responses using valid markdown:
     """
-    model = "gemini-2.0-flash"
+    model = "gemini-2.0-flash-001"
     model_config = GenerateContentConfig(
         system_instruction=SYSTEM_PROMPT,
         max_output_tokens=1000,
         temperature=0.3,
+        automatic_function_calling=AutomaticFunctionCallingConfig(
+            disable=True,
+        ),
+
     )
 
     def extract_product_ids(text: str) -> List[str]:
@@ -183,7 +190,7 @@ class ShoppingAssistantUtils:
             prompt = "Context about products:\n" + context + "\n\n" + prompt
             prompt += """IMPORTANT INSTRUCTIONS FOR CONTEXT USE:
 1. If the user is searching for or asking about product recommendations, refer to products in function_call_results
-2. If the user is asking about specific products they mentioned before, refer to products in user_query_context and recent history 
+2. If the user is asking about specific products they mentioned before or if they are referring to product in the user_query_context, refer to products in user_query_context and recent history 
 3. If the user query does not have product search/recommendation intent, ignore function_call_results and refer to recent history and user_query_context instead
 4. Only reference products that are DIRECTLY RELEVANT to the user's query
 5. Ignore any products that don't match what the user is looking for
@@ -198,43 +205,7 @@ Remember to list any referenced product IDs at the end of your response using th
         
         return prompt
 
-    @staticmethod
-    async def get_chat_from_history(conversation_id: str, client: genai.Client) -> AsyncChat:
-        """
-        Get or create a chat session with history from the database
-        Uses caching to avoid recreating chat sessions frequently
-        """
-        try:
-            # Get conversation history from database
-            async with get_async_session_with_contextmanager() as session:
-                query = text("SELECT * FROM demo_movies.conversations WHERE conversation_id = :conversation_id")
-                result = await session.execute(query, {"conversation_id": conversation_id})
-                conversation = result.first()
 
-            if not conversation:
-                # Create new chat without history
-                return client.aio.chats.create(
-                    model=ShoppingAssistantUtils.model,
-                    config=ShoppingAssistantUtils.model_config
-
-                )
-
-            # Convert database history to chat format
-            history = []
-            for msg in conversation.messages:
-                history.append(Content(
-                    parts=[Part.from_text(text=msg['content'])],
-                    role=msg['role']
-                ))
-
-            return client.aio.chats.create(
-                model=ShoppingAssistantUtils.model,
-                history=history,
-                config=ShoppingAssistantUtils.model_config
-            )
-        except Exception as e:
-            logger.error(f"Error getting chat history: {str(e)}")
-            raise
 
     @staticmethod
     async def get_products_by_ids(session: AsyncSession, product_ids: List[str]) -> List[ProductSearchResult]:
@@ -252,12 +223,8 @@ Remember to list any referenced product IDs at the end of your response using th
             return []
             
         try:
-            query = text("""
-                SELECT id, title, custom_data, searchable_content, image_url 
-                FROM demo_movies.products
-                WHERE id IN :product_ids
-            """)
-            result = await session.execute(query, {"product_ids": tuple(product_ids)})
+            query = text(render_sql(SQLFilePath.PRODUCT_GET_BY_IDS, product_ids=product_ids))
+            result = await session.execute(query, {"product_ids": product_ids})
             products = [row._mapping for row in result]
             
             return [ProductSearchResult.model_validate(dict(row)) for row in products]
@@ -266,5 +233,42 @@ Remember to list any referenced product IDs at the end of your response using th
             return []
 
 
+@alru_cache(maxsize=300)
+async def get_chat_from_history(conversation_id: str) -> AsyncChat:
+    """
+    Get or create a chat session with history from the database
+    Uses caching to avoid recreating chat sessions frequently
+    """
+    
+    client: genai.Client = get_genai_client()
+    try:
+        # Get conversation history from database
+        async with get_async_session_with_contextmanager() as session:
+            query = text("SELECT * FROM demo_movies.conversations WHERE conversation_id = :conversation_id")
+            result = await session.execute(query, {"conversation_id": conversation_id})
+            conversation = result.first()
 
+        if not conversation:
+            # Create new chat without history
+            return client.aio.chats.create(
+                model=ShoppingAssistantUtils.model,
+                config=ShoppingAssistantUtils.model_config
 
+            )
+
+        # Convert database history to chat format
+        history = []
+        for msg in conversation.messages:
+            history.append(Content(
+                parts=[Part.from_text(text=msg['content'])],
+                role=msg['role']
+            ))
+
+        return client.aio.chats.create(
+            model=ShoppingAssistantUtils.model,
+            history=history,
+            config=ShoppingAssistantUtils.model_config
+        )
+    except Exception as e:
+        logger.error(f"Error getting chat history: {str(e)}")
+        raise
