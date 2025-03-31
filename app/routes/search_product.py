@@ -1,4 +1,4 @@
-from fastapi import APIRouter, HTTPException, Query
+from fastapi import APIRouter, HTTPException, Query, Body
 from sqlalchemy import text
 from sqlalchemy.ext.asyncio import AsyncSession
 from app.database.session import get_async_session
@@ -8,7 +8,10 @@ from app.models.product import ProductSearchResult
 from app.services.vertex import get_embedding, TaskType
 from app.database.sql.sql import render_sql, SQLFilePath
 from app.services.reranker import rerank_search_results
-from typing import List, Optional
+from typing import List, Optional, Dict, Any, Literal
+from pydantic import BaseModel, Field
+from app.models.settings import SettingKey
+from app.utils.settings import get_setting_by_key
 
 logger = logging.getLogger(__name__)
 
@@ -17,7 +20,102 @@ router = APIRouter(
     tags=["search"]
 )
 
-async def handle_empty_query(query: str, page: int, size: int, db: AsyncSession, include_search_type: bool = True) -> List[ProductSearchResult]:
+class FilterCondition(BaseModel):
+    field: str
+    value: Any
+    operator: Literal["eq", "neq", "gt", "gte", "lt", "lte", "in"] = "eq"
+
+class SortOption(BaseModel):
+    field: str
+    direction: Literal["asc", "desc"] = "asc"
+
+async def validate_filter_sort_fields(filters: Optional[List[FilterCondition]], sort: Optional[SortOption]) -> None:
+    """
+    Validate that filter and sort fields exist in the configured filter_fields and sortable_fields.
+    
+    Args:
+        filters: List of filter conditions to validate
+        sort: Sort option to validate
+        
+    Raises:
+        HTTPException: If any filter or sort field is not found in the configured fields
+    """
+    # Get search config with filter_fields and sortable_fields
+    search_config = await get_setting_by_key(SettingKey.SEARCH_CONFIG)
+    if not search_config:
+        raise HTTPException(status_code=400, detail="Search configuration not found")
+    
+    filter_fields = search_config.get("filter_fields", [])
+    sortable_fields = search_config.get("sortable_fields", [])
+    
+    # Validate filter fields
+    if filters:
+        for filter_condition in filters:
+            if filter_condition.field not in filter_fields:
+                raise HTTPException(
+                    status_code=400,
+                    detail=f"Filter field '{filter_condition.field}' is not allowed. Allowed fields: {', '.join(filter_fields)}"
+                )
+    
+    # Validate sort field
+    if sort and sort.field not in sortable_fields:
+        raise HTTPException(
+            status_code=400,
+            detail=f"Sort field '{sort.field}' is not allowed. Allowed fields: {', '.join(sortable_fields)}"
+        )
+
+def build_filter_condition(filters: List[FilterCondition], filter_type: Literal["AND", "OR"] = "AND") -> str:
+    """
+    Build SQL filter condition from filter conditions.
+    
+    Args:
+        filters: List of filter conditions
+        filter_type: Type of filter join ("AND" or "OR")
+        
+    Returns:
+        SQL filter condition string
+    """
+    if not filters:
+        return ""
+    
+    conditions = []
+    for filter_condition in filters:
+        field = filter_condition.field
+        value = filter_condition.value
+        operator = filter_condition.operator
+        
+        if operator == "eq":
+            conditions.append(f"(custom_data->>'{field}')::text = '{value}'")
+        elif operator == "neq":
+            conditions.append(f"(custom_data->>'{field}')::text != '{value}'")
+        elif operator == "gt":
+            conditions.append(f"(custom_data->>'{field}')::float > {value}")
+        elif operator == "gte":
+            conditions.append(f"(custom_data->>'{field}')::float >= {value}")
+        elif operator == "lt":
+            conditions.append(f"(custom_data->>'{field}')::float < {value}")
+        elif operator == "lte":
+            conditions.append(f"(custom_data->>'{field}')::float <= {value}")
+        elif operator == "in":
+            if isinstance(value, list):
+                value_list = ", ".join([f"'{v}'" for v in value])
+                conditions.append(f"(custom_data->>'{field}')::text IN ({value_list})")
+            else:
+                conditions.append(f"(custom_data->>'{field}')::text = '{value}'")
+    
+    join_str = f" {filter_type} "
+    return f"({join_str.join(conditions)})"
+
+async def handle_empty_query(
+    query: str, 
+    page: int, 
+    size: int, 
+    db: AsyncSession, 
+    include_search_type: bool = True,
+    filters: Optional[List[FilterCondition]] = None,
+    filter_type: Literal["AND", "OR"] = "AND",
+    sort: Optional[SortOption] = None
+) -> List[ProductSearchResult]:
     """
     Utility method to handle empty queries by returning all products in paginated form.
     
@@ -27,6 +125,9 @@ async def handle_empty_query(query: str, page: int, size: int, db: AsyncSession,
         size: Number of results per page
         db: Database session
         include_search_type: Whether to include search_type field in the results
+        filters: Optional list of filter conditions
+        filter_type: Type of filter join ("AND" or "OR")
+        sort: Optional sort option
         
     Returns:
         List of ProductSearchResult objects with all products in paginated form
@@ -39,9 +140,20 @@ async def handle_empty_query(query: str, page: int, size: int, db: AsyncSession,
     # Calculate offset from page and size
     offset = (page - 1) * size
     
+    # Build filter condition
+    filter_condition = ""
+    if filters:
+        filter_condition = f"WHERE {build_filter_condition(filters, filter_type)}"
+    
+    # Build sort condition
+    sort_condition = "ORDER BY id"
+    if sort:
+        sort_direction = sort.direction.upper()
+        sort_condition = f"ORDER BY (custom_data->>'{sort.field}')::text {sort_direction}, id"
+    
     # Simple query to get all products with pagination
     if include_search_type:
-        sql_query = """
+        sql_query = f"""
             SELECT 
                 id, 
                 custom_data, 
@@ -50,11 +162,12 @@ async def handle_empty_query(query: str, page: int, size: int, db: AsyncSession,
                 0 as score,
                 'all_products' as search_type
             FROM products
-            ORDER BY id
+            {filter_condition}
+            {sort_condition}
             LIMIT :limit OFFSET :offset
         """
     else:
-        sql_query = """
+        sql_query = f"""
             SELECT 
                 id, 
                 title,
@@ -63,7 +176,8 @@ async def handle_empty_query(query: str, page: int, size: int, db: AsyncSession,
                 image_url,
                 0 as score
             FROM products
-            ORDER BY id
+            {filter_condition}
+            {sort_condition}
             LIMIT :limit OFFSET :offset
         """
     
@@ -103,15 +217,23 @@ async def hybrid_search(
     query: str = Query(default="", description="Search query text"),
     page: int = Query(default=1, ge=1, description="Page number"),
     size: int = Query(default=10, ge=1, le=100, description="Results per page"),
+    filters: Optional[List[FilterCondition]] = Body(default=None, description="Filter conditions"),
+    filter_type: Literal["AND", "OR"] = Query(default="AND", description="Filter condition type"),
+    sort: Optional[SortOption] = Body(default=None, description="Sort option"),
     db: AsyncSession = Depends(get_async_session)
 ):
     """
     Perform hybrid search using both full-text and semantic search with pagination.
     If query is empty, returns all products in paginated form without any ranking.
+    Supports filtering with AND/OR logic and sorting by a single field.
     """
     try:
+        # Validate filter and sort fields
+        await validate_filter_sort_fields(filters, sort)
+        
         # Handle empty query
-        empty_results = await handle_empty_query(query, page, size, db, include_search_type=False)
+        empty_results = await handle_empty_query(query, page, size, db, include_search_type=False, 
+                                                filters=filters, filter_type=filter_type, sort=sort)
         if empty_results is not None:
             return empty_results
             
@@ -121,6 +243,19 @@ async def hybrid_search(
         # Get vector embedding for the query
         query_embedding = await get_embedding(query, TaskType.QUERY)
 
+        # Build filter condition
+        filter_condition = ""
+        if filters:
+            filter_condition = build_filter_condition(filters, filter_type)
+            
+        # Build sort option
+        sort_option = None
+        if sort:
+            sort_option = {
+                "field": sort.field,
+                "direction": sort.direction
+            }
+
         sql_query = render_sql(SQLFilePath.PRODUCT_HYBRID_SEARCH,
                                query_text=query,
                                query_embedding=query_embedding,
@@ -129,7 +264,10 @@ async def hybrid_search(
                                full_text_weight=0.1,
                                semantic_weight=0.9,
                                rrf_k=10,
-                               fuzzy_distance=1
+                               fuzzy_distance=1,
+                               filter_condition=filter_condition,
+                               filter_type=filter_type,
+                               sort_option=sort_option
                                )
         print(sql_query)
         result = await db.execute(text(sql_query))

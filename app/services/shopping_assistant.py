@@ -239,7 +239,7 @@ async def get_chat_from_history(conversation_id: str) -> AsyncChat:
     Get or create a chat session with history from the database
     Uses caching to avoid recreating chat sessions frequently
     """
-    
+
     client: genai.Client = get_genai_client()
     try:
         # Get conversation history from database

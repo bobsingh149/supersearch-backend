@@ -60,4 +60,13 @@ class SettingsUpdate(BaseModel):
     """Pydantic model for updating settings"""
     title: Optional[str] = None
     description: Optional[str] = None
-    value: Optional[dict] = None 
+    value: Optional[dict] = None
+
+class SearchConfigModel(BaseModel):
+    """Model for search configuration"""
+    id_field: str
+    title_field: str
+    image_url_field: Optional[str] = None
+    searchable_attribute_fields: list[str]
+    filter_fields: list[str]
+    sortable_fields: list[str]

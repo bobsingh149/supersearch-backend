@@ -8,6 +8,8 @@ import asyncio
 import aiohttp
 import sqlalchemy as sa
 from sqlalchemy.ext.asyncio import create_async_engine, AsyncSession
+from sqlalchemy.schema import CreateIndex
+from sqlalchemy.sql import text
 
 from app.models.product import Product, ProductDB
 from app.models.sync_product import ProductSyncInput
@@ -69,6 +71,8 @@ async def process_products_from_data(data: List[Dict[str, Any]]) -> List[Product
     title_field = search_config["title_field"]
     searchable_attribute_fields = search_config["searchable_attribute_fields"]
     image_url_field = search_config.get("image_url_field")
+    filter_fields = search_config.get("filter_fields", [])
+    sortable_fields = search_config.get("sortable_fields", [])
     
     processed_products = []
     
@@ -169,6 +173,10 @@ async def process_products_from_data(data: List[Dict[str, Any]]) -> List[Product
         for item in data:
             tg.create_task(process_product(item))
             await asyncio.sleep(10)  # Reduced sleep time for better performance
+    
+    # Create JSONB indexes for filter and sortable fields
+    if filter_fields or sortable_fields:
+        await create_jsonb_indexes(filter_fields, sortable_fields)
     
     return processed_products
 
@@ -348,4 +356,42 @@ async def get_products_from_sql_database(sync_input: ProductSyncInput) -> List[P
             
     except Exception as e:
         logger.error(f"Error connecting to database or executing query: {str(e)}")
-        return [] 
+        return []
+
+async def create_jsonb_indexes(filter_fields: List[str], sortable_fields: List[str]) -> None:
+    """
+    Create JSONB B-tree expression indexes for filter_fields and sortable_fields
+    
+    Args:
+        filter_fields: List of fields in custom_data to create indexes for filtering
+        sortable_fields: List of fields in custom_data to create indexes for sorting
+    """
+    if not filter_fields and not sortable_fields:
+        return
+    
+    logger.info("Creating JSONB indexes for filter and sortable fields")
+    
+    # Get all fields that need indexes (combine filter and sortable fields)
+    index_fields = list(set(filter_fields + sortable_fields))
+    
+    try:
+        async with get_async_session_with_contextmanager() as session:
+            for field in index_fields:
+                # Create index name
+                index_name = f"idx_product_custom_data_{field.replace('-', '_')}"
+                
+                # Create index if not exists
+                index_statement = text(
+                    f"CREATE INDEX IF NOT EXISTS {index_name} ON products ((custom_data->>'{field}'))"
+                )
+                
+                try:
+                    await session.execute(index_statement)
+                    logger.info(f"Created JSONB index for field: {field}")
+                except Exception as e:
+                    logger.error(f"Error creating index for field {field}: {str(e)}")
+            
+            await session.commit()
+            logger.info("JSONB index creation completed")
+    except Exception as e:
+        logger.error(f"Error creating JSONB indexes: {str(e)}") 

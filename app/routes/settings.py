@@ -2,7 +2,7 @@ from fastapi import APIRouter, HTTPException, Depends
 from typing import List, Optional, Dict, Any
 from sqlalchemy.ext.asyncio import AsyncSession
 from sqlalchemy import select
-from app.models.settings import Settings, SettingsDB, SettingsCreate, SettingsUpdate, SettingKey
+from app.models.settings import Settings, SettingsDB, SettingsCreate, SettingsUpdate, SettingKey, SearchConfigModel
 from app.database.session import get_async_session
 from pydantic import BaseModel
 
@@ -11,12 +11,6 @@ router = APIRouter(
     tags=["settings"]
 )
 
-class SearchConfigModel(BaseModel):
-    """Model for search configuration"""
-    id_field: str
-    title_field: str
-    image_url_field: Optional[str] = None
-    searchable_attribute_fields: List[str]
 
 @router.post("", response_model=Settings)
 async def create_setting(
