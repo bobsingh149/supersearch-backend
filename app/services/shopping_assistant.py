@@ -19,14 +19,14 @@ class ShoppingAssistantUtils:
     Respond in the same language as the query.
 
     CONTEXT USAGE GUIDELINES:
-    - You will see two types of product contexts: user_query_context and user_query_search_result
+    - You will see two types of product contexts: user_query_context and function_call_results
     - user_query_context: Products the user has explicitly asked about or mentioned earlier
-    - user_query_search_result: Products found by semantic search based on the current query
+    - function_call_results: Products found by semantic search based on the current query
 
     Follow these rules when using context:
-    1. If the user is searching for or asking about product recommendations, refer primarily to products in user_query_search_result
+    1. If the user is searching for or asking about product recommendations, refer primarily to products in function_call_results
     2. If the user is asking about specific products they mentioned before, refer to products in user_query_context
-    3. If the user query does not have product search/recommendation intent, ignore user_query_search_result and refer to recent history and user_query_context instead
+    3. If the user query does not have product search/recommendation intent, ignore function_call_results and refer to recent history and user_query_context instead
     4. ONLY recommend products that are DIRECTLY RELEVANT to the user's specific query
     5. IGNORE any products that don't match what the user is asking for, even if they're in the context
     6. If the user's query is not about shopping or products, ignore ALL product context
@@ -51,6 +51,22 @@ class ShoppingAssistantUtils:
         temperature=0.3,
     )
 
+    def extract_product_ids(text: str) -> List[str]:
+        """
+        Extract product IDs from the format 'product_ids:id1,id2,id3' in the text
+        """
+        marker = "product_ids:"
+        if marker in text:
+            # Find the position of the marker
+            start_pos = text.find(marker) + len(marker)
+            # Extract everything after the marker to the end of the text
+            ids_str = text[start_pos:].strip()
+            # If there's a newline after the IDs, remove everything after it
+            if "\n" in ids_str:
+                ids_str = ids_str.split("\n")[0].strip()
+            # Split by comma and clean up each ID
+            return [id.strip() for id in ids_str.split(',')]
+        return []
 
     @staticmethod
     def format_product_context(products: List['ProductSearchResult']) -> str:
@@ -106,20 +122,15 @@ class ShoppingAssistantUtils:
             result = await db.execute(query, {"conversation_id": conversation_id})
             conversation = result.first()
             
-            new_messages = [
-                {"role": "user", "content": user_message}
-            ]
-            
+            # Merge context with user message if provided
+            user_message_with_context = user_message
             if context:
-                new_messages.append({
-                    "role": "model",
-                    "content": f"Context provided:\n{context}"
-                })
-                
-            new_messages.append({
-                "role": "model",
-                "content": assistant_response
-            })
+                user_message_with_context = f"{user_message}\n\nContext:\n{context}"
+            
+            new_messages = [
+                {"role": "user", "content": user_message_with_context},
+                {"role": "model", "content": assistant_response}
+            ]
             
             if conversation:
                 # Update existing conversation
@@ -171,9 +182,9 @@ class ShoppingAssistantUtils:
         if context:
             prompt = "Context about products:\n" + context + "\n\n" + prompt
             prompt += """IMPORTANT INSTRUCTIONS FOR CONTEXT USE:
-1. If the user is searching for or asking about product recommendations, refer to products in user_query_search_result
+1. If the user is searching for or asking about product recommendations, refer to products in function_call_results
 2. If the user is asking about specific products they mentioned before, refer to products in user_query_context and recent history 
-3. If the user query does not have product search/recommendation intent, ignore user_query_search_result and refer to recent history and user_query_context instead
+3. If the user query does not have product search/recommendation intent, ignore function_call_results and refer to recent history and user_query_context instead
 4. Only reference products that are DIRECTLY RELEVANT to the user's query
 5. Ignore any products that don't match what the user is looking for
 
@@ -187,44 +198,73 @@ Remember to list any referenced product IDs at the end of your response using th
         
         return prompt
 
-async def get_chat_from_history(conversation_id: str, client: genai.Client) -> AsyncChat:
-    """
-    Get or create a chat session with history from the database
-    Uses caching to avoid recreating chat sessions frequently
-    """
-    try:
-        # Get conversation history from database
-        async with get_async_session_with_contextmanager() as session:
-            query = text("SELECT * FROM demo_movies.conversations WHERE conversation_id = :conversation_id")
-            result = await session.execute(query, {"conversation_id": conversation_id})
-            conversation = result.first()
+    @staticmethod
+    async def get_chat_from_history(conversation_id: str, client: genai.Client) -> AsyncChat:
+        """
+        Get or create a chat session with history from the database
+        Uses caching to avoid recreating chat sessions frequently
+        """
+        try:
+            # Get conversation history from database
+            async with get_async_session_with_contextmanager() as session:
+                query = text("SELECT * FROM demo_movies.conversations WHERE conversation_id = :conversation_id")
+                result = await session.execute(query, {"conversation_id": conversation_id})
+                conversation = result.first()
 
+            if not conversation:
+                # Create new chat without history
+                return client.aio.chats.create(
+                    model=ShoppingAssistantUtils.model,
+                    config=ShoppingAssistantUtils.model_config
 
+                )
 
-        if not conversation:
-            # Create new chat without history
+            # Convert database history to chat format
+            history = []
+            for msg in conversation.messages:
+                history.append(Content(
+                    parts=[Part.from_text(text=msg['content'])],
+                    role=msg['role']
+                ))
+
             return client.aio.chats.create(
                 model=ShoppingAssistantUtils.model,
+                history=history,
                 config=ShoppingAssistantUtils.model_config
-
             )
+        except Exception as e:
+            logger.error(f"Error getting chat history: {str(e)}")
+            raise
 
-        # Convert database history to chat format
-        history = []
-        for msg in conversation.messages:
-            history.append(Content(
-                parts=[Part.from_text(text=msg['content'])],
-                role=msg['role']
-            ))
+    @staticmethod
+    async def get_products_by_ids(session: AsyncSession, product_ids: List[str]) -> List[ProductSearchResult]:
+        """
+        Fetch products by their IDs from the database
+        
+        Args:
+            session: Database session
+            product_ids: List of product IDs to fetch
+            
+        Returns:
+            List[ProductSearchResult]: List of product search results
+        """
+        if not product_ids:
+            return []
+            
+        try:
+            query = text("""
+                SELECT id, title, custom_data, searchable_content, image_url 
+                FROM demo_movies.products
+                WHERE id IN :product_ids
+            """)
+            result = await session.execute(query, {"product_ids": tuple(product_ids)})
+            products = [row._mapping for row in result]
+            
+            return [ProductSearchResult.model_validate(dict(row)) for row in products]
+        except Exception as e:
+            logger.error(f"Error fetching products by IDs: {str(e)}")
+            return []
 
 
-        return client.aio.chats.create(
-            model=ShoppingAssistantUtils.model,
-            history=history,
-            config=ShoppingAssistantUtils.model_config
-        )
-    except Exception as e:
-        logger.error(f"Error getting chat history: {str(e)}")
-        raise
 
 

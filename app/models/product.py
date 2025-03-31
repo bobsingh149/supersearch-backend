@@ -73,6 +73,8 @@ class ProductSearchResult(BaseModel):
     score: Optional[float] = None
     search_type: Optional[str] = None
     image_url: Optional[str] = None
+    
+    model_config = ConfigDict(from_attributes=True)
 
 class PaginatedProductsResponse(BaseModel):
     """

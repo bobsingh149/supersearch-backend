@@ -1,6 +1,6 @@
 from sqlalchemy import Column, String, TIMESTAMP, JSON
 from pydantic import BaseModel
-from typing import List, Optional, Union
+from typing import List, Optional, Union, Any
 from datetime import datetime
 from enum import Enum, StrEnum
 
@@ -43,6 +43,7 @@ class ConversationResponse(BaseModel):
     messages: List[Message]
     created_at: datetime
     updated_at: datetime
+    name: Optional[str] = None
 
 
 class ChatRequest(BaseModel):
@@ -55,7 +56,7 @@ class ChatRequest(BaseModel):
 
 class ChatResponse(BaseModel):
     """Schema for chat endpoint response"""
-    response: str
+    response: str | None
     conversation_id: str
     products: Optional[List[ProductSearchResult]] = None
 
@@ -70,5 +71,20 @@ class StreamingResponse(BaseModel):
     """Schema for streaming response items"""
     type: StreamingResponseType
     conversation_id: str
-    content: Union[str, List[ProductSearchResult]]
+    content: Union[str, List[Any]]
+
+
+class ConversationSummary(BaseModel):
+    """Schema for conversation summary"""
+    conversation_id: str
+    name: str
+    updated_at: datetime
+
+
+class PaginatedConversationSummary(BaseModel):
+    """Schema for paginated conversation summaries"""
+    items: List[ConversationSummary]
+    total: int
+    page: int
+    page_size: int
 
