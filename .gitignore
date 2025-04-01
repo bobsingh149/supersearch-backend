@@ -5,6 +5,12 @@
 vertex_credentials.json
 *credentials*.json
 
+# Scripts containing sensitive data or for local use only
+app/scripts/*
+!app/scripts/README.md
+# Whitelist any specific script files that should be committed
+# !app/scripts/safe_script.py
+
 # Python
 __pycache__/
 *.py[cod]
