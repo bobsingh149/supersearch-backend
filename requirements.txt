@@ -10,7 +10,6 @@ google-cloud-aiplatform
 google-genai
 httpx
 jinja2
-openai
 pandas
 pgvector
 pydantic-settings
