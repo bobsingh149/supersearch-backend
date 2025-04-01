@@ -17,4 +17,7 @@ jobs:
         key: ${{ secrets.SSH_PRIVATE_KEY }}
         script: |
           cd cognishop/supersearch-backend/
+          # Fetch the latest deploy.sh from origin before running it
+          git fetch origin
+          git checkout origin/main -- deploy.sh
           bash deploy.sh 
