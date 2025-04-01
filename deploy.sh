@@ -5,7 +5,9 @@ echo "Starting deployment process..."
 
 # Pull the latest code
 echo "Pulling latest code from repository..."
-git pull
+# Using --force to overwrite local changes with remote content
+git fetch origin
+git reset --hard origin/main
 
 # Activate virtual environment
 echo "Activating virtual environment..."
