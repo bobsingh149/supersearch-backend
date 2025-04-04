@@ -410,3 +410,7 @@ and gemeni rag
 For AI shopping asssistant when opening
 the modal supply the prduct id or list of prodcts ids
 based on which page was ctrl+k or icon was clicked
+
+Market it as hybrid search bar
+having both AI search and AI chatbot
+With more features like Summarize the reviews and similar product recommendation  
