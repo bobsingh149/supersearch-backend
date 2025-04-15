@@ -127,6 +127,27 @@ def upgrade() -> None:
         -- Create index on created_at for sync_history to improve sorting performance
         CREATE INDEX IF NOT EXISTS sync_history_created_at_idx ON {schema}.sync_history (created_at DESC);
         """)
+        
+        # Create the rate_limits table
+        op.execute(f"""
+        CREATE TABLE IF NOT EXISTS {schema}.rate_limits (
+            ip_address TEXT PRIMARY KEY,
+            request_count INTEGER NOT NULL DEFAULT 0,
+            last_request_time TIMESTAMP WITH TIME ZONE NOT NULL DEFAULT CURRENT_TIMESTAMP,
+            created_at TIMESTAMP WITH TIME ZONE NOT NULL DEFAULT CURRENT_TIMESTAMP,
+            updated_at TIMESTAMP WITH TIME ZONE NOT NULL DEFAULT CURRENT_TIMESTAMP
+        );
+
+        -- Create trigger for rate_limits updated_at
+        CREATE TRIGGER update_rate_limits_updated_at
+            BEFORE UPDATE ON {schema}.rate_limits
+            FOR EACH ROW
+            EXECUTE FUNCTION {schema}.update_updated_at_column();
+            
+        -- Create index on ip_address for faster lookups
+        CREATE INDEX IF NOT EXISTS idx_rate_limits_ip_address 
+            ON {schema}.rate_limits(ip_address);
+        """)
 
         # Create indexes
         op.execute(f"""
@@ -162,6 +183,7 @@ def downgrade() -> None:
         DROP TRIGGER IF EXISTS update_conversations_updated_at ON {schema}.conversations;
         DROP TRIGGER IF EXISTS update_settings_updated_at ON {schema}.settings;
         DROP TRIGGER IF EXISTS update_sync_history_updated_at ON {schema}.sync_history;
+        DROP TRIGGER IF EXISTS update_rate_limits_updated_at ON {schema}.rate_limits;
         DROP FUNCTION IF EXISTS {schema}.update_updated_at_column();
         
         -- Drop indexes
@@ -169,12 +191,14 @@ def downgrade() -> None:
         DROP INDEX IF EXISTS {schema}.text_embedding_idx;
         DROP INDEX IF EXISTS {schema}.image_embedding_idx;
         DROP INDEX IF EXISTS {schema}.idx_conversations_id;
+        DROP INDEX IF EXISTS {schema}.idx_rate_limits_ip_address;
         
         -- Drop tables
         DROP TABLE IF EXISTS {schema}.products;
         DROP TABLE IF EXISTS {schema}.conversations;
         DROP TABLE IF EXISTS {schema}.settings;
         DROP TABLE IF EXISTS {schema}.sync_history;
+        DROP TABLE IF EXISTS {schema}.rate_limits;
         
         -- Drop schema
         DROP SCHEMA IF EXISTS {schema} CASCADE;

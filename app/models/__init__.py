@@ -7,3 +7,4 @@ This file helps resolve circular imports between model files.
 from app.models.tenant import TenantDB, Tenant, TenantCreate, TenantUpdate, OrganizationSummary, TenantWithOrganizations
 from app.models.organization import OrganizationDB, Organization, OrganizationCreate, OrganizationUpdate, TenantSummary, OrganizationWithTenants
 from app.models.tenant_organization import TenantOrganizationDB, TenantOrganization, TenantOrganizationCreate 
+from app.models.lead import LeadDB, Lead, LeadCreate, LeadUpdate 
