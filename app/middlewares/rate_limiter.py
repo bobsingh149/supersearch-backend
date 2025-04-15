@@ -1,15 +1,12 @@
-from fastapi import Request, HTTPException, status
+from fastapi import Request, status
 from starlette.middleware.base import BaseHTTPMiddleware
 from starlette.responses import Response
 from typing import Dict, Set, Optional, Callable
 import logging
-import time
 from datetime import datetime
-from sqlalchemy.ext.asyncio import AsyncSession
 from sqlalchemy.future import select
-from sqlalchemy import update
 from sqlalchemy.dialects.postgresql import insert
-from app.database.session import get_async_session, engine, async_session_maker
+from app.database.session import get_async_session_with_contextmanager
 from app.models.rate_limit import RateLimitDB, RateLimit
 import asyncio
 import json
@@ -47,7 +44,7 @@ class RateLimiterMiddleware(BaseHTTPMiddleware):
                 
             logger.info("Initializing rate limiter from database...")
             try:
-                async with async_session_maker() as session:
+                async with get_async_session_with_contextmanager() as session:
                     result = await session.execute(select(RateLimitDB))
                     rate_limits = result.scalars().all()
                     
@@ -65,7 +62,7 @@ class RateLimiterMiddleware(BaseHTTPMiddleware):
         """Save current rate limits to database"""
         logger.info("Saving rate limits to database...")
         try:
-            async with async_session_maker() as session:
+            async with get_async_session_with_contextmanager() as session:
                 for ip_address, count in REQUEST_COUNTS.items():
                     # Use PostgreSQL insert ... on conflict
                     stmt = insert(RateLimitDB).values(

@@ -2,7 +2,7 @@ from fastapi import Request, HTTPException
 import jwt
 import os
 import logging
-from typing import Callable
+from typing import Callable, List
 from starlette.middleware.base import BaseHTTPMiddleware
 from starlette.types import ASGIApp
 from datetime import datetime
@@ -18,17 +18,37 @@ class AuthMiddleware(BaseHTTPMiddleware):
             logger.error("CLERK_PEM_PUBLIC_KEY environment variable not found")
             raise ValueError("CLERK_PEM_PUBLIC_KEY environment variable not found")
         self.permitted_origins = ["http://localhost:5173", "http://localhost:3000",  "http://localhost:9000", "https://api.cognishop.co", "https://dashboard.cognishop.co", "https://www.cognishop.co"]
+        
+        # List of public endpoints that don't require authentication
+        self.public_endpoints = [
+            "/health",
+            "/docs",
+            "/openapi.json",
+            "/v1/auth/public",
+            "/v1/leads"
+        ]
 
     def verify_api_key(self, key: str) -> bool:
         """Verify if the provided API key matches the expected value."""
         return key == "uxqZuxesLl4Y6p2"
+    
+    def is_public_path(self, path: str) -> bool:
+        """Check if the requested path is public and doesn't require authentication."""
+        # Check exact matches
+        if path in self.public_endpoints:
+            return True
+        
+        # Check path prefixes
+        for endpoint in self.public_endpoints:
+            if path.startswith(endpoint):
+                return True
+        
+        return False
 
     async def dispatch(self, request: Request, call_next: Callable):
         try:
             # Skip auth for public endpoints and OPTIONS requests
-            if (request.url.path in ["/health", "/docs", "/openapi.json"] or 
-                request.url.path.startswith("/v1/auth/public") or
-                request.method == "OPTIONS"):
+            if self.is_public_path(request.url.path) or request.method == "OPTIONS":
                 return await call_next(request)
 
             # First check for X-API-Key header
