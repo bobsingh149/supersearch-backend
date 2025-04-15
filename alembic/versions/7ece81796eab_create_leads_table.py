@@ -1,4 +1,4 @@
-"""create_leads_table
+"""create_leads_table for landing website
 
 Revision ID: 7ece81796eab
 Revises: 46eafe2c37c7
