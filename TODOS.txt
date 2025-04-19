@@ -98,6 +98,7 @@ Set up CORS correctly
 Use secure headers (HSTS, CSP, X-Frame-Options)
 Implement rate limiting to prevent abuse
 Regularly update dependencies to patch security vulnerabilities
+
 2. Performance
 
 Use asynchronous programming where appropriate
@@ -105,6 +106,7 @@ Implement caching for frequently accessed data
 Optimize database queries and use connection pooling
 Utilize background tasks for time-consuming operations
 Configure your ASGI server for optimal performance
+
 3. Reliability
 
 Implement proper error handling and logging
@@ -112,6 +114,7 @@ Set up health check endpoints
 Use database migrations for schema changes
 Implement retry mechanisms for external service calls
 Set up automated backups for your database
+
 4. Scalability
 
 Design your application to be stateless
@@ -410,7 +413,15 @@ and gemeni rag
 For AI shopping asssistant when opening
 the modal supply the prduct id or list of prodcts ids
 based on which page was ctrl+k or icon was clicked
-
+aiplatform.googleapis.com/online_prediction_requests_per_base_mode
 Market it as hybrid search bar
 having both AI search and AI chatbot
 With more features like Summarize the reviews and similar product recommendation  
+
+
+Have a sidebar that opens when u go to product page not
+distratcing at all just question suggestions and 1 button to open chatbot 
+clicking on any of those open the chat window
+
+
+aiplatform.googleapis.com/online_prediction_requests_per_base_model with base model: textembedding-gecko

@@ -172,7 +172,7 @@ async def process_products_from_data(data: List[Dict[str, Any]]) -> List[Product
     async with asyncio.TaskGroup() as tg:
         for item in data:
             tg.create_task(process_product(item))
-            await asyncio.sleep(10)  # Reduced sleep time for better performance
+            await asyncio.sleep(0.1)  # Reduced sleep time for better performance
     
     # Create JSONB indexes for filter and sortable fields
     if filter_fields or sortable_fields:

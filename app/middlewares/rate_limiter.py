@@ -95,8 +95,15 @@ class RateLimiterMiddleware(BaseHTTPMiddleware):
         if real_ip:
             return real_ip
         
-        # Fall back to client.host
-        return request.client.host if request.client else "unknown"
+        # Fall back to client.host when not using a reverse proxy
+        try:
+            if request.client and hasattr(request.client, 'host') and request.client.host:
+                return request.client.host
+        except Exception as e:
+            logger.warning(f"Failed to get client IP from request.client: {str(e)}")
+        
+        # Final fallback for cases where client information is not available
+        return "unknown"
     
     def should_rate_limit(self, path: str) -> bool:
         """Determine if the request path should be rate limited"""
