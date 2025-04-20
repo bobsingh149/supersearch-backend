@@ -8,19 +8,19 @@ from google.auth import load_credentials_from_file
 import vertexai
 from google.genai.types import HttpOptions
 from vertexai.language_models import TextEmbeddingInput, TextEmbeddingModel
-from app.core.settings import settings
+from app.core.appsettings import app_settings
 logger = logging.getLogger(__name__)
 
 # Load credentials and initialize Vertex AI
-credentials, project = load_credentials_from_file(settings.google.credentials_path)
+credentials, project = load_credentials_from_file(app_settings.google.credentials_path)
 vertexai.init(project=project, credentials=credentials, location="asia-south1")
 
 # Initialize the model
 MODEL_NAME = "text-embedding-005"
 model = TextEmbeddingModel.from_pretrained(MODEL_NAME)
 
-# Initialize the Gemini client
-genai_client = genai.Client(vertexai=True, project="cognishop", location='us-central1',
+# Initialize the Gemini client using project from settings
+genai_client = genai.Client(vertexai=True, project=app_settings.google.project, location='us-central1',
                             http_options=HttpOptions(api_version='v1'))
 
 def get_genai_client():

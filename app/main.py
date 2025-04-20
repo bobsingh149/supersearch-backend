@@ -6,9 +6,7 @@ from starlette.middleware.cors import CORSMiddleware
 import logging.handlers
 import os
 
-from starlette.responses import StreamingResponse
-
-from app.core.settings import settings
+from app.core.appsettings import app_settings
 from app.services.vertex import get_embedding
 from app.routes import organization, product, recommend, search_product, shopping_assistant, sync_product, settings, sync_history, auth, lead
 from app.database.session import check_db_connection

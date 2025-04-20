@@ -15,11 +15,11 @@ from sqlalchemy import text
 
 from app.main import app
 from app.database.session import get_async_session, Base
-from app.core.settings import settings
+from app.core.appsettings import app_settings
 
 # Use the same database but with a test schema
 TEST_SCHEMA = "test"
-TEST_DATABASE_URL = f"postgresql+asyncpg://{settings.postgres.user}:{settings.postgres.password}@{settings.postgres.host}:{settings.postgres.port}/{settings.postgres.db}"
+TEST_DATABASE_URL = f"postgresql+asyncpg://{app_settings.postgres.user}:{app_settings.postgres.password}@{app_settings.postgres.host}:{app_settings.postgres.port}/{app_settings.postgres.db}"
 
 # Create test engine and session
 test_engine = create_async_engine(

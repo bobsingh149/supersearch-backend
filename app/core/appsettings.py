@@ -31,6 +31,7 @@ class PostgresSettings(BaseSettings):
 
 class GoogleSettings(BaseSettings):
     application_credentials: str
+    cloud_project: str
 
     model_config = SettingsConfigDict(
         env_file=ENV_FILE,
@@ -42,6 +43,11 @@ class GoogleSettings(BaseSettings):
     def credentials_path(self):
         """Return the absolute path to the credentials file"""
         return resolve_path(self.application_credentials)
+    
+    @property
+    def project(self):
+        """Return the Google Cloud project ID"""
+        return self.cloud_project
 
 class JinaSettings(BaseSettings):
     api_key: str
@@ -61,7 +67,7 @@ class CohereSettings(BaseSettings):
         extra="ignore"
     )
 
-class Settings(BaseSettings):
+class AppSettings(BaseSettings):
     postgres: PostgresSettings = Field(default_factory=PostgresSettings)
     google: GoogleSettings = Field(default_factory=GoogleSettings)
     jina: JinaSettings = Field(default_factory=JinaSettings)
@@ -73,6 +79,6 @@ class Settings(BaseSettings):
     )
 
 # Create a global settings instance
-settings = Settings()
+app_settings = AppSettings()
 
 

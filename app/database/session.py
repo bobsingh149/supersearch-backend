@@ -4,13 +4,13 @@ from sqlalchemy.sql import text
 from sqlalchemy.exc import SQLAlchemyError
 import logging
 from typing import AsyncGenerator
-from app.core.settings import settings
+from app.core.appsettings import app_settings
 from contextlib import asynccontextmanager
 
 logger = logging.getLogger(__name__)
 
 # Use settings to construct database URL
-SQLALCHEMY_DATABASE_URL = f"postgresql+asyncpg://{settings.postgres.user}:{settings.postgres.password}@{settings.postgres.host}:{settings.postgres.port}/{settings.postgres.db}"
+SQLALCHEMY_DATABASE_URL = f"postgresql+asyncpg://{app_settings.postgres.user}:{app_settings.postgres.password}@{app_settings.postgres.host}:{app_settings.postgres.port}/{app_settings.postgres.db}"
 
 engine = create_async_engine(
     SQLALCHEMY_DATABASE_URL,

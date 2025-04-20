@@ -1,14 +1,14 @@
 from typing import List, Optional, Dict, Any
 import aiohttp
 from app.models.product import ProductSearchResult
-from app.core.settings import settings
+from app.core.appsettings import app_settings
 
 class JinaAPI:
     """
     Async client for Jina AI APIs
     """
     def __init__(self, api_key: Optional[str] = None):
-        self.api_key = api_key or settings.jina.api_key
+        self.api_key = api_key or app_settings.jina.api_key
         if not self.api_key:
             raise ValueError("JINA_API_KEY must be provided in settings")
         
