@@ -1,5 +1,5 @@
-from pydantic import BaseModel, model_validate, Field, ConfigDict
-from typing import List, Optional, Dict, Any, Union, Literal
+from pydantic import BaseModel, model_validator, ConfigDict
+from typing import List, Optional
 from enum import Enum
 
 
@@ -25,7 +25,7 @@ class GenerateContentRequest(BaseModel):
 
     model_config = ConfigDict(extra="forbid")
 
-    @model_validate(mode='after')
+    @model_validator(mode='after')
     def validate_input(self) -> 'GenerateContentRequest':
         if not self.product_ids and not self.all_products:
             raise ValueError("Either product_ids or all_products must be provided")
