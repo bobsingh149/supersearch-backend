@@ -23,11 +23,11 @@ alembic upgrade head
 
 # Kill existing worker processes
 echo "Stopping existing worker processes..."
-pkill -f "python app/temporal/core/run_worker.py" || echo "No worker processes running."
+pkill -SIGTERM -f "python app/temporal/core/run_worker.py" || echo "No worker processes running."
 
 # Kill existing uvicorn processes
 echo "Stopping existing uvicorn server..."
-pkill -f "uvicorn app.main:app" || echo "No uvicorn processes running."
+pkill -SIGTERM -f "uvicorn app.main:app" || echo "No uvicorn processes running."
 
 # Start worker process in background
 echo "Starting worker process in background..."
