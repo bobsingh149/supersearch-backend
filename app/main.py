@@ -8,7 +8,7 @@ import os
 
 from app.core.appsettings import app_settings
 from app.services.vertex import get_embedding
-from app.routes import organization, product, recommend, search_product, shopping_assistant, sync_product, settings, sync_history, auth, lead
+from app.routes import organization, product, recommend, search_product, shopping_assistant, sync_product, settings, sync_history, auth, lead, generate_content
 from app.database.session import check_db_connection
 from dotenv import load_dotenv
 from app.middlewares.route_logging import RequestTimingMiddleware
@@ -108,6 +108,7 @@ app.include_router(sync_product.router, prefix=API_V1_PREFIX)
 app.include_router(sync_history.router, prefix=API_V1_PREFIX)
 app.include_router(auth.router, prefix=API_V1_PREFIX)
 app.include_router(lead.router, prefix=API_V1_PREFIX)
+app.include_router(generate_content.router, prefix=API_V1_PREFIX)
 
 
 @app.get("/health",operation_id="root")

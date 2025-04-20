@@ -53,7 +53,8 @@ def upgrade() -> None:
             image_url TEXT,
             created_at TIMESTAMP WITH TIME ZONE NOT NULL DEFAULT CURRENT_TIMESTAMP,
             updated_at TIMESTAMP WITH TIME ZONE NOT NULL DEFAULT CURRENT_TIMESTAMP,
-            custom_data JSONB
+            custom_data JSONB,
+            ai_generated_contents TEXT[] DEFAULT ARRAY[]::TEXT[]
         );
 
         -- Create trigger for updated_at

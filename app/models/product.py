@@ -1,6 +1,6 @@
 from pydantic import BaseModel, model_validator, ConfigDict
 from typing import Optional, Dict, List, Any
-from sqlalchemy import Column, String, JSON, DateTime, func, Text
+from sqlalchemy import Column, String, JSON, DateTime, func, Text, ARRAY
 from pgvector.sqlalchemy import Vector
 from app.database.session import Base
 from datetime import datetime
@@ -17,6 +17,7 @@ class ProductDB(Base):
     created_at = Column(DateTime(timezone=True), server_default=func.now(), nullable=False)
     updated_at = Column(DateTime(timezone=True), server_default=func.now(), onupdate=func.now(), nullable=False)
     custom_data = Column(JSON, nullable=True)
+    ai_generated_contents = Column(ARRAY(Text), nullable=True, default=[])
 
 class ProductInput(BaseModel):
     id_field: str
@@ -59,6 +60,7 @@ class Product(BaseModel):
     created_at: Optional[datetime] = None
     updated_at: Optional[datetime] = None
     custom_data: Optional[Dict] = None
+    ai_generated_contents: Optional[List[str]] = None
 
     model_config = ConfigDict(from_attributes=True)
 
