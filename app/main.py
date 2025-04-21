@@ -80,7 +80,13 @@ app = FastAPI(lifespan=lifespan)
 # CORS Middleware
 app.add_middleware(
     CORSMiddleware,
-    allow_origins=["*"],  # Replace with specific domains in production
+    allow_origins=[
+        "http://localhost:5173",
+        "http://localhost:9000",
+        "https://www.cognishop.co",
+        "https://dashboard.cognishop.co",
+        "https://api.cognishop.co"
+    ],
     allow_credentials=True,
     allow_methods=["*"],
     allow_headers=["*"],
@@ -91,7 +97,7 @@ app.add_middleware(AuthMiddleware)
 # Add rate limiter middleware
 app.add_middleware(
     RateLimiterMiddleware,
-    max_requests=30,
+    max_requests=300,
     limited_paths=RATE_LIMITED_PATHS
 )
 

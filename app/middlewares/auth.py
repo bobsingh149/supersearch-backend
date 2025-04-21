@@ -25,7 +25,9 @@ class AuthMiddleware(BaseHTTPMiddleware):
             "/docs",
             "/openapi.json",
             "/v1/auth/public",
-            "/v1/leads"
+            "/v1/leads",
+            "/v1/shopping-assistant/chat",
+            "/v1/search"
         ]
 
     def verify_api_key(self, key: str) -> bool:

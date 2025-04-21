@@ -150,6 +150,31 @@ def upgrade() -> None:
             ON {schema}.rate_limits(ip_address);
         """)
 
+        # Create the reviews table
+        op.execute(f"""
+        CREATE TABLE IF NOT EXISTS {schema}.reviews (
+            id UUID PRIMARY KEY DEFAULT gen_random_uuid(),
+            content TEXT NOT NULL,
+            product_id TEXT NOT NULL,
+            created_at TIMESTAMP WITH TIME ZONE NOT NULL DEFAULT CURRENT_TIMESTAMP,
+            updated_at TIMESTAMP WITH TIME ZONE NOT NULL DEFAULT CURRENT_TIMESTAMP,
+            CONSTRAINT fk_product
+                FOREIGN KEY(product_id)
+                REFERENCES {schema}.products(id)
+                ON DELETE CASCADE
+        );
+
+        -- Create trigger for reviews updated_at
+        CREATE TRIGGER update_reviews_updated_at
+            BEFORE UPDATE ON {schema}.reviews
+            FOR EACH ROW
+            EXECUTE FUNCTION {schema}.update_updated_at_column();
+            
+        -- Create index on product_id for faster lookups
+        CREATE INDEX IF NOT EXISTS idx_reviews_product_id 
+            ON {schema}.reviews(product_id);
+        """)
+
         # Create indexes
         op.execute(f"""
         CREATE INDEX IF NOT EXISTS search_bm25_idx ON {schema}.products
@@ -185,6 +210,7 @@ def downgrade() -> None:
         DROP TRIGGER IF EXISTS update_settings_updated_at ON {schema}.settings;
         DROP TRIGGER IF EXISTS update_sync_history_updated_at ON {schema}.sync_history;
         DROP TRIGGER IF EXISTS update_rate_limits_updated_at ON {schema}.rate_limits;
+        DROP TRIGGER IF EXISTS update_reviews_updated_at ON {schema}.reviews;
         DROP FUNCTION IF EXISTS {schema}.update_updated_at_column();
         
         -- Drop indexes
@@ -193,6 +219,7 @@ def downgrade() -> None:
         DROP INDEX IF EXISTS {schema}.image_embedding_idx;
         DROP INDEX IF EXISTS {schema}.idx_conversations_id;
         DROP INDEX IF EXISTS {schema}.idx_rate_limits_ip_address;
+        DROP INDEX IF EXISTS {schema}.idx_reviews_product_id;
         
         -- Drop tables
         DROP TABLE IF EXISTS {schema}.products;
@@ -200,6 +227,7 @@ def downgrade() -> None:
         DROP TABLE IF EXISTS {schema}.settings;
         DROP TABLE IF EXISTS {schema}.sync_history;
         DROP TABLE IF EXISTS {schema}.rate_limits;
+        DROP TABLE IF EXISTS {schema}.reviews;
         
         -- Drop schema
         DROP SCHEMA IF EXISTS {schema} CASCADE;

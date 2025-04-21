@@ -1,6 +1,6 @@
 from fastapi import Request, status
 from starlette.middleware.base import BaseHTTPMiddleware
-from starlette.responses import Response
+from starlette.responses import Response, JSONResponse
 from typing import Dict, Set, Optional, Callable
 import logging
 from datetime import datetime
@@ -115,6 +115,10 @@ class RateLimiterMiddleware(BaseHTTPMiddleware):
         if not INITIALIZED:
             await self.initialize_from_db()
         
+        # Skip rate limiting for OPTIONS requests
+        if request.method == "OPTIONS":
+            return await call_next(request)
+        
         # Check if path should be rate limited
         if not self.should_rate_limit(request.url.path):
             return await call_next(request)
@@ -128,10 +132,9 @@ class RateLimiterMiddleware(BaseHTTPMiddleware):
         # If the request count exceeds the limit, return 429 Too Many Requests
         if current_count >= self.max_requests:
             logger.warning(f"Rate limit exceeded for IP {client_ip}")
-            return Response(
-                content=json.dumps({"error": "Rate limit exceeded. Please try again later."}),
+            return JSONResponse(
                 status_code=status.HTTP_429_TOO_MANY_REQUESTS,
-                media_type="application/json"
+                content={"error": "Rate limit exceeded. Please try again later."}
             )
         
         # Otherwise, increment the request count and allow the request
