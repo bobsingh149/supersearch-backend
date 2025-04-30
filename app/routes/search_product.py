@@ -25,16 +25,20 @@ class FilterCondition(BaseModel):
     value: Any
     operator: Literal["eq", "neq", "gt", "gte", "lt", "lte", "in"] = "eq"
 
+class FilterOptions(BaseModel):
+    conditions: Optional[List[FilterCondition]] = None
+    filter_type: Literal["AND", "OR"] = "AND"
+
 class SortOption(BaseModel):
     field: str
     direction: Literal["asc", "desc"] = "asc"
 
-async def validate_filter_sort_fields(filters: Optional[List[FilterCondition]], sort: Optional[SortOption]) -> None:
+async def validate_filter_sort_fields(filters: Optional[FilterOptions], sort: Optional[SortOption]) -> None:
     """
     Validate that filter and sort fields exist in the configured filter_fields and sortable_fields.
     
     Args:
-        filters: List of filter conditions to validate
+        filters: Filter options to validate
         sort: Sort option to validate
         
     Raises:
@@ -49,8 +53,8 @@ async def validate_filter_sort_fields(filters: Optional[List[FilterCondition]], 
     sortable_fields = search_config.get("sortable_fields", [])
     
     # Validate filter fields
-    if filters:
-        for filter_condition in filters:
+    if filters and filters.conditions:
+        for filter_condition in filters.conditions:
             if filter_condition.field not in filter_fields:
                 raise HTTPException(
                     status_code=400,
@@ -64,22 +68,21 @@ async def validate_filter_sort_fields(filters: Optional[List[FilterCondition]], 
             detail=f"Sort field '{sort.field}' is not allowed. Allowed fields: {', '.join(sortable_fields)}"
         )
 
-def build_filter_condition(filters: List[FilterCondition], filter_type: Literal["AND", "OR"] = "AND") -> str:
+def build_filter_condition(filters: FilterOptions) -> str:
     """
-    Build SQL filter condition from filter conditions.
+    Build SQL filter condition from filter options.
     
     Args:
-        filters: List of filter conditions
-        filter_type: Type of filter join ("AND" or "OR")
+        filters: Filter options
         
     Returns:
         SQL filter condition string
     """
-    if not filters:
+    if not filters or not filters.conditions:
         return ""
     
     conditions = []
-    for filter_condition in filters:
+    for filter_condition in filters.conditions:
         field = filter_condition.field
         value = filter_condition.value
         operator = filter_condition.operator
@@ -103,7 +106,7 @@ def build_filter_condition(filters: List[FilterCondition], filter_type: Literal[
             else:
                 conditions.append(f"(custom_data->>'{field}')::text = '{value}'")
     
-    join_str = f" {filter_type} "
+    join_str = f" {filters.filter_type} "
     return f"({join_str.join(conditions)})"
 
 async def handle_empty_query(
@@ -112,8 +115,7 @@ async def handle_empty_query(
     size: int, 
     db: AsyncSession, 
     include_search_type: bool = True,
-    filters: Optional[List[FilterCondition]] = None,
-    filter_type: Literal["AND", "OR"] = "AND",
+    filters: Optional[FilterOptions] = None,
     sort: Optional[SortOption] = None
 ) -> List[ProductSearchResult]:
     """
@@ -125,8 +127,7 @@ async def handle_empty_query(
         size: Number of results per page
         db: Database session
         include_search_type: Whether to include search_type field in the results
-        filters: Optional list of filter conditions
-        filter_type: Type of filter join ("AND" or "OR")
+        filters: Optional filter options
         sort: Optional sort option
         
     Returns:
@@ -142,8 +143,8 @@ async def handle_empty_query(
     
     # Build filter condition
     filter_condition = ""
-    if filters:
-        filter_condition = f"WHERE {build_filter_condition(filters, filter_type)}"
+    if filters and filters.conditions:
+        filter_condition = f"WHERE {build_filter_condition(filters)}"
     
     # Build sort condition
     sort_condition = "ORDER BY id"
@@ -212,13 +213,12 @@ async def handle_empty_query(
     logger.info(f"Found {len(products)} results for empty query (all products)")
     return products
 
-@router.get("", response_model=List[ProductSearchResult])
+@router.post("", response_model=List[ProductSearchResult])
 async def hybrid_search(
     query: str = Query(default="", description="Search query text"),
     page: int = Query(default=1, ge=1, description="Page number"),
     size: int = Query(default=10, ge=1, le=100, description="Results per page"),
-    filters: Optional[List[FilterCondition]] = Body(default=None, description="Filter conditions"),
-    filter_type: Literal["AND", "OR"] = Query(default="AND", description="Filter condition type"),
+    filters: Optional[FilterOptions] = Body(default=None, description="Filter options"),
     sort: Optional[SortOption] = Body(default=None, description="Sort option"),
     db: AsyncSession = Depends(get_async_session)
 ):
@@ -233,7 +233,7 @@ async def hybrid_search(
         
         # Handle empty query
         empty_results = await handle_empty_query(query, page, size, db, include_search_type=False, 
-                                                filters=filters, filter_type=filter_type, sort=sort)
+                                                filters=filters, sort=sort)
         if empty_results is not None:
             return empty_results
             
@@ -245,8 +245,10 @@ async def hybrid_search(
 
         # Build filter condition
         filter_condition = ""
+        filter_type = "AND"
         if filters:
-            filter_condition = build_filter_condition(filters, filter_type)
+            filter_condition = build_filter_condition(filters)
+            filter_type = filters.filter_type
             
         # Build sort option
         sort_option = None
