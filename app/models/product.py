@@ -73,9 +73,9 @@ class ProductSearchResult(BaseModel):
     Simplified product model for search results
     """
     id: str
-    title: Optional[str] = None
-    custom_data: Optional[Dict] = None
-    searchable_content: Optional[str] = None
+    title: str
+    custom_data: Dict
+    searchable_content: str
     score: Optional[float] = None
     search_type: Optional[str] = None
     image_url: Optional[str] = None
