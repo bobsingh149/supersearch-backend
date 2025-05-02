@@ -119,9 +119,11 @@ class RateLimiterMiddleware(BaseHTTPMiddleware):
         if request.method == "OPTIONS":
             return await call_next(request)
         
+        # TODO: Uncomment to enable selective rate limiting
+       
         # Check if path should be rate limited
-        if not self.should_rate_limit(request.url.path):
-            return await call_next(request)
+        # if not self.should_rate_limit(request.url.path):
+        #     return await call_next(request)
         
         # Get client IP address
         client_ip = self.get_client_ip(request)
