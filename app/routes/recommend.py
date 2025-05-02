@@ -1,9 +1,11 @@
 from fastapi import APIRouter, HTTPException, Depends
 from typing import Optional, List
 from sqlalchemy.orm import Session
+from sqlalchemy import select, text
 from app.database.session import get_async_session
-from app.models.product import ProductSearchResult
+from app.models.product import ProductSearchResult, ProductDB
 from app.database.sql.sql import render_sql, SQLFilePath
+
 
 router = APIRouter(prefix="/recommend",tags=["recommend"])
 
@@ -11,44 +13,34 @@ router = APIRouter(prefix="/recommend",tags=["recommend"])
 async def get_similar_products(
     product_id: str,
     match_count: Optional[int] = 10,
-    full_text_weight: Optional[float] = 0.5,
-    semantic_weight: Optional[float] = 0.5,
-    rrf_k: Optional[int] = 60,
     db: Session = Depends(get_async_session)
 ):
     """
-    Get similar products based on hybrid search combining semantic and keyword similarity.
+    Get similar products based on semantic similarity.
     
     Args:
         product_id: ID of the product to find similar items for
         match_count: Maximum number of similar products to return
-        full_text_weight: Weight for keyword/BM25 search results (0-1)
-        semantic_weight: Weight for semantic search results (0-1)
-        rrf_k: Reciprocal Rank Fusion constant
     """
     try:
-        # First get the product to find similar items for
-        product = db.execute(
-            "SELECT searchable_content FROM products WHERE id = :id",
-            {"id": product_id}
-        ).fetchone()
+        # Check if product exists using ORM
+        query = select(ProductDB).where(ProductDB.id == product_id)
+        result = await db.execute(query)
+        product = result.scalar_one_or_none()
 
         if not product:
             raise HTTPException(status_code=404, detail="Product not found")
 
         # Load and execute the similar products SQL template
-        sql_template = render_sql(SQLFilePath.PRODUCT_SIMILAR_PRODUCTS_HYBRID)
-        sql_query = sql_template.render(
+        sql_query = render_sql(
+            SQLFilePath.PRODUCT_SIMILAR_PRODUCTS_SEMANTIC,
             product_id=product_id,
-            searchable_content=product.searchable_content,
-            match_count=match_count,
-            full_text_weight=full_text_weight,
-            semantic_weight=semantic_weight,
-            rrf_k=rrf_k
+            match_count=match_count
         )
 
         # Execute query and fetch results
-        results = db.execute(sql_query).fetchall()
+        results = await db.execute(text(sql_query))
+        results = await results.fetchall()
         
         # Convert results to ProductSearchResult objects
         similar_products = [

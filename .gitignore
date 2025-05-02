@@ -77,3 +77,4 @@ Thumbs.db
 /datasets/movies_batches/movies_batch_9.csv
 /datasets/movies_batches/movies_batch_10.csv
 /datasets/movies_batches/movies_batch_sample.csv
+/datasets/items_batches/*

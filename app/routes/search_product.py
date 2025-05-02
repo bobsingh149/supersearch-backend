@@ -271,7 +271,6 @@ async def hybrid_search(
                                filter_type=filter_type,
                                sort_option=sort_option
                                )
-        print(sql_query)
         result = await db.execute(text(sql_query))
         
         products = [
