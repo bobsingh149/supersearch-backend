@@ -9,7 +9,7 @@ from sqlalchemy.ext.asyncio import AsyncSession
 
 router = APIRouter(prefix="/recommend",tags=["recommend"])
 
-@router.get("similar/{product_id}", response_model=List[ProductSearchResult])
+@router.get("/similar/{product_id}", response_model=List[ProductSearchResult])
 async def get_similar_products(
     product_id: str,
     match_count: Optional[int] = 10,
