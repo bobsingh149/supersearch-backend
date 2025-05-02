@@ -191,6 +191,7 @@ async def handle_empty_query(
         products = [
             ProductSearchResult(
                 id=row._mapping['id'],
+                title=row._mapping.get('title'),
                 custom_data=row._mapping['custom_data'],
                 searchable_content=row._mapping['searchable_content'],
                 image_url=row._mapping.get('image_url'),
@@ -328,6 +329,7 @@ async def full_text_search(
             products = [
                 ProductSearchResult(
                     id=row._mapping['id'],
+                    title=row._mapping.get('title'),
                     custom_data=row._mapping['custom_data'],
                     searchable_content=row._mapping['searchable_content'],
                     image_url=row._mapping.get('image_url'),
@@ -349,6 +351,7 @@ async def full_text_search(
         products = [
             ProductSearchResult(
                 id=row._mapping['id'],
+                title=row._mapping.get('title'),
                 custom_data=row._mapping['custom_data'],
                 searchable_content=row._mapping['searchable_content'],
                 image_url=row._mapping.get('image_url'),
@@ -461,6 +464,7 @@ async def semantic_search(
         products = [
             ProductSearchResult(
                 id=row._mapping['id'],
+                title=row._mapping.get('title'),
                 custom_data=row._mapping['custom_data'],
                 searchable_content=row._mapping['searchable_content'],
                 image_url=row._mapping.get('image_url'),
@@ -511,6 +515,7 @@ async def hybrid_search_without_ranking(
         products = [
             ProductSearchResult(
                 id=row._mapping['id'],
+                title=row._mapping.get('title'),
                 custom_data=row._mapping['custom_data'],
                 searchable_content=row._mapping['searchable_content'],
                 image_url=row._mapping.get('image_url'),
@@ -573,6 +578,7 @@ async def hybrid_search_with_reranking(
         products = [
             ProductSearchResult(
                 id=row._mapping['id'],
+                title=row._mapping.get('title'),
                 custom_data=row._mapping['custom_data'],
                 searchable_content=row._mapping['searchable_content'],
                 image_url=row._mapping.get('image_url'),
