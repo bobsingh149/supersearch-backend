@@ -1,10 +1,10 @@
 from fastapi import APIRouter, HTTPException, Depends
 from typing import Optional, List
-from sqlalchemy.orm import Session
 from sqlalchemy import select, text
 from app.database.session import get_async_session
 from app.models.product import ProductSearchResult, ProductDB
 from app.database.sql.sql import render_sql, SQLFilePath
+from sqlalchemy.ext.asyncio import AsyncSession
 
 
 router = APIRouter(prefix="/recommend",tags=["recommend"])
@@ -13,7 +13,7 @@ router = APIRouter(prefix="/recommend",tags=["recommend"])
 async def get_similar_products(
     product_id: str,
     match_count: Optional[int] = 10,
-    db: Session = Depends(get_async_session)
+    db: AsyncSession = Depends(get_async_session)
 ):
     """
     Get similar products based on semantic similarity.
@@ -21,6 +21,7 @@ async def get_similar_products(
     Args:
         product_id: ID of the product to find similar items for
         match_count: Maximum number of similar products to return
+        :param db:
     """
     try:
         # Check if product exists using ORM
@@ -40,19 +41,23 @@ async def get_similar_products(
 
         # Execute query and fetch results
         results = await db.execute(text(sql_query))
-        results = await results.fetchall()
+        rows = results.all()
         
         # Convert results to ProductSearchResult objects
         similar_products = [
             ProductSearchResult(
                 id=row.id,
+                title=row.title,
                 custom_data=row.custom_data,
                 searchable_content=row.searchable_content,
-                score=float(row.score or 0.0)
-            ) for row in results
+                score=float(row.score or 0.0),
+                search_type="semantic",
+                image_url=row.image_url
+            ) for row in rows
         ]
 
         return similar_products
 
     except Exception as e:
         raise HTTPException(status_code=500, detail=str(e))
+
