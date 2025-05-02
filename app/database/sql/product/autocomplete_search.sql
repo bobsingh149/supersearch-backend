@@ -4,17 +4,17 @@ SELECT
     p.custom_data,
     p.searchable_content,
     p.image_url,
-    CASE 
+    CASE
         WHEN length('{{ query_text }}') < 3 THEN 1
         ELSE paradedb.score(p.id)
     END as score
 FROM
     products p
 WHERE
-    CASE 
-        WHEN length('{{ query_text }}') < 3 THEN 
+    CASE
+        WHEN length('{{ query_text }}') < 3 THEN
             title ILIKE '{{ query_text }}%'
-        ELSE 
+        ELSE
             title @@@ '{{ query_text }}'
     END
 ORDER BY

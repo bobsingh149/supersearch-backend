@@ -15,6 +15,7 @@ from app.services.shopping_assistant import ShoppingAssistantUtils, get_chat_fro
 from app.services.vertex import get_genai_client, get_embedding, TaskType
 from fastapi.responses import StreamingResponse as FastAPIStreamingResponse
 import json
+import time
 
 
 logger = logging.getLogger(__name__)
@@ -84,14 +85,15 @@ async def chat_with_assistant(
             async def response_stream_generator():
                 # Get the complete response to extract product IDs
                 full_response = ""
-                marker_found = False
+                marker_found_product = False
+                marker_found_questions = False
                 
                 async for chunk in await chat.send_message_stream(prompt):
                     full_response += chunk.text
                     
                     # Check if this chunk contains the product_ids marker
-                    if "product_ids:" in chunk.text and not marker_found:
-                        marker_found = True
+                    if "product_ids:" in chunk.text and not marker_found_product:
+                        marker_found_product = True
                         # Truncate the chunk at the marker
                         marker_pos = chunk.text.find("product_ids:")
                         if marker_pos > 0:  # Only yield if there's content before the marker
@@ -103,14 +105,40 @@ async def chat_with_assistant(
                                     content=clean_chunk
                                 )
                                 yield json.dumps(content_response.model_dump()) + "\n"
-                    elif not marker_found:
-                        # Only yield if we haven't hit the marker yet
+                    # Check if this chunk contains the follow_up_questions marker                        
+                    elif "follow_up_questions:" in chunk.text and not marker_found_questions:
+                        marker_found_questions = True
+                        # Truncate the chunk at the marker
+                        marker_pos = chunk.text.find("follow_up_questions:")
+                        if marker_pos > 0:  # Only yield if there's content before the marker
+                            clean_chunk = chunk.text[:marker_pos].strip()
+                            if clean_chunk:
+                                content_response = StreamingResponse(
+                                    type=StreamingResponseType.CONTENT,
+                                    conversation_id=request.conversation_id,
+                                    content=clean_chunk
+                                )
+                                yield json.dumps(content_response.model_dump()) + "\n"
+                    elif not marker_found_product and not marker_found_questions:
+                        # Only yield if we haven't hit any markers yet
                         content_response = StreamingResponse(
                             type=StreamingResponseType.CONTENT,
                             conversation_id=request.conversation_id,
                             content=chunk.text
                         )
                         yield json.dumps(content_response.model_dump()) + "\n"
+                
+                # Extract follow-up questions from the response
+                follow_up_questions = ShoppingAssistantUtils.extract_follow_up_questions(full_response)
+                
+                # Yield follow-up questions if any were suggested
+                if follow_up_questions:
+                    questions_response = StreamingResponse(
+                        type=StreamingResponseType.QUESTIONS,
+                        conversation_id=request.conversation_id,
+                        content=follow_up_questions
+                    )
+                    yield json.dumps(questions_response.model_dump()) + "\n"
                 
                 # Extract product IDs mentioned in the response
                 referenced_product_ids = ShoppingAssistantUtils.extract_product_ids(full_response)
@@ -131,8 +159,22 @@ async def chat_with_assistant(
                 
                 # Save the complete conversation after streaming is done, including context and products
                 clean_response = full_response
-                if "product_ids:" in full_response:
-                    clean_response = full_response[:full_response.find("product_ids:")].strip()
+                
+                # Remove follow_up_questions marker and everything after it until product_ids or end of string
+                if "follow_up_questions:" in clean_response:
+                    question_marker_pos = clean_response.find("follow_up_questions:")
+                    product_marker_pos = clean_response.find("product_ids:")
+                    
+                    if product_marker_pos > question_marker_pos:
+                        # If product_ids marker exists after follow_up_questions, remove content between them
+                        clean_response = clean_response[:question_marker_pos].strip()
+                    else:
+                        # Otherwise remove everything after follow_up_questions
+                        clean_response = clean_response[:question_marker_pos].strip()
+                
+                # Remove product_ids marker and everything after it
+                if "product_ids:" in clean_response:
+                    clean_response = clean_response[:clean_response.find("product_ids:")].strip()
                 
                 merged_response = clean_response
                 if referenced_products:
@@ -146,7 +188,14 @@ async def chat_with_assistant(
             return FastAPIStreamingResponse(response_stream_generator(), media_type="application/json")
         else:
             # Get regular response
+            start_time = time.time()
             response = await chat.send_message(prompt)
+            end_time = time.time()
+            execution_time = end_time - start_time
+            logger.info(f"chat.send_message execution time: {execution_time:.2f} seconds")
+            
+            # Extract follow-up questions from the response
+            follow_up_questions = ShoppingAssistantUtils.extract_follow_up_questions(response.text)
             
             # Extract product IDs mentioned in the response
             referenced_product_ids = ShoppingAssistantUtils.extract_product_ids(response.text)
@@ -154,10 +203,24 @@ async def chat_with_assistant(
             # Get referenced products directly from database
             referenced_products = await ShoppingAssistantUtils.get_products_by_ids(session, referenced_product_ids)
             
-            # Clean up the response to remove the product_ids marker
+            # Clean up the response to remove markers
             clean_response = response.text
-            if "product_ids:" in response.text:
-                clean_response = response.text[:response.text.find("product_ids:")].strip()
+            
+            # Remove follow_up_questions marker and everything after it until product_ids or end of string
+            if "follow_up_questions:" in clean_response:
+                question_marker_pos = clean_response.find("follow_up_questions:")
+                product_marker_pos = clean_response.find("product_ids:")
+                
+                if product_marker_pos > question_marker_pos:
+                    # If product_ids marker exists after follow_up_questions, remove content between them
+                    clean_response = clean_response[:question_marker_pos].strip()
+                else:
+                    # Otherwise remove everything after follow_up_questions
+                    clean_response = clean_response[:question_marker_pos].strip()
+            
+            # Remove product_ids marker and everything after it
+            if "product_ids:" in clean_response:
+                clean_response = clean_response[:clean_response.find("product_ids:")].strip()
             
             # Merge products with the response
             merged_response = clean_response
@@ -173,7 +236,8 @@ async def chat_with_assistant(
             return ChatResponse(
                 response=clean_response,
                 conversation_id=request.conversation_id,
-                products=referenced_products
+                products=referenced_products,
+                follow_up_questions=follow_up_questions
             )
         
     except Exception as e:

@@ -27,7 +27,8 @@ class AuthMiddleware(BaseHTTPMiddleware):
             "/v1/auth/public",
             "/v1/leads",
             "/v1/shopping-assistant/chat",
-            "/v1/search"
+            "/v1/search",
+            "/v1/reviews"
         ]
 
     def verify_api_key(self, key: str) -> bool:

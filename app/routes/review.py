@@ -3,9 +3,12 @@ from uuid import UUID
 from fastapi import APIRouter, Depends, HTTPException, Query, status
 from sqlalchemy import select, update, delete
 from sqlalchemy.ext.asyncio import AsyncSession
+from pydantic import BaseModel
+import json
 
 from app.database.session import get_async_session
 from app.models.review import Review, ReviewCreate, ReviewUpdate, ReviewOrm
+from app.services.review import generate_review_summary, ReviewSummaryOutput
 
 router = APIRouter(
     prefix="/reviews",
@@ -34,18 +37,20 @@ async def create_review(
 @router.get("/", response_model=List[Review])
 async def get_reviews(
     product_id: Optional[str] = None,
-    skip: int = Query(0, ge=0),
-    limit: int = Query(100, ge=1, le=1000),
+    page_number: int = Query(1, ge=1),
+    page_size: int = Query(10, ge=1, le=100),
     session: AsyncSession = Depends(get_async_session),
 ) -> List[Review]:
     """
     Get all reviews with optional filtering by product_id.
+    Supports pagination using page_number and page_size.
     """
     query = select(ReviewOrm)
     if product_id:
         query = query.where(ReviewOrm.product_id == product_id)
     
-    query = query.offset(skip).limit(limit)
+    skip = (page_number - 1) * page_size
+    query = query.offset(skip).limit(page_size)
     result = await session.execute(query)
     reviews = result.scalars().all()
     return reviews
@@ -130,4 +135,73 @@ async def delete_review(
     # Delete review
     delete_stmt = delete(ReviewOrm).where(ReviewOrm.id == review_id)
     await session.execute(delete_stmt)
-    await session.commit() 
+    await session.commit()
+
+
+class ReviewSummaryResponse(BaseModel):
+    """Response model for review summary"""
+    product_id: str
+    summary: str
+
+@router.get("/{product_id}/summary", response_model=ReviewSummaryOutput)
+async def get_review_summary(
+    product_id: str,
+    session: AsyncSession = Depends(get_async_session),
+) -> ReviewSummaryOutput:
+    """
+    Get an AI-generated summary of reviews for a specific product.
+    Returns structured data with a summary, pros list, and cons list.
+    
+    First checks if an AI summary exists in the products table.
+    If not, generates a new summary and stores it for future use.
+    """
+    # First, check if there's an existing summary in the products table
+    from sqlalchemy import text
+    check_summary_query = text("""
+        SELECT ai_summary FROM demo_movies.products 
+        WHERE id = :product_id AND ai_summary IS NOT NULL
+    """)
+    result = await session.execute(check_summary_query, {"product_id": product_id})
+    existing_summary = result.scalar_one_or_none()
+    
+    if existing_summary:
+        # Convert the JSONB data to a ReviewSummaryOutput object
+        return ReviewSummaryOutput.model_validate(existing_summary)
+    
+    # If no existing summary, fetch all reviews for the product
+    query = select(ReviewOrm).where(ReviewOrm.product_id == product_id)
+    result = await session.execute(query)
+    reviews = result.scalars().all()
+    
+    if not reviews:
+        raise HTTPException(
+            status_code=status.HTTP_404_NOT_FOUND,
+            detail="No reviews found for this product",
+        )
+    
+    # Extract review content
+    review_texts = [review.content for review in reviews]
+    
+    # Generate summary using AI
+    summary_output = await generate_review_summary(review_texts, product_id, session)
+    
+    # Store the summary in the products table for future use
+    update_summary_query = text("""
+        UPDATE demo_movies.products 
+        SET ai_summary = :ai_summary
+        WHERE id = :product_id
+    """)
+    
+    # Convert Pydantic model to dict for storage
+    summary_dict = summary_output.model_dump()
+    
+    await session.execute(
+        update_summary_query,
+        {
+            "product_id": product_id,
+            "ai_summary": json.dumps(summary_dict)
+        }
+    )
+    await session.commit()
+    
+    return summary_output 

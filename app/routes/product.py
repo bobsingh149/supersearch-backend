@@ -1,9 +1,12 @@
 import logging
+import json
 from fastapi import APIRouter, HTTPException, Depends, Query
 from sqlalchemy.ext.asyncio import AsyncSession
 from app.database.session import get_async_session
 from app.models.product import Product, ProductDB, ProductInput, PaginatedProductsResponse
+from app.models.product_questions import ProductQuestionsResponse
 from app.services.product import process_product_data
+from app.services.product_questions import ItemQuestionService
 from uuid import uuid4
 from asyncio import TaskGroup
 from sqlalchemy import delete, text
@@ -115,12 +118,16 @@ async def get_product(
     session: AsyncSession = Depends(get_async_session)
 ):
     """
-    Get a single product's custom_data by ID
+    Get a single product's custom_data by ID using raw SQL
     """
-    result = await session.get(ProductDB, product_id)
-    if not result:
-        raise HTTPException(status_code=404, detail="Product not found")
-    return result.custom_data
+
+    query = text("SELECT custom_data FROM demo_movies.products WHERE id = :product_id")
+    result = await session.execute(query, {"product_id": product_id})
+    product = result.scalar_one_or_none()
+    
+    if not product:
+        raise HTTPException(status_code=500, detail="XYZ WTF Product not found")
+    return product
 
 @router.get("", response_model=PaginatedProductsResponse)
 async def list_products(
@@ -181,6 +188,76 @@ async def delete_all_products(
     await session.execute(query)
     await session.commit()
     return {"message": "All products deleted successfully"}
+
+@router.get("/{product_id}/questions", response_model=ProductQuestionsResponse)
+async def generate_item_questions(
+    product_id: str,
+    num_questions: int = Query(5, ge=1, le=10, description="Number of questions to generate"),
+    force_regenerate: bool = Query(False, description="Force regeneration of questions even if cached questions exist"),
+    session: AsyncSession = Depends(get_async_session)
+):
+    """
+    Generate relevant questions related to a specific item using AI.
+    The questions are based on the item's custom data.
+    
+    If suggested_questions is already available for the product, those will be returned
+    unless force_regenerate is set to True.
+    
+    Args:
+        product_id: ID of the item to generate questions for
+        num_questions: Number of questions to generate (default: 5)
+        force_regenerate: Force regeneration of questions even if cached questions exist
+        
+    Returns:
+        List of item-related questions
+    """
+    # First, fetch the product from the database
+    query = text("""
+        SELECT 
+            custom_data, 
+            suggested_questions 
+        FROM products 
+        WHERE id = :product_id
+    """)
+    result = await session.execute(query, {"product_id": product_id})
+    row = result.fetchone()
+    
+    if not row:
+        raise HTTPException(status_code=404, detail="Item not found")
+    
+    item_data = row.custom_data
+    existing_questions = row.suggested_questions
+    
+    # If we have suggested questions and aren't forcing regeneration, return those
+    if existing_questions and not force_regenerate:
+        return ProductQuestionsResponse(questions=existing_questions)
+    
+    # Generate questions using the service
+    questions_response = await ItemQuestionService.generate_questions(
+        item_data=item_data,
+        num_questions=num_questions
+    )
+    
+    # Store the generated questions in the database
+    update_query = text("""
+        UPDATE products
+        SET suggested_questions = :questions
+        WHERE id = :product_id
+    """)
+    
+    # Convert questions list to JSON string for storage
+    questions_json = json.dumps(questions_response.questions)
+    
+    await session.execute(
+        update_query, 
+        {
+            "product_id": product_id, 
+            "questions": questions_json
+        }
+    )
+    await session.commit()
+    
+    return ProductQuestionsResponse(questions=questions_response.questions)
 
 # Sample data to test with POST /sync/add:
 

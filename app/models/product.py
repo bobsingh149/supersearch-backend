@@ -18,6 +18,8 @@ class ProductDB(Base):
     updated_at = Column(DateTime(timezone=True), server_default=func.now(), onupdate=func.now(), nullable=False)
     custom_data = Column(JSON, nullable=True)
     ai_generated_contents = Column(ARRAY(Text), nullable=True, default=[])
+    ai_summary = Column(JSON, nullable=True)
+    suggested_questions = Column(JSON, nullable=True)
 
 class ProductInput(BaseModel):
     id_field: str
@@ -61,6 +63,8 @@ class Product(BaseModel):
     updated_at: Optional[datetime] = None
     custom_data: Optional[Dict] = None
     ai_generated_contents: Optional[List[str]] = None
+    ai_summary: Optional[Dict] = None
+    suggested_questions: Optional[List[str]] = None
 
     model_config = ConfigDict(from_attributes=True)
 

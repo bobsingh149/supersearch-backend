@@ -40,7 +40,14 @@ class ShoppingAssistantUtils:
     - For example, if you're recommending an item with ID 'abc123' and title 'Documentary Film', format it as [Documentary Film](/demo_site/abc123)
     - Use proper markdown formatting for the rest of your response (headings, bullet points, etc.)
 
-    IMPORTANT: At the end of your response (after a blank line), list ALL referenced item IDs in this exact format:
+    FOLLOW-UP QUESTIONS:
+    - After your main response, always generate 3 suggested follow-up questions related to the user's query and your response
+    - These questions should be natural extensions of the conversation and help users explore related topics or get more specific information
+    - Make these questions diverse to give users different options for continuing the conversation
+    - After a blank line from your main response, add these questions with the format:
+      follow_up_questions:question1|question2|question3
+
+    IMPORTANT: At the end of your response (after follow-up questions), list ALL referenced item IDs in this exact format:
     product_ids:id1,id2,id3
     where id1, id2, id3 are the IDs of items you referenced or recommended in your response.
     If you did not reference any specific items, do not include this line.
@@ -54,8 +61,8 @@ class ShoppingAssistantUtils:
         temperature=0.3,
         automatic_function_calling=AutomaticFunctionCallingConfig(
             disable=True,
+            maximum_remote_calls=0
         ),
-
     )
 
     def extract_product_ids(text: str) -> List[str]:
@@ -73,6 +80,32 @@ class ShoppingAssistantUtils:
                 ids_str = ids_str.split("\n")[0].strip()
             # Split by comma and clean up each ID
             return [id.strip() for id in ids_str.split(',')]
+        return []
+
+    @staticmethod
+    def extract_follow_up_questions(text: str) -> List[str]:
+        """
+        Extract follow-up questions from the format 'follow_up_questions:question1|question2|question3' in the text
+        
+        Args:
+            text: The text to extract follow-up questions from
+        
+        Returns:
+            List[str]: List of follow-up questions
+        """
+        marker = "follow_up_questions:"
+        if marker in text:
+            # Find the position of the marker
+            start_pos = text.find(marker) + len(marker)
+            # Extract everything after the marker to the next marker or end of text
+            questions_str = text[start_pos:].strip()
+            # If there's a newline or product_ids marker after the questions, remove everything after it
+            if "\n" in questions_str:
+                questions_str = questions_str.split("\n")[0].strip()
+            if "product_ids:" in questions_str:
+                questions_str = questions_str.split("product_ids:")[0].strip()
+            # Split by pipe and clean up each question
+            return [q.strip() for q in questions_str.split('|') if q.strip()]
         return []
 
     @staticmethod
@@ -100,7 +133,7 @@ class ShoppingAssistantUtils:
                 price = product.custom_data["price"]
                 
             context += f"   Price: {price}\n"
-            context += f"   Details: {product.searchable_content or ''}\n\n"
+            context += f"   Details: {product.custom_data or ''}\n\n"
 
         return context
 
@@ -199,6 +232,9 @@ class ShoppingAssistantUtils:
         
         prompt += """When mentioning item titles in your response, format them as hyperlinks using markdown, like this: [Item Title](/demo_site/:product_id).
 For example, if you're recommending an item with ID 'abc123' and title 'Documentary Film', format it as [Documentary Film](/demo_site/abc123).
+
+After your main response, always include 3 suggested follow-up questions with the format:
+follow_up_questions:question1|question2|question3
 
 Remember to list any referenced item IDs at the end of your response using the format product_ids:id1,id2,id3
 """

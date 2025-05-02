@@ -375,6 +375,7 @@ async def autocomplete_search(
     Perform autocomplete search with fuzzy matching.
     If query is empty, returns all products up to the limit without any ranking.
     """
+    print("in the api")
     try:
         # If query is empty, return all products up to the limit
         if not query.strip():
@@ -405,9 +406,10 @@ async def autocomplete_search(
             
             logger.info(f"Found {len(products)} results for empty autocomplete query")
             return {"results": products}
-            
+
+        print("calling the sql")
         sql_query = render_sql(SQLFilePath.PRODUCT_AUTOCOMPLETE_SEARCH,
-                              prefix=query,
+                              query_text=query,
                               match_count=limit)
         
         result = await db.execute(text(sql_query))
