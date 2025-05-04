@@ -4,6 +4,8 @@ from sqlalchemy import Column, String, JSON, DateTime, func, Text, ARRAY
 from pgvector.sqlalchemy import Vector
 from app.database.session import Base
 from datetime import datetime
+from app.models.review import ReviewBase
+
 
 class ProductDB(Base):
     __tablename__ = "products"
@@ -65,6 +67,7 @@ class Product(BaseModel):
     ai_generated_contents: Optional[List[str]] = None
     ai_summary: Optional[Dict] = None
     suggested_questions: Optional[List[str]] = None
+    reviews: Optional[List[ReviewBase]] = None
 
     model_config = ConfigDict(from_attributes=True)
 
@@ -79,6 +82,8 @@ class ProductSearchResult(BaseModel):
     score: Optional[float] = None
     search_type: Optional[str] = None
     image_url: Optional[str] = None
+    ai_summary: Optional[Dict] = None
+    reviews: Optional[List[ReviewBase]] = None
     
     model_config = ConfigDict(from_attributes=True)
 

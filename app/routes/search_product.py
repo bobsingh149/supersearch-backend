@@ -141,62 +141,44 @@ async def handle_empty_query(
     # Calculate offset from page and size
     offset = (page - 1) * size
     
-    # Build filter condition
-    filter_condition = ""
-    if filters and filters.conditions:
-        filter_condition = f"WHERE {build_filter_condition(filters)}"
+    # Prepare filter field and value if provided
+    filter_field = None
+    filter_value = None
+    if filters and filters.conditions and len(filters.conditions) > 0:
+        # For now, we only use the first filter condition with the ParadeDB match
+        filter_field = filters.conditions[0].field
+        filter_value = str(filters.conditions[0].value)
     
-    # Build sort condition
-    sort_condition = "ORDER BY id"
+    # Prepare sort field and direction if provided
+    sort_field = None
+    sort_direction = "asc"
     if sort:
-        sort_direction = sort.direction.upper()
-        sort_condition = f"ORDER BY (custom_data->>'{sort.field}')::text {sort_direction}, id"
+        sort_field = sort.field
+        sort_direction = sort.direction
     
-    # Simple query to get all products with pagination
-    if include_search_type:
-        sql_query = f"""
-            SELECT 
-                id, 
-                custom_data, 
-                searchable_content,
-                image_url,
-                0 as score,
-                'all_products' as search_type
-            FROM products
-            {filter_condition}
-            {sort_condition}
-            LIMIT :limit OFFSET :offset
-        """
-    else:
-        sql_query = f"""
-            SELECT 
-                id, 
-                title,
-                custom_data, 
-                searchable_content,
-                image_url,
-                0 as score
-            FROM products
-            {filter_condition}
-            {sort_condition}
-            LIMIT :limit OFFSET :offset
-        """
-    
-    result = await db.execute(
-        text(sql_query),
-        {"limit": size, "offset": offset}
+    # Use the SQL template for empty queries
+    sql_query = render_sql(
+        SQLFilePath.PRODUCT_EMPTY_QUERY,
+        filter_field=filter_field,
+        filter_value=filter_value,
+        sort_field=sort_field,
+        sort_direction=sort_direction,
+        limit=size,
+        offset=offset
     )
+    
+    result = await db.execute(text(sql_query))
     
     if include_search_type:
         products = [
             ProductSearchResult(
                 id=row._mapping['id'],
-                title=row._mapping.get('title'),
+                title=row._mapping.get('title', ''),  # Ensure title is never None
                 custom_data=row._mapping['custom_data'],
                 searchable_content=row._mapping['searchable_content'],
                 image_url=row._mapping.get('image_url'),
                 score=float(row._mapping['score'] or 0.0),
-                search_type=row._mapping['search_type']
+                search_type='all_products'
             ) for row in result
         ]
     else:
@@ -226,7 +208,7 @@ async def hybrid_search(
     """
     Perform hybrid search using both full-text and semantic search with pagination.
     If query is empty, returns all products in paginated form without any ranking.
-    Supports filtering with AND/OR logic and sorting by a single field.
+    Supports filtering with AND/OR logic and sorting by a single field for empty queries only.
     """
     try:
         # Validate filter and sort fields
@@ -244,21 +226,6 @@ async def hybrid_search(
         # Get vector embedding for the query
         query_embedding = await get_embedding(query, TaskType.QUERY)
 
-        # Build filter condition
-        filter_condition = ""
-        filter_type = "AND"
-        if filters:
-            filter_condition = build_filter_condition(filters)
-            filter_type = filters.filter_type
-            
-        # Build sort option
-        sort_option = None
-        if sort:
-            sort_option = {
-                "field": sort.field,
-                "direction": sort.direction
-            }
-
         sql_query = render_sql(SQLFilePath.PRODUCT_HYBRID_SEARCH,
                                query_text=query,
                                query_embedding=query_embedding,
@@ -267,10 +234,7 @@ async def hybrid_search(
                                full_text_weight=0.1,
                                semantic_weight=0.9,
                                rrf_k=10,
-                               fuzzy_distance=1,
-                               filter_condition=filter_condition,
-                               filter_type=filter_type,
-                               sort_option=sort_option
+                               fuzzy_distance=1
                                )
         result = await db.execute(text(sql_query))
         
@@ -377,7 +341,6 @@ async def autocomplete_search(
     Perform autocomplete search with fuzzy matching.
     If query is empty, returns all products up to the limit without any ranking.
     """
-    print("in the api")
     try:
         # If query is empty, return all products up to the limit
         if not query.strip():
@@ -409,10 +372,11 @@ async def autocomplete_search(
             logger.info(f"Found {len(products)} results for empty autocomplete query")
             return {"results": products}
 
-        print("calling the sql")
         sql_query = render_sql(SQLFilePath.PRODUCT_AUTOCOMPLETE_SEARCH,
                               query_text=query,
-                              match_count=limit)
+                              match_count=limit,
+                             fuzzy_distance=fuzzy_distance
+                               )
         
         result = await db.execute(text(sql_query))
         

@@ -1,5 +1,7 @@
 from fastapi import APIRouter, HTTPException, Depends
 from sqlalchemy.ext.asyncio import AsyncSession
+from torch.xpu import stream
+
 from app.database.session import get_async_session
 from app.database.sql.sql import render_sql, SQLFilePath
 from app.models.product import ProductSearchResult
@@ -8,6 +10,7 @@ from app.models.shopping_assistant import (
     StreamingResponse, StreamingResponseType, ChatRequest,
     ConversationSummary, PaginatedConversationSummary
 )
+from app.models.review import Review, ReviewOrm
 from sqlalchemy import text, select, func
 from sqlalchemy.sql import desc
 import logging
@@ -16,7 +19,6 @@ from app.services.vertex import get_genai_client, get_embedding, TaskType
 from fastapi.responses import StreamingResponse as FastAPIStreamingResponse
 import json
 import time
-
 
 logger = logging.getLogger(__name__)
 
@@ -53,11 +55,15 @@ async def chat_with_assistant(
         # Get vector embedding for the query
         query_embedding = await get_embedding(request.query, TaskType.QUERY)
 
-        sql_query = render_sql(SQLFilePath.PRODUCT_SEMANTIC_SEARCH,
+        sql_query = render_sql(SQLFilePath.PRODUCT_SEMANTIC_SEARCH_WITH_REVIEWS,
                             query_embedding=query_embedding,
                             match_count=3,
                             offset=0)
+        
+        start_time = time.time()
         result = await session.execute(text(sql_query))
+        end_time = time.time()
+        logger.info(f"Time taken to execute semantic search query: {end_time - start_time:.2f} seconds")
         semantic_db_products = [row._mapping for row in result]
 
         # Convert to ProductSearchResult
@@ -65,23 +71,27 @@ async def chat_with_assistant(
             ProductSearchResult.model_validate(dict(row))
             for row in semantic_db_products
         ]
+
+
         
         # Add to context
         if semantic_product_results:
+            # No need to call get_products_by_ids again as reviews are already included
             semantic_context = ShoppingAssistantUtils.format_product_context(semantic_product_results)
             context += "function_call_results:\n" + semantic_context
         
-        # Get chat session with history
-        chat = await get_chat_from_history(request.conversation_id)
-        
-        # Prepare prompt with context merged with user query
-        prompt = ShoppingAssistantUtils.construct_prompt(
-            request.query,
-            context,
-        )
-        
         # Handle streaming response
         if request.stream:
+
+            # Get chat session with history
+            chat = await get_chat_from_history(conversation_id= request.conversation_id, stream=True)
+
+            # Prepare prompt with context merged with user query
+            prompt = ShoppingAssistantUtils.construct_prompt(
+                request.query,
+                context,
+            )
+            
             async def response_stream_generator():
                 # Get the complete response to extract product IDs
                 full_response = ""
@@ -187,58 +197,58 @@ async def chat_with_assistant(
             
             return FastAPIStreamingResponse(response_stream_generator(), media_type="application/json")
         else:
-            # Get regular response
+            # Prepare JSON prompt with context merged with user query
+            json_prompt = ShoppingAssistantUtils.construct_json_prompt(
+                request.query,
+                context,
+            )
+            
+
+            # Using the JSON model config to get a JSON response
+            chat = await get_chat_from_history(conversation_id=request.conversation_id,stream=False)
+            # Override the config to use JSON format
+                        # Get regular response in JSON format
             start_time = time.time()
-            response = await chat.send_message(prompt)
+            response = await chat.send_message(json_prompt)
             end_time = time.time()
             execution_time = end_time - start_time
             logger.info(f"chat.send_message execution time: {execution_time:.2f} seconds")
             
-            # Extract follow-up questions from the response
-            follow_up_questions = ShoppingAssistantUtils.extract_follow_up_questions(response.text)
-            
-            # Extract product IDs mentioned in the response
-            referenced_product_ids = ShoppingAssistantUtils.extract_product_ids(response.text)
-            
-            # Get referenced products directly from database
-            referenced_products = await ShoppingAssistantUtils.get_products_by_ids(session, referenced_product_ids)
-            
-            # Clean up the response to remove markers
-            clean_response = response.text
-            
-            # Remove follow_up_questions marker and everything after it until product_ids or end of string
-            if "follow_up_questions:" in clean_response:
-                question_marker_pos = clean_response.find("follow_up_questions:")
-                product_marker_pos = clean_response.find("product_ids:")
+            try:
+                # Parse the JSON response
+                response_data = json.loads(response.text)
                 
-                if product_marker_pos > question_marker_pos:
-                    # If product_ids marker exists after follow_up_questions, remove content between them
-                    clean_response = clean_response[:question_marker_pos].strip()
-                else:
-                    # Otherwise remove everything after follow_up_questions
-                    clean_response = clean_response[:question_marker_pos].strip()
-            
-            # Remove product_ids marker and everything after it
-            if "product_ids:" in clean_response:
-                clean_response = clean_response[:clean_response.find("product_ids:")].strip()
-            
-            # Merge products with the response
-            merged_response = clean_response
-            if referenced_products:
-                product_info = "\n\nReferenced Products:\n" + "\n".join([
-                    f"- {p.model_dump_json()}" for p in referenced_products
-                ])
-                merged_response += product_info
-            
-            # Save conversation with merged response
-            await ShoppingAssistantUtils.save_conversation(session, request.conversation_id, request.query, merged_response, context)
-            
-            return ChatResponse(
-                response=clean_response,
-                conversation_id=request.conversation_id,
-                products=referenced_products,
-                follow_up_questions=follow_up_questions
-            )
+                print(f"Response data: {response_data}")
+
+                # Extract data from JSON
+                query_response = response_data.get("query_response", "")
+                follow_up_questions = response_data.get("follow_up_questions", [])
+                referenced_product_ids = response_data.get("referenced_product_ids", [])
+                
+                # Get referenced products directly from database
+                referenced_products = await ShoppingAssistantUtils.get_products_by_ids(session, referenced_product_ids)
+                
+                # Save conversation with the query response
+                merged_response = query_response
+                if referenced_products:
+                    product_info = "\n\nReferenced Products:\n" + "\n".join([
+                        f"- {p.model_dump_json()}" for p in referenced_products
+                    ])
+                    merged_response += product_info
+                
+                await ShoppingAssistantUtils.save_conversation(session, request.conversation_id, request.query, merged_response, context)
+                
+                return ChatResponse(
+                    response=query_response,
+                    conversation_id=request.conversation_id,
+                    products=referenced_products,
+                    follow_up_questions=follow_up_questions
+                )
+            except json.JSONDecodeError:
+                # Fallback to old method if JSON parsing fails
+                logger.error("Failed to parse JSON response, falling back to traditional parsing")
+                raise HTTPException(status_code=500, detail="Failed to parse JSON response")
+
         
     except Exception as e:
         logger.error(f"Error in chat endpoint: {str(e)}")

@@ -11,6 +11,7 @@ from app.database.session import Base
 class ReviewBase(BaseModel):
     """Base model for review data"""
     content: str
+    author: Optional[str] = None
 
 
 class ReviewCreate(ReviewBase):
@@ -49,6 +50,7 @@ class ReviewOrm(Base):
 
     id = Column(PostgresUUID, primary_key=True, default=uuid4, index=True)
     content = Column(Text, nullable=False)
+    author = Column(String(255), nullable=True)
     product_id = Column(String, ForeignKey("products.id", ondelete="CASCADE"), nullable=False, index=True)
     created_at = Column(DateTime(timezone=True), nullable=False, default=datetime.now)
     updated_at = Column(DateTime(timezone=True), nullable=False, default=datetime.now, onupdate=datetime.now)

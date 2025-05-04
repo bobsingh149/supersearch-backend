@@ -92,6 +92,11 @@ async def process_products_from_data(data: List[Dict[str, Any]]) -> List[Product
         # Generate searchable content with field names and values
         searchable_content = generate_searchable_content(item, searchable_attribute_fields)
         
+        # Skip products with empty searchable content
+        if not searchable_content or not searchable_content.strip():
+            logger.error(f"Product {product_id} has empty searchable content. Skipping product.")
+            return None
+        
         # Check if product already exists in database
         existing_product = None
         text_embedding = None
@@ -178,7 +183,8 @@ async def process_products_from_data(data: List[Dict[str, Any]]) -> List[Product
     if filter_fields or sortable_fields:
         await create_jsonb_indexes(filter_fields, sortable_fields)
     
-    return processed_products
+    # Filter out None values (skipped products with empty searchable content)
+    return [product for product in processed_products if product is not None]
 
 def generate_searchable_content(item: Dict[str, Any], searchable_attribute_fields: List[str]) -> str:
     """

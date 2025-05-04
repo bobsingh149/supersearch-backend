@@ -1,8 +1,10 @@
+import time
 from async_lru import alru_cache
 from google import genai
 from google.genai.chats import AsyncChat
 from google.genai.types import Content, Part, GenerateContentConfig, AutomaticFunctionCallingConfig
-from typing import List, Optional
+from typing import List, Optional, Dict
+from pydantic import BaseModel
 
 from sqlalchemy.ext.asyncio import AsyncSession
 import logging
@@ -11,10 +13,16 @@ import json
 
 from app.database.session import get_async_session_with_contextmanager
 from app.models.product import ProductSearchResult
+from app.models.review import Review, ReviewOrm
 from app.services.vertex import get_genai_client
 from app.database.sql.sql import render_sql, SQLFilePath
 
 logger = logging.getLogger(__name__)
+
+class ResponseSchema(BaseModel):
+    query_response: str
+    follow_up_questions: List[str]
+    referenced_product_ids: List[str]
 
 class ShoppingAssistantUtils:
     SYSTEM_PROMPT = """You are a friendly and helpful search assistant. Your goal is to help users find items 
@@ -22,9 +30,10 @@ class ShoppingAssistantUtils:
     Respond in the same language as the query.
 
     CONTEXT USAGE GUIDELINES:
-    - You will see two types of item contexts: user_query_context and function_call_results
+    - You will see multiple types of context: user_query_context, function_call_results, and product reviews
     - user_query_context: Items the user has explicitly asked about or mentioned earlier
     - function_call_results: Items found by semantic search based on the current query
+    - product reviews: Customer reviews or AI-generated summaries of reviews for products
 
     Follow these rules when using context:
     1. If the user is searching for or asking about item recommendations, refer primarily to items in function_call_results
@@ -34,6 +43,12 @@ class ShoppingAssistantUtils:
     5. IGNORE any items that don't match what the user is asking for, even if they're in the context
     6. If the user's query is not about finding items, ignore ALL item context
     7. Don't force item recommendations when they're not appropriate
+    8. When the user asks about reviews or opinions on a product, refer to the product reviews information if available
+    9. If there are AI-generated summaries available, prioritize those over individual reviews to give a comprehensive overview
+    10. In case of ambiguity about which product the query is referring to, prioritize in this order:
+       a. First assume it refers to items in user_query_context if present
+       b. If no user_query_context, check if it refers to items from recent chat history
+       c. If still ambiguous, consider items from function_call_results that best match the query
 
     FORMATTING INSTRUCTIONS:
     - When mentioning item titles in your response, format them as hyperlinks using markdown, like this: [Item Title](/demo_site/:item_id)
@@ -54,16 +69,93 @@ class ShoppingAssistantUtils:
 
     Nicely format your responses using valid markdown:
     """
+    
+    JSON_SYSTEM_PROMPT = """You are a friendly and helpful search assistant. Your goal is to help users find items 
+    and answer questions about items including products, blogs, content, documents, movies, and more. Provide clear, concise, and relevant responses.
+    Respond in the same language as the query.
+
+    CONTEXT USAGE GUIDELINES:
+    - You will see multiple types of context: user_query_context, function_call_results, and product reviews
+    - user_query_context: Items the user has explicitly asked about or mentioned earlier
+    - function_call_results: Items found by semantic search based on the current query
+    - product reviews: Customer reviews or AI-generated summaries of reviews for products
+
+    Follow these rules when using context:
+    1. If the user is searching for or asking about item recommendations, refer primarily to items in function_call_results
+    2. If the user is asking about specific items they mentioned before, refer to items in user_query_context
+    3. If the user query does not have search/recommendation intent, ignore function_call_results and refer to recent history and user_query_context instead
+    4. ONLY recommend items that are DIRECTLY RELEVANT to the user's specific query
+    5. IGNORE any items that don't match what the user is asking for, even if they're in the context
+    6. If the user's query is not about finding items, ignore ALL item context
+    7. Don't force item recommendations when they're not appropriate
+    8. When the user asks about reviews or opinions on a product, refer to the product reviews information if available
+    9. If there are AI-generated summaries available, prioritize those over individual reviews to give a comprehensive overview
+    10. In case of ambiguity about which product the query is referring to, prioritize in this order:
+       a. First assume it refers to items in user_query_context if present
+       b. If no user_query_context, check if it refers to items from recent chat history
+       c. If still ambiguous, consider items from function_call_results that best match the query
+
+    RESPONSE FORMAT:
+    You MUST provide your response in a valid JSON format with the following structure:
+    {
+      "query_response": "Your main response to the user's query, using markdown formatting",
+      "follow_up_questions": ["question1", "question2", "question3"],
+      "referenced_product_ids": ["id1", "id2", "id3"]
+    }
+
+    When formatting your query_response:
+    - When mentioning item titles, format them as hyperlinks using markdown, like this: [Item Title](/demo_site/:item_id)
+    - For example, if you're recommending an item with ID 'abc123' and title 'Documentary Film', format it as [Documentary Film](/demo_site/abc123)
+    - Use proper markdown formatting for the rest of your response (headings, bullet points, etc.)
+
+    For follow_up_questions:
+    - Always generate exactly 3 suggested follow-up questions related to the user's query and your response
+    - These should be natural extensions of the conversation to help users explore related topics or get more specific information
+    - Make these questions diverse to give users different options for continuing the conversation
+
+    For referenced_product_ids:
+    - Include ALL product IDs that you referenced or recommended in your response
+    - If you did not reference any specific products, use an empty array []
+
+    Your entire response must be a valid JSON object. Do not include any text before or after the JSON.
+    """
+    
     model = "gemini-2.0-flash-001"
-    model_config = GenerateContentConfig(
-        system_instruction=SYSTEM_PROMPT,
-        max_output_tokens=1000,
-        temperature=0.3,
-        automatic_function_calling=AutomaticFunctionCallingConfig(
-            disable=True,
-            maximum_remote_calls=0
-        ),
-    )
+    
+    @classmethod
+    def get_model_config(cls):
+        return GenerateContentConfig(
+            system_instruction=cls.SYSTEM_PROMPT,
+            max_output_tokens=1000,
+            temperature=0.3,
+            automatic_function_calling=AutomaticFunctionCallingConfig(
+                disable=True,
+                maximum_remote_calls=0
+            ),
+        )
+    
+    @classmethod
+    def get_json_model_config(cls):
+        return GenerateContentConfig(
+            system_instruction=cls.JSON_SYSTEM_PROMPT,
+            max_output_tokens=1000,
+            temperature=0.3,
+            automatic_function_calling=AutomaticFunctionCallingConfig(
+                disable=True,
+                maximum_remote_calls=0
+            ),
+            response_mime_type='application/json',
+            response_schema=ResponseSchema
+        )
+    
+    # Define model_config and json_model_config as properties
+    @property
+    def model_config(self):
+        return self.get_model_config()
+    
+    @property
+    def json_model_config(self):
+        return self.get_json_model_config()
 
     def extract_product_ids(text: str) -> List[str]:
         """
@@ -133,7 +225,22 @@ class ShoppingAssistantUtils:
                 price = product.custom_data["price"]
                 
             context += f"   Price: {price}\n"
-            context += f"   Details: {product.custom_data or ''}\n\n"
+            context += f"   Details: {product.custom_data or ''}\n"
+            
+            # Add AI summary if available
+            if product.ai_summary:
+                context += f"   AI-Generated Review Summary: {json.dumps(product.ai_summary, indent=2)}\n"
+            
+            # Add reviews if available
+            if product.reviews and len(product.reviews) > 0:
+                context += "   Customer Reviews:\n"
+                # Limit to 3 reviews to avoid making context too large
+                for j, review in enumerate(product.reviews[:3], 1):
+                    context += f"   {j}. {review.content[:300]}...\n" if len(review.content) > 300 else f"   {j}. {review.content}\n"
+                if len(product.reviews) > 3:
+                    context += f"   ... and {len(product.reviews) - 3} more reviews\n"
+            
+            context += "\n"
 
         return context
 
@@ -227,6 +334,12 @@ class ShoppingAssistantUtils:
 3. If the user query does not have search/recommendation intent, ignore function_call_results and refer to recent history and user_query_context instead
 4. Only reference items that are DIRECTLY RELEVANT to the user's query
 5. Ignore any items that don't match what the user is looking for
+6. If the user is asking about reviews or opinions on products, use the product review information if available
+7. If there's an AI-generated summary of reviews, use that to provide a comprehensive overview instead of individual reviews
+8. If the query is ambiguous about which product it's referring to:
+   a. First assume it refers to items in user_query_context if present
+   b. If no user_query_context, check if it refers to items from recent chat history
+   c. If still ambiguous, consider items from function_call_results that best match the query
 
 """
         
@@ -240,8 +353,55 @@ Remember to list any referenced item IDs at the end of your response using the f
 """
         
         return prompt
+    
+    @staticmethod
+    def construct_json_prompt(
+        query: str,
+        context: Optional[str] = None,
+    ) -> str:
+        """
+        Constructs a prompt for the search assistant to return JSON response by combining the user query and context.
+        
+        Args:
+            query: The user's question or request
+            context: Optional context about items or other relevant information
+        
+        Returns:
+            str: The constructed prompt for the LLM to respond in JSON format
+        """
+        prompt = "User Query: " + query + "\n\n"
+        
+        if context:
+            prompt = "Context about items:\n" + context + "\n\n" + prompt
+            prompt += """IMPORTANT INSTRUCTIONS FOR CONTEXT USE:
+1. If the user is searching for or asking about item recommendations, refer to items in function_call_results
+2. If the user is asking about specific items they mentioned before or if they are referring to items in the user_query_context, refer to items in user_query_context and recent history 
+3. If the user query does not have search/recommendation intent, ignore function_call_results and refer to recent history and user_query_context instead
+4. Only reference items that are DIRECTLY RELEVANT to the user's query
+5. Ignore any items that don't match what the user is looking for
+6. If the user is asking about reviews or opinions on products, use the product review information if available
+7. If there's an AI-generated summary of reviews, use that to provide a comprehensive overview instead of individual reviews
+8. If the query is ambiguous about which product it's referring to:
+   a. First assume it refers to items in user_query_context if present
+   b. If no user_query_context, check if it refers to items from recent chat history
+   c. If still ambiguous, consider items from function_call_results that best match the query
 
+"""
+        
+        prompt += """REMEMBER: You MUST respond with a valid JSON object having these fields:
+1. "query_response": Your main response to the user (with markdown formatting, hyperlinks like [Item Title](/demo_site/:product_id))
+2. "follow_up_questions": Array of exactly 3 follow-up questions
+3. "referenced_product_ids": Array of product IDs you referenced (or empty array if none)
 
+Example format:
+{
+  "query_response": "Here are some recommendations...",
+  "follow_up_questions": ["What about...", "Can you tell me...", "Do you have..."],
+  "referenced_product_ids": ["abc123", "def456"]
+}
+"""
+        
+        return prompt
 
     @staticmethod
     async def get_products_by_ids(session: AsyncSession, product_ids: List[str]) -> List[ProductSearchResult]:
@@ -259,21 +419,41 @@ Remember to list any referenced item IDs at the end of your response using the f
             return []
             
         try:
+            start_time = time.time()
             query = text(render_sql(SQLFilePath.PRODUCT_GET_BY_IDS, product_ids=product_ids))
             result = await session.execute(query, {"product_ids": product_ids})
             products = [row._mapping for row in result]
             
-            return [ProductSearchResult.model_validate(dict(row)) for row in products]
+            product_results = []
+            for row in products:
+                try:
+                    product_data = dict(row)
+                    product_results.append(ProductSearchResult.model_validate(product_data))
+                except Exception as product_error:
+                    logger.error(f"Error processing product data: {str(product_error)}")
+                    # Continue with other products even if one fails
+                    continue
+            
+            end_time = time.time()
+            logger.info(f"Time taken to fetch {len(product_results)} products: {end_time - start_time:.2f} seconds")
+            return product_results
         except Exception as e:
             logger.error(f"Error fetching products by IDs: {str(e)}")
             return []
 
 
 @alru_cache(maxsize=300)
-async def get_chat_from_history(conversation_id: str) -> AsyncChat:
+async def get_chat_from_history(conversation_id: str, stream: bool = True) -> AsyncChat:
     """
     Get or create a chat session with history from the database
     Uses caching to avoid recreating chat sessions frequently
+    
+    Args:
+        conversation_id: Unique conversation identifier
+        stream: Whether to stream the response. If False, use JSON model config
+        
+    Returns:
+        AsyncChat: Chat session with history
     """
 
     client: genai.Client = get_genai_client()
@@ -284,12 +464,14 @@ async def get_chat_from_history(conversation_id: str) -> AsyncChat:
             result = await session.execute(query, {"conversation_id": conversation_id})
             conversation = result.first()
 
+        # Select the appropriate model config based on stream parameter
+        model_config = ShoppingAssistantUtils.get_model_config() if stream else ShoppingAssistantUtils.get_json_model_config()
+
         if not conversation:
             # Create new chat without history
             return client.aio.chats.create(
                 model=ShoppingAssistantUtils.model,
-                config=ShoppingAssistantUtils.model_config
-
+                config=model_config
             )
 
         # Convert database history to chat format
@@ -303,7 +485,7 @@ async def get_chat_from_history(conversation_id: str) -> AsyncChat:
         return client.aio.chats.create(
             model=ShoppingAssistantUtils.model,
             history=history,
-            config=ShoppingAssistantUtils.model_config
+            config=model_config
         )
     except Exception as e:
         logger.error(f"Error getting chat history: {str(e)}")

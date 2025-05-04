@@ -21,12 +21,14 @@ class SQLFilePath(Enum):
     # Product related queries
     PRODUCT_FULL_TEXT_SEARCH = "product/full_text_search"
     PRODUCT_SEMANTIC_SEARCH = "product/semantic_search"
+    PRODUCT_SEMANTIC_SEARCH_WITH_REVIEWS = "product/semantic_search_with_reviews"
     PRODUCT_HYBRID_SEARCH = "product/hybrid_search"
     PRODUCT_HYBRID_SEARCH_WITHOUT_RANKING = "product/hybrid_search_without_ranking"
     PRODUCT_AUTOCOMPLETE_SEARCH = "product/autocomplete_search"
     PRODUCT_SIMILAR_PRODUCTS_HYBRID = "product/similar_products_hybrid"
     PRODUCT_SIMILAR_PRODUCTS_SEMANTIC = "product/similar_products_semantic"
     PRODUCT_GET_BY_IDS = "product/get_products_by_ids"
+    PRODUCT_EMPTY_QUERY = "product/empty_query"
     
     # Add more SQL file paths as needed
     

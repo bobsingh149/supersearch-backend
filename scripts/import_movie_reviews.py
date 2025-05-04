@@ -105,6 +105,7 @@ async def import_reviews():
                     'id': uuid4(),
                     'product_id': row['movie_id'],
                     'content': row['review_content'],
+                    'author': row.get('author'),  # Get author from CSV, will be None if not present
                     'created_at': created_at,
                     'updated_at': created_at
                 }

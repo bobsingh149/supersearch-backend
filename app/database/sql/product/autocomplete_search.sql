@@ -15,7 +15,11 @@ WHERE
         WHEN length('{{ query_text }}') < 3 THEN
             title ILIKE '{{ query_text }}%'
         ELSE
-            title @@@ '{{ query_text }}'
+            id @@@ paradedb.match(
+            field => 'title',
+            value => '{{ query_text }}',
+            distance => {{ fuzzy_distance }}
+             )
     END
 ORDER BY
     score DESC

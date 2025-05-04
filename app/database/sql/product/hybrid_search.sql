@@ -10,9 +10,6 @@ WITH bm25_matches AS (
             value => '{{ query_text }}',
             distance => {{ fuzzy_distance }}
         )
-        {% if filter_condition %}
-        AND {{ filter_condition }}
-        {% endif %}
     ORDER BY rank_ix
     LIMIT {{ match_count }} * 2
 ),
@@ -22,9 +19,6 @@ semantic AS (
         row_number() over (order by (text_embedding <=> '{{ query_embedding }}')*1) as rank_ix
     FROM
         products
-    {% if filter_condition %}
-    WHERE {{ filter_condition }}
-    {% endif %}
     ORDER BY rank_ix
     LIMIT {{ match_count }} * 2
 )
@@ -43,10 +37,7 @@ FROM
     JOIN products p
         ON coalesce(bm25_matches.id, semantic.id) = p.id
 ORDER BY
-    score DESC
-    {% if sort_option %}
-    , (p.custom_data->>'{{ sort_option.field }}')::text {{ sort_option.direction | upper }}
-    {% endif %}
-    , p.id
+    score DESC,
+    p.id
 LIMIT {{ match_count }}
 OFFSET {{ offset }} 
