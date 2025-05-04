@@ -1,9 +1,15 @@
 import asyncio
 import csv
 import logging
+import sys
+import os
 from datetime import datetime
 from pathlib import Path
 from uuid import uuid4
+
+# Add the root directory to path so we can import app modules
+root_dir = Path(__file__).parent.parent
+sys.path.append(str(root_dir))
 
 from sqlalchemy import text, select
 from sqlalchemy.dialects.postgresql import insert
