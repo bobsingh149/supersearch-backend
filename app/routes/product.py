@@ -232,10 +232,13 @@ async def generate_item_questions(
     if existing_questions and not force_regenerate:
         return ProductQuestionsResponse(questions=existing_questions)
     
-    # Generate questions using the service
+    # Generate questions using the service, passing both item_data, product_id and session
+    # This allows the service to fetch additional product data if needed
     questions_response = await ItemQuestionService.generate_questions(
         item_data=item_data,
-        num_questions=num_questions
+        num_questions=num_questions,
+        product_id=product_id,
+        session=session
     )
     
     # Store the generated questions in the database

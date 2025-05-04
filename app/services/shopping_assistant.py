@@ -349,6 +349,8 @@ For example, if you're recommending an item with ID 'abc123' and title 'Document
 After your main response, always include 3 suggested follow-up questions with the format:
 follow_up_questions:question1|question2|question3
 
+IMPORTANT: At least one of your follow-up questions should be about reviews or opinions of the referenced item if applicable.
+
 Remember to list any referenced item IDs at the end of your response using the format product_ids:id1,id2,id3
 """
         
@@ -393,10 +395,12 @@ Remember to list any referenced item IDs at the end of your response using the f
 2. "follow_up_questions": Array of exactly 3 follow-up questions
 3. "referenced_product_ids": Array of product IDs you referenced (or empty array if none)
 
+IMPORTANT: At least one of your follow-up questions should be about reviews or opinions of the referenced item if applicable.
+
 Example format:
 {
   "query_response": "Here are some recommendations...",
-  "follow_up_questions": ["What about...", "Can you tell me...", "Do you have..."],
+  "follow_up_questions": ["What about...", "Can you tell me...", "Do you have reviews for..."],
   "referenced_product_ids": ["abc123", "def456"]
 }
 """
