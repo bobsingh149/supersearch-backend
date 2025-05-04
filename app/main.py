@@ -8,7 +8,7 @@ import os
 
 from app.core.appsettings import app_settings
 from app.services.vertex import get_embedding
-from app.routes import organization, product, recommend, search_product, shopping_assistant, sync_product, settings, sync_history, auth, lead, generate_content, review
+from app.routes import organization, product, recommend, search_product, shopping_assistant, sync_product, settings, sync_history, auth, lead, generate_content, review, order
 from app.database.session import check_db_connection
 from dotenv import load_dotenv
 from app.middlewares.route_logging import RequestTimingMiddleware
@@ -97,7 +97,7 @@ app.add_middleware(RequestTimingMiddleware)
 # Add rate limiter middleware
 app.add_middleware(
     RateLimiterMiddleware,
-    max_requests=600,
+    max_requests=1000,
     limited_paths=RATE_LIMITED_PATHS
 )
 
@@ -116,6 +116,7 @@ app.include_router(auth.router, prefix=API_V1_PREFIX)
 app.include_router(lead.router, prefix=API_V1_PREFIX)
 app.include_router(generate_content.router, prefix=API_V1_PREFIX)
 app.include_router(review.router, prefix=API_V1_PREFIX)
+app.include_router(order.router, prefix=API_V1_PREFIX)
 
 
 @app.get("/health",operation_id="root")

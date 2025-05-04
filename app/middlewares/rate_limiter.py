@@ -143,6 +143,7 @@ class RateLimiterMiddleware(BaseHTTPMiddleware):
         REQUEST_COUNTS[client_ip] = current_count + 1
         logger.debug(f"Request count for IP {client_ip}: {current_count + 1}")
         
+        request.state.client_ip = client_ip
         # Process the request
         response = await call_next(request)
         

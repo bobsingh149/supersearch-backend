@@ -16,6 +16,9 @@ from app.models.product import ProductSearchResult
 from app.models.review import Review, ReviewOrm
 from app.services.vertex import get_genai_client
 from app.database.sql.sql import render_sql, SQLFilePath
+from app.models.order import OrderOrm, Order
+from sqlalchemy import select
+from datetime import datetime, timezone, timedelta
 
 logger = logging.getLogger(__name__)
 
@@ -27,13 +30,15 @@ class ResponseSchema(BaseModel):
 class ShoppingAssistantUtils:
     SYSTEM_PROMPT = """You are a friendly and helpful search assistant. Your goal is to help users find items 
     and answer questions about items including products, blogs, content, documents, movies, and more. Provide clear, concise, and relevant responses.
+    You can also help users with information about their orders and purchases when asked.
     Respond in the same language as the query.
 
     CONTEXT USAGE GUIDELINES:
-    - You will see multiple types of context: user_query_context, function_call_results, and product reviews
+    - You will see multiple types of context: user_query_context, function_call_results, product reviews, and user's orders
     - user_query_context: Items the user has explicitly asked about or mentioned earlier
     - function_call_results: Items found by semantic search based on the current query
     - product reviews: Customer reviews or AI-generated summaries of reviews for products
+    - user's orders: Recent orders placed by the user with their current status
 
     Follow these rules when using context:
     1. If the user is searching for or asking about item recommendations, refer primarily to items in function_call_results
@@ -45,7 +50,16 @@ class ShoppingAssistantUtils:
     7. Don't force item recommendations when they're not appropriate
     8. When the user asks about reviews or opinions on a product, refer to the product reviews information if available
     9. If there are AI-generated summaries available, prioritize those over individual reviews to give a comprehensive overview
-    10. In case of ambiguity about which product the query is referring to, prioritize in this order:
+    10. If the user asks about their orders, order status, or delivery information, provide details from their recent orders
+    11. When explaining order status, use these definitions:
+        - "pending": The order is being processed and prepared for shipping
+        - "processing": The order is being prepared for shipping
+        - "shipped": The order has been shipped and is on its way 
+        - "delivered": The order has been delivered to the shipping address
+        - "cancelled": The order was cancelled and will not be processed
+        - "refunded": The order was refunded
+    12. If the user asks about tracking their order, provide the tracking number from the appropriate order
+    13. In case of ambiguity about which product the query is referring to, prioritize in this order:
        a. First assume it refers to items in user_query_context if present
        b. If no user_query_context, check if it refers to items from recent chat history
        c. If still ambiguous, consider items from function_call_results that best match the query
@@ -72,13 +86,15 @@ class ShoppingAssistantUtils:
     
     JSON_SYSTEM_PROMPT = """You are a friendly and helpful search assistant. Your goal is to help users find items 
     and answer questions about items including products, blogs, content, documents, movies, and more. Provide clear, concise, and relevant responses.
+    You can also help users with information about their orders and purchases when asked.
     Respond in the same language as the query.
 
     CONTEXT USAGE GUIDELINES:
-    - You will see multiple types of context: user_query_context, function_call_results, and product reviews
+    - You will see multiple types of context: user_query_context, function_call_results, product reviews, and user's orders
     - user_query_context: Items the user has explicitly asked about or mentioned earlier
     - function_call_results: Items found by semantic search based on the current query
     - product reviews: Customer reviews or AI-generated summaries of reviews for products
+    - user's orders: Recent orders placed by the user with their current status
 
     Follow these rules when using context:
     1. If the user is searching for or asking about item recommendations, refer primarily to items in function_call_results
@@ -90,7 +106,16 @@ class ShoppingAssistantUtils:
     7. Don't force item recommendations when they're not appropriate
     8. When the user asks about reviews or opinions on a product, refer to the product reviews information if available
     9. If there are AI-generated summaries available, prioritize those over individual reviews to give a comprehensive overview
-    10. In case of ambiguity about which product the query is referring to, prioritize in this order:
+    10. If the user asks about their orders, order status, or delivery information, provide details from their recent orders
+    11. When explaining order status, use these definitions:
+        - "pending": The order is being processed and prepared for shipping
+        - "processing": The order is being prepared for shipping
+        - "shipped": The order has been shipped and is on its way 
+        - "delivered": The order has been delivered to the shipping address
+        - "cancelled": The order was cancelled and will not be processed
+        - "refunded": The order was refunded
+    12. If the user asks about tracking their order, provide the tracking number from the appropriate order
+    13. In case of ambiguity about which product the query is referring to, prioritize in this order:
        a. First assume it refers to items in user_query_context if present
        b. If no user_query_context, check if it refers to items from recent chat history
        c. If still ambiguous, consider items from function_call_results that best match the query
@@ -313,6 +338,7 @@ class ShoppingAssistantUtils:
     def construct_prompt(
         query: str,
         context: Optional[str] = None,
+        orders_context: Optional[str] = None
     ) -> str:
         """
         Constructs a prompt for the search assistant by combining the user query and context.
@@ -320,6 +346,7 @@ class ShoppingAssistantUtils:
         Args:
             query: The user's question or request
             context: Optional context about items or other relevant information
+            orders_context: Optional context about user's recent orders
         
         Returns:
             str: The constructed prompt for the LLM
@@ -343,6 +370,22 @@ class ShoppingAssistantUtils:
 
 """
         
+        if orders_context:
+            prompt += "\nUser's Recent Orders:\n" + orders_context + "\n\n"
+            prompt += """ORDERS CONTEXT INSTRUCTIONS:
+1. Use this information when the user asks about their orders, order status, or previously purchased items
+2. Explain the order status to the user:
+   - "pending": The order is being processed and prepared for shipping
+   - "processing": The order is being prepared for shipping
+   - "shipped": The order has been shipped and is on its way 
+   - "delivered": The order has been delivered to the shipping address
+   - "cancelled": The order was cancelled and will not be processed
+   - "refunded": The order was refunded
+3. When the user asks about tracking, provide the tracking number from the order
+4. Include information about the items in the order when relevant
+5. Only use this order information when directly relevant to the user's query
+"""
+        
         prompt += """When mentioning item titles in your response, format them as hyperlinks using markdown, like this: [Item Title](/demo_site/:product_id).
 For example, if you're recommending an item with ID 'abc123' and title 'Documentary Film', format it as [Documentary Film](/demo_site/abc123).
 
@@ -360,6 +403,7 @@ Remember to list any referenced item IDs at the end of your response using the f
     def construct_json_prompt(
         query: str,
         context: Optional[str] = None,
+        orders_context: Optional[str] = None
     ) -> str:
         """
         Constructs a prompt for the search assistant to return JSON response by combining the user query and context.
@@ -367,6 +411,7 @@ Remember to list any referenced item IDs at the end of your response using the f
         Args:
             query: The user's question or request
             context: Optional context about items or other relevant information
+            orders_context: Optional context about user's recent orders
         
         Returns:
             str: The constructed prompt for the LLM to respond in JSON format
@@ -388,6 +433,22 @@ Remember to list any referenced item IDs at the end of your response using the f
    b. If no user_query_context, check if it refers to items from recent chat history
    c. If still ambiguous, consider items from function_call_results that best match the query
 
+"""
+        
+        if orders_context:
+            prompt += "\nUser's Recent Orders:\n" + orders_context + "\n\n"
+            prompt += """ORDERS CONTEXT INSTRUCTIONS:
+1. Use this information when the user asks about their orders, order status, or previously purchased items
+2. Explain the order status to the user:
+   - "pending": The order is being processed and prepared for shipping
+   - "processing": The order is being prepared for shipping
+   - "shipped": The order has been shipped and is on its way 
+   - "delivered": The order has been delivered to the shipping address
+   - "cancelled": The order was cancelled and will not be processed
+   - "refunded": The order was refunded
+3. When the user asks about tracking, provide the tracking number from the order
+4. Include information about the items in the order when relevant
+5. Only use this order information when directly relevant to the user's query
 """
         
         prompt += """REMEMBER: You MUST respond with a valid JSON object having these fields:
@@ -445,6 +506,60 @@ Example format:
             logger.error(f"Error fetching products by IDs: {str(e)}")
             return []
 
+    @staticmethod
+    async def get_latest_orders(session: AsyncSession, user_id: str, limit: int = 3) -> List[Order]:
+        """
+        Fetch the latest orders for a user and update their status based on expected_shipping_date
+        
+        Args:
+            session: Database session
+            user_id: User ID (client IP) to fetch orders for
+            limit: Maximum number of orders to fetch (default: 3)
+            
+        Returns:
+            List[Dict]: List of orders with updated status
+        """
+
+        
+        try:
+            # Build query to get latest orders
+            query = select(OrderOrm).where(OrderOrm.user_id == user_id)
+            query = query.order_by(OrderOrm.created_at.desc()).limit(limit)
+            
+            # Execute query
+            result = await session.execute(query)
+            orders = result.scalars().all()
+            
+            # Update status based on expected_shipping_date
+            current_date = datetime.now(timezone.utc)
+            updated_orders = []
+            
+            for order in orders:
+                # Create a dictionary representation of the order
+                order_dict = {c.name: getattr(order, c.name) for c in order.__table__.columns}
+                
+                # Update status if not in a final state
+                if order_dict["status"] not in ["delivered", "cancelled", "refunded"]:
+                    if order_dict["expected_shipping_date"]:
+                        # Convert to UTC timezone if not already
+                        expected_date = order_dict["expected_shipping_date"]
+                        
+                        # If current date is 1 day after expected shipping date, mark as delivered
+                        if current_date >= (expected_date + timedelta(days=1)):
+                            order_dict["status"] = "delivered"
+                        # If current date is on or after expected shipping date, mark as shipped
+                        elif current_date >= expected_date:
+                            order_dict["status"] = "shipped"
+                
+                # Convert to Pydantic model
+                order_model = Order.model_validate(order_dict)
+                updated_orders.append(order_model)
+            
+            return updated_orders
+            
+        except Exception as e:
+            logger.error(f"Error fetching latest orders: {str(e)}")
+            return []
 
 @alru_cache(maxsize=300)
 async def get_chat_from_history(conversation_id: str, stream: bool = True) -> AsyncChat:
