@@ -67,7 +67,6 @@ class Product(BaseModel):
     ai_generated_contents: Optional[List[str]] = None
     ai_summary: Optional[Dict] = None
     suggested_questions: Optional[List[str]] = None
-    reviews: Optional[List[ReviewBase]] = None
 
     model_config = ConfigDict(from_attributes=True)
 
