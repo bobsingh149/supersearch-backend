@@ -119,8 +119,9 @@ async def process_products_from_data(data: List[Dict[str, Any]]) -> List[Product
                             text_embedding = await get_embedding(searchable_content, TaskType.DOCUMENT)
                         except Exception as e:
                             logger.error(f"Error generating embedding for product {product_id}: {str(e)}")
-                            # Reuse existing embedding as fallback if there's an error
-                            text_embedding = None
+                            # Don't reuse existing embedding as fallback if there's an error
+                            logger.error(f"Product {product_id} has null embedding. Skipping product.")
+                            return None
                 else:
                     # New product, generate embedding
                     logger.info(f"New product {product_id}, generating embedding")
@@ -128,8 +129,13 @@ async def process_products_from_data(data: List[Dict[str, Any]]) -> List[Product
                         text_embedding = await get_embedding(searchable_content, TaskType.DOCUMENT)
                     except Exception as e:
                         logger.error(f"Error generating embedding for new product {product_id}: {str(e)}")
-                        # For new products with embedding errors, set to None
-                        text_embedding = None
+                        logger.error(f"Product {product_id} has null embedding. Skipping product.")
+                        return None
+                
+                # Skip products with null embeddings
+                if text_embedding is None:
+                    logger.error(f"Product {product_id} has null embedding. Skipping product.")
+                    return None
                 
                 # Create product object
                 product = Product(
@@ -161,17 +167,7 @@ async def process_products_from_data(data: List[Dict[str, Any]]) -> List[Product
                 
         except Exception as e:
             logger.error(f"Database error processing product {product_id}: {str(e)}")
-            # Still return the product even if DB operation failed
-            product = Product(
-                id=product_id,
-                title=title,
-                text_embedding=text_embedding,
-                searchable_content=searchable_content,
-                image_url=image_url,
-                custom_data=item
-            )
-            processed_products.append(product)
-            return product
+            return None
     
     # Process all products in parallel using TaskGroup
     async with asyncio.TaskGroup() as tg:
@@ -183,7 +179,7 @@ async def process_products_from_data(data: List[Dict[str, Any]]) -> List[Product
     if filter_fields or sortable_fields:
         await create_jsonb_indexes(filter_fields, sortable_fields)
     
-    # Filter out None values (skipped products with empty searchable content)
+    # Filter out None values (skipped products with empty searchable content or null embeddings)
     return [product for product in processed_products if product is not None]
 
 def generate_searchable_content(item: Dict[str, Any], searchable_attribute_fields: List[str]) -> str:
