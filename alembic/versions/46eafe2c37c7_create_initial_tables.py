@@ -221,13 +221,13 @@ def downgrade() -> None:
         DROP INDEX IF EXISTS {schema}.idx_rate_limits_ip_address;
         DROP INDEX IF EXISTS {schema}.idx_reviews_product_id;
         
-        -- Drop tables
+        -- Drop tables in the correct order (respecting foreign key dependencies)
+        DROP TABLE IF EXISTS {schema}.reviews;
         DROP TABLE IF EXISTS {schema}.products;
         DROP TABLE IF EXISTS {schema}.conversations;
         DROP TABLE IF EXISTS {schema}.settings;
         DROP TABLE IF EXISTS {schema}.sync_history;
         DROP TABLE IF EXISTS {schema}.rate_limits;
-        DROP TABLE IF EXISTS {schema}.reviews;
         
         -- Drop schema
         DROP SCHEMA IF EXISTS {schema} CASCADE;
