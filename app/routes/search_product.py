@@ -12,6 +12,8 @@ from typing import List, Optional, Dict, Any, Literal
 from pydantic import BaseModel, Field
 from app.models.settings import SettingKey
 from app.utils.settings import get_setting_by_key
+import time
+from app.models.review import Review
 
 logger = logging.getLogger(__name__)
 
@@ -441,6 +443,71 @@ async def semantic_search(
     
     except Exception as e:
         logger.error(f"Error in semantic search: {str(e)}")
+        raise HTTPException(status_code=500, detail=str(e))
+
+@router.get("/semantic-with-reviews", response_model=List[ProductSearchResult])
+async def semantic_search_with_reviews(
+    query: str = Query(default="", description="Search query text"),
+    page: int = Query(default=1, ge=1, description="Page number"),
+    size: int = Query(default=10, ge=1, le=100, description="Results per page"),
+    db: AsyncSession = Depends(get_async_session)
+):
+    """
+    Perform semantic search with product reviews using vector embeddings with pagination.
+    If query is empty, returns all products in paginated form without any ranking.
+    """
+    try:
+        # Handle empty query
+        empty_results = await handle_empty_query(query, page, size, db, include_search_type=False)
+        if empty_results is not None:
+            return empty_results
+            
+        # Calculate offset from page and size
+        offset = (page - 1) * size
+        
+        # Get vector embedding for the query
+        query_embedding = await get_embedding(query, TaskType.QUERY)
+
+        # Use the semantic search with reviews SQL template
+        sql_query = render_sql(SQLFilePath.PRODUCT_SEMANTIC_SEARCH_WITH_REVIEWS,
+                              query_embedding=query_embedding,
+                              match_count=size)
+        
+        start_time = time.time()
+        result = await db.execute(text(sql_query))
+
+        end_time = time.time()
+        logger.info(f"Time taken to execute semantic search with reviews query: {end_time - start_time:.2f} seconds")
+        
+        products = []
+        for row in result:
+            try:
+                # Convert row mapping to dictionary
+                row_dict = dict(row._mapping)
+
+                print("*****************row_dict*****************")
+                print(row_dict)
+                
+                # Parse reviews JSON into Review objects
+                if 'reviews' in row_dict and row_dict['reviews']:
+                    row_dict['reviews'] = [
+                        Review.model_validate(review_data)
+                        for review_data in row_dict['reviews']
+                    ]
+                
+                # Create ProductSearchResult with the row data
+                product = ProductSearchResult.model_validate(row_dict)
+                products.append(product)
+            except Exception as product_error:
+                logger.error(f"Error processing product data: {str(product_error)}")
+                # Continue with other products even if one fails
+                continue
+        
+        logger.info(f"Found {len(products)} semantic search results with reviews for query: {query}")
+        return products
+    
+    except Exception as e:
+        logger.error(f"Error in semantic search with reviews: {str(e)}")
         raise HTTPException(status_code=500, detail=str(e))
 
 @router.get("/hybrid-without-ranking", response_model=List[ProductSearchResult])
