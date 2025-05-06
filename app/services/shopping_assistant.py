@@ -276,38 +276,36 @@ class ShoppingAssistantUtils:
         conversation_id: str,
         user_message: str,
         assistant_response: str,
-        context: Optional[str] = None
+        context: Optional[str] = None,
+        tenant: str = None
     ) -> None:
         """
         Save conversation messages to database
-        
         Args:
             db: Database session
             conversation_id: Unique conversation identifier
             user_message: User's message
             assistant_response: Assistant's response
             context: Optional context provided to the assistant
+            tenant: Tenant/schema name
         """
         try:
             # Check if conversation exists
-            query = text("SELECT * FROM demo_movies.conversations WHERE conversation_id = :conversation_id")
+            query = text(f"SELECT * FROM {tenant}.conversations WHERE conversation_id = :conversation_id")
             result = await db.execute(query, {"conversation_id": conversation_id})
             conversation = result.first()
-            
             # Merge context with user message if provided
             user_message_with_context = user_message
             if context:
                 user_message_with_context = f"{user_message}\n\nContext:\n{context}"
-            
             new_messages = [
                 {"role": "user", "content": user_message_with_context},
                 {"role": "model", "content": assistant_response}
             ]
-            
             if conversation:
                 # Update existing conversation
-                update_query = text("""
-                    UPDATE demo_movies.conversations 
+                update_query = text(f"""
+                    UPDATE {tenant}.conversations 
                     SET messages = messages || CAST(:new_messages AS jsonb)
                     WHERE conversation_id = :conversation_id
                 """)
@@ -317,18 +315,16 @@ class ShoppingAssistantUtils:
                 })
             else:
                 # Insert new conversation
-                insert_query = text("""
-                    INSERT INTO demo_movies.conversations (conversation_id, messages) 
+                insert_query = text(f"""
+                    INSERT INTO {tenant}.conversations (conversation_id, messages) 
                     VALUES (:conversation_id, :messages)
                 """)
                 await db.execute(insert_query, {
                     "conversation_id": conversation_id,
                     "messages": json.dumps(new_messages)
                 })
-
             await db.commit()
             logger.info(f"Saved conversation for ID: {conversation_id}")
-            
         except Exception as e:
             logger.error(f"Error saving conversation: {str(e)}")
             await db.rollback()
@@ -563,37 +559,32 @@ Example format:
             return []
 
 @alru_cache(maxsize=300)
-async def get_chat_from_history(conversation_id: str, stream: bool = True) -> AsyncChat:
+async def get_chat_from_history(conversation_id: str, stream: bool = True, tenant: str = None) -> AsyncChat:
     """
     Get or create a chat session with history from the database
     Uses caching to avoid recreating chat sessions frequently
-    
     Args:
         conversation_id: Unique conversation identifier
         stream: Whether to stream the response. If False, use JSON model config
-        
+        tenant: Tenant/schema name
     Returns:
         AsyncChat: Chat session with history
     """
-
     client: genai.Client = get_genai_client()
     try:
         # Get conversation history from database
         async with get_async_session_with_contextmanager() as session:
-            query = text("SELECT * FROM demo_movies.conversations WHERE conversation_id = :conversation_id")
+            query = text(f"SELECT * FROM {tenant}.conversations WHERE conversation_id = :conversation_id")
             result = await session.execute(query, {"conversation_id": conversation_id})
             conversation = result.first()
-
         # Select the appropriate model config based on stream parameter
         model_config = ShoppingAssistantUtils.get_model_config() if stream else ShoppingAssistantUtils.get_json_model_config()
-
         if not conversation:
             # Create new chat without history
             return client.aio.chats.create(
                 model=ShoppingAssistantUtils.model,
                 config=model_config
             )
-
         # Convert database history to chat format
         history = []
         for msg in conversation.messages:
@@ -601,7 +592,6 @@ async def get_chat_from_history(conversation_id: str, stream: bool = True) -> As
                 parts=[Part.from_text(text=msg['content'])],
                 role=msg['role']
             ))
-
         return client.aio.chats.create(
             model=ShoppingAssistantUtils.model,
             history=history,

@@ -55,7 +55,7 @@ async def chat_with_assistant(
         # Fetch specific products if IDs provided
         if product_id_list:
             # Get context for specific products using utility method
-            context_products = await ShoppingAssistantUtils.get_products_by_ids(session, product_id_list)
+            context_products = await ShoppingAssistantUtils.get_products_by_ids(session, product_id_list, tenant)
             
             # Add to context
             if context_products:
@@ -117,7 +117,7 @@ async def chat_with_assistant(
         if chat_request.stream:
 
             # Get chat session with history
-            chat = await get_chat_from_history(conversation_id= chat_request.conversation_id, stream=True)
+            chat = await get_chat_from_history(conversation_id= chat_request.conversation_id, stream=True, tenant=tenant)
 
 
             # Prepare prompt with context merged with user query
@@ -189,7 +189,7 @@ async def chat_with_assistant(
                 referenced_product_ids = ShoppingAssistantUtils.extract_product_ids(full_response)
 
                 # Get referenced products directly from database
-                referenced_products = await ShoppingAssistantUtils.get_products_by_ids(session, referenced_product_ids)
+                referenced_products = await ShoppingAssistantUtils.get_products_by_ids(session, referenced_product_ids, tenant)
                 
                 # Yield products if any were referenced
                 if referenced_products:
@@ -226,7 +226,7 @@ async def chat_with_assistant(
                     ])
                     merged_response += product_info
                 
-                await ShoppingAssistantUtils.save_conversation(session, chat_request.conversation_id, chat_request.query, merged_response, context)
+                await ShoppingAssistantUtils.save_conversation(session, chat_request.conversation_id, chat_request.query, merged_response, context, tenant=tenant)
             
             return FastAPIStreamingResponse(response_stream_generator(), media_type="application/json")
         else:
@@ -239,7 +239,7 @@ async def chat_with_assistant(
             
 
             # Using the JSON model config to get a JSON response
-            chat = await get_chat_from_history(conversation_id=chat_request.conversation_id,stream=False)
+            chat = await get_chat_from_history(conversation_id=chat_request.conversation_id,stream=False, tenant=tenant)
             # Override the config to use JSON format
                         # Get regular response in JSON format
             start_time = time.time()
@@ -259,7 +259,7 @@ async def chat_with_assistant(
                 referenced_product_ids = response_data.get("referenced_product_ids", [])
                 
                 # Get referenced products directly from database
-                referenced_products = await ShoppingAssistantUtils.get_products_by_ids(session, referenced_product_ids)
+                referenced_products = await ShoppingAssistantUtils.get_products_by_ids(session, referenced_product_ids, tenant)
                 
                 # Save conversation with the query response
                 merged_response = query_response
@@ -269,7 +269,7 @@ async def chat_with_assistant(
                     ])
                     merged_response += product_info
                 
-                await ShoppingAssistantUtils.save_conversation(session, chat_request.conversation_id, chat_request.query, merged_response, context)
+                await ShoppingAssistantUtils.save_conversation(session, chat_request.conversation_id, chat_request.query, merged_response, context, tenant=tenant)
                 
                 return ChatResponse(
                     response=query_response,
