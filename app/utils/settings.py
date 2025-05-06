@@ -53,7 +53,7 @@ async def get_setting_by_key(
                 id_field="key",
                 id=key.value
             )
-            result = await new_session.execute(query)
+            result = await new_session.execute(text(query))
             setting = result.mappings().one_or_none()
             
             if setting:
