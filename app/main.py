@@ -6,7 +6,6 @@ from starlette.middleware.cors import CORSMiddleware
 import logging.handlers
 import os
 
-from app.core.appsettings import app_settings
 from app.services.vertex import get_embedding
 from app.routes import organization, product, recommend, search_product, shopping_assistant, sync_product, settings, sync_history, auth, lead, generate_content, review, order
 from app.database.session import check_db_connection
@@ -44,8 +43,7 @@ RATE_LIMITED_PATHS = {
     "/v1/search"
 }
 
-# Create a standalone rate limiter to be used in lifespan
-rate_limiter = RateLimiterMiddleware(None, max_requests=10, limited_paths=RATE_LIMITED_PATHS)
+
 
 async def initialize_server():
     """Initialize all necessary components for server startup"""
@@ -63,12 +61,13 @@ async def initialize_server():
 async def lifespan(_app: FastAPI):
     """Initialize model and processor on startup"""
     await initialize_server()
+    await RateLimiterMiddleware.initialize_from_db()
 
     yield
     
     # Save rate limiter data to database when server shuts down
     logger.info("Saving rate limiter data to database before shutdown")
-    await rate_limiter.save_to_db()
+    await RateLimiterMiddleware.save_to_db()
     
     logger.info("Shutting down...")
 

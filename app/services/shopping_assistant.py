@@ -13,7 +13,6 @@ import json
 
 from app.database.session import get_async_session_with_contextmanager
 from app.models.product import ProductSearchResult
-from app.models.review import Review, ReviewOrm
 from app.services.vertex import get_genai_client
 from app.database.sql.sql import render_sql, SQLFilePath
 from app.models.order import OrderOrm, Order

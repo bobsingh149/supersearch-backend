@@ -1,15 +1,14 @@
 from fastapi import Request, status
 from starlette.middleware.base import BaseHTTPMiddleware
-from starlette.responses import Response, JSONResponse
+from starlette.responses import JSONResponse
 from typing import Dict, Set, Optional, Callable
 import logging
 from datetime import datetime
 from sqlalchemy.future import select
 from sqlalchemy.dialects.postgresql import insert
 from app.database.session import get_async_session_with_contextmanager
-from app.models.rate_limit import RateLimitDB, RateLimit
+from app.models.rate_limit import RateLimitDB
 import asyncio
-import json
 
 logger = logging.getLogger(__name__)
 
@@ -31,34 +30,36 @@ class RateLimiterMiddleware(BaseHTTPMiddleware):
         # Use the shared module-level request counts
         self.limited_paths = limited_paths or set()
         self.get_path_identifier = get_path_identifier or (lambda path: path)
-        
-    async def initialize_from_db(self):
+
+    @staticmethod
+    async def initialize_from_db():
         """Load existing rate limits from database on startup"""
         global INITIALIZED
         if INITIALIZED:
             return
-            
+
         async with INITIALIZATION_LOCK:
             if INITIALIZED:  # Double-check lock pattern
                 return
-                
+
             logger.info("Initializing rate limiter from database...")
             try:
                 async with get_async_session_with_contextmanager() as session:
                     result = await session.execute(select(RateLimitDB))
                     rate_limits = result.scalars().all()
-                    
+
                     for rate_limit in rate_limits:
                         REQUEST_COUNTS[rate_limit.ip_address] = rate_limit.request_count
-                        
+
                     logger.info(f"Loaded {len(rate_limits)} rate limits from database")
                     INITIALIZED = True
             except Exception as e:
                 logger.error(f"Failed to initialize rate limiter from database: {str(e)}")
                 # Continue without data from database
                 INITIALIZED = True  # Mark as initialized to prevent retry loops
-    
-    async def save_to_db(self):
+
+    @staticmethod
+    async def save_to_db():
         """Save current rate limits to database"""
         logger.info("Saving rate limits to database...")
         try:

@@ -90,7 +90,7 @@ def sanitize_kwargs(kwargs: Dict[str, Any]) -> Dict[str, Any]:
             sanitized[key] = pg_escape_value(value)
     return sanitized
 
-def render_sql(filename: SQLFilePath, *, tenant: str, **kwargs) -> str:
+def render_sql(filename: SQLFilePath, tenant: str, **kwargs) -> str:
     """
     Loads and renders an SQL template with the given parameters.
     

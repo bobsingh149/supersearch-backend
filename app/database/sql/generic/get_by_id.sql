@@ -1,4 +1,4 @@
 SELECT *
 FROM {{ tenant }}.{{ table_name }}
-WHERE id = '{{ id }}'
+WHERE {{ id_field }} = '{{ id }}'
 LIMIT 1 

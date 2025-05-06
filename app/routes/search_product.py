@@ -35,7 +35,7 @@ class SortOption(BaseModel):
     field: str
     direction: Literal["asc", "desc"] = "asc"
 
-async def validate_filter_sort_fields(filters: Optional[FilterOptions], sort: Optional[SortOption]) -> None:
+async def validate_filter_sort_fields(tenant: str, filters: Optional[FilterOptions], sort: Optional[SortOption]) -> None:
     """
     Validate that filter and sort fields exist in the configured filter_fields and sortable_fields.
     
@@ -47,7 +47,7 @@ async def validate_filter_sort_fields(filters: Optional[FilterOptions], sort: Op
         HTTPException: If any filter or sort field is not found in the configured fields
     """
     # Get search config with filter_fields and sortable_fields
-    search_config = await get_setting_by_key(SettingKey.SEARCH_CONFIG)
+    search_config = await get_setting_by_key(SettingKey.SEARCH_CONFIG, tenant)
     if not search_config:
         raise HTTPException(status_code=400, detail="Search configuration not found")
     
@@ -203,7 +203,7 @@ async def hybrid_search(
     """
     try:
         # Validate filter and sort fields
-        await validate_filter_sort_fields(filters, sort)
+        await validate_filter_sort_fields(tenant=tenant, filters=filters, sort=sort)
         
         # Handle empty query
         empty_results = await handle_empty_query(query, page, size, db, include_search_type=False, 
