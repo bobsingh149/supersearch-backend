@@ -63,10 +63,7 @@ async def initialize_server():
 async def lifespan(_app: FastAPI):
     """Initialize model and processor on startup"""
     await initialize_server()
-    
-    # Initialize rate limiter from database
-    await rate_limiter.initialize_from_db()
-    
+
     yield
     
     # Save rate limiter data to database when server shuts down

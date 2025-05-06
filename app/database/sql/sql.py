@@ -30,6 +30,16 @@ class SQLFilePath(Enum):
     PRODUCT_GET_BY_IDS = "product/get_products_by_ids"
     PRODUCT_EMPTY_QUERY = "product/empty_query"
     
+    # Generic CRUD operations
+    GENERIC_GET_BY_ID = "generic/get_by_id"
+    GENERIC_GET_ALL = "generic/get_all"
+    GENERIC_INSERT = "generic/insert"
+    GENERIC_BULK_INSERT = "generic/bulk_insert"
+    GENERIC_UPDATE = "generic/update"
+    GENERIC_DELETE = "generic/delete"
+    GENERIC_COUNT = "generic/count"
+    GENERIC_ADVANCED_FILTER = "generic/advanced_filter"
+    
     # Add more SQL file paths as needed
     
     def __str__(self) -> str:
