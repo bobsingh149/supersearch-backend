@@ -6,7 +6,7 @@ SELECT
     p.image_url,
     paradedb.score(p.id) as score
 FROM
-    products p
+    {{ tenant }}.products p
 WHERE
     id @@@ paradedb.match(
         field => 'searchable_content',

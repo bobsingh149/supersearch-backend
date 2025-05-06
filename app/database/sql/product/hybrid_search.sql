@@ -3,7 +3,7 @@ WITH bm25_matches AS (
         id,
         row_number() over(order by paradedb.score(id) desc) as rank_ix
     FROM 
-        products
+        {{ tenant }}.products
     WHERE 
         id @@@ paradedb.match(
             field => 'searchable_content',
@@ -18,7 +18,7 @@ semantic AS (
         id,
         row_number() over (order by (text_embedding <=> '{{ query_embedding }}')*1) as rank_ix
     FROM
-        products
+        {{ tenant }}.products
     ORDER BY rank_ix
     LIMIT {{ match_count }} * 2
 )
@@ -34,7 +34,7 @@ FROM
     bm25_matches
     FULL OUTER JOIN semantic
         ON bm25_matches.id = semantic.id
-    JOIN products p
+    JOIN {{ tenant }}.products p
         ON coalesce(bm25_matches.id, semantic.id) = p.id
 ORDER BY
     score DESC,

@@ -5,7 +5,7 @@ SELECT
     searchable_content,
     image_url,
     0 as score
-FROM products
+FROM {{ tenant }}.products
 {% if filter_field and filter_value %}
 WHERE 
     id @@@ paradedb.match(

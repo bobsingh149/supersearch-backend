@@ -11,13 +11,13 @@ SELECT p.id, p.title, p.custom_data, p.searchable_content, p.image_url, p.ai_sum
                )
                FROM (
                    SELECT content, author
-                   FROM demo_movies.reviews
+                   FROM {{ tenant }}.reviews
                    WHERE product_id = p.id
                    LIMIT 3
                ) r
            ),
            '[]'::jsonb
        ) as reviews
-FROM demo_movies.products p
+FROM {{ tenant }}.products p
 WHERE p.id = ANY(:product_ids)
 GROUP BY p.id, p.title, p.custom_data, p.searchable_content, p.image_url, p.ai_summary 

@@ -9,7 +9,7 @@ WITH combined_results AS (
             paradedb.score(id) as score,
             'keyword' as search_type
         FROM
-            products p
+            {{ tenant }}.products p
         WHERE
             id @@@ paradedb.match(
                 field => 'searchable_content',
@@ -30,7 +30,7 @@ WITH combined_results AS (
             0 as score,
             'semantic' as search_type
         FROM
-            products p
+            {{ tenant }}.products p
         ORDER BY (text_embedding <=> '{{ query_embedding }}')*1
         LIMIT {{ match_count }}
     )

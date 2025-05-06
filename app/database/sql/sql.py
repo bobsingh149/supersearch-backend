@@ -80,7 +80,7 @@ def sanitize_kwargs(kwargs: Dict[str, Any]) -> Dict[str, Any]:
             sanitized[key] = pg_escape_value(value)
     return sanitized
 
-def render_sql(filename: SQLFilePath, **kwargs) -> str:
+def render_sql(filename: SQLFilePath, *, tenant: str, **kwargs) -> str:
     """
     Loads and renders an SQL template with the given parameters.
     
@@ -88,15 +88,18 @@ def render_sql(filename: SQLFilePath, **kwargs) -> str:
         filename: Name of the SQL file (with or without .sql extension)
                  Can be a string path or SQLFilePath enum
                  Can include subfolder path like 'product/full_text_search'
+        tenant: The tenant/schema name (required)
         kwargs: Dictionary of parameters to pass to the template
     
     Returns:
         Rendered SQL query as a string
     
     Example:
-        render_sql(SQLFilePath.PRODUCT_FULL_TEXT_SEARCH, query_text='search term', limit=10)
-        render_sql('product/full_text_search', query_text='search term', limit=10)
+        render_sql(SQLFilePath.PRODUCT_FULL_TEXT_SEARCH, tenant='demo_movies', query_text='search term', limit=10)
+        render_sql('product/full_text_search', tenant='demo_movies', query_text='search term', limit=10)
     """
+    if not tenant:
+        raise ValueError("Tenant (schema) name must be provided to render_sql.")
     # Convert enum to string if needed
     if isinstance(filename, SQLFilePath):
         filename = str(filename)
@@ -107,6 +110,7 @@ def render_sql(filename: SQLFilePath, **kwargs) -> str:
     
     # Sanitize all input parameters to prevent SQL injection
     safe_kwargs = sanitize_kwargs(kwargs)
+    safe_kwargs['tenant'] = tenant
     
     template = jinja_env.get_template(filename)
     return template.render(**safe_kwargs) 

@@ -3,7 +3,7 @@ WITH product_embeddings AS (
         text_embedding,
         searchable_content
     FROM 
-        products 
+        {{ tenant }}.products 
     WHERE 
         id = '{{ product_id }}'
 ),
@@ -12,7 +12,7 @@ bm25_matches AS (
         p.id,
         row_number() over(order by paradedb.score(p.id) desc) as rank_ix
     FROM 
-        products p,
+        {{ tenant }}.products p,
         product_embeddings pe
     WHERE 
         p.id @@@ paradedb.match(
@@ -29,7 +29,7 @@ semantic AS (
         p.id,
         row_number() over (order by p.text_embedding <=> pe.text_embedding) as rank_ix
     FROM
-        products p,
+        {{ tenant }}.products p,
         product_embeddings pe
     WHERE
         p.id != '{{ product_id }}'
@@ -48,7 +48,7 @@ FROM
     bm25_matches
     FULL OUTER JOIN semantic
         ON bm25_matches.id = semantic.id
-    JOIN products p
+    JOIN {{ tenant }}.products p
         ON coalesce(bm25_matches.id, semantic.id) = p.id
 ORDER BY
     score DESC

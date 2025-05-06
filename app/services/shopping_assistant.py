@@ -469,13 +469,14 @@ Example format:
         return prompt
 
     @staticmethod
-    async def get_products_by_ids(session: AsyncSession, product_ids: List[str]) -> List[ProductSearchResult]:
+    async def get_products_by_ids(session: AsyncSession, product_ids: List[str], tenant: str) -> List[ProductSearchResult]:
         """
         Fetch products by their IDs from the database
         
         Args:
             session: Database session
             product_ids: List of product IDs to fetch
+            tenant: Tenant identifier
             
         Returns:
             List[ProductSearchResult]: List of product search results
@@ -485,7 +486,7 @@ Example format:
             
         try:
             start_time = time.time()
-            query = text(render_sql(SQLFilePath.PRODUCT_GET_BY_IDS, product_ids=product_ids))
+            query = text(render_sql(SQLFilePath.PRODUCT_GET_BY_IDS, product_ids=product_ids, tenant=tenant))
             result = await session.execute(query, {"product_ids": product_ids})
             products = [row._mapping for row in result]
             

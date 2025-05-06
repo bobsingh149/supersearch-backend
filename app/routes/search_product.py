@@ -1,7 +1,7 @@
 from fastapi import APIRouter, HTTPException, Query, Body
 from sqlalchemy import text
 from sqlalchemy.ext.asyncio import AsyncSession
-from app.database.session import get_async_session
+from app.database.session import get_async_session, get_tenant_name
 from fastapi import Depends
 import logging
 from app.models.product import ProductSearchResult
@@ -118,7 +118,8 @@ async def handle_empty_query(
     db: AsyncSession, 
     include_search_type: bool = True,
     filters: Optional[FilterOptions] = None,
-    sort: Optional[SortOption] = None
+    sort: Optional[SortOption] = None,
+    tenant: str = Depends(get_tenant_name)
 ) -> List[ProductSearchResult]:
     """
     Utility method to handle empty queries by returning all products in paginated form.
@@ -131,6 +132,7 @@ async def handle_empty_query(
         include_search_type: Whether to include search_type field in the results
         filters: Optional filter options
         sort: Optional sort option
+        tenant: Tenant name
         
     Returns:
         List of ProductSearchResult objects with all products in paginated form
@@ -166,7 +168,8 @@ async def handle_empty_query(
         sort_field=sort_field,
         sort_direction=sort_direction,
         limit=size,
-        offset=offset
+        offset=offset,
+        tenant=tenant
     )
     
     result = await db.execute(text(sql_query))
@@ -190,7 +193,8 @@ async def hybrid_search(
     size: int = Query(default=10, ge=1, le=100, description="Results per page"),
     filters: Optional[FilterOptions] = Body(default=None, description="Filter options"),
     sort: Optional[SortOption] = Body(default=None, description="Sort option"),
-    db: AsyncSession = Depends(get_async_session)
+    db: AsyncSession = Depends(get_async_session),
+    tenant: str = Depends(get_tenant_name)
 ):
     """
     Perform hybrid search using both full-text and semantic search with pagination.
@@ -203,7 +207,7 @@ async def hybrid_search(
         
         # Handle empty query
         empty_results = await handle_empty_query(query, page, size, db, include_search_type=False, 
-                                                filters=filters, sort=sort)
+                                                filters=filters, sort=sort, tenant=tenant)
         if empty_results is not None:
             return empty_results
             
@@ -221,8 +225,8 @@ async def hybrid_search(
                                full_text_weight=0.1,
                                semantic_weight=0.9,
                                rrf_k=10,
-                               fuzzy_distance=1
-                               )
+                               fuzzy_distance=1,
+                               tenant=tenant)
         result = await db.execute(text(sql_query))
         
         products = [
@@ -242,7 +246,8 @@ async def full_text_search(
     query: str = Query(default="", description="Search query text"),
     limit: int = Query(default=10, le=100),
     fuzzy_distance: int = Query(default=1, ge=0, le=5),
-    db: AsyncSession = Depends(get_async_session)
+    db: AsyncSession = Depends(get_async_session),
+    tenant: str = Depends(get_tenant_name)
 ):
     """
     Perform full-text search using PostgreSQL's full text search capabilities.
@@ -283,7 +288,8 @@ async def full_text_search(
         sql_query = render_sql(SQLFilePath.PRODUCT_FULL_TEXT_SEARCH,
                               query_text=query,
                               fuzzy_distance=fuzzy_distance,
-                              match_count=limit)
+                              match_count=limit,
+                              tenant=tenant)
         
         result = await db.execute(text(sql_query))
         
@@ -304,7 +310,8 @@ async def autocomplete_search(
     query: str = Query(default="", description="Search query text"),
     limit: int = Query(default=10, le=100),
     fuzzy_distance: int = Query(default=1, ge=0, le=5),
-    db: AsyncSession = Depends(get_async_session)
+    db: AsyncSession = Depends(get_async_session),
+    tenant: str = Depends(get_tenant_name)
 ):
     """
     Perform autocomplete search with fuzzy matching.
@@ -344,8 +351,8 @@ async def autocomplete_search(
         sql_query = render_sql(SQLFilePath.PRODUCT_AUTOCOMPLETE_SEARCH,
                               query_text=query,
                               match_count=limit,
-                             fuzzy_distance=fuzzy_distance
-                               )
+                             fuzzy_distance=fuzzy_distance,
+                              tenant=tenant)
         
         result = await db.execute(text(sql_query))
         
@@ -369,7 +376,8 @@ async def semantic_search(
     query: str = Query(default="", description="Search query text"),
     page: int = Query(default=1, ge=1, description="Page number"),
     size: int = Query(default=10, ge=1, le=100, description="Results per page"),
-    db: AsyncSession = Depends(get_async_session)
+    db: AsyncSession = Depends(get_async_session),
+    tenant: str = Depends(get_tenant_name)
 ):
     """
     Perform semantic search using vector embeddings with pagination.
@@ -377,7 +385,7 @@ async def semantic_search(
     """
     try:
         # Handle empty query
-        empty_results = await handle_empty_query(query, page, size, db, include_search_type=False)
+        empty_results = await handle_empty_query(query, page, size, db, include_search_type=False, tenant=tenant)
         if empty_results is not None:
             return empty_results
             
@@ -390,7 +398,8 @@ async def semantic_search(
         sql_query = render_sql(SQLFilePath.PRODUCT_SEMANTIC_SEARCH,
                               query_embedding=query_embedding,
                               match_count=size,
-                              offset=offset)
+                              offset=offset,
+                              tenant=tenant)
         print(sql_query)
         result = await db.execute(text(sql_query))
         
@@ -411,7 +420,8 @@ async def semantic_search_with_reviews(
     query: str = Query(default="", description="Search query text"),
     page: int = Query(default=1, ge=1, description="Page number"),
     size: int = Query(default=10, ge=1, le=100, description="Results per page"),
-    db: AsyncSession = Depends(get_async_session)
+    db: AsyncSession = Depends(get_async_session),
+    tenant: str = Depends(get_tenant_name)
 ):
     """
     Perform semantic search with product reviews using vector embeddings with pagination.
@@ -419,7 +429,7 @@ async def semantic_search_with_reviews(
     """
     try:
         # Handle empty query
-        empty_results = await handle_empty_query(query, page, size, db, include_search_type=False)
+        empty_results = await handle_empty_query(query, page, size, db, include_search_type=False, tenant=tenant)
         if empty_results is not None:
             return empty_results
             
@@ -432,7 +442,8 @@ async def semantic_search_with_reviews(
         # Use the semantic search with reviews SQL template
         sql_query = render_sql(SQLFilePath.PRODUCT_SEMANTIC_SEARCH_WITH_REVIEWS,
                               query_embedding=query_embedding,
-                              match_count=size)
+                              match_count=size,
+                              tenant=tenant)
         
         start_time = time.time()
         result = await db.execute(text(sql_query))
@@ -474,7 +485,8 @@ async def hybrid_search_without_ranking(
     page: int = Query(default=1, ge=1, description="Page number"),
     size: int = Query(default=10, ge=1, le=100, description="Results per page"),
     rerank: bool = Query(default=True, description="Whether to rerank the results"),
-    db: AsyncSession = Depends(get_async_session)
+    db: AsyncSession = Depends(get_async_session),
+    tenant: str = Depends(get_tenant_name)
 ):
     """
     Perform hybrid search without ranking using both full-text and semantic search with pagination,
@@ -483,7 +495,7 @@ async def hybrid_search_without_ranking(
     """
     try:
         # Handle empty query
-        empty_results = await handle_empty_query(query, page, size, db, include_search_type=True)
+        empty_results = await handle_empty_query(query, page, size, db, include_search_type=True, tenant=tenant)
         if empty_results is not None:
             return empty_results
             
@@ -497,7 +509,8 @@ async def hybrid_search_without_ranking(
                                query_text=query,
                                query_embedding=query_embedding,
                                match_count=size,
-                               offset=offset)
+                               offset=offset,
+                               tenant=tenant)
         
         result = await db.execute(text(sql_query))
         
@@ -526,7 +539,8 @@ async def hybrid_search_with_reranking(
     page: int = Query(default=1, ge=1, description="Page number"),
     size: int = Query(default=10, ge=1, le=100, description="Results per page"),
     top_n: Optional[int] = Query(default=None, description="Number of top results to return after reranking"),
-    db: AsyncSession = Depends(get_async_session)
+    db: AsyncSession = Depends(get_async_session),
+    tenant: str = Depends(get_tenant_name)
 ):
     """
     Perform hybrid search without ranking and then rerank the results using the reranker service.
@@ -535,7 +549,7 @@ async def hybrid_search_with_reranking(
     """
     try:
         # Handle empty query
-        empty_results = await handle_empty_query(query, page, size, db, include_search_type=True)
+        empty_results = await handle_empty_query(query, page, size, db, include_search_type=True, tenant=tenant)
         if empty_results is not None:
             return empty_results
             
@@ -553,7 +567,8 @@ async def hybrid_search_with_reranking(
                                query_text=query,
                                query_embedding=query_embedding,
                                match_count=rerank_pool_size,
-                               offset=offset)
+                               offset=offset,
+                               tenant=tenant)
         
         result = await db.execute(text(sql_query))
         

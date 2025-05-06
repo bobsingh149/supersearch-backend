@@ -2,7 +2,7 @@ WITH product_embeddings AS (
     SELECT 
         text_embedding
     FROM 
-        products 
+        {{ tenant }}.products 
     WHERE 
         id = '{{ product_id }}'
 )
@@ -14,7 +14,7 @@ SELECT
     p.image_url,
     p.text_embedding <=> pe.text_embedding as score
 FROM
-    products p,
+    {{ tenant }}.products p,
     product_embeddings pe
 WHERE
     p.id != '{{ product_id }}'

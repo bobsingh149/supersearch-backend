@@ -9,7 +9,7 @@ SELECT
         ELSE paradedb.score(p.id)
     END as score
 FROM
-    products p
+    {{ tenant }}.products p
 WHERE
     CASE
         WHEN length('{{ query_text }}') < 3 THEN

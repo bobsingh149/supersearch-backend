@@ -6,6 +6,7 @@ import logging
 from typing import AsyncGenerator
 from app.core.appsettings import app_settings
 from contextlib import asynccontextmanager
+from fastapi import Request, HTTPException, status
 
 logger = logging.getLogger(__name__)
 
@@ -61,6 +62,13 @@ async def get_async_session_with_contextmanager() -> AsyncGenerator[AsyncSession
             yield session
         finally:
             await session.close()
+
+
+def get_tenant_name(request: Request) -> str:
+    tenant = getattr(request.state, 'tenant', None)
+    if not tenant:
+        raise HTTPException(status_code=status.HTTP_400_BAD_REQUEST, detail="Tenant not found in request.")
+    return tenant
 
 
 

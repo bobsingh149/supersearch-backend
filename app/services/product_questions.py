@@ -56,19 +56,20 @@ class ItemQuestionService:
         return context
     
     @staticmethod
-    async def get_product_by_id(session: AsyncSession, product_id: str) -> Optional[ProductSearchResult]:
+    async def get_product_by_id(session: AsyncSession, product_id: str, tenant: str) -> Optional[ProductSearchResult]:
         """
         Fetch a product by ID from the database
         
         Args:
             session: Database session
             product_id: Product ID to fetch
+            tenant: Tenant identifier
             
         Returns:
             Optional[ProductSearchResult]: Product search result or None if not found
         """
         try:
-            query = text(render_sql(SQLFilePath.PRODUCT_GET_BY_IDS, product_ids=[product_id]))
+            query = text(render_sql(SQLFilePath.PRODUCT_GET_BY_IDS, product_ids=[product_id], tenant=tenant))
             result = await session.execute(query, {"product_ids": [product_id]})
             product_row = result.first()
             
@@ -104,7 +105,7 @@ class ItemQuestionService:
         
         # If product_id and session are provided, fetch additional product data
         if product_id and session:
-            product = await ItemQuestionService.get_product_by_id(session, product_id)
+            product = await ItemQuestionService.get_product_by_id(session, product_id, "")
             if product:
                 context = ItemQuestionService.format_product_context(product)
         

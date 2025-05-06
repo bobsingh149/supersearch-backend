@@ -1,7 +1,7 @@
 from fastapi import APIRouter, HTTPException, Depends, Request
 from sqlalchemy.ext.asyncio import AsyncSession
 
-from app.database.session import get_async_session
+from app.database.session import get_async_session, get_tenant_name
 from app.database.sql.sql import render_sql, SQLFilePath
 from app.models.product import ProductSearchResult
 from app.models.shopping_assistant import (
@@ -31,7 +31,8 @@ router = APIRouter(
 async def chat_with_assistant(
     request: Request,
     chat_request: ChatRequest,
-    session: AsyncSession = Depends(get_async_session)
+    session: AsyncSession = Depends(get_async_session),
+    tenant: str = Depends(get_tenant_name)
 ):
     """
     Chat with the shopping assistant.
@@ -68,7 +69,8 @@ async def chat_with_assistant(
         sql_query = render_sql(SQLFilePath.PRODUCT_SEMANTIC_SEARCH_WITH_REVIEWS,
                             query_embedding=query_embedding,
                             match_count=3,
-                            offset=0)
+                            offset=0,
+                            tenant=tenant)
         
         start_time = time.time()
         result = await session.execute(text(sql_query))
@@ -291,7 +293,8 @@ async def chat_with_assistant(
 @router.get("/conversation/{conversation_id}", response_model=ConversationResponse)
 async def get_conversation_history(
     conversation_id: str,
-    session: AsyncSession = Depends(get_async_session)
+    session: AsyncSession = Depends(get_async_session),
+    tenant: str = Depends(get_tenant_name)
 ):
     """Get the conversation history"""
     try:
@@ -326,7 +329,8 @@ async def get_conversation_history(
 async def get_conversation_summaries(
     page: int | None = 1,
     page_size: int | None = 10,
-    session: AsyncSession = Depends(get_async_session)
+    session: AsyncSession = Depends(get_async_session),
+    tenant: str = Depends(get_tenant_name)
 ):
     """Get a paginated list of conversation summaries"""
     try:

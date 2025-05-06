@@ -7,7 +7,7 @@ SELECT
     p.ai_summary,
     (text_embedding <=> '{{ query_embedding }}')*1 as score
 FROM
-    products p
+    {{ tenant }}.products p
 ORDER BY
     score asc
 LIMIT {{match_count}}
