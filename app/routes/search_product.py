@@ -171,29 +171,14 @@ async def handle_empty_query(
     
     result = await db.execute(text(sql_query))
     
+    rows = [dict(row._mapping) for row in result]
+    
     if include_search_type:
-        products = [
-            ProductSearchResult(
-                id=row._mapping['id'],
-                title=row._mapping.get('title', ''),  # Ensure title is never None
-                custom_data=row._mapping['custom_data'],
-                searchable_content=row._mapping['searchable_content'],
-                image_url=row._mapping.get('image_url'),
-                score=float(row._mapping['score'] or 0.0),
-                search_type='all_products'
-            ) for row in result
-        ]
-    else:
-        products = [
-            ProductSearchResult(
-                id=row._mapping['id'],
-                title=row._mapping.get('title'),
-                custom_data=row._mapping['custom_data'],
-                searchable_content=row._mapping['searchable_content'],
-                image_url=row._mapping.get('image_url'),
-                score=float(row._mapping['score'] or 0.0)
-            ) for row in result
-        ]
+        # Add search_type field to each row
+        for row in rows:
+            row['search_type'] = 'all_products'
+    
+    products = [ProductSearchResult.model_validate(row) for row in rows]
     
     logger.info(f"Found {len(products)} results for empty query (all products)")
     return products
@@ -241,14 +226,8 @@ async def hybrid_search(
         result = await db.execute(text(sql_query))
         
         products = [
-            ProductSearchResult(
-                id=row._mapping['id'],
-                title=row._mapping['title'],
-                custom_data=row._mapping['custom_data'],
-                searchable_content=row._mapping['searchable_content'],
-                image_url=row._mapping.get('image_url'),
-                score=float(row._mapping['score'] or 0.0)
-            ) for row in result
+            ProductSearchResult.model_validate(dict(row._mapping))
+            for row in result
         ]
         
         logger.info(f"Found {len(products)} results for query: {query}")
@@ -293,14 +272,8 @@ async def full_text_search(
             )
             
             products = [
-                ProductSearchResult(
-                    id=row._mapping['id'],
-                    title=row._mapping.get('title'),
-                    custom_data=row._mapping['custom_data'],
-                    searchable_content=row._mapping['searchable_content'],
-                    image_url=row._mapping.get('image_url'),
-                    score=float(row._mapping['score'] or 0.0)
-                ) for row in result
+                ProductSearchResult.model_validate(dict(row._mapping))
+                for row in result
             ]
             
             logger.info(f"Found {len(products)} results for empty query (all products)")
@@ -315,14 +288,8 @@ async def full_text_search(
         result = await db.execute(text(sql_query))
         
         products = [
-            ProductSearchResult(
-                id=row._mapping['id'],
-                title=row._mapping.get('title'),
-                custom_data=row._mapping['custom_data'],
-                searchable_content=row._mapping['searchable_content'],
-                image_url=row._mapping.get('image_url'),
-                score=float(row._mapping['score'] or 0.0)
-            ) for row in result
+            ProductSearchResult.model_validate(dict(row._mapping))
+            for row in result
         ]
         
         logger.info(f"Found {len(products)} results for text search query: {query}")
@@ -428,14 +395,8 @@ async def semantic_search(
         result = await db.execute(text(sql_query))
         
         products = [
-            ProductSearchResult(
-                id=row._mapping['id'],
-                title=row._mapping.get('title'),
-                custom_data=row._mapping['custom_data'],
-                searchable_content=row._mapping['searchable_content'],
-                image_url=row._mapping.get('image_url'),
-                score=float(row._mapping['score'] or 0.0)
-            ) for row in result
+            ProductSearchResult.model_validate(dict(row._mapping))
+            for row in result
         ]
         
         logger.info(f"Found {len(products)} semantic search results for query: {query}")
@@ -484,9 +445,6 @@ async def semantic_search_with_reviews(
             try:
                 # Convert row mapping to dictionary
                 row_dict = dict(row._mapping)
-
-                print("*****************row_dict*****************")
-                print(row_dict)
                 
                 # Parse reviews JSON into Review objects
                 if 'reviews' in row_dict and row_dict['reviews']:
@@ -544,15 +502,8 @@ async def hybrid_search_without_ranking(
         result = await db.execute(text(sql_query))
         
         products = [
-            ProductSearchResult(
-                id=row._mapping['id'],
-                title=row._mapping.get('title'),
-                custom_data=row._mapping['custom_data'],
-                searchable_content=row._mapping['searchable_content'],
-                image_url=row._mapping.get('image_url'),
-                score=float(row._mapping['score'] or 0.0),
-                search_type=row._mapping['search_type']
-            ) for row in result
+            ProductSearchResult.model_validate(dict(row._mapping))
+            for row in result
         ]
         
         logger.info(f"Found {len(products)} results for unranked hybrid query: {query}")
@@ -607,15 +558,8 @@ async def hybrid_search_with_reranking(
         result = await db.execute(text(sql_query))
         
         products = [
-            ProductSearchResult(
-                id=row._mapping['id'],
-                title=row._mapping.get('title'),
-                custom_data=row._mapping['custom_data'],
-                searchable_content=row._mapping['searchable_content'],
-                image_url=row._mapping.get('image_url'),
-                score=float(row._mapping['score'] or 0.0),
-                search_type=row._mapping['search_type']
-            ) for row in result
+            ProductSearchResult.model_validate(dict(row._mapping))
+            for row in result
         ]
         
         logger.info(f"Found {len(products)} results for hybrid query before reranking: {query}")

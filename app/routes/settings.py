@@ -33,15 +33,8 @@ async def create_setting(
     await session.commit()
     await session.refresh(db_setting)
     
-    # Convert back to Settings model with enum key
-    return Settings(
-        key=SettingKey(db_setting.key),
-        title=db_setting.title,
-        description=db_setting.description,
-        value=db_setting.value,
-        created_at=db_setting.created_at,
-        updated_at=db_setting.updated_at
-    )
+    # Convert back to Settings model
+    return Settings.model_validate(db_setting)
 
 @router.get("/{key}", response_model=Settings)
 async def get_setting(
@@ -55,15 +48,8 @@ async def get_setting(
     if not setting:
         raise HTTPException(status_code=404, detail=f"Setting with key {key} not found")
     
-    # Convert to Settings model with enum key
-    return Settings(
-        key=SettingKey(setting.key),
-        title=setting.title,
-        description=setting.description,
-        value=setting.value,
-        created_at=setting.created_at,
-        updated_at=setting.updated_at
-    )
+    # Convert to Settings model
+    return Settings.model_validate(setting)
 
 @router.get("", response_model=List[Settings])
 async def list_settings(
@@ -74,18 +60,8 @@ async def list_settings(
     result = await session.execute(query)
     settings_db = result.scalars().all()
     
-    # Convert to Settings models with enum keys
-    return [
-        Settings(
-            key=SettingKey(setting.key),
-            title=setting.title,
-            description=setting.description,
-            value=setting.value,
-            created_at=setting.created_at,
-            updated_at=setting.updated_at
-        )
-        for setting in settings_db
-    ]
+    # Convert to Settings models
+    return [Settings.model_validate(setting) for setting in settings_db]
 
 @router.put("/{key}", response_model=Settings)
 async def update_setting(
@@ -110,15 +86,8 @@ async def update_setting(
     await session.commit()
     await session.refresh(db_setting)
     
-    # Convert to Settings model with enum key
-    return Settings(
-        key=SettingKey(db_setting.key),
-        title=db_setting.title,
-        description=db_setting.description,
-        value=db_setting.value,
-        created_at=db_setting.created_at,
-        updated_at=db_setting.updated_at
-    )
+    # Convert to Settings model
+    return Settings.model_validate(db_setting)
 
 @router.delete("/{key}")
 async def delete_setting(
@@ -164,15 +133,8 @@ async def set_search_config(
         await session.commit()
         await session.refresh(existing_setting)
         
-        # Convert to Settings model with enum key
-        return Settings(
-            key=SettingKey(existing_setting.key),
-            title=existing_setting.title,
-            description=existing_setting.description,
-            value=existing_setting.value,
-            created_at=existing_setting.created_at,
-            updated_at=existing_setting.updated_at
-        )
+        # Convert to Settings model
+        return Settings.model_validate(existing_setting)
     else:
         # Create new setting with string key
         setting_dict = setting.model_dump()
@@ -183,12 +145,5 @@ async def set_search_config(
         await session.commit()
         await session.refresh(db_setting)
         
-        # Convert to Settings model with enum key
-        return Settings(
-            key=SettingKey(db_setting.key),
-            title=db_setting.title,
-            description=db_setting.description,
-            value=db_setting.value,
-            created_at=db_setting.created_at,
-            updated_at=db_setting.updated_at
-        ) 
+        # Convert to Settings model
+        return Settings.model_validate(db_setting) 

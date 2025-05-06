@@ -111,6 +111,9 @@ class RateLimiterMiddleware(BaseHTTPMiddleware):
         return path_identifier in self.limited_paths
     
     async def dispatch(self, request: Request, call_next):
+
+        request.state.tenant = "demo_movies"
+
         # Ensure initialized from database
         if not INITIALIZED:
             await self.initialize_from_db()

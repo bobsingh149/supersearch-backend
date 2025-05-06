@@ -45,15 +45,8 @@ async def get_similar_products(
         
         # Convert results to ProductSearchResult objects
         similar_products = [
-            ProductSearchResult(
-                id=row.id,
-                title=row.title,
-                custom_data=row.custom_data,
-                searchable_content=row.searchable_content,
-                score=float(row.score or 0.0),
-                search_type="semantic",
-                image_url=row.image_url
-            ) for row in rows
+            ProductSearchResult.model_validate(dict(row._mapping))
+             for row in rows
         ]
 
         return similar_products
