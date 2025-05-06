@@ -20,7 +20,7 @@ router = APIRouter(
 )
 
 
-@router.post("", response_model=Order, status_code=status.HTTP_201_CREATED)
+@router.post("", response_model=None, status_code=status.HTTP_201_CREATED)
 async def create_order(
     request: Request,
     order_data: OrderCreate,
@@ -92,10 +92,8 @@ async def create_order(
         
         session.add(new_order)
         await session.commit()
-        await session.refresh(new_order)
-        
-        # Convert back to Pydantic model for response
-        return Order.model_validate(new_order)
+        return None
+
     except Exception as e:
         logger.error(f"Error creating order: {str(e)}")
         await session.rollback()
