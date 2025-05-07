@@ -141,7 +141,6 @@ IMPORTANT: If the item has reviews or an AI review summary, ensure that AT LEAST
 
 IMPORTANT: If the item is a movie, include questions that a user might actually want to know about the movie:
 
-
 Your response must be valid JSON only, with no additional text before or after.
 """
 
