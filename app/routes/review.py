@@ -1,12 +1,12 @@
 from typing import List, Optional
 from uuid import UUID
 from fastapi import APIRouter, Depends, HTTPException, Query, status
-from sqlalchemy import select, update, delete
+from sqlalchemy import select, update, delete, text
 from sqlalchemy.ext.asyncio import AsyncSession
 from pydantic import BaseModel
 import json
 
-from app.database.session import get_async_session
+from app.database.session import get_async_session, get_tenant_name
 from app.models.review import Review, ReviewCreate, ReviewUpdate, ReviewOrm
 from app.services.review import generate_review_summary, ReviewSummaryOutput
 
@@ -146,6 +146,7 @@ class ReviewSummaryResponse(BaseModel):
 async def get_review_summary(
     product_id: str,
     session: AsyncSession = Depends(get_async_session),
+    tenant: str = Depends(get_tenant_name)
 ) -> ReviewSummaryOutput:
     """
     Get an AI-generated summary of reviews for a specific product.
@@ -155,9 +156,8 @@ async def get_review_summary(
     If not, generates a new summary and stores it for future use.
     """
     # First, check if there's an existing summary in the products table
-    from sqlalchemy import text
-    check_summary_query = text("""
-        SELECT ai_summary FROM demo_movies.products 
+    check_summary_query = text(f"""
+        SELECT ai_summary FROM {tenant}.products 
         WHERE id = :product_id AND ai_summary IS NOT NULL
     """)
     result = await session.execute(check_summary_query, {"product_id": product_id})
@@ -182,11 +182,11 @@ async def get_review_summary(
     review_texts = [review.content for review in reviews]
     
     # Generate summary using AI
-    summary_output = await generate_review_summary(review_texts, product_id, session)
+    summary_output = await generate_review_summary(review_texts, product_id, session, tenant)
     
     # Store the summary in the products table for future use
-    update_summary_query = text("""
-        UPDATE demo_movies.products 
+    update_summary_query = text(f"""
+        UPDATE {tenant}.products 
         SET ai_summary = :ai_summary
         WHERE id = :product_id
     """)

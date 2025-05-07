@@ -17,7 +17,7 @@ class ReviewSummaryOutput(BaseModel):
     pros: List[str]
     cons: List[str]
 
-async def generate_review_summary(reviews: List[str], product_id: str, session: Optional[AsyncSession] = None) -> ReviewSummaryOutput:
+async def generate_review_summary(reviews: List[str], product_id: str, session: Optional[AsyncSession] = None, tenant: str = None) -> ReviewSummaryOutput:
     """
     Generate a summary of product reviews using Gemini AI.
     
@@ -25,6 +25,7 @@ async def generate_review_summary(reviews: List[str], product_id: str, session: 
         reviews: List of review content strings
         product_id: ID of the product to fetch for context
         session: Optional database session
+        tenant: Database schema to use
         
     Returns:
         ReviewSummaryOutput: Structured output with summary, pros and cons
@@ -40,10 +41,10 @@ async def generate_review_summary(reviews: List[str], product_id: str, session: 
     
     # Fetch product custom data if session is provided
     product_custom_data = None
-    if session:
+    if session and tenant:
         try:
             # Get only custom_data from database
-            query = text("SELECT custom_data FROM demo_movies.products WHERE id = :product_id")
+            query = text(f"SELECT custom_data FROM {tenant}.products WHERE id = :product_id")
             result = await session.execute(query, {"product_id": product_id})
             custom_data = result.scalar_one_or_none()
             
