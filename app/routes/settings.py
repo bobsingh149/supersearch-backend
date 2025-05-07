@@ -61,7 +61,7 @@ async def list_settings(
     # Convert to Settings models
     return [Settings.model_validate(setting) for setting in settings_db]
 
-@router.put("/{key}", response_model=Settings)
+@router.put("/{key}", response_model=None)
 async def update_setting(
     key: SettingKey, 
     setting_update: SettingsUpdate, 
@@ -82,10 +82,8 @@ async def update_setting(
             setattr(db_setting, field, value)
     
     await session.commit()
-    await session.refresh(db_setting)
-    
-    # Convert to Settings model
-    return Settings.model_validate(db_setting)
+    return None
+
 
 @router.delete("/{key}")
 async def delete_setting(
@@ -104,7 +102,7 @@ async def delete_setting(
     await session.commit()
     return {"message": f"Setting with key {key} deleted successfully"}
 
-@router.post("/search-config", response_model=Settings)
+@router.post("/search-config", response_model=None)
 async def set_search_config(
     config: SearchConfigModel,
     session: AsyncSession = Depends(get_async_session)
@@ -129,10 +127,7 @@ async def set_search_config(
             if value is not None:
                 setattr(existing_setting, field, value)
         await session.commit()
-        await session.refresh(existing_setting)
-        
-        # Convert to Settings model
-        return Settings.model_validate(existing_setting)
+        return None
     else:
         # Create new setting with string key
         setting_dict = setting.model_dump()
@@ -141,7 +136,5 @@ async def set_search_config(
         
         session.add(db_setting)
         await session.commit()
-        await session.refresh(db_setting)
-        
-        # Convert to Settings model
-        return Settings.model_validate(db_setting) 
+        return None
+

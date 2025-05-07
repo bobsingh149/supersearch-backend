@@ -12,7 +12,7 @@ router = APIRouter(
     tags=["leads"]
 )
 
-@router.post("", response_model=Lead, status_code=status.HTTP_201_CREATED)
+@router.post("", response_model=None, status_code=status.HTTP_201_CREATED)
 async def create_lead(
     lead_data: LeadCreate,
     session: AsyncSession = Depends(get_async_session)
@@ -33,9 +33,8 @@ async def create_lead(
     # Add to database
     session.add(db_lead)
     await session.commit()
-    await session.refresh(db_lead)
-    
-    return db_lead
+    return None
+
 
 @router.get("", response_model=List[Lead])
 async def get_leads(
@@ -64,7 +63,7 @@ async def get_lead(
     
     return lead
 
-@router.patch("/{lead_id}", response_model=Lead)
+@router.patch("/{lead_id}", response_model=None)
 async def update_lead(
     lead_id: UUID,
     lead_data: LeadUpdate,
@@ -99,6 +98,4 @@ async def update_lead(
             setattr(db_lead, key, value)
     
     await session.commit()
-    await session.refresh(db_lead)
-    
-    return db_lead 
+    return None

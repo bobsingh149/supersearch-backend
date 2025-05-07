@@ -231,7 +231,7 @@ async def list_orders(
         raise HTTPException(status_code=500, detail=str(e))
 
 
-@router.put("/{order_id}", response_model=Order)
+@router.put("/{order_id}", response_model=None)
 async def update_order(
     request: Request,
     order_data: OrderUpdate,
@@ -264,9 +264,8 @@ async def update_order(
                 setattr(order, key, value)
         
         await session.commit()
-        await session.refresh(order)
-        
-        return Order.model_validate(order)
+        return None
+
     except HTTPException:
         raise
     except Exception as e:

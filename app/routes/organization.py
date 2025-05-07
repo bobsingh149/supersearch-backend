@@ -11,7 +11,7 @@ router = APIRouter(
     tags=["organizations"]
 )
 
-@router.post("", response_model=Organization)
+@router.post("", response_model=None)
 async def create_organization(
     org: Organization, 
     session: AsyncSession = Depends(get_async_session)
@@ -30,8 +30,7 @@ async def create_organization(
     db_org = OrganizationDB(**org.model_dump())
     session.add(db_org)
     await session.commit()
-    await session.refresh(db_org)
-    return db_org
+    return None
 
 @router.get("/{org_id}", response_model=Organization)
 async def get_organization(
@@ -53,7 +52,7 @@ async def list_organizations(
     result = await session.execute(query)
     return result.scalars().all()
 
-@router.put("/{org_id}", response_model=Organization)
+@router.put("/{org_id}", response_model=None)
 async def update_organization(org_id: str, org: Organization, db: AsyncSession = Depends(get_async_session)):
     db_org = await db.get(OrganizationDB, org_id)
     if not db_org:
@@ -64,8 +63,8 @@ async def update_organization(org_id: str, org: Organization, db: AsyncSession =
         setattr(db_org, key, value)
     
     await db.commit()
-    await db.refresh(db_org)
-    return db_org
+    return None
+
 
 @router.delete("/{org_id}")
 async def delete_organization(org_id: str, db: AsyncSession = Depends(get_async_session)):

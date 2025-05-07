@@ -16,11 +16,11 @@ router = APIRouter(
 )
 
 
-@router.post("/", response_model=Review, status_code=status.HTTP_201_CREATED)
+@router.post("/", response_model=None, status_code=status.HTTP_201_CREATED)
 async def create_review(
     review_in: ReviewCreate,
     session: AsyncSession = Depends(get_async_session),
-) -> Review:
+):
     """
     Create a new review.
     """
@@ -30,8 +30,7 @@ async def create_review(
     )
     session.add(db_review)
     await session.commit()
-    await session.refresh(db_review)
-    return db_review
+    return None
 
 
 @router.get("/", response_model=List[Review])
