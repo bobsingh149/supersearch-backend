@@ -38,18 +38,29 @@ async def process_batch(session: AsyncSession, reviews_batch: list) -> None:
         return
         
     try:
-        # Create insert statement
-        stmt = insert(ReviewOrm).values(reviews_batch)
-        
-        # Add on conflict do nothing clause
-        stmt = stmt.on_conflict_do_nothing(index_elements=['id'])
-        
-        await session.execute(stmt)
+        # Check for existing reviews with same content and product_id
+        for review in reviews_batch:
+            query = select(ReviewOrm).where(
+                ReviewOrm.product_id == review['product_id'],
+                ReviewOrm.content == review['content']
+            )
+            if review.get('author'):
+                query = query.where(ReviewOrm.author == review['author'])
+            
+            result = await session.execute(query)
+            if result.first():
+                logger.info(f"Skipping duplicate review for product {review['product_id']}")
+                continue
+                
+            # Create insert statement for non-duplicate review
+            stmt = insert(ReviewOrm).values(review)
+            await session.execute(stmt)
+            
         await session.commit()
-        logger.info(f"Successfully inserted batch of {len(reviews_batch)} reviews")
+        logger.info(f"Successfully processed batch of {len(reviews_batch)} reviews")
     except Exception as e:
         await session.rollback()
-        logger.error(f"Error inserting batch: {str(e)}")
+        logger.error(f"Error processing batch: {str(e)}")
         raise
 
 async def import_reviews():
