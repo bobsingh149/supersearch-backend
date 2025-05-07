@@ -83,7 +83,7 @@ class ItemQuestionService:
             return None
     
     @staticmethod
-    async def generate_questions(item_data: Dict[str, Any], num_questions: int = 5, product_id: Optional[str] = None, session: Optional[AsyncSession] = None) -> ProductQuestionOutput:
+    async def generate_questions(item_data: Dict[str, Any], num_questions: int = 5, product_id: Optional[str] = None, session: Optional[AsyncSession] = None, tenant: str = None) -> ProductQuestionOutput:
         """
         Generate questions related to an item using Gemini AI.
         
@@ -105,7 +105,7 @@ class ItemQuestionService:
         
         # If product_id and session are provided, fetch additional product data
         if product_id and session:
-            product = await ItemQuestionService.get_product_by_id(session, product_id, "")
+            product = await ItemQuestionService.get_product_by_id(session, product_id, tenant)
             if product:
                 context = ItemQuestionService.format_product_context(product)
         

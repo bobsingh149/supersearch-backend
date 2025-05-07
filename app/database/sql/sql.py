@@ -108,7 +108,7 @@ def render_sql(filename: SQLFilePath, tenant: str, **kwargs) -> str:
         render_sql(SQLFilePath.PRODUCT_FULL_TEXT_SEARCH, tenant='demo_movies', query_text='search term', limit=10)
         render_sql('product/full_text_search', tenant='demo_movies', query_text='search term', limit=10)
     """
-    if not tenant:
+    if not tenant or tenant == "":
         raise ValueError("Tenant (schema) name must be provided to render_sql.")
     # Convert enum to string if needed
     if isinstance(filename, SQLFilePath):

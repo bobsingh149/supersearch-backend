@@ -2,7 +2,7 @@ import logging
 import json
 from fastapi import APIRouter, HTTPException, Depends, Query
 from sqlalchemy.ext.asyncio import AsyncSession
-from app.database.session import get_async_session
+from app.database.session import get_async_session, get_tenant_name
 from app.models.product import Product, ProductDB, ProductInput, PaginatedProductsResponse
 from app.models.product_questions import ProductQuestionsResponse
 from app.services.product import process_product_data
@@ -194,7 +194,8 @@ async def generate_item_questions(
     product_id: str,
     num_questions: int = Query(5, ge=1, le=10, description="Number of questions to generate"),
     force_regenerate: bool = Query(False, description="Force regeneration of questions even if cached questions exist"),
-    session: AsyncSession = Depends(get_async_session)
+    session: AsyncSession = Depends(get_async_session),
+    tenant: str = Depends(get_tenant_name)
 ):
     """
     Generate relevant questions related to a specific item using AI.
@@ -238,7 +239,8 @@ async def generate_item_questions(
         item_data=item_data,
         num_questions=num_questions,
         product_id=product_id,
-        session=session
+        session=session,
+        tenant=tenant
     )
     
     # Store the generated questions in the database
