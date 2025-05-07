@@ -31,10 +31,8 @@ async def create_setting(
     
     session.add(db_setting)
     await session.commit()
-    await session.refresh(db_setting)
-    
-    # Convert back to Settings model
-    return Settings.model_validate(db_setting)
+
+    return None
 
 @router.get("/{key}", response_model=Settings)
 async def get_setting(
