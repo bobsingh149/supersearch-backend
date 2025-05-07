@@ -2,7 +2,7 @@ import sys
 from pathlib import Path
 
 # Add the root directory to path so we can import app modules
-root_dir = Path(__file__).parent.parent
+root_dir = Path(__file__).parent.parent.parent
 sys.path.append(str(root_dir))
 
 import asyncio
