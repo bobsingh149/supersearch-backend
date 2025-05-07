@@ -32,11 +32,18 @@ async def get_valid_product_ids(session: AsyncSession) -> set:
     logger.info(f"Found {len(product_ids)} valid product IDs in the database")
     return product_ids
 
-async def process_batch(session: AsyncSession, reviews_batch: list) -> None:
-    """Insert a batch of reviews into the database"""
+async def process_batch(session: AsyncSession, reviews_batch: list) -> tuple[int, int]:
+    """Insert a batch of reviews into the database
+    
+    Returns:
+        tuple[int, int]: (imported_count, duplicate_count)
+    """
     if not reviews_batch:
-        return
+        return 0, 0
         
+    imported_count = 0
+    duplicate_count = 0
+    
     try:
         # Check for existing reviews with same content and product_id
         for review in reviews_batch:
@@ -50,14 +57,17 @@ async def process_batch(session: AsyncSession, reviews_batch: list) -> None:
             result = await session.execute(query)
             if result.first():
                 logger.info(f"Skipping duplicate review for product {review['product_id']}")
+                duplicate_count += 1
                 continue
                 
             # Create insert statement for non-duplicate review
             stmt = insert(ReviewOrm).values(review)
             await session.execute(stmt)
+            imported_count += 1
             
         await session.commit()
-        logger.info(f"Successfully processed batch of {len(reviews_batch)} reviews")
+        logger.info(f"Successfully processed batch of {len(reviews_batch)} reviews: {imported_count} imported, {duplicate_count} duplicates skipped")
+        return imported_count, duplicate_count
     except Exception as e:
         await session.rollback()
         logger.error(f"Error processing batch: {str(e)}")
@@ -93,20 +103,22 @@ async def import_reviews():
         
         async with AsyncSessionLocal() as session:
             count = 0
-            skipped = 0
+            validation_skipped = 0
             processed = 0
+            total_imported = 0
+            total_duplicates = 0
             
             for row in reader:
                 count += 1
                 
                 # Skip rows with missing required fields
                 if not row.get('movie_id') or not row.get('review_content'):
-                    skipped += 1
+                    validation_skipped += 1
                     continue
                 
                 # Skip if movie_id doesn't exist in products table
                 if row['movie_id'] not in valid_product_ids:
-                    skipped += 1
+                    validation_skipped += 1
                     if count % 10000 == 0:  # Log occasionally to avoid excessive logging
                         logger.warning(f"Skipping review for movie_id {row['movie_id']} - not found in products table")
                     continue
@@ -132,15 +144,23 @@ async def import_reviews():
                 
                 # Process in batches
                 if len(reviews_batch) >= batch_size:
-                    await process_batch(session, reviews_batch)
+                    imported, duplicates = await process_batch(session, reviews_batch)
+                    total_imported += imported
+                    total_duplicates += duplicates
                     reviews_batch = []
                     logger.info(f"Progress: {count}/{total_rows} reviews checked, {processed} valid reviews processed")
             
             # Process any remaining reviews
             if reviews_batch:
-                await process_batch(session, reviews_batch)
+                imported, duplicates = await process_batch(session, reviews_batch)
+                total_imported += imported
+                total_duplicates += duplicates
             
-            logger.info(f"Import completed. Total {count} reviews checked, {processed} valid reviews imported, {skipped} reviews skipped.")
+            logger.info(f"Import completed. Total {count} reviews checked:")
+            logger.info(f"- {total_imported} reviews successfully imported")
+            logger.info(f"- {total_duplicates} duplicate reviews skipped")
+            logger.info(f"- {validation_skipped} reviews skipped due to validation issues")
+            logger.info(f"- Total skipped: {validation_skipped + total_duplicates}")
 
 if __name__ == "__main__":
     asyncio.run(import_reviews()) 
