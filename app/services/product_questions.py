@@ -137,7 +137,14 @@ Each question should:
 5. Be phrased as a direct question with a question mark
 6. Represent common customer inquiries about this type of product
 
-IMPORTANT: If the product has reviews or an AI review summary, ensure that AT LEAST ONE question is about customer reviews or experiences with the product.
+IMPORTANT: If the product has reviews or an AI review summary, ensure that AT LEAST TWO questions are about customer reviews or experiences with the product.
+
+IMPORTANT: If the product is a movie, include questions such as:
+- The director, cast, or production
+- Plot elements or story
+- Genre characteristics
+- Comparisons to other similar movies
+- Viewer reactions or critiques
 
 Your response must be valid JSON only, with no additional text before or after.
 """
@@ -148,7 +155,7 @@ Your response must be valid JSON only, with no additional text before or after.
                 contents=prompt,
                 config=GenerateContentConfig(
                     max_output_tokens=1000,
-                    temperature=0.7,
+                    temperature=1,
                     automatic_function_calling=AutomaticFunctionCallingConfig(
                         disable=True,
                         maximum_remote_calls=0
