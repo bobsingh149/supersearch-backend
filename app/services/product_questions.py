@@ -137,14 +137,10 @@ Each question should:
 5. Be phrased as a direct question with a question mark
 6. Represent common customer inquiries about this type of product
 
-IMPORTANT: If the product has reviews or an AI review summary, ensure that AT LEAST TWO questions are about customer reviews or experiences with the product.
+IMPORTANT: If the item has reviews or an AI review summary, ensure that AT LEAST TWO questions are about customer reviews or experiences with the product.
 
-IMPORTANT: If the product is a movie, include questions such as:
-- The director, cast, or production
-- Plot elements or story
-- Genre characteristics
-- Comparisons to other similar movies
-- Viewer reactions or critiques
+IMPORTANT: If the item is a movie, include questions that a user might actually want to know about the movie:
+
 
 Your response must be valid JSON only, with no additional text before or after.
 """
