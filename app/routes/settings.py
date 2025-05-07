@@ -12,7 +12,7 @@ router = APIRouter(
 )
 
 
-@router.post("", response_model=Settings)
+@router.post("", response_model=None)
 async def create_setting(
     setting: SettingsCreate,
     session: AsyncSession = Depends(get_async_session)
