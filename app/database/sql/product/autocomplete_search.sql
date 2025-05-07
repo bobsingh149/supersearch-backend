@@ -16,7 +16,7 @@ WHERE
             title ILIKE '{{ query_text }}%'
         ELSE
             id @@@ paradedb.match(
-            field => 'title',
+            field => 'searchable_content',
             value => '{{ query_text }}',
             distance => {{ fuzzy_distance }}
              )
