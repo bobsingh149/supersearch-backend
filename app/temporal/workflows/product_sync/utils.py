@@ -2,13 +2,12 @@
 import logging
 import uuid
 import csv
-from typing import List, Dict, Any, Tuple
+from typing import List, Dict, Any
 import asyncio
 
 import aiohttp
 import sqlalchemy as sa
-from sqlalchemy.ext.asyncio import create_async_engine, AsyncSession
-from sqlalchemy.schema import CreateIndex
+from sqlalchemy.ext.asyncio import create_async_engine
 from sqlalchemy.sql import text
 
 from app.models.product import Product, ProductDB
@@ -37,7 +36,7 @@ async def get_search_config() -> Dict[str, Any]:
     Raises:
         ValueError: If search configuration is not set
     """
-    search_config = await get_setting_by_key(SettingKey.SEARCH_CONFIG)
+    search_config = await get_setting_by_key(SettingKey.SEARCH_CONFIG,"demo_movies")
     if not search_config:
         raise ValueError("Search configuration must be set before syncing products. Please set SEARCH_CONFIG setting.")
     
