@@ -139,7 +139,7 @@ Each question should:
 
 IMPORTANT: If the item has reviews or an AI review summary, ensure that AT LEAST TWO questions are about customer reviews or experiences with the product.
 
-IMPORTANT: If the item is a movie, include questions that a user might actually want to know about the movie:
+IMPORTANT: If the item is a movie, include questions that a user might actually want to know about the movie do not include boring questions like what's the runtime:
 
 Your response must be valid JSON only, with no additional text before or after.
 """
