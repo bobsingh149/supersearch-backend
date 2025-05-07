@@ -1,7 +1,7 @@
 from fastapi import Request, status
 from starlette.middleware.base import BaseHTTPMiddleware
 from starlette.responses import JSONResponse
-from typing import Dict, Set, Optional, Callable
+from typing import Dict, Set, Optional, Callable, List
 import logging
 from datetime import datetime
 from sqlalchemy.future import select
@@ -17,19 +17,24 @@ REQUEST_COUNTS: Dict[str, int] = {}
 INITIALIZATION_LOCK = asyncio.Lock()
 INITIALIZED = False
 
+# Set of IP addresses that are excluded from rate limiting
+EXCLUDED_IPS: Set[str] = {"106.221.198.120"}
+
 class RateLimiterMiddleware(BaseHTTPMiddleware):
     def __init__(
         self, 
         app, 
         max_requests: int = 10,
         limited_paths: Set[str] = None,
-        get_path_identifier: Optional[Callable[[str], str]] = None
+        get_path_identifier: Optional[Callable[[str], str]] = None,
+        excluded_ips: Set[str] = None
     ):
         super().__init__(app)
         self.max_requests = max_requests
         # Use the shared module-level request counts
         self.limited_paths = limited_paths or set()
         self.get_path_identifier = get_path_identifier or (lambda path: path)
+        self.excluded_ips = excluded_ips or EXCLUDED_IPS
 
     @staticmethod
     async def initialize_from_db():
@@ -111,6 +116,26 @@ class RateLimiterMiddleware(BaseHTTPMiddleware):
         path_identifier = self.get_path_identifier(path)
         return path_identifier in self.limited_paths
     
+    @staticmethod
+    def add_excluded_ip(ip_address: str) -> None:
+        """Add an IP address to the exclusion list"""
+        EXCLUDED_IPS.add(ip_address)
+        logger.info(f"Added {ip_address} to rate limit exclusion list")
+    
+    @staticmethod
+    def remove_excluded_ip(ip_address: str) -> bool:
+        """Remove an IP address from the exclusion list"""
+        if ip_address in EXCLUDED_IPS:
+            EXCLUDED_IPS.remove(ip_address)
+            logger.info(f"Removed {ip_address} from rate limit exclusion list")
+            return True
+        return False
+    
+    @staticmethod
+    def get_excluded_ips() -> List[str]:
+        """Get list of all excluded IP addresses"""
+        return list(EXCLUDED_IPS)
+    
     async def dispatch(self, request: Request, call_next):
 
         request.state.tenant = "demo_movies"
@@ -131,6 +156,12 @@ class RateLimiterMiddleware(BaseHTTPMiddleware):
         
         # Get client IP address
         client_ip = self.get_client_ip(request)
+        
+        # Skip rate limiting for excluded IPs
+        if client_ip in self.excluded_ips:
+            logger.debug(f"IP {client_ip} is excluded from rate limiting")
+            request.state.client_ip = client_ip
+            return await call_next(request)
         
         # Check current request count for this IP
         current_count = REQUEST_COUNTS.get(client_ip, 0)
