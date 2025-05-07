@@ -93,7 +93,7 @@ app.add_middleware(RequestTimingMiddleware)
 # Add rate limiter middleware
 app.add_middleware(
     RateLimiterMiddleware,
-    max_requests=1000,
+    max_requests=30,
     limited_paths=RATE_LIMITED_PATHS
 )
 
