@@ -222,8 +222,8 @@ async def hybrid_search(
                                query_embedding=query_embedding,
                                match_count=size,
                                offset=offset,
-                               full_text_weight=0.1,
-                               semantic_weight=0.9,
+                               full_text_weight=0.3,
+                               semantic_weight=0.7,
                                rrf_k=10,
                                fuzzy_distance=1,
                                tenant=tenant)
