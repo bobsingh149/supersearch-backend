@@ -68,8 +68,8 @@ async def create_order(
         # Generate random shipping date between current_date+1 and current_date+7 if not provided
         if not order_data.expected_shipping_date:
             current_date = datetime.now()
-            random_days = random.randint(1, 7)
-            order_dict["expected_shipping_date"] = current_date + timedelta(days=random_days)
+            random_seconds = random.randint(1, 180)  # 1 second to 3 minutes
+            order_dict["expected_shipping_date"] = current_date + timedelta(seconds=random_seconds)
         
         # Generate a random tracking number
         tracking_prefix = ''.join(random.choices(string.ascii_uppercase, k=2))
@@ -131,8 +131,8 @@ async def get_order(
         
         if order.status not in ["delivered", "cancelled", "refunded"]:
             if order.expected_shipping_date:
-                # If current date is 1 day after expected shipping date, update to delivered
-                if current_date >= (order.expected_shipping_date + timedelta(days=1)):
+                # If current date is 1 minute after expected shipping date, update to delivered
+                if current_date >= (order.expected_shipping_date + timedelta(minutes=1)):
                     order.status = "delivered"
                     await session.commit()
                 # If current date is on or after expected shipping date, update to shipped
@@ -209,8 +209,8 @@ async def list_orders(
             # Only update status if not in a final state
             if order_model.status not in ["delivered", "cancelled", "refunded"]:
                 if order_model.expected_shipping_date:
-                    # If current date is 1 day after expected shipping date, mark as delivered
-                    if current_date >= (order_model.expected_shipping_date + timedelta(days=1)):
+                    # If current date is 1 minute after expected shipping date, mark as delivered
+                    if current_date >= (order_model.expected_shipping_date + timedelta(minutes=1)):
                         order_model.status = "delivered"
                     # If current date is on or after expected shipping date, mark as shipped
                     elif current_date >= order_model.expected_shipping_date:
