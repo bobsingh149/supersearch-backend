@@ -18,7 +18,7 @@ INITIALIZATION_LOCK = asyncio.Lock()
 INITIALIZED = False
 
 # Set of IP addresses that are excluded from rate limiting
-EXCLUDED_IPS: Set[str] = {"106.221.198.120"}
+EXCLUDED_IPS: Set[str] = {"106.221.198.120","127.0.0.1"}
 
 class RateLimiterMiddleware(BaseHTTPMiddleware):
     def __init__(
