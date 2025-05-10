@@ -1,7 +1,5 @@
-import asyncio
 from contextlib import asynccontextmanager
 from fastapi import FastAPI
-import logging
 from starlette.middleware.cors import CORSMiddleware
 import logging.handlers
 import os
