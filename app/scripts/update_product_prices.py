@@ -116,7 +116,7 @@ async def update_product_prices():
                     await session.execute(update_stmt)
                     update_count += 1
                     
-                    if update_count % 100 == 0:
+                    if update_count % 1000 == 0:
                         # Commit in batches to avoid long transactions
                         await session.commit()
                         logger.info(f"Updated {update_count} products so far")
