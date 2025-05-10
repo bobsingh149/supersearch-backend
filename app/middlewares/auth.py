@@ -1,4 +1,4 @@
-from fastapi import Request, HTTPException
+from fastapi import Request
 import jwt
 import os
 import logging
