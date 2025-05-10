@@ -166,8 +166,10 @@ async def process_products_from_data(data: List[Dict[str, Any]]) -> List[Product
                 
         except Exception as e:
             logger.error(f"Database error processing product {product_id}: {str(e)}")
+
             return None
-    
+
+
     # Process all products in parallel using TaskGroup
     async with asyncio.TaskGroup() as tg:
         for item in data:

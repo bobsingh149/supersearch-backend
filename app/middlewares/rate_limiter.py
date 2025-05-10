@@ -113,6 +113,10 @@ class RateLimiterMiddleware(BaseHTTPMiddleware):
     
     def should_rate_limit(self, path: str) -> bool:
         """Determine if the request path should be rate limited"""
+        # Skip rate limiting for v1/leads routes
+        if path.startswith("/v1/leads"):
+            return False
+            
         path_identifier = self.get_path_identifier(path)
         return path_identifier in self.limited_paths
     
