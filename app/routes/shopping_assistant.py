@@ -342,7 +342,7 @@ async def chat_with_assistant(
                 return ChatResponse(
                     response=query_response,
                     conversation_id=chat_request.conversation_id,
-                    products=[p.model_dump(include={"id", "title", "image_url", "searchable_content"}) for p in referenced_products],
+                    products=[p.model_dump(include={"id", "title", "image_url", "custom_data", "searchable_content"}) for p in referenced_products],
                     follow_up_questions=follow_up_questions
                 )
             except json.JSONDecodeError:
