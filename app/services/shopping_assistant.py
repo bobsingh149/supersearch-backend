@@ -433,16 +433,16 @@ PRODUCT_IDS_END
 IMPORTANT: At least one of your follow-up questions should be about reviews or opinions of the referenced item if applicable.
 
 Example complete response format:
-Here are some great laptops for you...
+Here are some great superhero movies for you...
 
 FOLLOW_UP_QUESTIONS_START
-What's your budget for the laptop?
-Do you need it for gaming or work?
-What do customers say about the battery life of these laptops?
+Which of these superhero movies sounds most interesting to you?
+Are you looking for superhero movies with a specific actor or actress?
+What do critics and audiences say about the visual effects in these movies?
 FOLLOW_UP_QUESTIONS_END
 
 PRODUCT_IDS_START
-laptop123,laptop456,laptop789
+movie123,movie456,movie789
 PRODUCT_IDS_END
 
 DO NOT deviate from this format. The system depends on these exact markers.
@@ -511,9 +511,9 @@ IMPORTANT: At least one of your follow-up questions should be about reviews or o
 
 Example format:
 {
-  "query_response": "Here are some recommendations...",
-  "follow_up_questions": ["What about...", "Can you tell me...", "Do you have reviews for..."],
-  "referenced_product_ids": ["abc123", "def456"]
+  "query_response": "Here are some great superhero movies for you...",
+  "follow_up_questions": ["Which of these movies sounds most interesting?", "Are you looking for movies with a specific actor?", "What do you think about the reviews for these films?"],
+  "referenced_product_ids": ["movie123", "movie456"]
 }
 """
         
