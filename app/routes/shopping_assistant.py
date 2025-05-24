@@ -296,7 +296,7 @@ async def chat_with_assistant(
                 )
                 yield json.dumps(completion_response.model_dump()) + "\n"
             
-            return FastAPIStreamingResponse(response_stream_generator(), media_type="application/json")
+            return FastAPIStreamingResponse(response_stream_generator(), media_type="text/event-stream")
         else:
             # Prepare JSON prompt with context merged with user query
             json_prompt = ShoppingAssistantUtils.construct_json_prompt(
