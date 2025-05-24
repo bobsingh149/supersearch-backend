@@ -430,13 +430,15 @@ For no product IDs:
 PRODUCT_IDS_START
 PRODUCT_IDS_END
 
+IMPORTANT: At least one of your follow-up questions should be about reviews or opinions of the referenced item if applicable.
+
 Example complete response format:
 Here are some great laptops for you...
 
 FOLLOW_UP_QUESTIONS_START
 What's your budget for the laptop?
 Do you need it for gaming or work?
-Would you prefer Windows or Mac?
+What do customers say about the battery life of these laptops?
 FOLLOW_UP_QUESTIONS_END
 
 PRODUCT_IDS_START
