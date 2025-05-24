@@ -252,7 +252,7 @@ async def chat_with_assistant(
                     product_response = StreamingResponse(
                         type=StreamingResponseType.PRODUCTS,
                         conversation_id=chat_request.conversation_id,
-                        content=[p.model_dump() for p in referenced_products]
+                        content=[p.model_dump(include={"id", "title", "image_url"}) for p in referenced_products]
                     )
                     yield json.dumps(product_response.model_dump()) + "\n"
                 
@@ -282,7 +282,7 @@ async def chat_with_assistant(
                 merged_response = clean_response
                 if referenced_products:
                     product_info = "\n\nFunction call results for the user query:\n" + "\n".join([
-                        f"- {p.model_dump_json()}" for p in referenced_products
+                        f"- {p.model_dump_json(include={'id', 'title', 'custom_data'})}" for p in referenced_products
                     ])
                     merged_response += product_info
                 
@@ -333,7 +333,7 @@ async def chat_with_assistant(
                 merged_response = query_response
                 if referenced_products:
                     product_info = "\n\nReferenced Products:\n" + "\n".join([
-                        f"- {p.model_dump_json()}" for p in referenced_products
+                        f"- {p.model_dump_json(include={'id', 'title', 'custom_data'})}" for p in referenced_products
                     ])
                     merged_response += product_info
                 
@@ -342,7 +342,7 @@ async def chat_with_assistant(
                 return ChatResponse(
                     response=query_response,
                     conversation_id=chat_request.conversation_id,
-                    products=referenced_products,
+                    products=[p.model_dump(include={"id", "title", "image_url", "searchable_content"}) for p in referenced_products],
                     follow_up_questions=follow_up_questions
                 )
             except json.JSONDecodeError:
