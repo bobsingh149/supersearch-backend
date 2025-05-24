@@ -183,25 +183,32 @@ class ShoppingAssistantUtils:
 
     def extract_product_ids(text: str) -> List[str]:
         """
-        Extract product IDs from the format 'product_ids:id1,id2,id3' in the text
+        Extract product IDs from the new format with PRODUCT_IDS_START and PRODUCT_IDS_END markers
         """
-        marker = "product_ids:"
-        if marker in text:
-            # Find the position of the marker
-            start_pos = text.find(marker) + len(marker)
-            # Extract everything after the marker to the end of the text
-            ids_str = text[start_pos:].strip()
-            # If there's a newline after the IDs, remove everything after it
-            if "\n" in ids_str:
-                ids_str = ids_str.split("\n")[0].strip()
-            # Split by comma and clean up each ID
-            return [id.strip() for id in ids_str.split(',')]
-        return []
+        start_marker = "PRODUCT_IDS_START"
+        end_marker = "PRODUCT_IDS_END"
+        
+        start_pos = text.find(start_marker)
+        if start_pos == -1:
+            return []
+            
+        start_pos += len(start_marker)
+        end_pos = text.find(end_marker, start_pos)
+        
+        if end_pos == -1:
+            return []
+            
+        ids_str = text[start_pos:end_pos].strip()
+        if not ids_str:
+            return []
+            
+        # Split by comma and clean up each ID
+        return [id.strip() for id in ids_str.split(',') if id.strip()]
 
     @staticmethod
     def extract_follow_up_questions(text: str) -> List[str]:
         """
-        Extract follow-up questions from the format 'follow_up_questions:question1|question2|question3' in the text
+        Extract follow-up questions from the new format with FOLLOW_UP_QUESTIONS_START and FOLLOW_UP_QUESTIONS_END markers
         
         Args:
             text: The text to extract follow-up questions from
@@ -209,20 +216,26 @@ class ShoppingAssistantUtils:
         Returns:
             List[str]: List of follow-up questions
         """
-        marker = "follow_up_questions:"
-        if marker in text:
-            # Find the position of the marker
-            start_pos = text.find(marker) + len(marker)
-            # Extract everything after the marker to the next marker or end of text
-            questions_str = text[start_pos:].strip()
-            # If there's a newline or product_ids marker after the questions, remove everything after it
-            if "\n" in questions_str:
-                questions_str = questions_str.split("\n")[0].strip()
-            if "product_ids:" in questions_str:
-                questions_str = questions_str.split("product_ids:")[0].strip()
-            # Split by pipe and clean up each question
-            return [q.strip() for q in questions_str.split('|') if q.strip()]
-        return []
+        start_marker = "FOLLOW_UP_QUESTIONS_START"
+        end_marker = "FOLLOW_UP_QUESTIONS_END"
+        
+        start_pos = text.find(start_marker)
+        if start_pos == -1:
+            return []
+            
+        start_pos += len(start_marker)
+        end_pos = text.find(end_marker, start_pos)
+        
+        if end_pos == -1:
+            return []
+            
+        questions_str = text[start_pos:end_pos].strip()
+        if not questions_str:
+            return []
+            
+        # Split by newlines and clean up each question
+        questions = [q.strip() for q in questions_str.split('\n') if q.strip()]
+        return questions
 
     @staticmethod
     def format_product_context(products: List['ProductSearchResult']) -> str:
@@ -381,15 +394,46 @@ class ShoppingAssistantUtils:
 5. Only use this order information when directly relevant to the user's query
 """
         
-        prompt += """When mentioning item titles in your response, format them as hyperlinks using markdown, like this: [Item Title](/demo_site/:product_id).
+        prompt += """RESPONSE FORMAT FOR STREAMING:
+When mentioning item titles in your response, format them as hyperlinks using markdown, like this: [Item Title](/demo_site/:product_id).
 For example, if you're recommending an item with ID 'abc123' and title 'Documentary Film', format it as [Documentary Film](/demo_site/abc123).
 
-After your main response, always include 3 suggested follow-up questions with the format:
-follow_up_questions:question1|question2|question3
+IMPORTANT: Your response will be processed in streaming mode. To ensure proper parsing:
 
-IMPORTANT: At least one of your follow-up questions should be about reviews or opinions of the referenced item if applicable.
+1. Provide your main response content first
+2. After your main response, add exactly one blank line
+3. Then add follow-up questions in this EXACT format:
+FOLLOW_UP_QUESTIONS_START
+question1
+question2  
+question3
+FOLLOW_UP_QUESTIONS_END
 
-Remember to list any referenced item IDs at the end of your response using the format product_ids:id1,id2,id3
+4. After another blank line, list referenced product IDs in this EXACT format:
+PRODUCT_IDS_START
+id1,id2,id3
+PRODUCT_IDS_END
+
+If you have no follow-up questions, still include the markers with empty content:
+FOLLOW_UP_QUESTIONS_START
+FOLLOW_UP_QUESTIONS_END
+
+If you have no product IDs to reference, still include the markers with empty content:
+PRODUCT_IDS_START
+PRODUCT_IDS_END
+
+Example complete response:
+Here are some great laptops for you...
+
+FOLLOW_UP_QUESTIONS_START
+What's your budget for the laptop?
+Do you need it for gaming or work?
+Would you prefer Windows or Mac?
+FOLLOW_UP_QUESTIONS_END
+
+PRODUCT_IDS_START
+laptop123,laptop456,laptop789
+PRODUCT_IDS_END
 """
         
         return prompt

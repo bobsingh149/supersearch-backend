@@ -67,6 +67,7 @@ class StreamingResponseType(StrEnum):
     PRODUCTS = "products"
     CONTENT = "content"
     QUESTIONS = "questions"
+    COMPLETE = "complete"
 
 
 class StreamingResponse(BaseModel):
