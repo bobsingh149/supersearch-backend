@@ -398,31 +398,39 @@ class ShoppingAssistantUtils:
 When mentioning item titles in your response, format them as hyperlinks using markdown, like this: [Item Title](/demo_site/:product_id).
 For example, if you're recommending an item with ID 'abc123' and title 'Documentary Film', format it as [Documentary Film](/demo_site/abc123).
 
-IMPORTANT: Your response will be processed in streaming mode. To ensure proper parsing:
+CRITICAL: Your response will be processed in streaming mode. You MUST use the exact format below or the system will break:
+
+NEVER use the old format like:
+- follow_up_questions:question1|question2|question3 
+- product_ids:id1,id2,id3
+
+ALWAYS use this NEW format:
 
 1. Provide your main response content first
 2. After your main response, add exactly one blank line
-3. Then add follow-up questions in this EXACT format:
+3. Then add follow-up questions in this EXACT format (copy exactly):
 FOLLOW_UP_QUESTIONS_START
 question1
 question2  
 question3
 FOLLOW_UP_QUESTIONS_END
 
-4. After another blank line, list referenced product IDs in this EXACT format:
+4. After another blank line, list referenced product IDs in this EXACT format (copy exactly):
 PRODUCT_IDS_START
 id1,id2,id3
 PRODUCT_IDS_END
 
-If you have no follow-up questions, still include the markers with empty content:
+MANDATORY: You MUST include the markers even if you have no questions or product IDs:
+
+For no follow-up questions:
 FOLLOW_UP_QUESTIONS_START
 FOLLOW_UP_QUESTIONS_END
 
-If you have no product IDs to reference, still include the markers with empty content:
+For no product IDs:
 PRODUCT_IDS_START
 PRODUCT_IDS_END
 
-Example complete response:
+Example complete response format:
 Here are some great laptops for you...
 
 FOLLOW_UP_QUESTIONS_START
@@ -434,6 +442,8 @@ FOLLOW_UP_QUESTIONS_END
 PRODUCT_IDS_START
 laptop123,laptop456,laptop789
 PRODUCT_IDS_END
+
+DO NOT deviate from this format. The system depends on these exact markers.
 """
         
         return prompt
