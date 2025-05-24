@@ -541,7 +541,7 @@ Example format:
                         expected_date = order_dict["expected_shipping_date"]
                         
                         # If current date is 1 day after expected shipping date, mark as delivered
-                        if current_date >= (expected_date + timedelta(days=1)):
+                        if current_date >= (expected_date + timedelta(minutes=1)):
                             order_dict["status"] = "delivered"
                         # If current date is on or after expected shipping date, mark as shipped
                         elif current_date >= expected_date:
