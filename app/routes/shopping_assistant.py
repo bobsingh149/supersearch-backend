@@ -277,7 +277,7 @@ async def chat_with_assistant(
                 merged_response = clean_response
                 if referenced_products:
                     product_info = "\n\nFunction call results for the user query:\n" + "\n".join([
-                        f"- {p.model_dump_json(include={'id', 'title', 'custom_data'})}" for p in referenced_products
+                        f"- {p.model_dump_json()}" for p in referenced_products
                     ])
                     merged_response += product_info
                 
@@ -328,7 +328,7 @@ async def chat_with_assistant(
                 merged_response = query_response
                 if referenced_products:
                     product_info = "\n\nReferenced Products:\n" + "\n".join([
-                        f"- {p.model_dump_json(include={'id', 'title', 'custom_data'})}" for p in referenced_products
+                        f"- {p.model_dump_json()}" for p in referenced_products
                     ])
                     merged_response += product_info
                 
