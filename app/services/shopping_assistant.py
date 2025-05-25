@@ -63,7 +63,7 @@ class ShoppingAssistantUtils:
        b. If no user_query_context, check if it refers to items from recent chat history
        c. If still ambiguous, consider items from function_call_results that best match the query
     14. NEVER ask the user to clarify which item they are talking about - always make an intelligent assumption
-    15. If a user refers to a product using pronouns (it, this, that) or generic terms (the product, the item), assume they mean the latest item discussed in the chat history
+    15. If a user refers to a product using pronouns (it, this, that) or generic terms (the product, the item), assume they mean the latest item discussed in the chat history. This is especially important when the query contains words like "this" or "it" without any search or recommendation intent - always assume they are referring to the last item mentioned in the conversation history.
     16. When the user's intent is unclear, prioritize chat history over function_call_results for product references
 
     FORMATTING INSTRUCTIONS:
@@ -122,7 +122,7 @@ class ShoppingAssistantUtils:
        b. If no user_query_context, check if it refers to items from recent chat history
        c. If still ambiguous, consider items from function_call_results that best match the query
     14. NEVER ask the user to clarify which item they are talking about - always make an intelligent assumption
-    15. If a user refers to a product using pronouns (it, this, that) or generic terms (the product, the item), assume they mean the latest item discussed in the chat history
+    15. If a user refers to a product using pronouns (it, this, that) or generic terms (the product, the item), assume they mean the latest item discussed in the chat history. This is especially important when the query contains words like "this" or "it" without any search or recommendation intent - always assume they are referring to the last item mentioned in the conversation history.
     16. When the user's intent is unclear, prioritize chat history over function_call_results for product references
 
     RESPONSE FORMAT:
@@ -379,7 +379,7 @@ class ShoppingAssistantUtils:
 7. If there's an AI-generated summary of reviews, use that to provide a comprehensive overview instead of individual reviews
 8. If the query is ambiguous about which product it's referring to, check if it refers to items from recent chat history first, then consider items from function_call_results that best match the query
 9. NEVER ask the user to clarify which item they are talking about - always make an intelligent assumption
-10. If a user refers to a product using pronouns (it, this, that) or generic terms (the product, the item), assume they mean the latest item discussed in the chat history
+10. If a user refers to a product using pronouns (it, this, that) or generic terms (the product, the item), assume they mean the latest item discussed in the chat history. This is especially important when the query contains words like "this" or "it" without any search or recommendation intent - always assume they are referring to the last item mentioned in the conversation history.
 11. When the user's intent is unclear, prioritize chat history over function_call_results for product references
 
 """
@@ -487,7 +487,7 @@ DO NOT deviate from this format. The system depends on these exact markers.
 7. If there's an AI-generated summary of reviews, use that to provide a comprehensive overview instead of individual reviews
 8. If the query is ambiguous about which product it's referring to, check if it refers to items from recent chat history first, then consider items from function_call_results that best match the query
 9. NEVER ask the user to clarify which item they are talking about - always make an intelligent assumption
-10. If a user refers to a product using pronouns (it, this, that) or generic terms (the product, the item), assume they mean the latest item discussed in the chat history
+10. If a user refers to a product using pronouns (it, this, that) or generic terms (the product, the item), assume they mean the latest item discussed in the chat history. This is especially important when the query contains words like "this" or "it" without any search or recommendation intent - always assume they are referring to the last item mentioned in the conversation history.
 11. When the user's intent is unclear, prioritize chat history over function_call_results for product references
 
 """
