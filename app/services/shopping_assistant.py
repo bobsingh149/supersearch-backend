@@ -62,6 +62,9 @@ class ShoppingAssistantUtils:
        a. First assume it refers to items in user_query_context if present
        b. If no user_query_context, check if it refers to items from recent chat history
        c. If still ambiguous, consider items from function_call_results that best match the query
+    14. NEVER ask the user to clarify which item they are talking about - always make an intelligent assumption
+    15. If a user refers to a product using pronouns (it, this, that) or generic terms (the product, the item), assume they mean the latest item discussed in the chat history
+    16. When the user's intent is unclear, prioritize chat history over function_call_results for product references
 
     FORMATTING INSTRUCTIONS:
     - When mentioning item titles in your response, format them as hyperlinks using markdown, like this: [Item Title](/demo_site/:item_id)
@@ -118,6 +121,9 @@ class ShoppingAssistantUtils:
        a. First assume it refers to items in user_query_context if present
        b. If no user_query_context, check if it refers to items from recent chat history
        c. If still ambiguous, consider items from function_call_results that best match the query
+    14. NEVER ask the user to clarify which item they are talking about - always make an intelligent assumption
+    15. If a user refers to a product using pronouns (it, this, that) or generic terms (the product, the item), assume they mean the latest item discussed in the chat history
+    16. When the user's intent is unclear, prioritize chat history over function_call_results for product references
 
     RESPONSE FORMAT:
     You MUST provide your response in a valid JSON format with the following structure:
@@ -372,6 +378,9 @@ class ShoppingAssistantUtils:
 6. If the user is asking about reviews or opinions on products, use the product review information if available
 7. If there's an AI-generated summary of reviews, use that to provide a comprehensive overview instead of individual reviews
 8. If the query is ambiguous about which product it's referring to, check if it refers to items from recent chat history first, then consider items from function_call_results that best match the query
+9. NEVER ask the user to clarify which item they are talking about - always make an intelligent assumption
+10. If a user refers to a product using pronouns (it, this, that) or generic terms (the product, the item), assume they mean the latest item discussed in the chat history
+11. When the user's intent is unclear, prioritize chat history over function_call_results for product references
 
 """
         
@@ -477,6 +486,9 @@ DO NOT deviate from this format. The system depends on these exact markers.
 6. If the user is asking about reviews or opinions on products, use the product review information if available
 7. If there's an AI-generated summary of reviews, use that to provide a comprehensive overview instead of individual reviews
 8. If the query is ambiguous about which product it's referring to, check if it refers to items from recent chat history first, then consider items from function_call_results that best match the query
+9. NEVER ask the user to clarify which item they are talking about - always make an intelligent assumption
+10. If a user refers to a product using pronouns (it, this, that) or generic terms (the product, the item), assume they mean the latest item discussed in the chat history
+11. When the user's intent is unclear, prioritize chat history over function_call_results for product references
 
 """
         
