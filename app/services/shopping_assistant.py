@@ -40,7 +40,7 @@ class ShoppingAssistantUtils:
     - user's orders: Recent orders placed by the user with their current status
 
     Follow these rules when using context:
-    1. If the user is searching for or asking about item recommendations, refer primarily to items in function_call_results
+    1. If the user is searching for or asking about item recommendations, refer primarily to items in function_call_results (these are semantic search results obtained from the user's current query - use them when they represent fresh search results for the user's query, but ignore them if the user query is referring to past chat history)
     2. If the user is asking about specific items they mentioned before, refer to items in user_query_context
     3. If the user query does not have search/recommendation intent, ignore function_call_results and refer to recent history and user_query_context instead
     4. ONLY recommend items that are DIRECTLY RELEVANT to the user's specific query
@@ -99,7 +99,7 @@ class ShoppingAssistantUtils:
     - user's orders: Recent orders placed by the user with their current status
 
     Follow these rules when using context:
-    1. If the user is searching for or asking about item recommendations, refer primarily to items in function_call_results
+    1. If the user is searching for or asking about item recommendations, refer primarily to items in function_call_results (these are semantic search results obtained from the user's current query - use them when they represent fresh search results for the user's query, but ignore them if the user query is referring to past chat history)
     2. If the user is asking about specific items they mentioned before, refer to items in user_query_context
     3. If the user query does not have search/recommendation intent, ignore function_call_results and refer to recent history and user_query_context instead
     4. ONLY recommend items that are DIRECTLY RELEVANT to the user's specific query
@@ -370,7 +370,7 @@ class ShoppingAssistantUtils:
         if context:
             prompt = "Context about items:\n" + context + "\n\n" + prompt
             prompt += """IMPORTANT INSTRUCTIONS FOR CONTEXT USE:
-1. If the user is searching for or asking about item recommendations, refer to items in function_call_results
+1. If the user is searching for or asking about item recommendations, refer to items in function_call_results (these are semantic search results obtained from the user's current query - use them when they represent fresh search results for the user's query, but ignore them if the user query is referring to past chat history)
 2. If the user is asking about specific items they mentioned before, refer to items from recent chat history
 3. If the user query does not have search/recommendation intent, ignore function_call_results and refer to recent history instead
 4. Only reference items that are DIRECTLY RELEVANT to the user's query
@@ -478,7 +478,7 @@ DO NOT deviate from this format. The system depends on these exact markers.
         if context:
             prompt = "Context about items:\n" + context + "\n\n" + prompt
             prompt += """IMPORTANT INSTRUCTIONS FOR CONTEXT USE:
-1. If the user is searching for or asking about item recommendations, refer to items in function_call_results
+1. If the user is searching for or asking about item recommendations, refer to items in function_call_results (these are semantic search results obtained from the user's current query - use them when they represent fresh search results for the user's query, but ignore them if the user query is referring to past chat history)
 2. If the user is asking about specific items they mentioned before, refer to items from recent chat history
 3. If the user query does not have search/recommendation intent, ignore function_call_results and refer to recent history instead
 4. Only reference items that are DIRECTLY RELEVANT to the user's query
