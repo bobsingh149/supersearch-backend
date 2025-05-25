@@ -125,22 +125,22 @@ async def chat_with_assistant(
             async def response_stream_generator():
                 # Track the complete response and parsing state
                 full_response = ""
-                main_content = ""
+                content_sent_length = 0  # Track how much content we've already sent
                 parsing_state = "content"  # content, questions, products, done
                 
                 async for chunk in await chat.send_message_stream(prompt):
                     full_response += chunk.text
-                    
-                    # Check for NEW format markers first
+
+                    # Check for NEW format markers
                     if "FOLLOW_UP_QUESTIONS_START" in chunk.text and parsing_state == "content":
                         # We've hit the new questions marker, extract content before it
                         marker_pos = full_response.find("FOLLOW_UP_QUESTIONS_START")
                         main_content = full_response[:marker_pos].strip()
                         parsing_state = "questions"
                         
-                        # Send the final content chunk if there's content before the marker
-                        if main_content and not main_content.endswith(chunk.text[:chunk.text.find("FOLLOW_UP_QUESTIONS_START")]):
-                            remaining_content = main_content[len(main_content) - len(chunk.text[:chunk.text.find("FOLLOW_UP_QUESTIONS_START")]):]
+                        # Send any remaining content that wasn't sent yet
+                        if len(main_content) > content_sent_length:
+                            remaining_content = main_content[content_sent_length:]
                             if remaining_content:
                                 content_response = StreamingResponse(
                                     type=StreamingResponseType.CONTENT,
@@ -155,39 +155,6 @@ async def chat_with_assistant(
                         parsing_state = "products"
                         continue
                     
-                    # Check for OLD format markers and filter them out
-                    elif ("follow_up_questions:" in chunk.text or "product_ids:" in chunk.text) and parsing_state == "content":
-                        # We've hit the old format markers, stop streaming content
-                        # Extract content before the marker
-                        old_marker_positions = []
-                        if "follow_up_questions:" in full_response:
-                            old_marker_positions.append(full_response.find("follow_up_questions:"))
-                        if "product_ids:" in full_response:
-                            old_marker_positions.append(full_response.find("product_ids:"))
-                        
-                        if old_marker_positions:
-                            old_marker_pos = min(old_marker_positions)
-                            main_content = full_response[:old_marker_pos].strip()
-                            parsing_state = "done"
-                            
-                            # Send any remaining content before the marker
-                            marker_in_chunk = "follow_up_questions:" in chunk.text or "product_ids:" in chunk.text
-                            if marker_in_chunk:
-                                before_marker = chunk.text
-                                if "follow_up_questions:" in chunk.text:
-                                    before_marker = chunk.text[:chunk.text.find("follow_up_questions:")]
-                                elif "product_ids:" in chunk.text:
-                                    before_marker = chunk.text[:chunk.text.find("product_ids:")]
-                                
-                                if before_marker.strip():
-                                    content_response = StreamingResponse(
-                                        type=StreamingResponseType.CONTENT,
-                                        conversation_id=chat_request.conversation_id,
-                                        content=before_marker
-                                    )
-                                    yield json.dumps(content_response.model_dump()) + "\n"
-                        continue
-                    
                     elif parsing_state == "content":
                         # We're still in the main content, stream it
                         content_response = StreamingResponse(
@@ -196,25 +163,12 @@ async def chat_with_assistant(
                             content=chunk.text
                         )
                         yield json.dumps(content_response.model_dump()) + "\n"
+                        
+                        # Update the length of content we've sent
+                        content_sent_length += len(chunk.text)
                 
-                # Extract and send follow-up questions using both old and new format
+                # Extract and send follow-up questions using new format only
                 follow_up_questions = ShoppingAssistantUtils.extract_follow_up_questions(full_response)
-                
-                # If new format didn't work, try old format
-                if not follow_up_questions and "follow_up_questions:" in full_response:
-                    marker = "follow_up_questions:"
-                    start_pos = full_response.find(marker) + len(marker)
-                    questions_str = full_response[start_pos:].strip()
-                    
-                    # Extract until product_ids or end of string
-                    if "product_ids:" in questions_str:
-                        questions_str = questions_str.split("product_ids:")[0].strip()
-                    elif "\n" in questions_str:
-                        questions_str = questions_str.split("\n")[0].strip()
-                    
-                    # Split by pipe and clean up
-                    if questions_str:
-                        follow_up_questions = [q.strip() for q in questions_str.split('|') if q.strip()]
                 
                 if follow_up_questions:
                     questions_response = StreamingResponse(
@@ -224,21 +178,8 @@ async def chat_with_assistant(
                     )
                     yield json.dumps(questions_response.model_dump()) + "\n"
                 
-                # Extract product IDs using both old and new format
+                # Extract product IDs using new format only
                 referenced_product_ids = ShoppingAssistantUtils.extract_product_ids(full_response)
-                
-                # If new format didn't work, try old format
-                if not referenced_product_ids and "product_ids:" in full_response:
-                    marker = "product_ids:"
-                    start_pos = full_response.find(marker) + len(marker)
-                    ids_str = full_response[start_pos:].strip()
-                    
-                    # Extract until newline or end
-                    if "\n" in ids_str:
-                        ids_str = ids_str.split("\n")[0].strip()
-                    
-                    if ids_str:
-                        referenced_product_ids = [id.strip() for id in ids_str.split(',') if id.strip()]
                 
                 referenced_products = await ShoppingAssistantUtils.get_products_by_ids(session, referenced_product_ids, tenant)
                 
@@ -251,11 +192,9 @@ async def chat_with_assistant(
                     )
                     yield json.dumps(product_response.model_dump()) + "\n"
                 
-                # Clean the response for saving to database
+                # Clean the response for saving to database - remove new format sections only
                 clean_response = full_response
                 
-                # Remove both old and new format sections
-                # Remove new format sections
                 questions_start = clean_response.find("FOLLOW_UP_QUESTIONS_START")
                 if questions_start != -1:
                     clean_response = clean_response[:questions_start].strip()
@@ -263,15 +202,6 @@ async def chat_with_assistant(
                 products_start = clean_response.find("PRODUCT_IDS_START")
                 if products_start != -1:
                     clean_response = clean_response[:products_start].strip()
-                
-                # Remove old format sections
-                old_questions_start = clean_response.find("follow_up_questions:")
-                if old_questions_start != -1:
-                    clean_response = clean_response[:old_questions_start].strip()
-                
-                old_products_start = clean_response.find("product_ids:")
-                if old_products_start != -1:
-                    clean_response = clean_response[:old_products_start].strip()
                 
                 # Save conversation with clean response
                 merged_response = clean_response

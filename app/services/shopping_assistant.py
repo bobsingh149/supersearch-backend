@@ -187,6 +187,7 @@ class ShoppingAssistantUtils:
     def json_model_config(self):
         return self.get_json_model_config()
 
+    @staticmethod
     def extract_product_ids(text: str) -> List[str]:
         """
         Extract product IDs from the new format with PRODUCT_IDS_START and PRODUCT_IDS_END markers
