@@ -365,16 +365,13 @@ class ShoppingAssistantUtils:
             prompt = "Context about items:\n" + context + "\n\n" + prompt
             prompt += """IMPORTANT INSTRUCTIONS FOR CONTEXT USE:
 1. If the user is searching for or asking about item recommendations, refer to items in function_call_results
-2. If the user is asking about specific items they mentioned before or if they are referring to items in the user_query_context, refer to items in user_query_context and recent history 
-3. If the user query does not have search/recommendation intent, ignore function_call_results and refer to recent history and user_query_context instead
+2. If the user is asking about specific items they mentioned before, refer to items from recent chat history
+3. If the user query does not have search/recommendation intent, ignore function_call_results and refer to recent history instead
 4. Only reference items that are DIRECTLY RELEVANT to the user's query
 5. Ignore any items that don't match what the user is looking for
 6. If the user is asking about reviews or opinions on products, use the product review information if available
 7. If there's an AI-generated summary of reviews, use that to provide a comprehensive overview instead of individual reviews
-8. If the query is ambiguous about which product it's referring to:
-   a. First assume it refers to items in user_query_context if present
-   b. If no user_query_context, check if it refers to items from recent chat history
-   c. If still ambiguous, consider items from function_call_results that best match the query
+8. If the query is ambiguous about which product it's referring to, check if it refers to items from recent chat history first, then consider items from function_call_results that best match the query
 
 """
         
@@ -473,16 +470,13 @@ DO NOT deviate from this format. The system depends on these exact markers.
             prompt = "Context about items:\n" + context + "\n\n" + prompt
             prompt += """IMPORTANT INSTRUCTIONS FOR CONTEXT USE:
 1. If the user is searching for or asking about item recommendations, refer to items in function_call_results
-2. If the user is asking about specific items they mentioned before or if they are referring to items in the user_query_context, refer to items in user_query_context and recent history 
-3. If the user query does not have search/recommendation intent, ignore function_call_results and refer to recent history and user_query_context instead
+2. If the user is asking about specific items they mentioned before, refer to items from recent chat history
+3. If the user query does not have search/recommendation intent, ignore function_call_results and refer to recent history instead
 4. Only reference items that are DIRECTLY RELEVANT to the user's query
 5. Ignore any items that don't match what the user is looking for
 6. If the user is asking about reviews or opinions on products, use the product review information if available
 7. If there's an AI-generated summary of reviews, use that to provide a comprehensive overview instead of individual reviews
-8. If the query is ambiguous about which product it's referring to:
-   a. First assume it refers to items in user_query_context if present
-   b. If no user_query_context, check if it refers to items from recent chat history
-   c. If still ambiguous, consider items from function_call_results that best match the query
+8. If the query is ambiguous about which product it's referring to, check if it refers to items from recent chat history first, then consider items from function_call_results that best match the query
 
 """
         

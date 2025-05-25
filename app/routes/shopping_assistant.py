@@ -49,22 +49,21 @@ async def chat_with_assistant(
         # Use product_ids list directly
         product_id_list = chat_request.product_ids if chat_request.product_ids else []
         
-        # Build context
-        context = ""
+        # Start with the original query
+        enhanced_query = chat_request.query
         
-        # Fetch specific products if IDs provided
+        # Fetch specific products if IDs provided and append to query
         if product_id_list:
             # Get context for specific products using utility method
             context_products = await ShoppingAssistantUtils.get_products_by_ids(session, product_id_list, tenant)
             
-            # Add to context
+            # Append product context to the query
             if context_products:
                 product_context = ShoppingAssistantUtils.format_product_context(context_products)
-                context += "user_query_context:\n" + product_context + "\n"
+                enhanced_query += f"\n\nProduct context for items mentioned:\n{product_context}"
         
-        # Always fetch products from database for all queries
-        # Get vector embedding for the query
-        query_embedding = await get_embedding(chat_request.query, TaskType.QUERY)
+        # Get vector embedding for the enhanced query (with product context if any)
+        query_embedding = await get_embedding(enhanced_query, TaskType.QUERY)
 
         sql_query = render_sql(SQLFilePath.PRODUCT_SEMANTIC_SEARCH_WITH_REVIEWS,
                             query_embedding=query_embedding,
@@ -84,9 +83,8 @@ async def chat_with_assistant(
             for row in semantic_db_products
         ]
 
-
-        
-        # Add to context
+        # Build context for function call results
+        context = ""
         if semantic_product_results:
             # No need to call get_products_by_ids again as reviews are already included
             semantic_context = ShoppingAssistantUtils.format_product_context(semantic_product_results)
@@ -111,18 +109,15 @@ async def chat_with_assistant(
         else:
             logger.info("No recent orders found for user")
 
-
-        
         # Handle streaming response
         if chat_request.stream:
 
             # Get chat session with history
             chat = await get_chat_from_history(conversation_id= chat_request.conversation_id, stream=True, tenant=tenant)
 
-
             # Prepare prompt with context merged with user query
             prompt = ShoppingAssistantUtils.construct_prompt(
-                chat_request.query,
+                enhanced_query,  # Use enhanced query with product context
                 context,
                 orders_context
             )
@@ -300,7 +295,7 @@ async def chat_with_assistant(
         else:
             # Prepare JSON prompt with context merged with user query
             json_prompt = ShoppingAssistantUtils.construct_json_prompt(
-                chat_request.query,
+                enhanced_query,  # Use enhanced query with product context
                 context,
                 orders_context
             )
