@@ -10,7 +10,7 @@ jobs:
     
     steps:
     - name: Deploy to production server
-      uses: appleboy/ssh-action@master
+      uses: appleboy/ssh-action@v1
       with:
         host: 62.72.56.173
         username: root
