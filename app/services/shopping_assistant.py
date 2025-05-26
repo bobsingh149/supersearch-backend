@@ -73,6 +73,7 @@ class ShoppingAssistantUtils:
 
     FOLLOW-UP QUESTIONS:
     - After your main response, always generate 3 suggested follow-up questions related to the user's query and your response
+    - Follow-up questions mean what the user might want to ask next related to the conversation going on
     - These questions should be natural extensions of the conversation and help users explore related topics or get more specific information
     - Make these questions diverse to give users different options for continuing the conversation
     - After a blank line from your main response, add these questions with the format:
@@ -139,9 +140,10 @@ class ShoppingAssistantUtils:
     - Use proper markdown formatting for the rest of your response (headings, bullet points, etc.)
 
     For follow_up_questions:
-    - Always generate exactly 3 suggested follow-up questions related to the user's query and your response
-    - These should be natural extensions of the conversation to help users explore related topics or get more specific information
-    - Make these questions diverse to give users different options for continuing the conversation
+        - Always generate exactly 3 suggested follow-up questions related to the user's query and your response
+        - Follow-up questions mean what the user might want to ask next related to the conversation going on
+        - These should be natural extensions of the conversation to help users explore related topics or get more specific information
+        - Make these questions diverse to give users different options for continuing the conversation
 
     For referenced_product_ids:
     - Include ALL product IDs that you referenced or recommended in your response
@@ -405,24 +407,18 @@ class ShoppingAssistantUtils:
 When mentioning item titles in your response, format them as hyperlinks using markdown, like this: [Item Title](/demo_site/:product_id).
 For example, if you're recommending an item with ID 'abc123' and title 'Documentary Film', format it as [Documentary Film](/demo_site/abc123).
 
-CRITICAL: Your response will be processed in streaming mode. You MUST use the exact format below or the system will break:
-
-NEVER use the old format like:
-- follow_up_questions:question1|question2|question3 
-- product_ids:id1,id2,id3
-
-ALWAYS use this NEW format:
+CRITICAL: Your response will be processed in streaming mode. You MUST use the exact format below:
 
 1. Provide your main response content first
-2. After your main response, add exactly one blank line
-3. Then add follow-up questions in this EXACT format (copy exactly):
+2. When your main content is complete, add the special marker: §
+3. After the § marker, add follow-up questions in this EXACT format:
 FOLLOW_UP_QUESTIONS_START
 question1
 question2  
 question3
 FOLLOW_UP_QUESTIONS_END
 
-4. After another blank line, list referenced product IDs in this EXACT format (copy exactly):
+4. Then list referenced product IDs in this EXACT format:
 PRODUCT_IDS_START
 id1,id2,id3
 PRODUCT_IDS_END
@@ -437,11 +433,13 @@ For no product IDs:
 PRODUCT_IDS_START
 PRODUCT_IDS_END
 
-IMPORTANT: At least one of your follow-up questions should be about reviews or opinions of the referenced item if applicable.
+IMPORTANT: 
+- At least one of your follow-up questions should be about reviews or opinions of the referenced item if applicable
+- Follow-up questions mean what the user might want to ask next related to the conversation going on
 
 Example complete response format:
 Here are some great superhero movies for you...
-
+§
 FOLLOW_UP_QUESTIONS_START
 Which of these superhero movies sounds most interesting to you?
 Are you looking for superhero movies with a specific actor or actress?
@@ -452,7 +450,7 @@ PRODUCT_IDS_START
 movie123,movie456,movie789
 PRODUCT_IDS_END
 
-DO NOT deviate from this format. The system depends on these exact markers.
+DO NOT deviate from this format. The § marker is critical for proper streaming.
 """
         
         return prompt
@@ -514,7 +512,9 @@ DO NOT deviate from this format. The system depends on these exact markers.
 2. "follow_up_questions": Array of exactly 3 follow-up questions
 3. "referenced_product_ids": Array of product IDs you referenced (or empty array if none)
 
-IMPORTANT: At least one of your follow-up questions should be about reviews or opinions of the referenced item if applicable.
+IMPORTANT: 
+- At least one of your follow-up questions should be about reviews or opinions of the referenced item if applicable
+- Follow-up questions mean what the user might want to ask next related to the conversation going on
 
 Example format:
 {

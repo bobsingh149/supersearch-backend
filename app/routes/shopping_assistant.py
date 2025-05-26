@@ -126,17 +126,19 @@ async def chat_with_assistant(
                 # Track the complete response and parsing state
                 full_response = ""
                 content_sent_length = 0  # Track how much content we've already sent
-                parsing_state = "content"  # content, questions, products, done
+                parsing_state = "content"  # content, collecting
                 
                 async for chunk in await chat.send_message_stream(prompt):
                     full_response += chunk.text
 
-                    # Check for NEW format markers
-                    if "FOLLOW_UP_QUESTIONS_START" in chunk.text and parsing_state == "content":
-                        # We've hit the new questions marker, extract content before it
-                        marker_pos = full_response.find("FOLLOW_UP_QUESTIONS_START")
-                        main_content = full_response[:marker_pos].strip()
-                        parsing_state = "questions"
+                    # Check for the end-of-content marker
+                    if "§" in chunk.text and parsing_state == "content":
+                        # We've hit the end-of-content marker
+                        parsing_state = "collecting"
+                        
+                        # Extract the main content (everything before §)
+                        marker_pos = full_response.find("§")
+                        main_content = full_response[:marker_pos]
                         
                         # Send any remaining content that wasn't sent yet
                         if len(main_content) > content_sent_length:
@@ -147,13 +149,8 @@ async def chat_with_assistant(
                                     conversation_id=chat_request.conversation_id,
                                     content=remaining_content
                                 )
-                                logger.info(f"content_respons: {content_response}")
+                                logger.info(f"final content_response: {content_response}")
                                 yield json.dumps(content_response.model_dump()) + "\n"
-                        continue
-                    
-                    elif "PRODUCT_IDS_START" in chunk.text and parsing_state in ["content", "questions"]:
-                        # We've hit the new product IDs marker
-                        parsing_state = "products"
                         continue
                     
                     elif parsing_state == "content":
@@ -168,6 +165,9 @@ async def chat_with_assistant(
                         
                         # Update the length of content we've sent
                         content_sent_length += len(chunk.text)
+                    
+                    # If we're in collecting state, we just accumulate in full_response
+                    # and don't stream the chunk
                 
                 # Extract and send follow-up questions using new format only
                 follow_up_questions = ShoppingAssistantUtils.extract_follow_up_questions(full_response)
@@ -194,16 +194,13 @@ async def chat_with_assistant(
                     )
                     yield json.dumps(product_response.model_dump()) + "\n"
                 
-                # Clean the response for saving to database - remove new format sections only
+                # Clean the response for saving to database - remove marker and format sections
                 clean_response = full_response
                 
-                questions_start = clean_response.find("FOLLOW_UP_QUESTIONS_START")
-                if questions_start != -1:
-                    clean_response = clean_response[:questions_start].strip()
-                
-                products_start = clean_response.find("PRODUCT_IDS_START")
-                if products_start != -1:
-                    clean_response = clean_response[:products_start].strip()
+                # Remove everything from § marker onwards
+                marker_pos = clean_response.find("§")
+                if marker_pos != -1:
+                    clean_response = clean_response[:marker_pos].strip()
                 
                 # Save conversation with clean response
                 merged_response = clean_response
