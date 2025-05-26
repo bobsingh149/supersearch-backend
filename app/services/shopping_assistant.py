@@ -73,6 +73,7 @@ class ShoppingAssistantUtils:
 
     FOLLOW-UP QUESTIONS:
     - After your main response, always generate 3 suggested follow-up questions related to the user's query and your response
+    - Follow-up questions should be written in first person from the user's perspective (e.g., "What do people think of this movie?" not "What do people think of it?")
     - Focus on objective, informational questions rather than personal subjective ones (e.g., "What do people think of it?" rather than "Have you seen it?" or "What did you think of it?")
     - These questions should be natural extensions of the conversation and help users explore related topics or get more specific information
     - Make these questions diverse to give users different options for continuing the conversation
@@ -141,6 +142,7 @@ class ShoppingAssistantUtils:
 
             For follow_up_questions:
         - Always generate exactly 3 suggested follow-up questions related to the user's query and your response
+        - Follow-up questions should be written in first person from the user's perspective (e.g., "What do people think of this movie?" not "What do people think of it?")
         - Focus on objective, informational questions rather than personal subjective ones (e.g., "What do people think of it?" rather than "Have you seen it?" or "What did you think of it?")
         - These should be natural extensions of the conversation to help users explore related topics or get more specific information
         - Make these questions diverse to give users different options for continuing the conversation
@@ -435,6 +437,7 @@ PRODUCT_IDS_END
 
 IMPORTANT: 
 - At least one of your follow-up questions should be about reviews or opinions of the referenced item if applicable
+- Follow-up questions should be written in first person from the user's perspective (e.g., "What do people think of this movie?" not "What do people think of it?")
 - Focus on objective, informational questions rather than personal subjective ones (e.g., "What do people think of it?" rather than "Have you seen it?" or "What did you think of it?")
 
 Example complete response format:
@@ -514,6 +517,7 @@ DO NOT deviate from this format. The § marker is critical for proper streaming.
 
 IMPORTANT: 
 - At least one of your follow-up questions should be about reviews or opinions of the referenced item if applicable
+- Follow-up questions should be written in first person from the user's perspective (e.g., "What do people think of this movie?" not "What do people think of it?")
 - Focus on objective, informational questions rather than personal subjective ones (e.g., "What do people think of it?" rather than "Have you seen it?" or "What did you think of it?")
 
 Example format:
