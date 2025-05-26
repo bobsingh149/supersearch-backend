@@ -168,7 +168,8 @@ async def chat_with_assistant(
                     
                     # If we're in collecting state, we just accumulate in full_response
                     # and don't stream the chunk
-                
+
+                print(f"full response : {full_response}")
                 # Extract and send follow-up questions using new format only
                 follow_up_questions = ShoppingAssistantUtils.extract_follow_up_questions(full_response)
                 

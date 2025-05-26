@@ -73,7 +73,7 @@ class ShoppingAssistantUtils:
 
     FOLLOW-UP QUESTIONS:
     - After your main response, always generate 3 suggested follow-up questions related to the user's query and your response
-    - Follow-up questions mean what the user might want to ask next related to the conversation going on
+    - Follow-up questions should be what the user would want to ask for himself/herself next related to the conversation going on
     - These questions should be natural extensions of the conversation and help users explore related topics or get more specific information
     - Make these questions diverse to give users different options for continuing the conversation
     - After a blank line from your main response, add these questions with the format:
@@ -139,9 +139,9 @@ class ShoppingAssistantUtils:
     - For example, if you're recommending an item with ID 'abc123' and title 'Documentary Film', format it as [Documentary Film](/demo_site/abc123)
     - Use proper markdown formatting for the rest of your response (headings, bullet points, etc.)
 
-    For follow_up_questions:
+            For follow_up_questions:
         - Always generate exactly 3 suggested follow-up questions related to the user's query and your response
-        - Follow-up questions mean what the user might want to ask next related to the conversation going on
+        - Follow-up questions should be what the user would want to ask for himself/herself next related to the conversation going on
         - These should be natural extensions of the conversation to help users explore related topics or get more specific information
         - Make these questions diverse to give users different options for continuing the conversation
 
@@ -435,7 +435,7 @@ PRODUCT_IDS_END
 
 IMPORTANT: 
 - At least one of your follow-up questions should be about reviews or opinions of the referenced item if applicable
-- Follow-up questions mean what the user might want to ask next related to the conversation going on
+- Follow-up questions should be what the user would want to ask for himself/herself next related to the conversation going on
 
 Example complete response format:
 Here are some great superhero movies for you...
@@ -514,7 +514,7 @@ DO NOT deviate from this format. The § marker is critical for proper streaming.
 
 IMPORTANT: 
 - At least one of your follow-up questions should be about reviews or opinions of the referenced item if applicable
-- Follow-up questions mean what the user might want to ask next related to the conversation going on
+- Follow-up questions should be what the user would want to ask for himself/herself next related to the conversation going on
 
 Example format:
 {
