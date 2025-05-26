@@ -1,4 +1,4 @@
-name: Deploy Cognishop Production
+name: Deploy CogniShop Production
 
 on:
   push:
