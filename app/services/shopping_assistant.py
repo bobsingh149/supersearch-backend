@@ -71,9 +71,9 @@ class ShoppingAssistantUtils:
     - For example, if you're recommending an item with ID 'abc123' and title 'Documentary Film', format it as [Documentary Film](/demo_site/abc123)
     - Use proper markdown formatting for the rest of your response (headings, bullet points, etc.)
 
-    FOLLOW-UP QUESTIONS:
-    - After your main response, always generate 3 suggested follow-up questions that the user might want to ask you (the shopping assistant)
-    - These are questions from the user's perspective that they would ask you for more information
+    SUGGESTED USER QUERIES:
+    - After your main response, always generate 3 suggested questions that the user might want to ask you (the shopping assistant) next
+    - These are questions from the user's perspective directed to the shopping assistant, not questions the assistant would ask the user
     - Focus on objective, informational questions rather than personal subjective ones (e.g., "What do people think of it?" rather than "Have you seen it?" or "What did you think of it?")
     - These questions should be natural extensions of the conversation and help users explore related topics or get more specific information
     - Make these questions diverse to give users different options for continuing the conversation
@@ -141,8 +141,8 @@ class ShoppingAssistantUtils:
     - Use proper markdown formatting for the rest of your response (headings, bullet points, etc.)
 
             For follow_up_questions:
-        - Always generate exactly 3 suggested follow-up questions that the user might want to ask you (the shopping assistant)
-        - These are questions from the user's perspective that they would ask you for more information
+        - Always generate exactly 3 suggested questions that the user might want to ask you (the shopping assistant) next
+        - These are questions from the user's perspective directed to the shopping assistant, not questions the assistant would ask the user
         - Focus on objective, informational questions rather than personal subjective ones (e.g., "What do people think of it?" rather than "Have you seen it?" or "What did you think of it?")
         - These should be natural extensions of the conversation to help users explore related topics or get more specific information
         - Make these questions diverse to give users different options for continuing the conversation
@@ -436,7 +436,8 @@ PRODUCT_IDS_START
 PRODUCT_IDS_END
 
 IMPORTANT: 
-- At least one of your follow-up questions should be about reviews or opinions of the referenced item if applicable
+- At least one of your suggested user queries should be about reviews or opinions of the referenced item if applicable
+- These are questions from the user's perspective directed to the shopping assistant, not questions the assistant would ask the user
 - Focus on objective, informational questions rather than personal subjective ones (e.g., "What do people think of it?" rather than "Have you seen it?" or "What did you think of it?")
 
 Example complete response format:
@@ -515,7 +516,8 @@ DO NOT deviate from this format. The § marker is critical for proper streaming.
 3. "referenced_product_ids": Array of product IDs you referenced (or empty array if none)
 
 IMPORTANT: 
-- At least one of your follow-up questions should be about reviews or opinions of the referenced item if applicable
+- At least one of your suggested user queries should be about reviews or opinions of the referenced item if applicable
+- These are questions from the user's perspective directed to the shopping assistant, not questions the assistant would ask the user
 - Focus on objective, informational questions rather than personal subjective ones (e.g., "What do people think of it?" rather than "Have you seen it?" or "What did you think of it?")
 
 Example format:
