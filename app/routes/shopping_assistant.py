@@ -147,6 +147,7 @@ async def chat_with_assistant(
                                     conversation_id=chat_request.conversation_id,
                                     content=remaining_content
                                 )
+                                print(f"content_respons: {content_response}")
                                 yield json.dumps(content_response.model_dump()) + "\n"
                         continue
                     
@@ -162,6 +163,7 @@ async def chat_with_assistant(
                             conversation_id=chat_request.conversation_id,
                             content=chunk.text
                         )
+                        print(f"main content_response: {content_response}")
                         yield json.dumps(content_response.model_dump()) + "\n"
                         
                         # Update the length of content we've sent
