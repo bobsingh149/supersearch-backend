@@ -219,7 +219,7 @@ class ShoppingAssistantUtils:
     @staticmethod
     def extract_follow_up_questions(text: str) -> List[str]:
         """
-        Extract follow-up questions from the new format with FOLLOW_UP_QUESTIONS_START and FOLLOW_UP_QUESTIONS_END markers
+        Extract follow-up questions from the new format with SUGGESTED_USER_QUERIES_START and SUGGESTED_USER_QUERIES_END markers
         
         Args:
             text: The text to extract follow-up questions from
@@ -227,8 +227,8 @@ class ShoppingAssistantUtils:
         Returns:
             List[str]: List of follow-up questions
         """
-        start_marker = "FOLLOW_UP_QUESTIONS_START"
-        end_marker = "FOLLOW_UP_QUESTIONS_END"
+        start_marker = "SUGGESTED_USER_QUERIES_START"
+        end_marker = "SUGGESTED_USER_QUERIES_END"
         
         start_pos = text.find(start_marker)
         if start_pos == -1:
@@ -413,12 +413,12 @@ CRITICAL: Your response will be processed in streaming mode. You MUST use the ex
 
 1. Provide your main response content first
 2. When your main content is complete, add the special marker: §
-3. After the § marker, add follow-up questions in this EXACT format:
-FOLLOW_UP_QUESTIONS_START
+3. After the § marker, add suggested user queries in this EXACT format:
+SUGGESTED_USER_QUERIES_START
 question1
 question2  
 question3
-FOLLOW_UP_QUESTIONS_END
+SUGGESTED_USER_QUERIES_END
 
 4. Then list referenced product IDs in this EXACT format:
 PRODUCT_IDS_START
@@ -427,9 +427,9 @@ PRODUCT_IDS_END
 
 MANDATORY: You MUST include the markers even if you have no questions or product IDs:
 
-For no follow-up questions:
-FOLLOW_UP_QUESTIONS_START
-FOLLOW_UP_QUESTIONS_END
+For no suggested user queries:
+SUGGESTED_USER_QUERIES_START
+SUGGESTED_USER_QUERIES_END
 
 For no product IDs:
 PRODUCT_IDS_START
@@ -443,11 +443,11 @@ IMPORTANT:
 Example complete response format:
 Here are some great superhero movies for you...
 §
-FOLLOW_UP_QUESTIONS_START
+SUGGESTED_USER_QUERIES_START
 Which of these superhero movies sounds most interesting to you?
 Are you looking for superhero movies with a specific actor or actress?
 What do critics and audiences say about the visual effects in these movies?
-FOLLOW_UP_QUESTIONS_END
+SUGGESTED_USER_QUERIES_END
 
 PRODUCT_IDS_START
 movie123,movie456,movie789
