@@ -441,16 +441,16 @@ IMPORTANT:
 - Focus on objective, informational questions rather than personal subjective ones (e.g., "What do people think of it?" rather than "Have you seen it?" or "What did you think of it?")
 
 Example complete response format:
-Here are some great superhero movies for you...
+Here are some great items for you...
 §
 SUGGESTED_USER_QUERIES_START
-Which of these superhero movies sounds most interesting to you?
-Are you looking for superhero movies with a specific actor or actress?
-What do critics and audiences say about the visual effects in these movies?
+question1
+question2
+question3
 SUGGESTED_USER_QUERIES_END
 
 PRODUCT_IDS_START
-movie123,movie456,movie789
+item123,item456,item789
 PRODUCT_IDS_END
 
 DO NOT deviate from this format. The § marker is critical for proper streaming.
@@ -522,9 +522,9 @@ IMPORTANT:
 
 Example format:
 {
-  "query_response": "Here are some great superhero movies for you...",
-  "follow_up_questions": ["Which of these movies sounds most interesting?", "Are you looking for movies with a specific actor?", "What do you think about the reviews for these films?"],
-  "referenced_product_ids": ["movie123", "movie456"]
+  "query_response": "Here are some great items for you...",
+  "follow_up_questions": ["question1", "question2", "question3"],
+  "referenced_product_ids": ["item123", "item456"]
 }
 """
         
