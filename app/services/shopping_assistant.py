@@ -444,7 +444,7 @@ Example format:
 {
   "query_response": "Here are some great items for you...",
   "suggested_user_queries": ["question1", "question2", "question3"],
-  "referenced_product_ids": ["item123", "item456"]
+  "referenced_product_ids": ["item123", "item456", "item789"]
 }
 """
         
