@@ -248,7 +248,7 @@ async def chat_with_assistant(
 
                 # Extract data from JSON
                 query_response = response_data.get("query_response", "")
-                follow_up_questions = response_data.get("follow_up_questions", [])
+                follow_up_questions = response_data.get("suggested_user_queries", [])
                 referenced_product_ids = response_data.get("referenced_product_ids", [])
                 
                 # Get referenced products directly from database
@@ -268,7 +268,7 @@ async def chat_with_assistant(
                     response=query_response,
                     conversation_id=chat_request.conversation_id,
                     products=[p.model_dump(include={"id", "title", "image_url", "custom_data", "searchable_content"}) for p in referenced_products],
-                    follow_up_questions=follow_up_questions
+                    suggested_user_queries=follow_up_questions
                 )
             except json.JSONDecodeError:
                 # Fallback to old method if JSON parsing fails

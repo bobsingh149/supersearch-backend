@@ -23,7 +23,7 @@ logger = logging.getLogger(__name__)
 
 class ResponseSchema(BaseModel):
     query_response: str
-    follow_up_questions: List[str]
+    suggested_user_queries: List[str]
     referenced_product_ids: List[str]
 
 class ShoppingAssistantUtils:
@@ -45,7 +45,7 @@ class ShoppingAssistantUtils:
     FORMATTING:
     - Format item titles as hyperlinks: [Item Title](/demo_site/:item_id)
     - Use markdown formatting (headers, bullets, etc.)
-    - Generate 3 diverse follow-up questions from user's perspective
+    - Generate 3 diverse suggested user queries that the user might want to ask you (the shopping assistant) next
     - Include all referenced product IDs at the end
     """
     
@@ -64,8 +64,14 @@ class ShoppingAssistantUtils:
     - delivered: Successfully delivered
     - cancelled/refunded: Order not processed/refunded
 
+    FORMATTING:
+    - Format item titles as hyperlinks: [Item Title](/demo_site/:item_id)
+    - Use markdown formatting (headers, bullets, etc.)
+    - Generate 3 diverse suggested user queries that the user might want to ask you (the shopping assistant) next
+    - Include all referenced product IDs at the end
+
     RESPONSE FORMAT:
-    Respond with JSON: {"query_response": "markdown response with [Item Title](/demo_site/:item_id) links", "follow_up_questions": ["question1", "question2", "question3"], "referenced_product_ids": ["id1", "id2"]}
+    Respond with JSON: {"query_response": "markdown response with [Item Title](/demo_site/:item_id) links", "suggested_user_queries": ["question1", "question2", "question3"], "referenced_product_ids": ["id1", "id2"]}
     """
     
     model = "gemini-2.0-flash-001"
@@ -426,7 +432,7 @@ DO NOT deviate from this format. The § marker is critical for proper streaming.
         
         prompt += """REMEMBER: You MUST respond with a valid JSON object having these fields:
 1. "query_response": Your main response to the user (with markdown formatting, hyperlinks like [Item Title](/demo_site/:product_id))
-2. "follow_up_questions": Array of exactly 3 follow-up questions
+2. "suggested_user_queries": Array of exactly 3 suggested user queries
 3. "referenced_product_ids": Array of product IDs you referenced (or empty array if none)
 
 IMPORTANT: 
@@ -437,7 +443,7 @@ IMPORTANT:
 Example format:
 {
   "query_response": "Here are some great items for you...",
-  "follow_up_questions": ["question1", "question2", "question3"],
+  "suggested_user_queries": ["question1", "question2", "question3"],
   "referenced_product_ids": ["item123", "item456"]
 }
 """

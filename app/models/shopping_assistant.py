@@ -59,7 +59,7 @@ class ChatResponse(BaseModel):
     response: str | None
     conversation_id: str
     products: Optional[List[ProductSearchResult]] = None
-    follow_up_questions: Optional[List[str]] = None
+    suggested_user_queries: Optional[List[str]] = None
 
 
 class StreamingResponseType(StrEnum):
