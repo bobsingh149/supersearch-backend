@@ -42,6 +42,10 @@ class ShoppingAssistantUtils:
     - delivered: Successfully delivered
     - cancelled/refunded: Order not processed/refunded
 
+    PRODUCT-SPECIFIC GUIDANCE:
+    - For movies: Focus on questions users actually want to know, avoid boring details like runtime
+    - For ecommerce products: Provide information that would be helpful to potential buyers based on the product context and what users typically want to know when making purchasing decisions
+
     FORMATTING:
     - Format item titles as hyperlinks: [Item Title](/demo_site/:item_id)
     - Use markdown formatting (headers, bullets, etc.)
@@ -63,6 +67,10 @@ class ShoppingAssistantUtils:
     - shipped: On its way to delivery address
     - delivered: Successfully delivered
     - cancelled/refunded: Order not processed/refunded
+
+    PRODUCT-SPECIFIC GUIDANCE:
+    - For movies: Focus on questions users actually want to know, avoid boring details like runtime
+    - For ecommerce products: Provide information that would be helpful to potential buyers based on the product context and what users typically want to know when making purchasing decisions
 
     FORMATTING:
     - Format item titles as hyperlinks: [Item Title](/demo_site/:item_id)

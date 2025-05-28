@@ -141,6 +141,8 @@ IMPORTANT: If the item has reviews or an AI review summary, ensure that AT LEAST
 
 IMPORTANT: If the item is a movie, include questions that a user might actually want to know about the movie do not include boring questions like what's the runtime:
 
+IMPORTANT: If the item is an ecommerce product, generate questions that would be helpful to a potential buyer based on the product context and what users typically want to know when making purchasing decisions.
+
 Your response must be valid JSON only, with no additional text before or after.
 """
 
