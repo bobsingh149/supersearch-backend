@@ -113,7 +113,7 @@ async def chat_with_assistant(
         if chat_request.stream:
 
             # Get chat session with history
-            chat = await get_chat_from_history(conversation_id= chat_request.conversation_id, stream=True, tenant=tenant)
+            chat = await get_chat_from_history(conversation_id= chat_request.conversation_id, session=session, stream=True, tenant=tenant)
 
             # Prepare prompt with context merged with user query
             prompt = ShoppingAssistantUtils.construct_prompt(
@@ -232,7 +232,7 @@ async def chat_with_assistant(
             
 
             # Using the JSON model config to get a JSON response
-            chat = await get_chat_from_history(conversation_id=chat_request.conversation_id,stream=False, tenant=tenant)
+            chat = await get_chat_from_history(conversation_id=chat_request.conversation_id,session=session, stream=False, tenant=tenant)
             # Override the config to use JSON format
                         # Get regular response in JSON format
             start_time = time.time()

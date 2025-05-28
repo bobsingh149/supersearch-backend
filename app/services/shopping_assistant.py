@@ -18,6 +18,7 @@ from app.database.sql.sql import render_sql, SQLFilePath
 from app.models.order import OrderOrm, Order
 from sqlalchemy import select
 from datetime import datetime, timezone, timedelta
+from sqlalchemy.ext.asyncio import AsyncSession
 
 logger = logging.getLogger(__name__)
 
@@ -553,7 +554,7 @@ Example format:
             return []
 
 @alru_cache(maxsize=300)
-async def get_chat_from_history(conversation_id: str, stream: bool = True, tenant: str = None) -> AsyncChat:
+async def get_chat_from_history(conversation_id: str,session : AsyncSession,stream: bool = True, tenant: str = None) -> AsyncChat:
     """
     Get or create a chat session with history from the database
     Uses caching to avoid recreating chat sessions frequently
@@ -566,11 +567,9 @@ async def get_chat_from_history(conversation_id: str, stream: bool = True, tenan
     """
     client: genai.Client = get_genai_client()
     try:
-        # Get conversation history from database
-        async with get_async_session_with_contextmanager() as session:
-            query = text(f"SELECT * FROM {tenant}.conversations WHERE conversation_id = :conversation_id")
-            result = await session.execute(query, {"conversation_id": conversation_id})
-            conversation = result.first()
+        query = text(f"SELECT * FROM {tenant}.conversations WHERE conversation_id = :conversation_id")
+        result = await session.execute(query, {"conversation_id": conversation_id})
+        conversation = result.first()
         # Select the appropriate model config based on stream parameter
         model_config = ShoppingAssistantUtils.get_model_config() if stream else ShoppingAssistantUtils.get_json_model_config()
         if not conversation:
