@@ -173,11 +173,32 @@ async def get_review_summary(
     reviews = result.scalars().all()
     
     if not reviews:
-        return ReviewSummaryOutput(
+        no_reviews_summary = ReviewSummaryOutput(
             summary="No reviews available to summarize.",
             pros=[],
             cons=[]
         )
+        
+        # Store the "no reviews" summary in the products table for future use
+        update_summary_query = text(f"""
+            UPDATE {tenant}.products 
+            SET ai_summary = :ai_summary
+            WHERE id = :product_id
+        """)
+        
+        # Convert Pydantic model to dict for storage
+        summary_dict = no_reviews_summary.model_dump()
+        
+        await session.execute(
+            update_summary_query,
+            {
+                "product_id": product_id,
+                "ai_summary": json.dumps(summary_dict)
+            }
+        )
+        await session.commit()
+        
+        return no_reviews_summary
     
     # Extract review content
     review_texts = [review.content for review in reviews]
