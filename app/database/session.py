@@ -43,25 +43,6 @@ async def check_db_connection():
         return False
 
 
-async def get_async_session() -> AsyncGenerator[AsyncSession, None]:
-    async with AsyncSessionLocal() as session:
-        try:
-            # Set search path to schema1, public
-            await session.execute(text("SET search_path TO demo_movies, public"))
-            yield session
-        finally:
-            await session.close()
-
-
-@asynccontextmanager
-async def get_async_session_with_contextmanager() -> AsyncGenerator[AsyncSession, None]:
-    async with AsyncSessionLocal() as session:
-        try:
-            # Set search path to schema1, public
-            await session.execute(text("SET search_path TO demo_movies, public"))
-            yield session
-        finally:
-            await session.close()
 
 
 def get_tenant_name(request: Request) -> str:
@@ -114,6 +95,27 @@ def set_tenant_schema(db_class: type, tenant: str) -> type:
         db_class.__table__.schema = tenant
     
     return db_class
+
+async def get_async_session(request: Request) -> AsyncGenerator[AsyncSession, None]:
+    async with AsyncSessionLocal() as session:
+        try:
+            # Set search path to schema1, public
+            await session.execute(text(f"SET search_path TO {get_tenant_name(request)}, public"))
+            yield session
+        finally:
+            await session.close()
+
+
+@asynccontextmanager
+async def get_async_session_with_contextmanager() -> AsyncGenerator[AsyncSession, None]:
+    async with AsyncSessionLocal() as session:
+        try:
+            # Set search path to schema1, public
+            await session.execute(text("SET search_path TO demo_movies, public"))
+            yield session
+        finally:
+            await session.close()
+
 
 
 
