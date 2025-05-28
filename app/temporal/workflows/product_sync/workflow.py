@@ -11,6 +11,7 @@ with workflow.unsafe.imports_passed_through():
     from app.models.sync_product import ProductSyncWithIdInput
     from app.temporal.workflows.product_sync.models import (
         UpdateSyncHistoryInput,
+        ProductSyncInputWithTenant,
     )
     from app.temporal.workflows.product_sync.activities import (
         get_products_from_source,
@@ -54,13 +55,18 @@ class ProductSyncWorkflow:
         # Extract sync_input and sync_id from the combined input
         sync_input = sync_input_with_id.sync_input
         sync_id = sync_input_with_id.sync_id
+        tenant = sync_input_with_id.tenant
         source = sync_input.source_config.source
 
         try:
             # Step 1: Get products from source (products are processed in this step)
+            sync_input_with_tenant = ProductSyncInputWithTenant(
+                sync_input=sync_input,
+                tenant=tenant
+            )
             products_output = await workflow.execute_activity(
                 get_products_from_source,
-                sync_input,
+                sync_input_with_tenant,
                 start_to_close_timeout=start_to_close_timeout,
                 retry_policy=retry_policy,
             )
@@ -71,6 +77,7 @@ class ProductSyncWorkflow:
                     sync_id=sync_id,
                     status=SyncStatus.SUCCESS,
                     records_processed=0,
+                    tenant=tenant,
                 )
                 await workflow.execute_activity(
                     update_sync_history,
@@ -97,6 +104,7 @@ class ProductSyncWorkflow:
                 sync_id=sync_id,
                 status=SyncStatus.SUCCESS,
                 records_processed=records_processed,
+                tenant=tenant,
             )
             await workflow.execute_activity(
                 update_sync_history,
@@ -116,6 +124,7 @@ class ProductSyncWorkflow:
                 update_history_input = UpdateSyncHistoryInput(
                     sync_id=sync_id,
                     status=SyncStatus.FAILED,
+                    tenant=tenant,
                 )
                 await workflow.execute_activity(
                     update_sync_history,

@@ -173,9 +173,10 @@ async def get_review_summary(
     reviews = result.scalars().all()
     
     if not reviews:
-        raise HTTPException(
-            status_code=status.HTTP_404_NOT_FOUND,
-            detail="No reviews found for this product",
+        return ReviewSummaryOutput(
+            summary="No reviews available to summarize.",
+            pros=[],
+            cons=[]
         )
     
     # Extract review content

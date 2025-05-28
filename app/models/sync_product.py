@@ -40,4 +40,5 @@ class ProductSyncWithIdInput(BaseModel):
     Used to pass both the product sync input and the sync_id to the workflow
     """
     sync_input: ProductSyncInput
-    sync_id: UUID 
+    sync_id: UUID
+    tenant: str 

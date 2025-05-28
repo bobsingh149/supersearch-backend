@@ -45,7 +45,7 @@ async def get_setting_by_key(
         return default_value
     else:
         # Create a new session using the context manager
-        async with get_async_session_with_contextmanager() as new_session:
+        async with get_async_session_with_contextmanager(tenant=tenant) as new_session:
             query = render_sql(
                 SQLFilePath.GENERIC_GET_BY_ID, 
                 tenant=tenant,

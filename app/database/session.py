@@ -107,11 +107,11 @@ async def get_async_session(request: Request) -> AsyncGenerator[AsyncSession, No
 
 
 @asynccontextmanager
-async def get_async_session_with_contextmanager() -> AsyncGenerator[AsyncSession, None]:
+async def get_async_session_with_contextmanager(tenant: str = "demo_movies") -> AsyncGenerator[AsyncSession, None]:
     async with AsyncSessionLocal() as session:
         try:
             # Set search path to schema1, public
-            await session.execute(text("SET search_path TO demo_movies, public"))
+            await session.execute(text(f"SET search_path TO {tenant}, public"))
             yield session
         finally:
             await session.close()

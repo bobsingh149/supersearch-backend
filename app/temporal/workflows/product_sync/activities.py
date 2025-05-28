@@ -19,6 +19,7 @@ from app.temporal.workflows.product_sync.models import (
     ProductsOutput,
     UpdateSyncHistoryInput,
     UpdateSyncHistoryOutput,
+    ProductSyncInputWithTenant,
 )
 from app.temporal.workflows.product_sync.utils import (
     get_products_from_manual_upload,
@@ -45,7 +46,7 @@ async def create_sync_history(
     """
     logger.info(f"Creating sync history record for source: {input_data.source}")
     
-    async with get_async_session_with_contextmanager() as session:
+    async with get_async_session_with_contextmanager("demo_movies") as session:
         # Create sync history record
         sync_history = SyncHistoryCreate(
             source=input_data.source,
@@ -75,31 +76,33 @@ async def create_sync_history(
 
 @activity.defn
 async def get_products_from_source(
-    sync_input: ProductSyncInput,
+    sync_input_with_tenant: ProductSyncInputWithTenant,
 ) -> ProductsOutput:
     """
     Get products from the specified source.
     
     Args:
-        sync_input: ProductSyncInput containing source configuration and product data
+        sync_input_with_tenant: ProductSyncInputWithTenant containing source configuration, product data, and tenant
         
     Returns:
         List of products
     """
+    sync_input = sync_input_with_tenant.sync_input
+    tenant = sync_input_with_tenant.tenant
     source = sync_input.source_config.source
-    logger.info(f"Getting products from source: {source}")
+    logger.info(f"Getting products from source: {source} for tenant: {tenant}")
     
     # Get products based on the source type
     if source == SyncSource.MANUAL_FILE_UPLOAD:
-        products = await get_products_from_manual_upload(sync_input)
+        products = await get_products_from_manual_upload(sync_input, tenant)
     elif source == SyncSource.CRAWLER:
-        products = await get_products_from_crawler(sync_input)
+        products = await get_products_from_crawler(sync_input, tenant)
     elif source == SyncSource.SUPERSEARCH_API:
-        products = await get_products_from_supersearch_api(sync_input)
+        products = await get_products_from_supersearch_api(sync_input, tenant)
     elif source == SyncSource.HOSTED_FILE:
-        products = await get_products_from_hosted_file(sync_input)
+        products = await get_products_from_hosted_file(sync_input, tenant)
     elif source == SyncSource.SQL_DATABASE:
-        products = await get_products_from_sql_database(sync_input)
+        products = await get_products_from_sql_database(sync_input, tenant)
     else:
         raise ValueError(f"Unsupported source: {source}")
     
@@ -151,14 +154,14 @@ async def update_sync_history(
     Update a sync history record.
     
     Args:
-        input_data: Input data containing sync_id, status, records_processed, and next_run
+        input_data: Input data containing sync_id, status, records_processed, next_run, and tenant
         
     Returns:
         Output with sync history ID and status
     """
-    logger.info(f"Updating sync history record with ID: {input_data.sync_id}")
+    logger.info(f"Updating sync history record with ID: {input_data.sync_id} for tenant: {input_data.tenant}")
     
-    async with get_async_session_with_contextmanager() as session:
+    async with get_async_session_with_contextmanager(input_data.tenant) as session:
         # Get the sync history record
         sync_history_db = await session.get(SyncHistoryDB, input_data.sync_id)
         

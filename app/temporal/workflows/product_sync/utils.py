@@ -26,9 +26,12 @@ from app.database.session import get_async_session_with_contextmanager
 
 logger = logging.getLogger(__name__)
 
-async def get_search_config() -> Dict[str, Any]:
+async def get_search_config(tenant: str) -> Dict[str, Any]:
     """
     Get search configuration from settings
+    
+    Args:
+        tenant: Tenant name
     
     Returns:
         Dictionary containing id_field, title_field, image_url_field, and searchable_attribute_fields
@@ -36,7 +39,7 @@ async def get_search_config() -> Dict[str, Any]:
     Raises:
         ValueError: If search configuration is not set
     """
-    search_config = await get_setting_by_key(SettingKey.SEARCH_CONFIG,"demo_movies")
+    search_config = await get_setting_by_key(SettingKey.SEARCH_CONFIG, tenant)
     if not search_config:
         raise ValueError("Search configuration must be set before syncing products. Please set SEARCH_CONFIG setting.")
     
@@ -48,13 +51,14 @@ async def get_search_config() -> Dict[str, Any]:
     
     return search_config
 
-async def process_products_from_data(data: List[Dict[str, Any]]) -> List[Product]:
+async def process_products_from_data(data: List[Dict[str, Any]], tenant: str) -> List[Product]:
     """
     Convert raw product data to a list of processed Product objects with embeddings
     and insert them into the database.
     
     Args:
         data: List of product data dictionaries
+        tenant: Tenant name
         
     Returns:
         List of processed Product objects with embeddings
@@ -64,7 +68,7 @@ async def process_products_from_data(data: List[Dict[str, Any]]) -> List[Product
         return []
     
     # Get search configuration from settings
-    search_config = await get_search_config()
+    search_config = await get_search_config(tenant)
 
     id_field = search_config["id_field"]
     title_field = search_config["title_field"]
@@ -101,7 +105,7 @@ async def process_products_from_data(data: List[Dict[str, Any]]) -> List[Product
         text_embedding = None
         
         try:
-            async with get_async_session_with_contextmanager() as session:
+            async with get_async_session_with_contextmanager(tenant) as session:
                 existing_product = await session.get(ProductDB, product_id)
                 
                 # If product exists, compare fields to determine if update is needed
@@ -178,7 +182,7 @@ async def process_products_from_data(data: List[Dict[str, Any]]) -> List[Product
     
     # Create JSONB indexes for filter and sortable fields
     if filter_fields or sortable_fields:
-        await create_jsonb_indexes(filter_fields, sortable_fields)
+        await create_jsonb_indexes(filter_fields, sortable_fields, tenant)
     
     # Filter out None values (skipped products with empty searchable content or null embeddings)
     return [product for product in processed_products if product is not None]
@@ -205,12 +209,13 @@ def generate_searchable_content(item: Dict[str, Any], searchable_attribute_field
     
     return " ".join(searchable_parts)
 
-async def get_products_from_supersearch_api(sync_input: ProductSyncInput) -> List[Product]:
+async def get_products_from_supersearch_api(sync_input: ProductSyncInput, tenant: str) -> List[Product]:
     """
     Get products from Supersearch API
     
     Args:
         sync_input: ProductSyncInput containing source configuration and product data
+        tenant: Tenant name
         
     Returns:
         List of processed Product objects
@@ -222,14 +227,15 @@ async def get_products_from_supersearch_api(sync_input: ProductSyncInput) -> Lis
     logger.info("Getting products from Supersearch API")
     
     # Process products directly from the input
-    return await process_products_from_data(sync_input.products)
+    return await process_products_from_data(sync_input.products, tenant)
 
-async def get_products_from_manual_upload(sync_input: ProductSyncInput) -> List[Product]:
+async def get_products_from_manual_upload(sync_input: ProductSyncInput, tenant: str) -> List[Product]:
     """
     Get products from manual file upload
     
     Args:
         sync_input: ProductSyncInput containing source configuration and product data
+        tenant: Tenant name
         
     Returns:
         List of processed Product objects
@@ -241,14 +247,15 @@ async def get_products_from_manual_upload(sync_input: ProductSyncInput) -> List[
     logger.info("Getting products from manual file upload")
     
     # Process the products
-    return await process_products_from_data(sync_input.products)
+    return await process_products_from_data(sync_input.products, tenant)
 
-async def get_products_from_crawler(sync_input: ProductSyncInput) -> List[Product]:
+async def get_products_from_crawler(sync_input: ProductSyncInput, tenant: str) -> List[Product]:
     """
     Get products from web crawler
     
     Args:
         sync_input: ProductSyncInput containing source configuration
+        tenant: Tenant name
         
     Returns:
         List of processed Product objects
@@ -276,14 +283,15 @@ async def get_products_from_crawler(sync_input: ProductSyncInput) -> List[Produc
     ]
     
     # Process the crawled data
-    return await process_products_from_data(crawled_data)
+    return await process_products_from_data(crawled_data, tenant)
 
-async def get_products_from_hosted_file(sync_input: ProductSyncInput) -> List[Product]:
+async def get_products_from_hosted_file(sync_input: ProductSyncInput, tenant: str) -> List[Product]:
     """
     Get products from a hosted CSV/JSON file
     
     Args:
         sync_input: ProductSyncInput containing source configuration
+        tenant: Tenant name
         
     Returns:
         List of processed Product objects
@@ -319,18 +327,19 @@ async def get_products_from_hosted_file(sync_input: ProductSyncInput) -> List[Pr
                     return []
                 
                 # Process the data
-                return await process_products_from_data(data)
+                return await process_products_from_data(data, tenant)
                 
         except Exception as e:
             logger.error(f"Error downloading or processing file: {str(e)}")
             return []
 
-async def get_products_from_sql_database(sync_input: ProductSyncInput) -> List[Product]:
+async def get_products_from_sql_database(sync_input: ProductSyncInput, tenant: str) -> List[Product]:
     """
     Get products from SQL database
     
     Args:
         sync_input: ProductSyncInput containing source configuration
+        tenant: Tenant name
         
     Returns:
         List of processed Product objects
@@ -355,19 +364,20 @@ async def get_products_from_sql_database(sync_input: ProductSyncInput) -> List[P
             data = [dict(row) for row in rows]
             
             # Process the data
-            return await process_products_from_data(data)
+            return await process_products_from_data(data, tenant)
             
     except Exception as e:
         logger.error(f"Error connecting to database or executing query: {str(e)}")
         return []
 
-async def create_jsonb_indexes(filter_fields: List[str], sortable_fields: List[str]) -> None:
+async def create_jsonb_indexes(filter_fields: List[str], sortable_fields: List[str], tenant: str) -> None:
     """
     Create JSONB B-tree expression indexes for filter_fields and sortable_fields
     
     Args:
         filter_fields: List of fields in custom_data to create indexes for filtering
         sortable_fields: List of fields in custom_data to create indexes for sorting
+        tenant: Tenant name
     """
     if not filter_fields and not sortable_fields:
         return
@@ -378,7 +388,7 @@ async def create_jsonb_indexes(filter_fields: List[str], sortable_fields: List[s
     index_fields = list(set(filter_fields + sortable_fields))
     
     try:
-        async with get_async_session_with_contextmanager() as session:
+        async with get_async_session_with_contextmanager(tenant) as session:
             for field in index_fields:
                 # Create index name
                 index_name = f"idx_product_custom_data_{field.replace('-', '_')}"

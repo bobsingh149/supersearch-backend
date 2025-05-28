@@ -4,7 +4,7 @@ from fastapi import APIRouter, HTTPException, Depends, status
 from sqlalchemy.ext.asyncio import AsyncSession
 from uuid import UUID
 
-from app.database.session import get_async_session
+from app.database.session import get_async_session, get_tenant_name
 from app.models.sync_product import ProductSyncInput, ProductSyncWithIdInput
 from app.models.sync_history import SyncHistoryDB, SyncHistoryCreate
 from app.models.sync_config import SyncStatus
@@ -21,7 +21,8 @@ router = APIRouter(
 @router.post("", status_code=status.HTTP_202_ACCEPTED)
 async def sync_products(
     sync_input: ProductSyncInput,
-    session: AsyncSession = Depends(get_async_session)
+    session: AsyncSession = Depends(get_async_session),
+    tenant: str = Depends(get_tenant_name)
 ):
     """
     Sync products from various sources:
@@ -69,7 +70,8 @@ async def sync_products(
         # Create the combined input with sync_id
         product_sync_with_id = ProductSyncWithIdInput(
             sync_input=sync_input,
-            sync_id=sync_history_db.id
+            sync_id=sync_history_db.id,
+            tenant=tenant
         )
         
         # Start the product sync workflow
