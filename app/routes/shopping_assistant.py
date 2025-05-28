@@ -97,7 +97,6 @@ async def chat_with_assistant(
             raise HTTPException(status_code=400, detail="Client IP not found in request state")
         
         user_id = request.state.client_ip
-        logger.info(f"Fetching recent orders for user_id: {user_id}")
         recent_orders = await ShoppingAssistantUtils.get_latest_orders(session, user_id)
 
         recent_orders_json = [order.model_dump_json(exclude={"id"}) for order in recent_orders]
@@ -105,7 +104,7 @@ async def chat_with_assistant(
         if recent_orders:
             # Format orders for context - orders are already JSON serializable
             orders_context = json.dumps(recent_orders_json, indent=2)
-            logger.info(f"Found {len(recent_orders)} recent orders for user")
+            # logger.info(f"Found {len(recent_orders)} recent orders for user")
         else:
             logger.info("No recent orders found for user")
 
