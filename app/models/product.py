@@ -22,6 +22,7 @@ class ProductDB(Base):
     ai_generated_contents = Column(ARRAY(Text), nullable=True, default=[])
     ai_summary = Column(JSON, nullable=True)
     suggested_questions = Column(JSON, nullable=True)
+    reviews = Column(JSON, nullable=True)
 
 class ProductInput(BaseModel):
     id_field: str
@@ -67,6 +68,7 @@ class Product(BaseModel):
     ai_generated_contents: Optional[List[str]] = None
     ai_summary: Optional[Dict] = None
     suggested_questions: Optional[List[str]] = None
+    reviews: Optional[List[Dict]] = None
 
     model_config = ConfigDict(from_attributes=True)
 

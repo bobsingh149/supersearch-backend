@@ -105,8 +105,8 @@ def render_sql(filename: SQLFilePath, tenant: str, **kwargs) -> str:
         Rendered SQL query as a string
     
     Example:
-        render_sql(SQLFilePath.PRODUCT_FULL_TEXT_SEARCH, tenant='demo_movies', query_text='search term', limit=10)
-        render_sql('product/full_text_search', tenant='demo_movies', query_text='search term', limit=10)
+        render_sql(SQLFilePath.PRODUCT_FULL_TEXT_SEARCH, tenant='demo_ecommerce', query_text='search term', limit=10)
+        render_sql('product/full_text_search', tenant='demo_ecommerce', query_text='search term', limit=10)
     """
     if not tenant:
         raise ValueError("Tenant (schema) name must be provided to render_sql.")

@@ -142,7 +142,7 @@ class RateLimiterMiddleware(BaseHTTPMiddleware):
     
     async def dispatch(self, request: Request, call_next):
 
-        request.state.tenant = "demo_movies"
+        request.state.tenant = "demo_ecommerce"
 
         # Ensure initialized from database
         if not INITIALIZED:

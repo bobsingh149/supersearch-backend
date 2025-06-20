@@ -8,7 +8,7 @@ import json
 
 from app.database.session import get_async_session, get_tenant_name
 from app.models.review import Review, ReviewCreate, ReviewUpdate, ReviewOrm
-from app.services.review import generate_review_summary, ReviewSummaryOutput
+from app.services.review import generate_review_summary, ReviewSummaryOutput, generate_fake_reviews_and_summary
 
 router = APIRouter(
     prefix="/reviews",
@@ -152,77 +152,52 @@ async def get_review_summary(
     Get an AI-generated summary of reviews for a specific product.
     Returns structured data with a summary, pros list, and cons list.
     
-    First checks if an AI summary exists in the products table.
-    If not, generates a new summary and stores it for future use.
+    First checks if reviews exist in the products table.
+    If reviews exist, returns the existing summary.
+    If no reviews exist, generates fake reviews and summary and stores them.
     """
-    # First, check if there's an existing summary in the products table
-    check_summary_query = text(f"""
-        SELECT ai_summary FROM {tenant}.products 
-        WHERE id = :product_id AND ai_summary IS NOT NULL
+    # First, check if there are existing reviews and summary in the products table
+    check_reviews_query = text(f"""
+        SELECT reviews, ai_summary FROM {tenant}.products 
+        WHERE id = :product_id
     """)
-    result = await session.execute(check_summary_query, {"product_id": product_id})
-    existing_summary = result.scalar_one_or_none()
+    result = await session.execute(check_reviews_query, {"product_id": product_id})
+    product_data = result.first()
     
-    if existing_summary:
-        # Convert the JSONB data to a ReviewSummaryOutput object
+    if not product_data:
+        raise HTTPException(
+            status_code=status.HTTP_404_NOT_FOUND,
+            detail="Product not found",
+        )
+    
+    existing_reviews, existing_summary = product_data
+    
+    # If reviews exist, return the existing summary
+    if existing_reviews and existing_summary:
         return ReviewSummaryOutput.model_validate(existing_summary)
     
-    # If no existing summary, fetch all reviews for the product
-    query = select(ReviewOrm).where(ReviewOrm.product_id == product_id)
-    result = await session.execute(query)
-    reviews = result.scalars().all()
+    # If no existing reviews, generate fake reviews and summary
+    generated_data = await generate_fake_reviews_and_summary(product_id, session, tenant)
     
-    if not reviews:
-        no_reviews_summary = ReviewSummaryOutput(
-            summary="No reviews available to summarize.",
-            pros=[],
-            cons=[]
-        )
-        
-        # Store the "no reviews" summary in the products table for future use
-        update_summary_query = text(f"""
-            UPDATE {tenant}.products 
-            SET ai_summary = :ai_summary
-            WHERE id = :product_id
-        """)
-        
-        # Convert Pydantic model to dict for storage
-        summary_dict = no_reviews_summary.model_dump()
-        
-        await session.execute(
-            update_summary_query,
-            {
-                "product_id": product_id,
-                "ai_summary": json.dumps(summary_dict)
-            }
-        )
-        await session.commit()
-        
-        return no_reviews_summary
-    
-    # Extract review content
-    review_texts = [review.content for review in reviews]
-    
-    # Generate summary using AI
-    summary_output = await generate_review_summary(review_texts, product_id, session, tenant)
-    
-    # Store the summary in the products table for future use
-    update_summary_query = text(f"""
+    # Store both the generated reviews and summary in the products table
+    update_query = text(f"""
         UPDATE {tenant}.products 
-        SET ai_summary = :ai_summary
+        SET reviews = :reviews, ai_summary = :ai_summary
         WHERE id = :product_id
     """)
     
-    # Convert Pydantic model to dict for storage
-    summary_dict = summary_output.model_dump()
+    # Convert Pydantic models to dict for storage
+    reviews_dict = [review for review in generated_data.reviews]
+    summary_dict = generated_data.summary.model_dump()
     
     await session.execute(
-        update_summary_query,
+        update_query,
         {
             "product_id": product_id,
+            "reviews": json.dumps(reviews_dict),
             "ai_summary": json.dumps(summary_dict)
         }
     )
     await session.commit()
     
-    return summary_output 
+    return generated_data.summary 
