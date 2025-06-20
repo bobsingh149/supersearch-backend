@@ -159,7 +159,8 @@ class ContentGenerator:
         session: AsyncSession,
         product_id: str,
         topic: ContentTopic,
-        content: str
+        content: str,
+        tenant: str
     ) -> bool:
         """
         Update or add the AI-generated content for a product
@@ -170,9 +171,9 @@ class ContentGenerator:
             content_entry = f"{topic.value}:{content}"
             
             # Check if the product already has ai_generated_contents
-            query = text("""
+            query = text(f"""
                 SELECT ai_generated_contents 
-                FROM demo_movies.products 
+                FROM {tenant}.products 
                 WHERE id = :product_id
             """)
             result = await session.execute(query, {"product_id": product_id})
@@ -201,8 +202,8 @@ class ContentGenerator:
                 current_contents.append(content_entry)
             
             # Update the database
-            update_query = text("""
-                UPDATE demo_movies.products 
+            update_query = text(f"""
+                UPDATE {tenant}.products 
                 SET ai_generated_contents = :contents
                 WHERE id = :product_id
             """)

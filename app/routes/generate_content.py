@@ -5,7 +5,7 @@ from fastapi import APIRouter, Depends, HTTPException, status
 from sqlalchemy.ext.asyncio import AsyncSession
 from sqlalchemy import text
 
-from app.database.session import get_async_session
+from app.database.session import get_async_session, get_tenant_name
 from app.models.generate_content import (
     GenerateContentRequest,
     ContentGenerationResponse,
@@ -25,7 +25,8 @@ logger = logging.getLogger(__name__)
 @router.post("/", response_model=ContentGenerationResponse)
 async def generate_content(
     request: GenerateContentRequest,
-    db: AsyncSession = Depends(get_async_session)
+    db: AsyncSession = Depends(get_async_session),
+    tenant: str = Depends(get_tenant_name)
 ):
     """
     Generate AI content for products based on specified topics.
@@ -41,7 +42,7 @@ async def generate_content(
             # Get specific products by IDs
             placeholders = ", ".join([f"'{pid}'" for pid in request.product_ids])
             query = text(f"""
-                SELECT * FROM demo_movies.products 
+                SELECT * FROM {tenant}.products 
                 WHERE id IN ({placeholders})
             """)
             result = await db.execute(query)
@@ -60,7 +61,7 @@ async def generate_content(
             
         elif request.all_products:
             # Get all products
-            query = text("SELECT * FROM demo_movies.products LIMIT 100")  # Add limit for safety
+            query = text(f"SELECT * FROM {tenant}.products LIMIT 100")  # Add limit for safety
             result = await db.execute(query)
             product_data = result.all()
             
@@ -92,7 +93,7 @@ async def generate_content(
             if result.status == ContentGenerationStatus.COMPLETED:
                 # Update the product's AI-generated content
                 success = await ContentGenerator.update_product_content(
-                    db, result.product_id, result.topic, result.content
+                    db, result.product_id, result.topic, result.content, tenant
                 )
                 
                 if success:

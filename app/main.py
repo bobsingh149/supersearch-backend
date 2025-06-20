@@ -5,7 +5,7 @@ import logging.handlers
 import os
 
 from app.services.vertex import get_embedding
-from app.routes import organization, product, recommend, search_product, shopping_assistant, sync_product, settings, sync_history, auth, lead, generate_content, review, order
+from app.routes import organization, product, recommend, search_product, shopping_assistant, sync_product, settings, sync_history, auth, lead, generate_content, review, order, resume_optimizer
 from app.database.session import check_db_connection
 from dotenv import load_dotenv
 from app.middlewares.route_logging import RequestTimingMiddleware
@@ -111,6 +111,7 @@ app.include_router(lead.router, prefix=API_V1_PREFIX)
 app.include_router(generate_content.router, prefix=API_V1_PREFIX)
 app.include_router(review.router, prefix=API_V1_PREFIX)
 app.include_router(order.router, prefix=API_V1_PREFIX)
+app.include_router(resume_optimizer.router, prefix=API_V1_PREFIX)
 
 
 @app.get("/health",operation_id="root")

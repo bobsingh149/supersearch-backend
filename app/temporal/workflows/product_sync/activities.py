@@ -46,7 +46,7 @@ async def create_sync_history(
     """
     logger.info(f"Creating sync history record for source: {input_data.source}")
     
-    async with get_async_session_with_contextmanager("demo_movies") as session:
+    async with get_async_session_with_contextmanager() as session:
         # Create sync history record
         sync_history = SyncHistoryCreate(
             source=input_data.source,

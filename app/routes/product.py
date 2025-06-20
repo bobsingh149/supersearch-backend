@@ -115,13 +115,14 @@ async def update_product(
 @router.get("/{product_id}")
 async def get_product(
     product_id: str,
-    session: AsyncSession = Depends(get_async_session)
+    session: AsyncSession = Depends(get_async_session),
+    tenant: str = Depends(get_tenant_name)
 ):
     """
     Get a single product's custom_data by ID using raw SQL
     """
 
-    query = text("SELECT custom_data FROM demo_movies.products WHERE id = :product_id")
+    query = text(f"SELECT custom_data FROM {tenant}.products WHERE id = :product_id")
     result = await session.execute(query, {"product_id": product_id})
     product = result.scalar_one_or_none()
     
