@@ -197,13 +197,15 @@ Each review should:
 - Include specific details about the product
 - Have varied writing styles and perspectives
 - Include both pros and cons where appropriate
+- Have a realistic author name (first name + last initial, e.g., "Sarah K.", "Mike T.")
+- Have a realistic review date from the past 2 years
 
 Provide a response in JSON format with the following structure:
 {{
   "reviews": [
-    {{"content": "review text here", "sentiment": "positive"}},
-    {{"content": "review text here", "sentiment": "mixed"}},
-    {{"content": "review text here", "sentiment": "negative"}},
+    {{"content": "review text here", "sentiment": "positive", "author": "Sarah K.", "created_at": "2024-03-15T10:30:00Z"}},
+    {{"content": "review text here", "sentiment": "mixed", "author": "Mike T.", "created_at": "2024-01-22T14:45:00Z"}},
+    {{"content": "review text here", "sentiment": "negative", "author": "Jessica R.", "created_at": "2023-11-08T09:15:00Z"}},
     // ... 6 reviews total
   ],
   "summary": {{
@@ -213,11 +215,15 @@ Provide a response in JSON format with the following structure:
   }}
 }}
 
-The "summary" should be a direct and concise overview of customer opinions without phrases like "here is the summary" or "this summary shows". Focus on the sentiments expressed.
-The "pros" should be a list of 1-3 most important positive aspects mentioned in the reviews.
-The "cons" should be a list of 1-3 most important negative aspects or issues mentioned in the reviews.
-Each point should be specific, concise (under 10 words), and directly taken from the reviews.
-If there are no pros or cons, include an empty list.
+Requirements:
+- Each review must have "content", "sentiment", "author", and "created_at" fields
+- Author names should be realistic (first name + last initial)
+- Dates should be in ISO format (YYYY-MM-DDTHH:MM:SSZ) and spread across the past 2 years
+- The "summary" should be a direct and concise overview of customer opinions without phrases like "here is the summary" or "this summary shows". Focus on the sentiments expressed.
+- The "pros" should be a list of 1-3 most important positive aspects mentioned in the reviews.
+- The "cons" should be a list of 1-3 most important negative aspects or issues mentioned in the reviews.
+- Each point should be specific, concise (under 10 words), and directly taken from the reviews.
+- If there are no pros or cons, include an empty list.
 
 Your response must be valid JSON only, with no additional text before or after.
 """
@@ -258,8 +264,13 @@ Your response must be valid JSON only, with no additional text before or after.
             
             # Fallback to manually creating the structure
             fallback_reviews = [
-                {"content": "Unable to generate review content", "sentiment": "mixed"}
-                for _ in range(6)
+                {
+                    "content": "Unable to generate review content", 
+                    "sentiment": "mixed",
+                    "author": f"User {i+1}",
+                    "created_at": "2024-01-01T12:00:00Z"
+                }
+                for i in range(6)
             ]
             fallback_summary = ReviewSummaryOutput(
                 summary="Unable to generate review summary from AI response",
@@ -277,8 +288,13 @@ Your response must be valid JSON only, with no additional text before or after.
         
         # Fallback to basic structure
         fallback_reviews = [
-            {"content": "Failed to generate review content. Please try again later.", "sentiment": "mixed"}
-            for _ in range(6)
+            {
+                "content": "Failed to generate review content. Please try again later.", 
+                "sentiment": "mixed",
+                "author": f"User {i+1}",
+                "created_at": "2024-01-01T12:00:00Z"
+            }
+            for i in range(6)
         ]
         fallback_summary = ReviewSummaryOutput(
             summary="Failed to generate review summary. Please try again later.",

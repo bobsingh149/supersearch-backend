@@ -8,7 +8,7 @@ import json
 
 from app.database.session import get_async_session, get_tenant_name
 from app.models.review import Review, ReviewCreate, ReviewUpdate, ReviewOrm
-from app.services.review import generate_review_summary, ReviewSummaryOutput, generate_fake_reviews_and_summary
+from app.services.review import generate_review_summary, ReviewSummaryOutput, GeneratedReviewsOutput, generate_fake_reviews_and_summary
 
 router = APIRouter(
     prefix="/reviews",
@@ -142,26 +142,28 @@ class ReviewSummaryResponse(BaseModel):
     product_id: str
     summary: str
 
-@router.get("/{product_id}/summary", response_model=ReviewSummaryOutput)
+@router.get("/{product_id}/summary", response_model=GeneratedReviewsOutput)
 async def get_review_summary(
     product_id: str,
     session: AsyncSession = Depends(get_async_session),
     tenant: str = Depends(get_tenant_name)
-) -> ReviewSummaryOutput:
+) -> GeneratedReviewsOutput:
     """
-    Get an AI-generated summary of reviews for a specific product.
-    Returns structured data with a summary, pros list, and cons list.
+    Get AI-generated reviews and summary for a specific product.
+    Returns structured data with reviews list and summary (with pros and cons).
     
-    First checks if reviews exist in the products table.
-    If reviews exist, returns the existing summary.
-    If no reviews exist, generates fake reviews and summary and stores them.
+    Logic:
+    1. First checks if cached reviews and summary exist in products table - if yes, return them
+    2. Then checks for real reviews in Review table - if found, generate summary from them
+    3. If no real reviews exist, generate fake reviews and summary
+    4. Store the result in products table for caching
     """
-    # First, check if there are existing reviews and summary in the products table
-    check_reviews_query = text(f"""
+    # First, check if there are existing cached reviews and summary in the products table
+    check_cached_query = text(f"""
         SELECT reviews, ai_summary FROM {tenant}.products 
         WHERE id = :product_id
     """)
-    result = await session.execute(check_reviews_query, {"product_id": product_id})
+    result = await session.execute(check_cached_query, {"product_id": product_id})
     product_data = result.first()
     
     if not product_data:
@@ -172,11 +174,60 @@ async def get_review_summary(
     
     existing_reviews, existing_summary = product_data
     
-    # If reviews exist, return the existing summary
+    # If cached reviews and summary exist, return them
     if existing_reviews and existing_summary:
-        return ReviewSummaryOutput.model_validate(existing_summary)
+        # Parse the existing reviews and summary from JSON
+        reviews_data = json.loads(existing_reviews) if isinstance(existing_reviews, str) else existing_reviews
+        summary_data = json.loads(existing_summary) if isinstance(existing_summary, str) else existing_summary
+        
+        return GeneratedReviewsOutput(
+            reviews=reviews_data,
+            summary=ReviewSummaryOutput.model_validate(summary_data)
+        )
     
-    # If no existing reviews, generate fake reviews and summary
+    # Check for real reviews in the Review table
+    real_reviews_query = select(ReviewOrm).where(ReviewOrm.product_id == product_id)
+    real_reviews_result = await session.execute(real_reviews_query)
+    real_reviews = real_reviews_result.scalars().all()
+    
+    if real_reviews:
+        # Use real reviews to generate summary
+        review_contents = [review.content for review in real_reviews]
+        ai_summary = await generate_review_summary(review_contents, product_id, session, tenant)
+        
+        # Convert real reviews to the expected format
+        reviews_data = [
+            {
+                "content": review.content,
+                "sentiment": "mixed",  # We don't have sentiment analysis for real reviews
+                "author": review.author or "Anonymous"
+            }
+            for review in real_reviews
+        ]
+        
+        # Store both the real reviews and generated summary in products table
+        update_query = text(f"""
+            UPDATE {tenant}.products 
+            SET reviews = :reviews, ai_summary = :ai_summary
+            WHERE id = :product_id
+        """)
+        
+        await session.execute(
+            update_query,
+            {
+                "product_id": product_id,
+                "reviews": json.dumps(reviews_data),
+                "ai_summary": json.dumps(ai_summary.model_dump())
+            }
+        )
+        await session.commit()
+        
+        return GeneratedReviewsOutput(
+            reviews=reviews_data,
+            summary=ai_summary
+        )
+    
+    # If no real reviews exist, generate fake reviews and summary
     generated_data = await generate_fake_reviews_and_summary(product_id, session, tenant)
     
     # Store both the generated reviews and summary in the products table
@@ -200,4 +251,4 @@ async def get_review_summary(
     )
     await session.commit()
     
-    return generated_data.summary 
+    return generated_data 
