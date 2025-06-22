@@ -1,5 +1,10 @@
 FROM paradedb/paradedb:latest
 
+# Ensure we're running as root and fix apt permissions
+USER root
+RUN mkdir -p /var/lib/apt/lists/partial && \
+    chmod 755 /var/lib/apt/lists/partial
+
 # Install system dependencies
 RUN apt-get update && apt-get install -y \
     curl \
