@@ -4,6 +4,7 @@ import uuid
 import csv
 from typing import List, Dict, Any
 import asyncio
+import math
 
 import aiohttp
 import sqlalchemy as sa
@@ -51,6 +52,96 @@ async def get_search_config(tenant: str) -> Dict[str, Any]:
     
     return search_config
 
+def validate_embedding_vector(embedding: List[float], product_id: str) -> bool:
+    """
+    Validate embedding vector dimensions and values
+    
+    Args:
+        embedding: The embedding vector to validate
+        product_id: Product ID for logging purposes
+        
+    Returns:
+        True if valid, False otherwise
+    """
+    if not embedding:
+        logger.error(f"Product {product_id}: Embedding is None or empty")
+        return False
+    
+    if not isinstance(embedding, list):
+        logger.error(f"Product {product_id}: Embedding is not a list, got {type(embedding)}")
+        return False
+    
+    # Check dimension (should be 768 for most embedding models)
+    expected_dimension = 768
+    if len(embedding) != expected_dimension:
+        logger.error(f"Product {product_id}: Invalid embedding dimension. Expected {expected_dimension}, got {len(embedding)}")
+        return False
+    
+    # Check if all values are valid floats
+    for i, val in enumerate(embedding):
+        if not isinstance(val, (int, float)):
+            logger.error(f"Product {product_id}: Invalid embedding value at index {i}: {val} (type: {type(val)})")
+            return False
+        
+        # Check for NaN or infinite values
+        if math.isnan(val) or math.isinf(val):
+            logger.error(f"Product {product_id}: Invalid embedding value (NaN/Inf) at index {i}: {val}")
+            return False
+        
+        # Check for reasonable bounds for embedding values
+        if not (-100.0 <= val <= 100.0):  # Expanded bounds but still reasonable
+            logger.error(f"Product {product_id}: Embedding value out of bounds at index {i}: {val}")
+            return False
+    
+    # Check vector magnitude (embeddings should be normalized or have reasonable magnitude)
+    try:
+        magnitude = sum(x * x for x in embedding) ** 0.5
+        if magnitude == 0:
+            logger.error(f"Product {product_id}: Zero magnitude embedding vector")
+            return False
+        
+        if magnitude > 1000:  # Unreasonably large magnitude
+            logger.error(f"Product {product_id}: Embedding magnitude too large: {magnitude}")
+            return False
+    except (OverflowError, ValueError) as e:
+        logger.error(f"Product {product_id}: Error calculating embedding magnitude: {e}")
+        return False
+    
+    # Additional check: ensure all values are finite numbers
+    try:
+        # Try to convert to ensure they're proper floats
+        normalized_embedding = [float(x) for x in embedding]
+        # Check if conversion was successful
+        if len(normalized_embedding) != expected_dimension:
+            logger.error(f"Product {product_id}: Embedding normalization failed")
+            return False
+    except (ValueError, TypeError, OverflowError) as e:
+        logger.error(f"Product {product_id}: Error normalizing embedding: {e}")
+        return False
+    
+    return True
+
+async def check_database_health(tenant: str) -> bool:
+    """
+    Check database connectivity and basic health
+    
+    Args:
+        tenant: Tenant name
+        
+    Returns:
+        True if database is healthy, False otherwise
+    """
+    try:
+        async with get_async_session_with_contextmanager(tenant) as session:
+            # Simple query to check connectivity
+            result = await session.execute(text("SELECT 1"))
+            result.scalar()
+            logger.info("Database health check passed")
+            return True
+    except Exception as e:
+        logger.error(f"Database health check failed: {str(e)}")
+        return False
+
 async def process_products_from_data(data: List[Dict[str, Any]], tenant: str) -> List[Product]:
     """
     Convert raw product data to a list of processed Product objects with embeddings
@@ -65,6 +156,11 @@ async def process_products_from_data(data: List[Dict[str, Any]], tenant: str) ->
     """
     if not data:
         logger.warning("No product data provided")
+        return []
+    
+    # Check database health before processing
+    if not await check_database_health(tenant):
+        logger.error("Database health check failed. Aborting product processing.")
         return []
     
     # Get search configuration from settings
@@ -105,6 +201,7 @@ async def process_products_from_data(data: List[Dict[str, Any]], tenant: str) ->
         text_embedding = None
         
         try:
+            print("schema is:" + tenant)
             async with get_async_session_with_contextmanager(tenant) as session:
                 existing_product = await session.get(ProductDB, product_id)
                 
@@ -114,12 +211,30 @@ async def process_products_from_data(data: List[Dict[str, Any]], tenant: str) ->
                     if existing_product.searchable_content == searchable_content:
                         # Reuse existing embedding if searchable content hasn't changed
                         text_embedding = existing_product.text_embedding
-                        logger.info(f"Product {product_id} searchable content unchanged, reusing embedding")
+                        # Validate the existing embedding before reusing
+                        if text_embedding and validate_embedding_vector(text_embedding, product_id):
+                            logger.info(f"Product {product_id} searchable content unchanged, reusing embedding")
+                        else:
+                            logger.warning(f"Product {product_id} has invalid existing embedding, generating new one")
+                            try:
+                                text_embedding = await get_embedding(searchable_content, TaskType.DOCUMENT)
+                                # Validate the new embedding
+                                if not validate_embedding_vector(text_embedding, product_id):
+                                    logger.error(f"Product {product_id} has invalid embedding. Skipping product.")
+                                    return None
+                            except Exception as e:
+                                logger.error(f"Error generating embedding for product {product_id}: {str(e)}")
+                                logger.error(f"Product {product_id} has null embedding. Skipping product.")
+                                return None
                     else:
                         # Generate new embedding only if searchable content has changed
                         logger.info(f"Product {product_id} content changed, generating new embedding")
                         try:
                             text_embedding = await get_embedding(searchable_content, TaskType.DOCUMENT)
+                            # Validate the new embedding
+                            if not validate_embedding_vector(text_embedding, product_id):
+                                logger.error(f"Product {product_id} has invalid embedding. Skipping product.")
+                                return None
                         except Exception as e:
                             logger.error(f"Error generating embedding for product {product_id}: {str(e)}")
                             # Don't reuse existing embedding as fallback if there's an error
@@ -130,12 +245,16 @@ async def process_products_from_data(data: List[Dict[str, Any]], tenant: str) ->
                     logger.info(f"New product {product_id}, generating embedding")
                     try:
                         text_embedding = await get_embedding(searchable_content, TaskType.DOCUMENT)
+                        # Validate the new embedding
+                        if not validate_embedding_vector(text_embedding, product_id):
+                            logger.error(f"Product {product_id} has invalid embedding. Skipping product.")
+                            return None
                     except Exception as e:
                         logger.error(f"Error generating embedding for new product {product_id}: {str(e)}")
                         logger.error(f"Product {product_id} has null embedding. Skipping product.")
                         return None
                 
-                # Skip products with null embeddings
+                # Skip products with null embeddings (additional safety check)
                 if text_embedding is None:
                     logger.error(f"Product {product_id} has null embedding. Skipping product.")
                     return None
@@ -150,23 +269,60 @@ async def process_products_from_data(data: List[Dict[str, Any]], tenant: str) ->
                     custom_data=item
                 )
                 
-                # Insert or update product in database
+                # Insert or update product in database with retry mechanism
                 product_dict = product.model_dump(exclude={'created_at', 'updated_at'})
                 
-                if existing_product:
-                    # Update existing product
-                    for key, value in product_dict.items():
-                        setattr(existing_product, key, value)
-                    logger.info(f"Updated product {product_id}")
-                else:
-                    # Insert new product
-                    new_product = ProductDB(**product_dict)
-                    session.add(new_product)
-                    logger.info(f"Inserted new product {product_id}")
+                # Additional validation before database insertion
+                if 'text_embedding' in product_dict and product_dict['text_embedding']:
+                    # Final validation of embedding before DB insertion
+                    if not validate_embedding_vector(product_dict['text_embedding'], product_id):
+                        logger.error(f"Product {product_id}: Final embedding validation failed before DB insertion")
+                        return None
+                    
+                    # Ensure embedding is properly formatted as list of floats
+                    try:
+                        product_dict['text_embedding'] = [float(x) for x in product_dict['text_embedding']]
+                    except (ValueError, TypeError) as e:
+                        logger.error(f"Product {product_id}: Error converting embedding to floats: {e}")
+                        return None
                 
-                await session.commit()
-                processed_products.append(product)
-                return product
+                # Debug: Print complete SQL with actual values for troubleshooting
+                print_complete_sql_with_values(product_dict, product_id, tenant)
+                
+                max_retries = 3
+                for attempt in range(max_retries):
+                    try:
+                        if existing_product:
+                            # Update existing product
+                            for key, value in product_dict.items():
+                                setattr(existing_product, key, value)
+                            logger.info(f"Updated product {product_id}")
+                        else:
+                            # Insert new product
+                            new_product = ProductDB(**product_dict)
+                            session.add(new_product)
+                            logger.info(f"Inserted new product {product_id}")
+                        
+                        await session.commit()
+                        processed_products.append(product)
+                        return product
+                        
+                    except Exception as db_error:
+                        await session.rollback()
+                        
+                        # Check if this is a vector-related error
+                        error_str = str(db_error).lower()
+                        if any(keyword in error_str for keyword in ['checkbyteserror', 'archiveerror', 'outofbounds', 'vector']):
+                            logger.error(f"Product {product_id}: Vector corruption error detected: {db_error}")
+                            logger.error(f"Product {product_id}: Skipping due to vector corruption")
+                            return None
+                        
+                        if attempt < max_retries - 1:
+                            logger.warning(f"Database error for product {product_id} (attempt {attempt + 1}/{max_retries}): {str(db_error)}. Retrying...")
+                            await asyncio.sleep(0.5 * (attempt + 1))  # Exponential backoff
+                        else:
+                            logger.error(f"Database error for product {product_id} after {max_retries} attempts: {str(db_error)}")
+                            return None
                 
         except Exception as e:
             logger.error(f"Database error processing product {product_id}: {str(e)}")
@@ -185,7 +341,21 @@ async def process_products_from_data(data: List[Dict[str, Any]], tenant: str) ->
         await create_jsonb_indexes(filter_fields, sortable_fields, tenant)
     
     # Filter out None values (skipped products with empty searchable content or null embeddings)
-    return [product for product in processed_products if product is not None]
+    valid_products = [product for product in processed_products if product is not None]
+    
+    # Log processing summary
+    total_input = len(data)
+    total_processed = len(valid_products)
+    total_skipped = total_input - total_processed
+    
+    logger.info(f"Product processing summary: {total_processed}/{total_input} products processed successfully, {total_skipped} skipped")
+    
+    if total_skipped > 0:
+        skip_rate = (total_skipped / total_input) * 100
+        if skip_rate > 50:
+            logger.warning(f"High skip rate detected: {skip_rate:.1f}% of products were skipped due to validation errors")
+    
+    return valid_products
 
 def generate_searchable_content(item: Dict[str, Any], searchable_attribute_fields: List[str]) -> str:
     """
@@ -407,4 +577,155 @@ async def create_jsonb_indexes(filter_fields: List[str], sortable_fields: List[s
             await session.commit()
             logger.info("JSONB index creation completed")
     except Exception as e:
-        logger.error(f"Error creating JSONB indexes: {str(e)}") 
+        logger.error(f"Error creating JSONB indexes: {str(e)}")
+
+def print_complete_sql_with_values(product_dict: Dict[str, Any], product_id: str, tenant: str = "demo_ecommerce") -> None:
+    """
+    Print the complete SQL statement with actual parameter values substituted.
+    
+    Args:
+        product_dict: Dictionary containing product data
+        product_id: Product ID for identification
+        tenant: Tenant schema name
+    """
+    import json
+    
+    print(f"=== COMPLETE SQL WITH VALUES FOR PRODUCT {product_id} ===")
+    
+    # Helper function to safely format SQL values
+    def format_sql_value(value, data_type=""):
+        if value is None:
+            return "NULL"
+        elif isinstance(value, str):
+            # Escape single quotes and wrap in quotes
+            escaped = value.replace("'", "''")
+            if data_type:
+                return f"'{escaped}'::{data_type}"
+            return f"'{escaped}'"
+        elif isinstance(value, list):
+            if data_type == "vector":
+                # Format as vector
+                vector_str = '[' + ','.join(str(x) for x in value) + ']'
+                return f"'{vector_str}'::vector"
+            elif data_type == "text[]":
+                # Format as text array
+                if not value:
+                    return "ARRAY[]::text[]"
+                escaped_items = [f"'{str(item).replace(chr(39), chr(39)+chr(39))}'" for item in value]
+                return f"ARRAY[{','.join(escaped_items)}]::text[]"
+            else:
+                return str(value)
+        elif isinstance(value, (dict, list)) and data_type in ["json", "jsonb"]:
+            # Format as JSON
+            json_str = json.dumps(value, ensure_ascii=False).replace("'", "''")
+            return f"'{json_str}'::{data_type}"
+        else:
+            return str(value)
+    
+    # Build the complete SQL statement
+    sql_parts = []
+    sql_parts.append(f"INSERT INTO {tenant}.products (")
+    sql_parts.append("    id,")
+    sql_parts.append("    title,")
+    sql_parts.append("    text_embedding,")
+    sql_parts.append("    image_embedding,")
+    sql_parts.append("    searchable_content,")
+    sql_parts.append("    image_url,")
+    sql_parts.append("    custom_data,")
+    sql_parts.append("    ai_generated_contents,")
+    sql_parts.append("    ai_summary,")
+    sql_parts.append("    suggested_questions,")
+    sql_parts.append("    reviews")
+    sql_parts.append(") VALUES (")
+    
+    # Add the actual values
+    values = []
+    
+    # ID
+    values.append(f"    {format_sql_value(product_dict.get('id'))}")
+    
+    # Title
+    values.append(f"    {format_sql_value(product_dict.get('title'))}")
+    
+    # Text embedding
+    text_embedding = product_dict.get('text_embedding')
+    values.append(f"    {format_sql_value(text_embedding, 'vector')}")
+    
+    # Image embedding
+    image_embedding = product_dict.get('image_embedding')
+    values.append(f"    {format_sql_value(image_embedding, 'vector')}")
+    
+    # Searchable content
+    values.append(f"    {format_sql_value(product_dict.get('searchable_content'))}")
+    
+    # Image URL
+    values.append(f"    {format_sql_value(product_dict.get('image_url'))}")
+    
+    # Custom data
+    values.append(f"    {format_sql_value(product_dict.get('custom_data'), 'jsonb')}")
+    
+    # AI generated contents
+    ai_contents = product_dict.get('ai_generated_contents', [])
+    values.append(f"    {format_sql_value(ai_contents, 'text[]')}")
+    
+    # AI summary
+    values.append(f"    {format_sql_value(product_dict.get('ai_summary'), 'jsonb')}")
+    
+    # Suggested questions
+    values.append(f"    {format_sql_value(product_dict.get('suggested_questions'), 'jsonb')}")
+    
+    # Reviews
+    values.append(f"    {format_sql_value(product_dict.get('reviews'), 'jsonb')}")
+    
+    # Create the complete SQL
+    complete_sql = f"""INSERT INTO {tenant}.products (
+    id,
+    title,
+    text_embedding,
+    image_embedding,
+    searchable_content,
+    image_url,
+    custom_data,
+    ai_generated_contents,
+    ai_summary,
+    suggested_questions,
+    reviews
+) VALUES (
+{','.join(values)}
+) RETURNING created_at, updated_at;"""
+    
+    print("=== COMPLETE SQL STATEMENT WITH VALUES ===")
+    print(complete_sql)
+    
+    # Also print detailed embedding information if present
+    if text_embedding:
+        print("=== EMBEDDING DETAILS ===")
+        print(f"Embedding length: {len(text_embedding)}")
+        print(f"First 10 values: {text_embedding[:10]}")
+        print(f"Last 10 values: {text_embedding[-10:]}")
+        
+        # Check for problematic values
+        problematic_indices = []
+        for i, val in enumerate(text_embedding):
+            if not isinstance(val, (int, float)):
+                problematic_indices.append((i, val, type(val).__name__))
+            elif math.isnan(val) or math.isinf(val):
+                problematic_indices.append((i, val, "NaN/Inf"))
+        
+        if problematic_indices:
+            print(f"Found {len(problematic_indices)} problematic values:")
+            for idx, val, issue in problematic_indices[:20]:  # Show first 20 issues
+                print(f"  Index {idx}: {val} ({issue})")
+            if len(problematic_indices) > 20:
+                print(f"  ... and {len(problematic_indices) - 20} more")
+        else:
+            print("All embedding values appear valid")
+            
+        # Statistics
+        if all(isinstance(x, (int, float)) and not (math.isnan(x) or math.isinf(x)) for x in text_embedding):
+            min_val = min(text_embedding)
+            max_val = max(text_embedding)
+            avg_val = sum(text_embedding) / len(text_embedding)
+            print(f"Value statistics: min={min_val:.6f}, max={max_val:.6f}, avg={avg_val:.6f}")
+    
+    print("=== END COMPLETE SQL DEBUG ===")

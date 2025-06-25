@@ -188,13 +188,13 @@ def upgrade() -> None:
         op.execute(f"""
         CREATE INDEX IF NOT EXISTS text_embedding_idx
         ON {schema}.products
-        USING diskann (text_embedding public.vector_cosine_ops);
+/        USING hnsw (text_embedding public.vector_cosine_ops);
         """)
         
         op.execute(f"""
         CREATE INDEX IF NOT EXISTS image_embedding_idx
         ON {schema}.products
-        USING diskann (image_embedding public.vector_cosine_ops);
+        USING hnsw (image_embedding public.vector_cosine_ops);
         """)
 
 

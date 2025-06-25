@@ -28,10 +28,10 @@ class ResumeOptimizerService:
             
             # Create a detailed prompt for skill extraction
             prompt = f"""
-            You are an expert at analyzing job descriptions and extracting the most important technical keywords for ATS (Applicant Tracking System) optimization. 
-            Please analyze the following job description and extract exactly 15 technical skills total:
-            1. Programming languages mentioned (e.g., Python, JavaScript, Java, C++, etc.)
-            2. The most important technical skills mentioned (e.g., frameworks, libraries, tools, databases, cloud platforms, methodologies, etc.)
+            You are an expert at analyzing job descriptions and extracting the most specialized, specific technical keywords for ATS (Applicant Tracking System) optimization. 
+            Please analyze the following job description and extract exactly 15 highly specialized technical skills total:
+            1. Programming languages mentioned (e.g., Python, JavaScript, TypeScript, Go, Rust, etc.)
+            2. The most specialized and specific technical skills mentioned (prioritize specific frameworks, libraries, tools, platforms, and technologies over general terms)
             
             Job Description:
             {job_description}
@@ -42,16 +42,27 @@ class ResumeOptimizerService:
                 "rest_of_skills": ["skill1", "skill2", ...]
             }}
             
-            Guidelines:
+            Guidelines for SPECIALIZED skill extraction:
             - Extract exactly 15 technical skills total (combined programming languages + other skills)
-            - PRIORITIZE skills that appear multiple times or are emphasized in the job description
-            - EXCLUDE soft skills like communication, teamwork, leadership, problem-solving, etc.
-            - For programming languages, include variations (e.g., "JS" should be "JavaScript")
-            - Remove duplicates and normalize skill names
-            - Focus on skills that are most likely to be searched by ATS systems
-            - Include frameworks, libraries, tools, databases, cloud platforms, development methodologies, and technical concepts
-            - Examples of high-priority technical skills: React, Django, AWS, Docker, PostgreSQL, Git, CI/CD, REST APIs, GraphQL, Kubernetes, etc.
-            - Be selective and accurate - only include the most critical skills mentioned
+            - PRIORITIZE highly specific, specialized skills over general terms
+            - AVOID general terms like "database", "cloud", "API" - instead extract specific ones like "PostgreSQL", "AWS Lambda", "GraphQL"
+            - PREFER specific frameworks/libraries over general categories (e.g., "React.js", "Django REST Framework", "Express.js" instead of "web development")
+            - INCLUDE specific tools and platforms (e.g., "Docker Compose", "Kubernetes", "Jenkins", "Terraform", "Redis")
+            - INCLUDE specific cloud services (e.g., "AWS S3", "Azure Functions", "Google Cloud Run" instead of just "cloud")
+            - INCLUDE specific databases and data technologies (e.g., "MongoDB", "Elasticsearch", "Apache Kafka")
+            - INCLUDE specialized methodologies and practices (e.g., "CI/CD", "Test-Driven Development", "Microservices Architecture")
+            - EXCLUDE soft skills, general business terms, and vague technical concepts
+            - NORMALIZE skill names to their most commonly recognized form (e.g., "JS" → "JavaScript", "k8s" → "Kubernetes")
+            - PRIORITIZE skills mentioned multiple times or emphasized in requirements sections
+            - Focus on skills that ATS systems would specifically search for in technical roles
+            
+            Examples of GOOD specialized skills to extract:
+            - Specific: "React.js", "Django", "PostgreSQL", "AWS Lambda", "Docker", "Kubernetes", "Jenkins", "Terraform"
+            - Specific: "GraphQL", "Redis", "Elasticsearch", "Apache Kafka", "Microservices", "CI/CD", "Pytest"
+            
+            Examples of POOR general terms to AVOID:
+            - General: "database", "cloud computing", "web development", "software engineering", "programming"
+            - Vague: "APIs", "frameworks", "tools", "platforms", "technologies"
             """
             
             # Use Gemini 2.0 Flash model

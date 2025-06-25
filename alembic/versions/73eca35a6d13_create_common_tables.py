@@ -22,7 +22,7 @@ def upgrade() -> None:
     # Create test schema
 
     # Create extensions in public schema
-    op.execute("CREATE EXTENSION IF NOT EXISTS vectorscale CASCADE SCHEMA public;")
+    op.execute("CREATE EXTENSION IF NOT EXISTS vector CASCADE SCHEMA public;")
     op.execute("CREATE EXTENSION IF NOT EXISTS pg_search SCHEMA paradedb;")
 
     # Create updated_at function in public schema
@@ -115,7 +115,7 @@ def downgrade() -> None:
     DROP FUNCTION IF EXISTS public.update_updated_at_column();
     
     -- Drop extensions
-    DROP EXTENSION IF EXISTS vectorscale CASCADE;
+    DROP EXTENSION IF EXISTS vector CASCADE;
     DROP EXTENSION IF EXISTS pg_search CASCADE;
     
     -- Drop schema

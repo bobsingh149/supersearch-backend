@@ -1,6 +1,6 @@
 services:
   db:
-    build: .
+    image: paradedb/paradedb:latest
     container_name: paradedb
     environment:
       POSTGRES_USER: supersearch
