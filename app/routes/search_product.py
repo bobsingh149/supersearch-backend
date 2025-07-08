@@ -145,13 +145,8 @@ async def handle_empty_query(
     # Calculate offset from page and size
     offset = (page - 1) * size
     
-    # Prepare filter field and value if provided
-    filter_field = None
-    filter_value = None
-    if filters and filters.conditions and len(filters.conditions) > 0:
-        # For now, we only use the first filter condition with the ParadeDB match
-        filter_field = filters.conditions[0].field
-        filter_value = str(filters.conditions[0].value)
+    # Build filter condition from filter options
+    filter_condition = build_filter_condition(filters) if filters else ""
     
     # Prepare sort field and direction if provided
     sort_field = None
@@ -163,8 +158,7 @@ async def handle_empty_query(
     # Use the SQL template for empty queries
     sql_query = render_sql(
         SQLFilePath.PRODUCT_EMPTY_QUERY,
-        filter_field=filter_field,
-        filter_value=filter_value,
+        filter_condition=filter_condition,
         sort_field=sort_field,
         sort_direction=sort_direction,
         limit=size,

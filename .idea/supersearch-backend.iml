@@ -4,6 +4,11 @@
     <content url="file://$MODULE_DIR$">
       <excludeFolder url="file://$MODULE_DIR$/supersearc-venv" />
       <excludeFolder url="file://$MODULE_DIR$/supersearch_venv" />
+      <excludeFolder url="file://$MODULE_DIR$/app/temporal/core/logs" />
+      <excludeFolder url="file://$MODULE_DIR$/datasets/archive" />
+      <excludeFolder url="file://$MODULE_DIR$/datasets/ecommerce_batches" />
+      <excludeFolder url="file://$MODULE_DIR$/datasets/items_batches" />
+      <excludeFolder url="file://$MODULE_DIR$/logs" />
     </content>
     <orderEntry type="jdk" jdkName="Python 3.12 (supersearch)" jdkType="Python SDK" />
     <orderEntry type="sourceFolder" forTests="false" />

@@ -43,8 +43,9 @@ class ResumeOptimizerService:
             }}
             
             Guidelines for SPECIALIZED skill extraction:
-            - Extract exactly 15 technical skills total (combined programming languages + other skills)
+            - Extract at most 18 technical skills total (combined programming languages + other skills)
             - PRIORITIZE highly specific, specialized skills over general terms
+            - ORDER skills by relevance and importance: Place the most relevant and frequently mentioned skills first in each array
             - AVOID general terms like "database", "cloud", "API" - instead extract specific ones like "PostgreSQL", "AWS Lambda", "GraphQL"
             - PREFER specific frameworks/libraries over general categories (e.g., "React.js", "Django REST Framework", "Express.js" instead of "web development")
             - INCLUDE specific tools and platforms (e.g., "Docker Compose", "Kubernetes", "Jenkins", "Terraform", "Redis")
@@ -52,7 +53,7 @@ class ResumeOptimizerService:
             - INCLUDE specific databases and data technologies (e.g., "MongoDB", "Elasticsearch", "Apache Kafka")
             - INCLUDE specialized methodologies and practices (e.g., "CI/CD", "Test-Driven Development", "Microservices Architecture")
             - EXCLUDE soft skills, general business terms, and vague technical concepts
-            - NORMALIZE skill names to their most commonly recognized form (e.g., "JS" → "JavaScript", "k8s" → "Kubernetes")
+            - USE EXACT terminology as it appears in the job description (e.g., if the job says "JS" keep it as "JS", if it says "k8s" keep it as "k8s")
             - PRIORITIZE skills mentioned multiple times or emphasized in requirements sections
             - Focus on skills that ATS systems would specifically search for in technical roles
             

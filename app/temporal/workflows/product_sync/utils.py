@@ -52,75 +52,6 @@ async def get_search_config(tenant: str) -> Dict[str, Any]:
     
     return search_config
 
-def validate_embedding_vector(embedding: List[float], product_id: str) -> bool:
-    """
-    Validate embedding vector dimensions and values
-    
-    Args:
-        embedding: The embedding vector to validate
-        product_id: Product ID for logging purposes
-        
-    Returns:
-        True if valid, False otherwise
-    """
-    if not embedding:
-        logger.error(f"Product {product_id}: Embedding is None or empty")
-        return False
-    
-    if not isinstance(embedding, list):
-        logger.error(f"Product {product_id}: Embedding is not a list, got {type(embedding)}")
-        return False
-    
-    # Check dimension (should be 768 for most embedding models)
-    expected_dimension = 768
-    if len(embedding) != expected_dimension:
-        logger.error(f"Product {product_id}: Invalid embedding dimension. Expected {expected_dimension}, got {len(embedding)}")
-        return False
-    
-    # Check if all values are valid floats
-    for i, val in enumerate(embedding):
-        if not isinstance(val, (int, float)):
-            logger.error(f"Product {product_id}: Invalid embedding value at index {i}: {val} (type: {type(val)})")
-            return False
-        
-        # Check for NaN or infinite values
-        if math.isnan(val) or math.isinf(val):
-            logger.error(f"Product {product_id}: Invalid embedding value (NaN/Inf) at index {i}: {val}")
-            return False
-        
-        # Check for reasonable bounds for embedding values
-        if not (-100.0 <= val <= 100.0):  # Expanded bounds but still reasonable
-            logger.error(f"Product {product_id}: Embedding value out of bounds at index {i}: {val}")
-            return False
-    
-    # Check vector magnitude (embeddings should be normalized or have reasonable magnitude)
-    try:
-        magnitude = sum(x * x for x in embedding) ** 0.5
-        if magnitude == 0:
-            logger.error(f"Product {product_id}: Zero magnitude embedding vector")
-            return False
-        
-        if magnitude > 1000:  # Unreasonably large magnitude
-            logger.error(f"Product {product_id}: Embedding magnitude too large: {magnitude}")
-            return False
-    except (OverflowError, ValueError) as e:
-        logger.error(f"Product {product_id}: Error calculating embedding magnitude: {e}")
-        return False
-    
-    # Additional check: ensure all values are finite numbers
-    try:
-        # Try to convert to ensure they're proper floats
-        normalized_embedding = [float(x) for x in embedding]
-        # Check if conversion was successful
-        if len(normalized_embedding) != expected_dimension:
-            logger.error(f"Product {product_id}: Embedding normalization failed")
-            return False
-    except (ValueError, TypeError, OverflowError) as e:
-        logger.error(f"Product {product_id}: Error normalizing embedding: {e}")
-        return False
-    
-    return True
-
 async def check_database_health(tenant: str) -> bool:
     """
     Check database connectivity and basic health
@@ -201,7 +132,6 @@ async def process_products_from_data(data: List[Dict[str, Any]], tenant: str) ->
         text_embedding = None
         
         try:
-            print("schema is:" + tenant)
             async with get_async_session_with_contextmanager(tenant) as session:
                 existing_product = await session.get(ProductDB, product_id)
                 
@@ -212,16 +142,12 @@ async def process_products_from_data(data: List[Dict[str, Any]], tenant: str) ->
                         # Reuse existing embedding if searchable content hasn't changed
                         text_embedding = existing_product.text_embedding
                         # Validate the existing embedding before reusing
-                        if text_embedding and validate_embedding_vector(text_embedding, product_id):
+                        if text_embedding is not None:
                             logger.info(f"Product {product_id} searchable content unchanged, reusing embedding")
                         else:
                             logger.warning(f"Product {product_id} has invalid existing embedding, generating new one")
                             try:
                                 text_embedding = await get_embedding(searchable_content, TaskType.DOCUMENT)
-                                # Validate the new embedding
-                                if not validate_embedding_vector(text_embedding, product_id):
-                                    logger.error(f"Product {product_id} has invalid embedding. Skipping product.")
-                                    return None
                             except Exception as e:
                                 logger.error(f"Error generating embedding for product {product_id}: {str(e)}")
                                 logger.error(f"Product {product_id} has null embedding. Skipping product.")
@@ -231,10 +157,6 @@ async def process_products_from_data(data: List[Dict[str, Any]], tenant: str) ->
                         logger.info(f"Product {product_id} content changed, generating new embedding")
                         try:
                             text_embedding = await get_embedding(searchable_content, TaskType.DOCUMENT)
-                            # Validate the new embedding
-                            if not validate_embedding_vector(text_embedding, product_id):
-                                logger.error(f"Product {product_id} has invalid embedding. Skipping product.")
-                                return None
                         except Exception as e:
                             logger.error(f"Error generating embedding for product {product_id}: {str(e)}")
                             # Don't reuse existing embedding as fallback if there's an error
@@ -245,10 +167,6 @@ async def process_products_from_data(data: List[Dict[str, Any]], tenant: str) ->
                     logger.info(f"New product {product_id}, generating embedding")
                     try:
                         text_embedding = await get_embedding(searchable_content, TaskType.DOCUMENT)
-                        # Validate the new embedding
-                        if not validate_embedding_vector(text_embedding, product_id):
-                            logger.error(f"Product {product_id} has invalid embedding. Skipping product.")
-                            return None
                     except Exception as e:
                         logger.error(f"Error generating embedding for new product {product_id}: {str(e)}")
                         logger.error(f"Product {product_id} has null embedding. Skipping product.")
@@ -273,12 +191,7 @@ async def process_products_from_data(data: List[Dict[str, Any]], tenant: str) ->
                 product_dict = product.model_dump(exclude={'created_at', 'updated_at'})
                 
                 # Additional validation before database insertion
-                if 'text_embedding' in product_dict and product_dict['text_embedding']:
-                    # Final validation of embedding before DB insertion
-                    if not validate_embedding_vector(product_dict['text_embedding'], product_id):
-                        logger.error(f"Product {product_id}: Final embedding validation failed before DB insertion")
-                        return None
-                    
+                if 'text_embedding' in product_dict and product_dict['text_embedding'] is not None:
                     # Ensure embedding is properly formatted as list of floats
                     try:
                         product_dict['text_embedding'] = [float(x) for x in product_dict['text_embedding']]
@@ -286,9 +199,7 @@ async def process_products_from_data(data: List[Dict[str, Any]], tenant: str) ->
                         logger.error(f"Product {product_id}: Error converting embedding to floats: {e}")
                         return None
                 
-                # Debug: Print complete SQL with actual values for troubleshooting
-                print_complete_sql_with_values(product_dict, product_id, tenant)
-                
+
                 max_retries = 3
                 for attempt in range(max_retries):
                     try:

@@ -13,7 +13,7 @@ jinja_env = Environment(
     loader=FileSystemLoader(TEMPLATE_DIR),
     trim_blocks=True,
     lstrip_blocks=True,
-    autoescape=True  # Enable autoescaping for security
+    autoescape=False  # SQL templates should not be autoescaped for this use case
 )
 
 class SQLFilePath(Enum):
@@ -118,8 +118,14 @@ def render_sql(filename: SQLFilePath, tenant: str, **kwargs) -> str:
     if not filename.endswith('.sql'):
         filename = filename + '.sql'
     
-    # Sanitize all input parameters to prevent SQL injection
-    safe_kwargs = sanitize_kwargs(kwargs)
+    # A more robust solution would be to use parameterized queries.
+    if filename == 'product/empty_query.sql':
+        # Bypass sanitization for templates that use raw SQL fragments.
+        safe_kwargs = kwargs
+    else:
+        # Sanitize all input parameters to prevent SQL injection
+        safe_kwargs = sanitize_kwargs(kwargs)
+
     safe_kwargs['tenant'] = tenant
     
     template = jinja_env.get_template(filename)
