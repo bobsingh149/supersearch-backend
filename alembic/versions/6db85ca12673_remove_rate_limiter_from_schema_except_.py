@@ -17,7 +17,7 @@ down_revision: Union[str, None] = '7e5ebfbfcd6e'
 branch_labels: Union[str, Sequence[str], None] = None
 depends_on: Union[str, Sequence[str], None] = None
 
-SCHEMAS = ['demo_movies', 'test', 'development', 'staging', 'production']
+SCHEMAS = ['demo_movies', 'demo_ecommerce', 'test', 'development', 'staging', 'production']
 
 def upgrade() -> None:
     for schema in SCHEMAS:

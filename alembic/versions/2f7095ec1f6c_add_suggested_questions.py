@@ -12,7 +12,7 @@ import sqlalchemy as sa
 from sqlalchemy.dialects import postgresql
 
 # Schema names from the original migration
-SCHEMAS = ['demo_movies', 'test', 'development', 'staging', 'production']
+SCHEMAS = ['demo_movies', 'demo_ecommerce', 'test', 'development', 'staging', 'production']
 
 # revision identifiers, used by Alembic.
 revision: str = '2f7095ec1f6c'
