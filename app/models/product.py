@@ -9,7 +9,6 @@ from app.models.review import ReviewBase
 
 class ProductDB(Base):
     __tablename__ = "products"
-    __table_args__ = {"schema": "demo_ecommerce"}
 
     id = Column(String, primary_key=True)
     title = Column(Text, nullable=True)

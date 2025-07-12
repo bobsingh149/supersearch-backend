@@ -126,24 +126,7 @@ async def insert_products(
     """
     products_count = len(products_output.products)
     return products_count
-    # logger.info(f"Inserting {products_count} products into database")
-    
-    # async with get_async_session_with_contextmanager() as session:
-    #     # Convert processed products to dictionaries for bulk insert
-    #     products_to_insert = []
-    #     for product in products_output.products:
-    #         # Convert to dict and exclude created_at and updated_at as they are handled by the database
-    #         product_dict = product.model_dump(exclude={'created_at', 'updated_at'})
-    #         products_to_insert.append(product_dict)
-        
-    #     # Bulk insert using insert()
-    #     stmt = insert(ProductDB).values(products_to_insert)
-    #     await session.execute(stmt)
-        
-    #     # Commit the transaction
-    #     await session.commit()
-        
-    #     logger.info(f"Inserted {products_count} products into database")
+
         
 
 @activity.defn

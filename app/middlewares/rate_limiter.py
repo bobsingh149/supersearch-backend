@@ -49,7 +49,7 @@ class RateLimiterMiddleware(BaseHTTPMiddleware):
 
             logger.info("Initializing rate limiter from database...")
             try:
-                async with get_async_session_with_contextmanager() as session:
+                async with get_async_session_with_contextmanager(tenant="public") as session:
                     result = await session.execute(select(RateLimitDB))
                     rate_limits = result.scalars().all()
 
@@ -68,7 +68,7 @@ class RateLimiterMiddleware(BaseHTTPMiddleware):
         """Save current rate limits to database"""
         logger.info("Saving rate limits to database...")
         try:
-            async with get_async_session_with_contextmanager() as session:
+            async with get_async_session_with_contextmanager(tenant="public") as session:
                 for ip_address, count in REQUEST_COUNTS.items():
                     # Use PostgreSQL insert ... on conflict
                     stmt = insert(RateLimitDB).values(

@@ -490,7 +490,7 @@ async def create_jsonb_indexes(filter_fields: List[str], sortable_fields: List[s
     except Exception as e:
         logger.error(f"Error creating JSONB indexes: {str(e)}")
 
-def print_complete_sql_with_values(product_dict: Dict[str, Any], product_id: str, tenant: str = "demo_ecommerce") -> None:
+def print_complete_sql_with_values(product_dict: Dict[str, Any], product_id: str, tenant: str) -> None:
     """
     Print the complete SQL statement with actual parameter values substituted.
     
