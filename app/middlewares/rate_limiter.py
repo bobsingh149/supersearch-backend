@@ -207,8 +207,7 @@ class RateLimiterMiddleware(BaseHTTPMiddleware):
             await self.initialize_from_db()
         
 
-        # TODO: Uncomment to enable selective rate limiting
-       
+
         # Check if path should be rate limited
         if not self.should_rate_limit(request.url.path):
             return await call_next(request)
