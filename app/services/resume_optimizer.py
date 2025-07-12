@@ -105,7 +105,7 @@ class ResumeOptimizerService:
                 rest_of_skills = [skill.strip() for skill in rest_of_skills if skill.strip()]
                 
                 # Define default skills to ensure they're included
-                default_programming_languages = ["Python", "Node.js"]
+                default_programming_languages = ["Java", "Python", "Node.js"]
                 default_technical_skills = ["Spring Boot", "FastAPI", "PostgreSQL", "SQL", "NoSQL", "AWS", "Docker"]
                 
                 # Add missing default programming languages
