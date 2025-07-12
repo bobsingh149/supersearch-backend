@@ -108,13 +108,12 @@ def build_filter_condition(filters: FilterOptions) -> str:
             else:
                 conditions.append(f"(custom_data->>'{field}')::text = '{value}'")
         elif operator == "array_contains_any":
-            # Use paradedb.match for efficient array filtering
+            # Use PostgreSQL's native JSONB operators for array filtering
             if isinstance(value, list):
-                # Join multiple values with OR operator for the query
-                query_text = " OR ".join(value)
-                conditions.append(f"id @@@ paradedb.match(field => '{field}', value => '{query_text}')")
+                value_list = ", ".join([f"'{v}'" for v in value])
+                conditions.append(f"custom_data->'{field}' ?| array[{value_list}]")
             else:
-                conditions.append(f"id @@@ paradedb.match(field => '{field}', value => '{value}')")
+                conditions.append(f"custom_data->'{field}' ? '{value}'")
     
     join_str = f" {filters.filter_type} "
     return f"({join_str.join(conditions)})"
