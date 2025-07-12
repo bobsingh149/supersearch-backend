@@ -25,7 +25,7 @@ router = APIRouter(
 class FilterCondition(BaseModel):
     field: str
     value: Any
-    operator: Literal["eq", "neq", "gt", "gte", "lt", "lte", "in"] = "eq"
+    operator: Literal["eq", "neq", "gt", "gte", "lt", "lte", "in", "array_contains_any"] = "eq"
 
 class FilterOptions(BaseModel):
     conditions: Optional[List[FilterCondition]] = None
@@ -107,6 +107,12 @@ def build_filter_condition(filters: FilterOptions) -> str:
                 conditions.append(f"(custom_data->>'{field}')::text IN ({value_list})")
             else:
                 conditions.append(f"(custom_data->>'{field}')::text = '{value}'")
+        elif operator == "array_contains_any":
+            if isinstance(value, list):
+                value_list = ", ".join([f"'{v}'" for v in value])
+                conditions.append(f"custom_data->'{field}' ?| array[{value_list}]")
+            else:
+                conditions.append(f"custom_data->'{field}' ? '{value}'")
     
     join_str = f" {filters.filter_type} "
     return f"({join_str.join(conditions)})"
