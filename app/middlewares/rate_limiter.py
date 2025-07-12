@@ -38,6 +38,9 @@ class RateLimiterMiddleware(BaseHTTPMiddleware):
 
     def get_tenant_from_headers(self, request: Request) -> str:
         """Get tenant from request headers"""
+        import json
+        print(json.dumps(dict(request.headers), indent=2))
+        
         # Check for tenant header (case-insensitive)
         tenant = request.headers.get("tenant") or request.headers.get("Tenant") or request.headers.get("X-Tenant")
         
@@ -151,6 +154,11 @@ class RateLimiterMiddleware(BaseHTTPMiddleware):
         return list(EXCLUDED_IPS)
     
     async def dispatch(self, request: Request, call_next):
+
+        # Skip rate limiting for OPTIONS requests
+        if request.method == "OPTIONS":
+            return await call_next(request)
+
         # Get tenant from request headers
         try:
             tenant = self.get_tenant_from_headers(request)
@@ -166,10 +174,7 @@ class RateLimiterMiddleware(BaseHTTPMiddleware):
         if not INITIALIZED:
             await self.initialize_from_db()
         
-        # Skip rate limiting for OPTIONS requests
-        if request.method == "OPTIONS":
-            return await call_next(request)
-        
+
         # TODO: Uncomment to enable selective rate limiting
        
         # Check if path should be rate limited
