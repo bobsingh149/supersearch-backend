@@ -28,7 +28,36 @@ class ResponseSchema(BaseModel):
     referenced_product_ids: List[str]
 
 class ShoppingAssistantUtils:
-    SYSTEM_PROMPT = """You are a helpful search assistant for finding products, content, and information. Help users find items and answer questions about products, orders, and purchases. Respond in the same language as the query.
+    @staticmethod
+    def get_site_path_from_tenant(tenant: str) -> str:
+        """
+        Get the site path based on tenant name
+        
+        Args:
+            tenant: The tenant name
+            
+        Returns:
+            str: The site path for the tenant
+        """
+        tenant_to_site_mapping = {
+            "demo_movies": "demo_site",
+            "demo_ecommerce": "demo_ecommerce"
+        }
+        return tenant_to_site_mapping.get(tenant, "demo_site")
+    
+    @staticmethod
+    def get_system_prompt(tenant: str) -> str:
+        """
+        Get the system prompt with dynamic site path based on tenant
+        
+        Args:
+            tenant: The tenant name
+            
+        Returns:
+            str: The system prompt with appropriate site path
+        """
+        site_path = ShoppingAssistantUtils.get_site_path_from_tenant(tenant)
+        return f"""You are a helpful search assistant for finding products, content, and information. Help users find items and answer questions about products, orders, and purchases. Respond in the same language as the query.
 
     CONTEXT USAGE:
     - Use search results (function_call_results) for new item recommendations
@@ -48,13 +77,25 @@ class ShoppingAssistantUtils:
     - For ecommerce products: Provide information that would be helpful to potential buyers based on the product context and what users typically want to know when making purchasing decisions
 
     FORMATTING:
-    - Format item titles as hyperlinks: [Item Title](/demo_site/:item_id)
+    - Format item titles as hyperlinks: [Item Title](/{site_path}/:item_id)
     - Use markdown formatting (headers, bullets, etc.)
     - Generate 3 diverse suggested user queries that the user might want to ask you (the shopping assistant) next
     - Include all referenced product IDs at the end
     """
     
-    JSON_SYSTEM_PROMPT = """You are a helpful search assistant for finding products, content, and information. Help users find items and answer questions about products, orders, and purchases. Respond in the same language as the query.
+    @staticmethod
+    def get_json_system_prompt(tenant: str) -> str:
+        """
+        Get the JSON system prompt with dynamic site path based on tenant
+        
+        Args:
+            tenant: The tenant name
+            
+        Returns:
+            str: The JSON system prompt with appropriate site path
+        """
+        site_path = ShoppingAssistantUtils.get_site_path_from_tenant(tenant)
+        return f"""You are a helpful search assistant for finding products, content, and information. Help users find items and answer questions about products, orders, and purchases. Respond in the same language as the query.
 
     CONTEXT USAGE:
     - Use search results (function_call_results) for new item recommendations
@@ -74,21 +115,21 @@ class ShoppingAssistantUtils:
     - For ecommerce products: Provide information that would be helpful to potential buyers based on the product context and what users typically want to know when making purchasing decisions
 
     FORMATTING:
-    - Format item titles as hyperlinks: [Item Title](/demo_site/:item_id)
+    - Format item titles as hyperlinks: [Item Title](/{site_path}/:item_id)
     - Use markdown formatting (headers, bullets, etc.)
     - Generate 3 diverse suggested user queries that the user might want to ask you (the shopping assistant) next
     - Include all referenced product IDs at the end
 
     RESPONSE FORMAT:
-    Respond with JSON: {"query_response": "markdown response with [Item Title](/demo_site/:item_id) links", "suggested_user_queries": ["question1", "question2", "question3"], "referenced_product_ids": ["id1", "id2"]}
+    Respond with JSON: {{"query_response": "markdown response with [Item Title](/{site_path}/:item_id) links", "suggested_user_queries": ["question1", "question2", "question3"], "referenced_product_ids": ["id1", "id2"]}}
     """
     
     model = "gemini-2.0-flash-001"
     
     @classmethod
-    def get_model_config(cls):
+    def get_model_config(cls, tenant: str):
         return GenerateContentConfig(
-            system_instruction=cls.SYSTEM_PROMPT,
+            system_instruction=cls.get_system_prompt(tenant),
             max_output_tokens=1000,
             temperature=0.3,
             automatic_function_calling=AutomaticFunctionCallingConfig(
@@ -98,9 +139,9 @@ class ShoppingAssistantUtils:
         )
     
     @classmethod
-    def get_json_model_config(cls):
+    def get_json_model_config(cls, tenant: str):
         return GenerateContentConfig(
-            system_instruction=cls.JSON_SYSTEM_PROMPT,
+            system_instruction=cls.get_json_system_prompt(tenant),
             max_output_tokens=1000,
             temperature=0.3,
             automatic_function_calling=AutomaticFunctionCallingConfig(
@@ -111,14 +152,7 @@ class ShoppingAssistantUtils:
             response_schema=ResponseSchema
         )
     
-    # Define model_config and json_model_config as properties
-    @property
-    def model_config(self):
-        return self.get_model_config()
-    
-    @property
-    def json_model_config(self):
-        return self.get_json_model_config()
+
 
     @staticmethod
     def extract_product_ids(text: str) -> List[str]:
@@ -178,12 +212,13 @@ class ShoppingAssistantUtils:
         return questions
 
     @staticmethod
-    def format_product_context(products: List['ProductSearchResult']) -> str:
+    def format_product_context(products: List['ProductSearchResult'], tenant: str) -> str:
         """
         Format item information into a context string for the LLM
         
         Args:
             products: List of ProductSearchResult objects
+            tenant: The tenant name to determine the site path
         
         Returns:
             str: Formatted context string containing item information
@@ -191,7 +226,8 @@ class ShoppingAssistantUtils:
         if not products:
             return ""
 
-        context = "Here are some items that might be relevant. ONLY reference items that are directly relevant to the user's query and ignore the rest. When referencing them, format their titles as hyperlinks like [Item Title](/demo_site/:product_id):\n\n"
+        site_path = ShoppingAssistantUtils.get_site_path_from_tenant(tenant)
+        context = f"Here are some items that might be relevant. ONLY reference items that are directly relevant to the user's query and ignore the rest. When referencing them, format their titles as hyperlinks like [Item Title](/{site_path}/:product_id):\n\n"
 
         for i, product in enumerate(products, 1):
             context += f"{i}. Item ID: {product.id}\n"
@@ -285,6 +321,7 @@ class ShoppingAssistantUtils:
     @staticmethod
     def construct_prompt(
         query: str,
+        tenant: str,
         context: Optional[str] = None,
         orders_context: Optional[str] = None
     ) -> str:
@@ -293,6 +330,7 @@ class ShoppingAssistantUtils:
         
         Args:
             query: The user's question or request
+            tenant: The tenant name to determine the site path
             context: Optional context about items or other relevant information
             orders_context: Optional context about user's recent orders
         
@@ -334,9 +372,10 @@ class ShoppingAssistantUtils:
 5. Only use this order information when directly relevant to the user's query
 """
         
-        prompt += """RESPONSE FORMAT FOR STREAMING:
-When mentioning item titles in your response, format them as hyperlinks using markdown, like this: [Item Title](/demo_site/:product_id).
-For example, if you're recommending an item with ID 'abc123' and title 'Documentary Film', format it as [Documentary Film](/demo_site/abc123).
+        site_path = ShoppingAssistantUtils.get_site_path_from_tenant(tenant)
+        prompt += f"""RESPONSE FORMAT FOR STREAMING:
+When mentioning item titles in your response, format them as hyperlinks using markdown, like this: [Item Title](/{site_path}/:product_id).
+For example, if you're recommending an item with ID 'abc123' and title 'Documentary Film', format it as [Documentary Film](/{site_path}/abc123).
 
 CRITICAL: Your response will be processed in streaming mode. You MUST use the exact format below:
 
@@ -390,6 +429,7 @@ DO NOT deviate from this format. The § marker is critical for proper streaming.
     @staticmethod
     def construct_json_prompt(
         query: str,
+        tenant: str,
         context: Optional[str] = None,
         orders_context: Optional[str] = None
     ) -> str:
@@ -398,6 +438,7 @@ DO NOT deviate from this format. The § marker is critical for proper streaming.
         
         Args:
             query: The user's question or request
+            tenant: The tenant name to determine the site path
             context: Optional context about items or other relevant information
             orders_context: Optional context about user's recent orders
         
@@ -439,8 +480,9 @@ DO NOT deviate from this format. The § marker is critical for proper streaming.
 5. Only use this order information when directly relevant to the user's query
 """
         
-        prompt += """REMEMBER: You MUST respond with a valid JSON object having these fields:
-1. "query_response": Your main response to the user (with markdown formatting, hyperlinks like [Item Title](/demo_site/:product_id))
+        site_path = ShoppingAssistantUtils.get_site_path_from_tenant(tenant)
+        prompt += f"""REMEMBER: You MUST respond with a valid JSON object having these fields:
+1. "query_response": Your main response to the user (with markdown formatting, hyperlinks like [Item Title](/{site_path}/:product_id))
 2. "suggested_user_queries": Array of exactly 3 suggested user queries
 3. "referenced_product_ids": Array of product IDs you referenced (or empty array if none)
 
@@ -571,7 +613,7 @@ async def get_chat_from_history(conversation_id: str,session : AsyncSession,stre
         result = await session.execute(query, {"conversation_id": conversation_id})
         conversation = result.first()
         # Select the appropriate model config based on stream parameter
-        model_config = ShoppingAssistantUtils.get_model_config() if stream else ShoppingAssistantUtils.get_json_model_config()
+        model_config = ShoppingAssistantUtils.get_model_config(tenant) if stream else ShoppingAssistantUtils.get_json_model_config(tenant)
         if not conversation:
             # Create new chat without history
             return client.aio.chats.create(

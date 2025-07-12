@@ -59,7 +59,7 @@ async def chat_with_assistant(
             
             # Append product context to the query
             if context_products:
-                product_context = ShoppingAssistantUtils.format_product_context(context_products)
+                product_context = ShoppingAssistantUtils.format_product_context(context_products, tenant)
                 enhanced_query += f"\n\nProduct context for items mentioned:\n{product_context}"
         
         # Get vector embedding for the enhanced query (with product context if any)
@@ -87,7 +87,7 @@ async def chat_with_assistant(
         context = ""
         if semantic_product_results:
             # No need to call get_products_by_ids again as reviews are already included
-            semantic_context = ShoppingAssistantUtils.format_product_context(semantic_product_results)
+            semantic_context = ShoppingAssistantUtils.format_product_context(semantic_product_results, tenant)
             context += "function_call_results:\n" + semantic_context
             
         # Fetch user's recent orders (using client IP as user_id)
@@ -117,6 +117,7 @@ async def chat_with_assistant(
             # Prepare prompt with context merged with user query
             prompt = ShoppingAssistantUtils.construct_prompt(
                 enhanced_query,  # Use enhanced query with product context
+                tenant,
                 context,
                 orders_context
             )
@@ -225,6 +226,7 @@ async def chat_with_assistant(
             # Prepare JSON prompt with context merged with user query
             json_prompt = ShoppingAssistantUtils.construct_json_prompt(
                 enhanced_query,  # Use enhanced query with product context
+                tenant,
                 context,
                 orders_context
             )
