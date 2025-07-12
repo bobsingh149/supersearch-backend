@@ -36,6 +36,16 @@ class RateLimiterMiddleware(BaseHTTPMiddleware):
         self.get_path_identifier = get_path_identifier or (lambda path: path)
         self.excluded_ips = excluded_ips or EXCLUDED_IPS
 
+    def get_tenant_from_headers(self, request: Request) -> str:
+        """Get tenant from request headers"""
+        # Check for tenant header (case-insensitive)
+        tenant = request.headers.get("tenant") or request.headers.get("Tenant") or request.headers.get("X-Tenant")
+        
+        if not tenant:
+            raise ValueError("Tenant header is required but not provided")
+        
+        return tenant.strip()
+
     @staticmethod
     async def initialize_from_db():
         """Load existing rate limits from database on startup"""
@@ -141,8 +151,16 @@ class RateLimiterMiddleware(BaseHTTPMiddleware):
         return list(EXCLUDED_IPS)
     
     async def dispatch(self, request: Request, call_next):
-
-        request.state.tenant = "demo_ecommerce"
+        # Get tenant from request headers
+        try:
+            tenant = self.get_tenant_from_headers(request)
+            request.state.tenant = tenant
+        except ValueError as e:
+            logger.error(f"Missing tenant header: {str(e)}")
+            return JSONResponse(
+                status_code=status.HTTP_400_BAD_REQUEST,
+                content={"error": "Tenant header is required"}
+            )
 
         # Ensure initialized from database
         if not INITIALIZED:
