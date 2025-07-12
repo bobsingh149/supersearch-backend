@@ -159,9 +159,10 @@ class RateLimiterMiddleware(BaseHTTPMiddleware):
         # Skip rate limiting for v1/leads routes
         if path.startswith("/v1/leads"):
             return False
-            
-        path_identifier = self.get_path_identifier(path)
-        return path_identifier in self.limited_paths
+
+        return True
+        # path_identifier = self.get_path_identifier(path)
+        # return path_identifier in self.limited_paths
     
     @staticmethod
     def add_excluded_ip(ip_address: str) -> None:
@@ -209,8 +210,8 @@ class RateLimiterMiddleware(BaseHTTPMiddleware):
         # TODO: Uncomment to enable selective rate limiting
        
         # Check if path should be rate limited
-        # if not self.should_rate_limit(request.url.path):
-        #     return await call_next(request)
+        if not self.should_rate_limit(request.url.path):
+            return await call_next(request)
         
         # Get client IP address
         client_ip = self.get_client_ip(request)
