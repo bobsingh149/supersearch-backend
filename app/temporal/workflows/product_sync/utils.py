@@ -177,6 +177,9 @@ async def process_products_from_data(data: List[Dict[str, Any]], tenant: str) ->
                     logger.error(f"Product {product_id} has null embedding. Skipping product.")
                     return None
                 
+                # Convert string values to int/float in custom_data
+                processed_custom_data = convert_numeric_strings(item)
+                
                 # Create product object
                 product = Product(
                     id=product_id,
@@ -184,7 +187,7 @@ async def process_products_from_data(data: List[Dict[str, Any]], tenant: str) ->
                     text_embedding=text_embedding,
                     searchable_content=searchable_content,
                     image_url=image_url,
-                    custom_data=item
+                    custom_data=processed_custom_data
                 )
                 
                 # Insert or update product in database with retry mechanism
@@ -267,6 +270,56 @@ async def process_products_from_data(data: List[Dict[str, Any]], tenant: str) ->
             logger.warning(f"High skip rate detected: {skip_rate:.1f}% of products were skipped due to validation errors")
     
     return valid_products
+
+def convert_numeric_strings(data: Dict[str, Any]) -> Dict[str, Any]:
+    """
+    Convert string values to int or float if they represent numeric values.
+    
+    Args:
+        data: Dictionary containing product data
+        
+    Returns:
+        Dictionary with numeric strings converted to int or float
+    """
+    def convert_value(value):
+        """Convert a single value if it's a numeric string."""
+        if not isinstance(value, str):
+            return value
+        
+        # Skip empty strings
+        if not value.strip():
+            return value
+        
+        # Try to convert to int first
+        try:
+            # Check if it's a whole number (no decimal point)
+            if '.' not in value and 'e' not in value.lower():
+                return int(value)
+        except (ValueError, OverflowError):
+            pass
+        
+        # Try to convert to float
+        try:
+            float_val = float(value)
+            # Only convert if it's a valid number (not NaN or infinite)
+            if not (math.isnan(float_val) or math.isinf(float_val)):
+                return float_val
+        except (ValueError, OverflowError):
+            pass
+        
+        # Return original value if conversion fails
+        return value
+    
+    def convert_recursive(obj):
+        """Recursively convert values in nested structures."""
+        if isinstance(obj, dict):
+            return {key: convert_recursive(value) for key, value in obj.items()}
+        elif isinstance(obj, list):
+            return [convert_recursive(item) for item in obj]
+        else:
+            return convert_value(obj)
+    
+    return convert_recursive(data)
 
 def generate_searchable_content(item: Dict[str, Any], searchable_attribute_fields: List[str]) -> str:
     """
