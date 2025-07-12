@@ -47,6 +47,38 @@ class RateLimiterMiddleware(BaseHTTPMiddleware):
         
         return tenant.strip()
 
+    def _create_cors_response(self, status_code: int, content: dict, request: Request) -> JSONResponse:
+        """Create a JSONResponse with CORS headers"""
+        response = JSONResponse(
+            status_code=status_code,
+            content=content
+        )
+        
+        # Get origin from request headers
+        origin = request.headers.get("origin")
+        
+        # Define allowed origins (should match the CORS configuration in main.py)
+        allowed_origins = [
+            "http://localhost:5173",
+            "http://localhost:9000",
+            "https://www.cognishop.co",
+            "https://dashboard.cognishop.co",
+            "https://api.cognishop.co"
+        ]
+        
+        # Set CORS headers
+        if origin and origin in allowed_origins:
+            response.headers["Access-Control-Allow-Origin"] = origin
+        else:
+            # For requests without origin header or from allowed origins, set wildcard
+            response.headers["Access-Control-Allow-Origin"] = "*"
+        
+        response.headers["Access-Control-Allow-Methods"] = "GET, POST, PUT, DELETE, OPTIONS"
+        response.headers["Access-Control-Allow-Headers"] = "*"
+        response.headers["Access-Control-Allow-Credentials"] = "true"
+        
+        return response
+
     @staticmethod
     async def initialize_from_db():
         """Load existing rate limits from database on startup"""
@@ -163,9 +195,10 @@ class RateLimiterMiddleware(BaseHTTPMiddleware):
             request.state.tenant = tenant
         except ValueError as e:
             logger.error(f"Missing tenant header: {str(e)}")
-            return JSONResponse(
+            return self._create_cors_response(
                 status_code=status.HTTP_400_BAD_REQUEST,
-                content={"error": "Tenant header is required"}
+                content={"error": "Tenant header is required"},
+                request=request
             )
 
         # Ensure initialized from database
@@ -194,9 +227,10 @@ class RateLimiterMiddleware(BaseHTTPMiddleware):
         # If the request count exceeds the limit, return 429 Too Many Requests
         if current_count >= self.max_requests:
             logger.warning(f"Rate limit exceeded for IP {client_ip}")
-            return JSONResponse(
+            return self._create_cors_response(
                 status_code=status.HTTP_429_TOO_MANY_REQUESTS,
-                content={"error": "Rate limit exceeded. Please try again later."}
+                content={"error": "Rate limit exceeded. Please try again later."},
+                request=request
             )
         
         # Otherwise, increment the request count and allow the request
