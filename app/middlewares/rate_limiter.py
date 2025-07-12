@@ -38,8 +38,6 @@ class RateLimiterMiddleware(BaseHTTPMiddleware):
 
     def get_tenant_from_headers(self, request: Request) -> str:
         """Get tenant from request headers"""
-        import json
-        print(json.dumps(dict(request.headers), indent=2))
         
         # Check for tenant header (case-insensitive)
         tenant = request.headers.get("tenant") or request.headers.get("Tenant") or request.headers.get("X-Tenant")
