@@ -492,11 +492,11 @@ IMPORTANT:
 - Focus on objective, informational questions rather than personal subjective ones (e.g., "What do people think of it?" rather than "Have you seen it?" or "What did you think of it?")
 
 Example format:
-{
+{{
   "query_response": "Here are some great items for you...",
   "suggested_user_queries": ["question1", "question2", "question3"],
   "referenced_product_ids": ["item123", "item456", "item789"]
-}
+}}
 """
         
         return prompt

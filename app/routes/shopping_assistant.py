@@ -191,7 +191,7 @@ async def chat_with_assistant(
                     product_response = StreamingResponse(
                         type=StreamingResponseType.PRODUCTS,
                         conversation_id=chat_request.conversation_id,
-                        content=[p.model_dump(include={"id", "title", "image_url"}) for p in referenced_products]
+                        content=[p.model_dump(include={"id", "title", "image_url", "custom_data"}) for p in referenced_products]
                     )
                     yield json.dumps(product_response.model_dump()) + "\n"
                 
