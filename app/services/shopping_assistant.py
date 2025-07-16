@@ -407,6 +407,7 @@ IMPORTANT:
 - At least one of your suggested user queries should be about reviews or opinions of the referenced item if applicable
 - These are questions from the user's perspective directed to the shopping assistant, not questions the assistant would ask the user
 - Focus on objective, informational questions rather than personal subjective ones (e.g., "What do people think of it?" rather than "Have you seen it?" or "What did you think of it?")
+- Suggested user queries should be plain text only - DO NOT include hyperlinks or markdown formatting in the suggested queries
 
 Example complete response format:
 Here are some great items for you...
@@ -490,6 +491,7 @@ IMPORTANT:
 - At least one of your suggested user queries should be about reviews or opinions of the referenced item if applicable
 - These are questions from the user's perspective directed to the shopping assistant, not questions the assistant would ask the user
 - Focus on objective, informational questions rather than personal subjective ones (e.g., "What do people think of it?" rather than "Have you seen it?" or "What did you think of it?")
+- Suggested user queries should be plain text only - DO NOT include hyperlinks or markdown formatting in the suggested queries
 
 Example format:
 {{
