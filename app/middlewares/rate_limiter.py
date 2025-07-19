@@ -189,6 +189,10 @@ class RateLimiterMiddleware(BaseHTTPMiddleware):
         # Skip rate limiting for OPTIONS requests
         if request.method == "OPTIONS":
             return await call_next(request)
+        
+        if request.url.path.startswith("/v1/leads"):
+            request.state.tenant = "public"
+            return await call_next(request)
 
         # Get tenant from request headers
         try:
