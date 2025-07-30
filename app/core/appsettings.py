@@ -67,11 +67,24 @@ class CohereSettings(BaseSettings):
         extra="ignore"
     )
 
+class RedisSettings(BaseSettings):
+    host: str = "localhost"
+    port: int = 6379
+    db: int = 0
+    password: str | None = None
+
+    model_config = SettingsConfigDict(
+        env_file=ENV_FILE,
+        env_prefix="REDIS_",
+        extra="ignore"
+    )
+
 class AppSettings(BaseSettings):
     postgres: PostgresSettings = Field(default_factory=PostgresSettings)
     google: GoogleSettings = Field(default_factory=GoogleSettings)
     jina: JinaSettings = Field(default_factory=JinaSettings)
     cohere: CohereSettings = Field(default_factory=CohereSettings)
+    redis: RedisSettings = Field(default_factory=RedisSettings)
 
     model_config = SettingsConfigDict(
         env_file=ENV_FILE,

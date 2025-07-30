@@ -15,9 +15,11 @@ from sqlalchemy.sql import desc
 import logging
 from app.services.shopping_assistant import ShoppingAssistantUtils, get_chat_from_history
 from app.services.vertex import get_genai_client, get_embedding, TaskType
+from app.services.redis_service import get_redis_service
 from fastapi.responses import StreamingResponse as FastAPIStreamingResponse
 import json
 import time
+import hashlib
 
 logger = logging.getLogger(__name__)
 
@@ -25,6 +27,47 @@ router = APIRouter(
     prefix="/shopping-assistant",
     tags=["shopping-assistant"]
 )
+
+
+def generate_cache_key(chat_request: ChatRequest, tenant: str, user_id: str) -> str:
+    """
+    Generate a cache key for shopping assistant queries.
+    
+    Args:
+        chat_request: The chat request object
+        tenant: The tenant name
+        user_id: The user ID (client IP)
+        
+    Returns:
+        Cache key string
+    """
+    # Create a hash of the request parameters
+    cache_data = {
+        "query": chat_request.query,
+        "product_ids": sorted(chat_request.product_ids) if chat_request.product_ids else [],
+        "tenant": tenant
+    }
+    
+    # Convert to sorted string and hash
+    sorted_data = sorted(cache_data.items())
+    data_string = "&".join([f"{k}={v}" for k, v in sorted_data])
+    cache_hash = hashlib.md5(data_string.encode()).hexdigest()
+    
+    return f"shopping_assistant:{cache_hash}"
+
+
+def escape_quotes_in_custom_data_description(product_data):
+    """
+    Helper function to escape quotes in custom_data.description if it exists.
+    """
+    if isinstance(product_data, dict) and 'custom_data' in product_data:
+        custom_data = product_data['custom_data']
+        if isinstance(custom_data, dict) and 'description' in custom_data:
+            description = custom_data['description']
+            if isinstance(description, str):
+                # Escape quotes in the description
+                custom_data['description'] = description.replace('"', '\\"').replace("'", "\\'")
+    return product_data
 
 
 @router.post("/chat")
@@ -46,6 +89,33 @@ async def chat_with_assistant(
     The assistant uses the client IP to identify the user and fetch their recent orders.
     """
     try:
+        # Get Redis service
+        redis_service = get_redis_service()
+        
+        # Get user ID from client IP
+        if request.state.client_ip is None:
+            raise HTTPException(status_code=400, detail="Client IP not found in request state")
+        user_id = request.state.client_ip
+        
+        # Generate cache key
+        cache_key = generate_cache_key(chat_request, tenant, user_id)
+        
+        # Check cache first (only for non-streaming requests)
+        if not chat_request.stream:
+            cached_response = redis_service.get(cache_key)
+            if cached_response is not None:
+                logger.info(f"Cache hit for shopping assistant query: {cache_key}")
+                # Save conversation to database even for cached responses
+                await ShoppingAssistantUtils.save_conversation(
+                    session, 
+                    chat_request.conversation_id, 
+                    chat_request.query, 
+                    cached_response["response"], 
+                    cached_response.get("context", ""), 
+                    tenant=tenant
+                )
+                return ChatResponse(**cached_response)
+        
         # Use product_ids list directly
         product_id_list = chat_request.product_ids if chat_request.product_ids else []
         
@@ -93,10 +163,6 @@ async def chat_with_assistant(
         # Fetch user's recent orders (using client IP as user_id)
         orders_context = None
         
-        if request.state.client_ip is None:
-            raise HTTPException(status_code=400, detail="Client IP not found in request state")
-        
-        user_id = request.state.client_ip
         recent_orders = await ShoppingAssistantUtils.get_latest_orders(session, user_id)
 
         recent_orders_json = [order.model_dump_json(exclude={"id"}) for order in recent_orders]
@@ -188,10 +254,16 @@ async def chat_with_assistant(
                 
                 # Send products if any were referenced
                 if referenced_products:
+                    # Process products to escape quotes in custom_data.description
+                    processed_products = []
+                    for p in referenced_products:
+                        product_data = p.model_dump(include={"id", "title", "image_url", "custom_data"})
+                        processed_products.append(escape_quotes_in_custom_data_description(product_data))
+                    
                     product_response = StreamingResponse(
                         type=StreamingResponseType.PRODUCTS,
                         conversation_id=chat_request.conversation_id,
-                        content=[p.model_dump(include={"id", "title", "image_url", "custom_data"}) for p in referenced_products]
+                        content=processed_products
                     )
                     yield json.dumps(product_response.model_dump()) + "\n"
                 
@@ -265,12 +337,33 @@ async def chat_with_assistant(
                 
                 await ShoppingAssistantUtils.save_conversation(session, chat_request.conversation_id, chat_request.query, merged_response, context, tenant=tenant)
                 
-                return ChatResponse(
+                # Process products to escape quotes in custom_data.description
+                processed_products = []
+                for p in referenced_products:
+                    product_data = p.model_dump(include={"id", "title", "image_url", "custom_data", "searchable_content"})
+                    processed_products.append(escape_quotes_in_custom_data_description(product_data))
+                
+                # Create response object
+                chat_response = ChatResponse(
                     response=query_response,
                     conversation_id=chat_request.conversation_id,
-                    products=[p.model_dump(include={"id", "title", "image_url", "custom_data", "searchable_content"}) for p in referenced_products],
+                    products=processed_products,
                     suggested_user_queries=follow_up_questions
                 )
+                
+                # Cache the response (only for non-streaming requests)
+                if not chat_request.stream:
+                    cache_data = {
+                        "response": query_response,
+                        "conversation_id": chat_request.conversation_id,
+                        "products": processed_products,
+                        "suggested_user_queries": follow_up_questions,
+                        "context": context
+                    }
+                    redis_service.set(cache_key, cache_data, ttl=21600)  # 6 hours TTL
+                    logger.info(f"Cached shopping assistant response for key: {cache_key}")
+                
+                return chat_response
             except json.JSONDecodeError:
                 # Fallback to old method if JSON parsing fails
                 logger.error("Failed to parse JSON response, falling back to traditional parsing")
