@@ -56,17 +56,15 @@ def generate_cache_key(chat_request: ChatRequest, tenant: str, user_id: str) -> 
     return f"shopping_assistant:{cache_hash}"
 
 
-def escape_quotes_in_custom_data_description(product_data):
+def exclude_description_from_custom_data(product_data):
     """
-    Helper function to escape quotes in custom_data.description if it exists.
+    Helper function to exclude description from custom_data if it exists.
     """
     if isinstance(product_data, dict) and 'custom_data' in product_data:
         custom_data = product_data['custom_data']
         if isinstance(custom_data, dict) and 'description' in custom_data:
-            description = custom_data['description']
-            if isinstance(description, str):
-                # Escape quotes in the description
-                custom_data['description'] = description.replace('"', '\\"').replace("'", "\\'")
+            # Remove the description field from custom_data
+            del custom_data['description']
     return product_data
 
 
@@ -254,11 +252,11 @@ async def chat_with_assistant(
                 
                 # Send products if any were referenced
                 if referenced_products:
-                    # Process products to escape quotes in custom_data.description
+                    # Process products to exclude description from custom_data
                     processed_products = []
                     for p in referenced_products:
                         product_data = p.model_dump(include={"id", "title", "image_url", "custom_data"})
-                        processed_products.append(escape_quotes_in_custom_data_description(product_data))
+                        processed_products.append(exclude_description_from_custom_data(product_data))
                     
                     product_response = StreamingResponse(
                         type=StreamingResponseType.PRODUCTS,
@@ -337,11 +335,11 @@ async def chat_with_assistant(
                 
                 await ShoppingAssistantUtils.save_conversation(session, chat_request.conversation_id, chat_request.query, merged_response, context, tenant=tenant)
                 
-                # Process products to escape quotes in custom_data.description
+                # Process products to exclude description from custom_data
                 processed_products = []
                 for p in referenced_products:
                     product_data = p.model_dump(include={"id", "title", "image_url", "custom_data", "searchable_content"})
-                    processed_products.append(escape_quotes_in_custom_data_description(product_data))
+                    processed_products.append(exclude_description_from_custom_data(product_data))
                 
                 # Create response object
                 chat_response = ChatResponse(
