@@ -4,6 +4,7 @@ import asyncio
 from typing import Dict, Any, Optional, List
 from enum import Enum
 
+from google import genai
 from google.genai.types import GenerationConfig
 
 from app.services.vertex import get_genai_client
@@ -84,7 +85,7 @@ class BulkSEOLLMService:
         self.model = model
 
         if provider == LLMProvider.GEMINI:
-            self.client = get_genai_client()
+            self.gemini_client: genai.Client = get_genai_client()
             # Gemini generation configuration
             self.generation_config = GenerationConfig(
                 temperature=0.7,
@@ -96,7 +97,7 @@ class BulkSEOLLMService:
         elif provider == LLMProvider.OPENAI:
             if not OPENAI_AVAILABLE:
                 raise ImportError("OpenAI package is not installed. Please install it to use OpenAI models.")
-            self.client = openai.AsyncClient(api_key=app_settings.openai_api_key if hasattr(app_settings, 'openai_api_key') else None)
+            self.openai_client = openai.AsyncClient(api_key=app_settings.openai_api_key if hasattr(app_settings, 'openai_api_key') else None)
             self.generation_config = None  # OpenAI uses different config approach
         else:
             raise ValueError(f"Unsupported provider: {provider}")
@@ -170,15 +171,16 @@ class BulkSEOLLMService:
             logger.debug(f"Generating description for product: {product_data.get('title', 'Unknown')}")
 
             # Generate content based on provider
+            generated_text = ""  # Initialize to avoid reference before assignment
             if self.provider == LLMProvider.GEMINI:
-                response = await self.client.agenerate_content(
+                response = await self.gemini_client.aio.models.generate_content(
                     model=self.model.value,
                     contents=prompt,
                     config=self.generation_config
                 )
                 generated_text = response.text.strip() if response and response.text else ""
             elif self.provider == LLMProvider.OPENAI:
-                response = await self.client.chat.completions.create(
+                response = await self.openai_client.chat.completions.create(
                     model=self.model.value,
                     messages=[{"role": "user", "content": prompt}],
                     temperature=0.7,
