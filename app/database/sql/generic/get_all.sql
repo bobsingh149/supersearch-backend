@@ -1,9 +1,9 @@
 SELECT *
 FROM {{ tenant }}.{{ table_name }}
 {% if filters %}
-WHERE 
+WHERE
     {% for column, value in filters.items() %}
-    {% if loop.index > 1 %} AND {% endif %}{{ column }} = '{{ value }}'
+    {% if loop.index > 1 %} AND {% endif %}{{ column }} = :{{ column }}
     {% endfor %}
 {% endif %}
 {% if sort_by %}

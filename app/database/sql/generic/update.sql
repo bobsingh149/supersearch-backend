@@ -1,7 +1,7 @@
 UPDATE {{ tenant }}.{{ table_name }}
 SET
-{% for column, value in updates.items() %}
-    {% if not loop.first %}, {% endif %}{{ column }} = '{{ value }}'
+{% for column in updates %}
+    {% if not loop.first %}, {% endif %}{{ column }} = :{{ column }}
 {% endfor %}
-WHERE id = '{{ id }}'
+WHERE {{ id_field }} = :{{ id_field }}
 RETURNING * 

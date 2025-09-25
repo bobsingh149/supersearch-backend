@@ -52,6 +52,14 @@ def get_tenant_name(request: Request) -> str:
     return tenant
 
 
+def get_user_id(request: Request) -> str:
+    user_id = getattr(request.state, 'user_id', None)
+    if not user_id:
+        raise HTTPException(status_code=status.HTTP_400_BAD_REQUEST, detail="User ID not found in request.")
+    return user_id
+
+
+
 def set_tenant_schema(db_class: type, tenant: str) -> type:
     """
     Sets the schema of a SQLAlchemy ORM class to the specified tenant name.

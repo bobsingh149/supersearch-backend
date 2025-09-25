@@ -1,18 +1,18 @@
 SELECT *
 FROM {{ tenant }}.{{ table_name }}
 {% if filters %}
-WHERE 
+WHERE
     {% for filter in filters %}
     {% if loop.index > 1 %} {{ filter.logic_operator | default('AND') }} {% endif %}
-    {{ filter.column }} {{ filter.operator | default('=') }} 
+    {{ filter.column }} {{ filter.operator | default('=') }}
     {% if filter.operator in ['IN', 'NOT IN'] %}
-        ({% for val in filter.value %}{% if not loop.first %}, {% endif %}'{{ val }}'{% endfor %})
+        :{{ filter.column }}_{{ loop.index }}
     {% elif filter.operator in ['BETWEEN', 'NOT BETWEEN'] %}
-        '{{ filter.value[0] }}' AND '{{ filter.value[1] }}'
+        :{{ filter.column }}_{{ loop.index }}_start AND :{{ filter.column }}_{{ loop.index }}_end
     {% elif filter.operator in ['IS NULL', 'IS NOT NULL'] %}
         {# No value needed for these operators #}
     {% else %}
-        '{{ filter.value }}'
+        :{{ filter.column }}_{{ loop.index }}
     {% endif %}
     {% endfor %}
 {% endif %}

@@ -1,1 +1,1 @@
-"""Product synchronization workflow implementation.""" 
+"""Bulk SEO generation workflow implementation.""" 

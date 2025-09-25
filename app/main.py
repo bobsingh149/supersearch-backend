@@ -87,13 +87,13 @@ app.add_middleware(
 )
 app.add_middleware(RequestTimingMiddleware)
 # app.add_middleware(AuthMiddleware)
-
-# Add rate limiter middleware
-app.add_middleware(
-    RateLimiterMiddleware,
-    max_requests=360,
-    limited_paths=RATE_LIMITED_PATHS
-)
+#
+# # Add rate limiter middleware
+# app.add_middleware(
+#     RateLimiterMiddleware,
+#     max_requests=360,
+#     limited_paths=RATE_LIMITED_PATHS
+# )
 
 # Include all routers
 API_V1_PREFIX = "/v1"

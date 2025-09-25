@@ -39,7 +39,7 @@ logging.basicConfig(
 logger = logging.getLogger(__name__)
 
 async def main():
-    """Run the product sync worker."""
+    """Run the worker."""
     # Get Temporal client
     server_url = os.getenv("TEMPORAL_SERVER_URL", "localhost:7233")
     namespace = os.getenv("TEMPORAL_NAMESPACE", "supersearch")
@@ -48,7 +48,7 @@ async def main():
     client = await get_temporal_client(server_url, namespace)
     
     # Define task queue
-    queue_name = os.getenv("TEMPORAL_TASK_QUEUE", TaskQueue.PRODUCT_SYNC.value)
+    queue_name = os.getenv("TEMPORAL_TASK_QUEUE", TaskQueue.BULK_SEO_GENERATE.value)
     task_queue = TaskQueue(queue_name)
     
     # Get workflows and activities for the task queue
@@ -65,7 +65,7 @@ async def main():
         task_queue= queue_name,
         workflows=workflows,
         activities=activities,
-        max_concurrent_activities=10,
+        max_concurrent_activities=60,
     )
     
     # Run worker

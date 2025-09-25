@@ -10,17 +10,22 @@ from app.temporal.workflows.product_sync.activities import (
     update_sync_history,
 )
 
+from app.temporal.workflows.bulk_seo_generate.workflow import BulkSeoGenerateWorkflow
+from app.temporal.workflows.bulk_seo_generate.activities import (
+    fetch_products_and_user_data,
+    process_products,
+    send_notification,
+)
+
 class TaskQueue(StrEnum):
     """Enum for Temporal task queues."""
     PRODUCT_SYNC = "product-sync-task-queue"
-    # Add more task queues as needed
-    # EXAMPLE_QUEUE = "example-task-queue"
+    BULK_SEO_GENERATE = "bulk-seo-generate-task-queue"
 
 # Mapping from TaskQueue to workflow types
 QUEUE_WORKFLOW_MAP: Dict[TaskQueue, List[Type]] = {
     TaskQueue.PRODUCT_SYNC: [ProductSyncWorkflow],
-    # Add more mappings as needed
-    # TaskQueue.EXAMPLE_QUEUE: [ExampleWorkflow],
+    TaskQueue.BULK_SEO_GENERATE: [BulkSeoGenerateWorkflow],
 }
 
 # Mapping from TaskQueue to activity functions
@@ -31,8 +36,11 @@ QUEUE_ACTIVITY_MAP: Dict[TaskQueue, List[Any]] = {
         insert_products,
         update_sync_history,
     ],
-    # Add more mappings as needed
-    # TaskQueue.EXAMPLE_QUEUE: [example_activity1, example_activity2],
+    TaskQueue.BULK_SEO_GENERATE: [
+        fetch_products_and_user_data,
+        process_products,
+        send_notification,
+    ],
 }
 
 def get_workflows_for_queue(queue: TaskQueue) -> List[Type]:

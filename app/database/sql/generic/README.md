@@ -84,11 +84,24 @@ query = render_sql(
     SQLFilePath.GENERIC_UPDATE,
     tenant="customer_schema",
     table_name="users",
+    id_field="id",
     id="f47ac10b-58cc-4372-a567-0e02b2c3d479",
     updates={
         "email": "new_email@example.com",
         "is_verified": True
     }
+)
+```
+
+### Delete Record
+
+```python
+query = render_sql(
+    SQLFilePath.GENERIC_DELETE,
+    tenant="customer_schema",
+    table_name="users",
+    id_field="id",
+    id="f47ac10b-58cc-4372-a567-0e02b2c3d479"
 )
 ```
 

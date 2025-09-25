@@ -7,7 +7,7 @@ INSERT INTO {{ tenant }}.{{ table_name }}
 VALUES
 (
 {% for column in columns %}
-    {% if not loop.first %}, {% endif %}'{{ values[column] }}'
+    {% if not loop.first %}, {% endif %}:{{ column }}
 {% endfor %}
 )
 RETURNING * 
